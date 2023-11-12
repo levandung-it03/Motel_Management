@@ -41,6 +41,8 @@ public class AccountDAO implements DAOInterface<Account> {
                     rs.getString("username"), rs.getString("password"));
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection();
         }
         return null;
     }
