@@ -1,0 +1,31 @@
+CREATE DATABASE MOTEL_MANAGEMENT
+CREATE TABLE Account (
+    userId VARCHAR(10) NOT NULL UNIQUE,
+    name VARCHAR(10) NOT NULL,
+	username VARCHAR(10) NOT NULL UNIQUE,
+	password VARCHAR(10) NOT NULL,
+    CONSTRAINT PK_Account PRIMARY KEY (userId)
+)
+CREATE TABLE Room (
+    roomCode VARCHAR(15) UNIQUE,
+    quantity INT,
+    electricNumber VARCHAR(30),
+    waterNumber VARCHAR(30),
+    CONSTRAINT PK_Room PRIMARY KEY (roomCode)
+)
+
+CREATE TABLE Person (
+    identifier VARCHAR(15) NOT NULL UNIQUE,
+    roomCode VARCHAR(15) NOT NULL UNIQUE,
+    lastName VARCHAR(70) NOT NULL,
+    firstName VARCHAR(30) NOT NULL,
+    birthday DATE NOT NULL,
+    startingDate DATE NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    permanentAddress VARCHAR(255),
+    email VARCHAR(255),
+    creditCard VARCHAR(255),
+    bank VARCHAR(255),
+    CONSTRAINT FK_Person_roomCode FOREIGN KEY (roomCode) REFERENCES Room(roomCode),
+    CONSTRAINT PK_Person PRIMARY KEY (Identifier)
+)
