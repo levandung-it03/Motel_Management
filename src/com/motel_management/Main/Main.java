@@ -10,5 +10,6 @@ public class Main {
         System.out.println(a.getName());
         System.out.println(a.getUsername());
         System.out.println(a.getPassword());
+        // vogiabao gủa
     }
 }
