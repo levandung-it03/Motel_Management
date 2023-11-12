@@ -7,6 +7,7 @@ CREATE TABLE Account (
     CONSTRAINT PK_Account PRIMARY KEY (userId)
 )
 INSERT INTO Account VALUES ("admin000", "Root", "root", "123456")
+INSERT INTO Account VALUES ("admin001", "Dung", "levandung", "123456")
 
 CREATE TABLE Room (
     roomId VARCHAR(15) UNIQUE,
