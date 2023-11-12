@@ -6,8 +6,10 @@ CREATE TABLE Account (
 	password VARCHAR(10) NOT NULL,
     CONSTRAINT PK_Account PRIMARY KEY (userId)
 )
+INSERT INTO Account VALUES ("admin000", "Root", "root", "123456")
+
 CREATE TABLE Room (
-    roomCode VARCHAR(15) UNIQUE,
+    roomId VARCHAR(15) UNIQUE,
     quantity INT,
     electricNumber VARCHAR(30),
     waterNumber VARCHAR(30),
@@ -16,7 +18,7 @@ CREATE TABLE Room (
 
 CREATE TABLE Person (
     identifier VARCHAR(15) NOT NULL UNIQUE,
-    roomCode VARCHAR(15) NOT NULL UNIQUE,
+    roomId VARCHAR(15) NOT NULL UNIQUE,
     lastName VARCHAR(70) NOT NULL,
     firstName VARCHAR(30) NOT NULL,
     birthday DATE NOT NULL,
