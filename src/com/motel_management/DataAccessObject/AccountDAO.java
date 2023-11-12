@@ -42,7 +42,7 @@ public class AccountDAO implements DAOInterface<Account> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DB_connection.closeMMDBConnection();
+            DB_connection.closeMMDBConnection(myConnection);
         }
         return null;
     }
