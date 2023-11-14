@@ -1,5 +1,5 @@
 package com.motel_management.Views.MainApplication.Graphics;
-import com.motel_management.Views.Configuration;
+import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.*;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.RoomPages.RoomPage;
 
@@ -23,7 +23,7 @@ public class CentralPanel extends JPanel {
     public void createCentralPanel() {
         setPreferredSize(new Dimension());
         category = new JTabbedPane(JTabbedPane.LEFT);
-        category.setBounds(0, 0, Configuration.centralPanelWidth, Configuration.centralPanelHeight);
+        category.setBounds(0, 0, Configs.centralPanelWidth, Configs.centralPanelHeight);
 
         labels.add(generateTabLabel("Statistic"));
         labels.add(generateTabLabel("Rooms"));
@@ -42,21 +42,21 @@ public class CentralPanel extends JPanel {
         pages.add(new InvoicesPage());
 
         for (int i = 0; i < pages.size(); i++) {
-            pages.get(i).setPreferredSize(new Dimension(Configuration.centralPanelWidth, Configuration.centralPanelHeight));
+            pages.get(i).setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
 
             category.addTab(null, pages.get(i));
             category.setTabComponentAt(i, labels.get(i));
-            category.setBackgroundAt(i, Configuration.lightGreen);
+            category.setBackgroundAt(i, Configs.lightGreen);
         }
 
-        setBackground(Configuration.darkGreen);
+        setBackground(Configs.darkGreen);
         add(category);
     }
 
     public JLabel generateTabLabel(String name) {
         JLabel l = new JLabel(name);
         l.setPreferredSize(new Dimension(220, 45));
-        l.setForeground(Configuration.blackTextColor);
+        l.setForeground(Configs.blackTextColor);
         l.setBorder(new EmptyBorder(0, 30, 0, 0));
         l.setFont(l.getFont().deriveFont(18.0f));
         

@@ -31,8 +31,8 @@ public class Frame_Login extends JFrame {
     }
 
     public void createLoginFrame() {
-        UIManager.put("Label.font", Configuration.labelFont);
-        UIManager.put("Label.foreground", Configuration.blackTextColor);
+        UIManager.put("Label.font", Configs.labelFont);
+        UIManager.put("Label.foreground", Configs.blackTextColor);
 
         JLabel title = new JLabel("MOTEL");
         JLabel usernameLabel = new JLabel("Username");
@@ -69,10 +69,10 @@ public class Frame_Login extends JFrame {
         buttonsPanel.setBorder(new EmptyBorder(15, 0, 0, 0));
         buttonsPanel.setPreferredSize(new Dimension(fullWith/2, 50));
 
-        usernamePanel.setBackground(Configuration.normalGreen);
-        passwordPanel.setBackground(Configuration.normalGreen);
-        buttonsPanel.setBackground(Configuration.normalGreen);
-        centralPanel.setBackground(Configuration.normalGreen);
+        usernamePanel.setBackground(Configs.normalGreen);
+        passwordPanel.setBackground(Configs.normalGreen);
+        buttonsPanel.setBackground(Configs.normalGreen);
+        centralPanel.setBackground(Configs.normalGreen);
 
         centralPanel.add(title);
         centralPanel.add(usernamePanel);
