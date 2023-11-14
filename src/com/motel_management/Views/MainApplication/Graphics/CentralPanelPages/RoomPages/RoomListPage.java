@@ -3,6 +3,7 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Ro
 import com.motel_management.Views.Configs;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class RoomListPage extends JPanel {
     // Constructor
@@ -12,7 +13,7 @@ public class RoomListPage extends JPanel {
     }
 
     public void createRoomListPage() {
-        setPreferredSize(Configs.centralPanelWidth, Configs.centralPanelHeight);
+        setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
         add(new JLabel("hehe"));
     }
 }
