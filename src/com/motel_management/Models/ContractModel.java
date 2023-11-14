@@ -2,7 +2,7 @@ package com.motel_management.Models;
 
 import java.sql.Date;
 
-public class Contract {
+public class ContractModel {
     private String contractId;
     private String identifier;
     private String lastName;
@@ -21,7 +21,7 @@ public class Contract {
     private String startingDate;
     private String endingDate;
 
-    public Contract(String contractId, String identifier, String lastName, String firstname, String birthday, String phone, Date gender, int jobtitle, int permanentAddress, String email, String creditCard, String bank, String roomId, String quantity, String roomDeposit, String startingDate, String endingDate) {
+    public ContractModel(String contractId, String identifier, String lastName, String firstname, String birthday, String phone, Date gender, int jobtitle, int permanentAddress, String email, String creditCard, String bank, String roomId, String quantity, String roomDeposit, String startingDate, String endingDate) {
         this.contractId = contractId;
         this.identifier = identifier;
         this.lastName = lastName;

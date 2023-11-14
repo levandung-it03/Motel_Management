@@ -1,12 +1,12 @@
 package com.motel_management.Models;
 
-public class Account {
+public class AccountModel {
     private String userId;
     private String name;
     private String username;
     private String password;
 
-    public Account(String userId, String name, String username, String password) {
+    public AccountModel(String userId, String name, String username, String password) {
         this.userId = userId;
         this.name = name;
         this.username = username;

@@ -1,6 +1,6 @@
 package com.motel_management.Views;
 
-import com.motel_management.Views.MainApplication.Panel.*;
+import com.motel_management.Views.MainApplication.Graphics.*;
 
 import javax.swing.*;
 import java.awt.*;

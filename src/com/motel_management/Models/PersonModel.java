@@ -2,7 +2,7 @@ package com.motel_management.Models;
 
 import java.sql.Date;
 
-public class Person {
+public class PersonModel {
     private String identifier;
     private String roomCode;
     private String lastName;
@@ -14,9 +14,9 @@ public class Person {
     private String creditCard;
     private String bank;
 
-    public Person() {}
-    public Person(String identifier, String roomCode, String lastName, String firstName, Date birthday,
-                  String phone, String permanentAddress, String email, String creditCard, String bank) {
+    public PersonModel() {}
+    public PersonModel(String identifier, String roomCode, String lastName, String firstName, Date birthday,
+                       String phone, String permanentAddress, String email, String creditCard, String bank) {
         this.identifier = identifier;
         this.roomCode = roomCode;
         this.lastName = lastName;

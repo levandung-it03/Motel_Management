@@ -1,12 +1,12 @@
 package com.motel_management.Models;
 
-public class Room {
+public class RoomModel {
     private String roomId;
     private int quantity;
     private int maxQuantity;
     private String defaultRoomPrice;
 
-    public Room(String roomId, int quantity, int maxQuantity, String defaultRoomPrice) {
+    public RoomModel(String roomId, int quantity, int maxQuantity, String defaultRoomPrice) {
         this.roomId = roomId;
         this.quantity = quantity;
         this.maxQuantity = maxQuantity;

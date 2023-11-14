@@ -1,31 +1,127 @@
 CREATE DATABASE MOTEL_MANAGEMENT
 CREATE TABLE Account (
-    userId VARCHAR(10) NOT NULL UNIQUE,
+    userId VARCHAR(10) UNIQUE NOT NULL,
     name VARCHAR(10) NOT NULL,
-	username VARCHAR(10) NOT NULL UNIQUE,
+	username VARCHAR(10) UNIQUE NOT NULL,
 	password VARCHAR(10) NOT NULL,
     CONSTRAINT PK_Account PRIMARY KEY (userId)
-)
-INSERT INTO Account VALUES ("admin000", "Root", "root", "123456"), ("admin001", "Dung", "levandung", "123456")
+);
+INSERT INTO Account VALUES ("admin000", "Root", "root", "123456"), ("admin001", "Dung", "levandung", "123456");
 
 CREATE TABLE Room (
+<<<<<<< HEAD
     roomId VARCHAR(15) UNIQUE,
     quantity INT,
     CONSTRAINT PK_Room PRIMARY KEY (roomId)
 )
+=======
+    roomId VARCHAR(20) UNIQUE NOT NULL,
+    quantity INT DEFAULT 0,
+    maxQuantity INT DEFAULT 0,
+    defaultRoomPrice INT DEFAULT 0,
+    CONSTRAINT PK_Room PRIMARY KEY (RoomId)
+);
+>>>>>>> 1041e489a9acb4e04eff459d83ab6ec6a9f91cb1
 
 CREATE TABLE Person (
-    identifier VARCHAR(15) NOT NULL UNIQUE,
-    roomId VARCHAR(15) NOT NULL UNIQUE,
+    personId VARCHAR(25) UNIQUE NOT NULL,
+    identifier VARCHAR(20) UNIQUE NOT NULL,
+    roomId VARCHAR(20) UNIQUE NOT NULL,
     lastName VARCHAR(70) NOT NULL,
     firstName VARCHAR(30) NOT NULL,
     birthday DATE NOT NULL,
-    startingDate DATE NOT NULL,
     phone VARCHAR(15) NOT NULL,
-    permanentAddress VARCHAR(255),
+    gender BOOLEAN NOT NULL,
+    jobtitle VARCHAR(70) NOT NULL,
+    permanentAddress VARCHAR(255) NOT NULL,
     email VARCHAR(255),
     creditCard VARCHAR(255),
     bank VARCHAR(255),
     CONSTRAINT FK_Person_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT PK_Person PRIMARY KEY (Identifier)
-)
+);
+
+CREATE TABLE ElectricRange(
+    rangeId VARCHAR(20) UNIQUE NOT NULL,
+    rangeName VARCHAR(20) NOT NULL,
+    maxRangeValue INT DEFAULT 0,
+    price INT DEFAULT 0,
+    CONSTRAINT PK_ElectricRange PRIMARY KEY (rangeId)
+);
+
+CREATE TABLE WaterRange(
+    rangeId VARCHAR(20) UNIQUE NOT NULL,
+    rangeName VARCHAR(20) NOT NULL,
+    maxRangeValue INT DEFAULT 0,
+    price INT DEFAULT 0,
+    CONSTRAINT PK_WaterRange PRIMARY KEY (rangeId)
+);
+
+CREATE TABLE Contract (
+    contractId VARCHAR(20) UNIQUE NOT NULL,
+    identifier VARCHAR(20) UNIQUE NOT NULL,
+    lastName VARCHAR(70) NOT NULL,
+    firstname VARCHAR(70) NOT NULL,
+    birthday DATE NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    gender BOOLEAN NOT NULL,
+    jobtitle VARCHAR(70) NOT NULL,
+    permanentAddress VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    creditCard VARCHAR(255),
+    bank VARCHAR(255),
+    roomId VARCHAR(20) UNIQUE NOT NULL,
+    quantity INT DEFAULT 0,
+    roomDeposit INT DEFAULT 0,
+    startingDate DATE DEFAULT (CURRENT_DATE()),
+    endingDate DATE DEFAULT (CURRENT_DATE()),
+    CONSTRAINT FK_Contract_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
+    CONSTRAINT PK_Contract PRIMARY KEY (contractId)
+);
+
+CREATE TABLE CheckOut(
+    checkOutId VARCHAR(20) UNIQUE NOT NULL,
+    contractId VARCHAR(20) UNIQUE NOT NULL,
+    roomId VARCHAR(20) UNIQUE NOT NULL,
+    personId VARCHAR(25) UNIQUE NOT NULL,
+    identifier VARCHAR(20) UNIQUE NOT NULL,
+    lastName VARCHAR(70) NOT NULL,
+    firstname VARCHAR(70) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    checkOutDate DATE DEFAULT (CURRENT_DATE()),
+    CONSTRAINT FK_CheckOut_contractId FOREIGN KEY (contractId) REFERENCES Contract(contractId),
+    CONSTRAINT FK_CheckOut_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
+    CONSTRAINT FK_CheckOut_personId FOREIGN KEY (personId) REFERENCES Person(personId),
+    CONSTRAINT PK_CheckOut PRIMARY KEY (CheckOutId)
+);
+
+CREATE TABLE Consumption(
+    consumptionId VARCHAR(20) UNIQUE NOT NULL,
+    roomId VARCHAR(20) UNIQUE NOT NULL,
+    consumptionMonth VARCHAR(2) NOT NULL,
+    consumptionYear VARCHAR(4) NOT NULL,
+    dateCreated DATE DEFAULT (CURRENT_DATE()),
+    waterNumber	INT DEFAULT 0,
+    electricNumber INT DEFAULT 0,
+    vehicle INT DEFAULT 0,
+    CONSTRAINT FK_Consumption_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
+    CONSTRAINT PK_Consumption PRIMARY KEY (ConsumptionId)
+);
+
+CREATE TABLE Invoice(
+    invoiceId VARCHAR(20) UNIQUE NOT NULL,
+    roomId VARCHAR(20) UNIQUE NOT NULL,
+    consumptionId VARCHAR(20) UNIQUE NOT NULL,
+    defaultRoomPrice INT DEFAULT 0,
+    paymentDate VARCHAR(7) UNIQUE NOT NULL,
+    totalWaterBill INT DEFAULT 0,
+    totalElectricBill INT DEFAULT 0,
+    garbage INT DEFAULT 0,
+    wifi INT DEFAULT 0,
+    vehicle	INT DEFAULT 0,
+    total FLOAT(3),
+    wasPaid BOOLEAN DEFAULT FALSE,
+    CONSTRAINT FK_Invoice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
+    CONSTRAINT FK_Invoice_consumptionId FOREIGN KEY (consumptionId) REFERENCES Consumption(consumptionId),
+    CONSTRAINT PK_Invoice PRIMARY KEY (invoiceId)
+);

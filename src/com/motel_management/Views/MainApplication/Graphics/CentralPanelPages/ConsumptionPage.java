@@ -1,12 +1,12 @@
-package com.motel_management.Views.MainApplication.Panel.CentralPanels;
+package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages;
 
 import javax.swing.*;
 
-public class Consumption extends JPanel {
+public class ConsumptionPage extends JPanel {
     private final int centralPanelWidth;
     private final int centralPanelHeight;
     // Constructor
-    public Consumption(int centralPanelWidth, int centralPanelHeight) {
+    public ConsumptionPage(int centralPanelWidth, int centralPanelHeight) {
         // Set Layout Here
         super();
         this.centralPanelWidth = centralPanelWidth;
