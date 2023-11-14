@@ -1,5 +1,9 @@
 package com.motel_management.Views.MainApplication.Panel.CentralPanels;
+import com.motel_management.Views.Configuration;
+
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 public class Statistic extends JPanel {
     private final int centralPanelWidth;
@@ -7,13 +11,20 @@ public class Statistic extends JPanel {
     // Constructor
     public Statistic(int centralPanelWidth, int centralPanelHeight) {
         // Set Layout Here
-        super();
+        super(new GridLayout(2,4,10,10));
         this.centralPanelWidth = centralPanelWidth;
         this.centralPanelHeight = centralPanelHeight;
         this.createStatisticPanel();
     }
 
     public void createStatisticPanel() {
-        add(new JLabel("This is Statistic!"));
+
+        for(int i=0;i<6;i++){
+            JPanel a = new JPanel();
+            a.setPreferredSize(new Dimension(30,30));
+            a.setBackground(Configuration.lightGreen);
+            add(a);
+
+        }
     }
 }
