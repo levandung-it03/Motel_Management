@@ -1,6 +1,6 @@
 package com.motel_management.Views.MainApplication.Panel;
 import com.motel_management.Views.Configuration;
-import com.motel_management.Views.MainApplication.Panel.CentralPanels.*;
+import com.motel_management.Views.MainApplication.Panel.CentralPanelPages.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,7 +12,7 @@ public class CentralPanel extends JPanel {
     private final int centralPanelHeight;
 
     JTabbedPane category;
-    ArrayList<JPanel> categories = new ArrayList<JPanel>();
+    ArrayList<JPanel> pages = new ArrayList<JPanel>();
     ArrayList<JLabel> labels = new ArrayList<JLabel>();
 
     // Constructor
@@ -29,26 +29,26 @@ public class CentralPanel extends JPanel {
         category = new JTabbedPane(JTabbedPane.LEFT);
         category.setBounds(0, 0, centralPanelWidth, centralPanelHeight);
 
-        labels.add(generateCategoryChild("Statistic"));
-        labels.add(generateCategoryChild("Rooms"));
-        labels.add(generateCategoryChild("Contracts"));
-        labels.add(generateCategoryChild("Representatives"));
-        labels.add(generateCategoryChild("Electricity-Water"));
-        labels.add(generateCategoryChild("Consumption"));
-        labels.add(generateCategoryChild("Invoices"));
+        labels.add(generateTabLabel("Statistic"));
+        labels.add(generateTabLabel("Rooms"));
+        labels.add(generateTabLabel("Contracts"));
+        labels.add(generateTabLabel("Representatives"));
+        labels.add(generateTabLabel("Electricity-Water"));
+        labels.add(generateTabLabel("Consumption"));
+        labels.add(generateTabLabel("Invoices"));
 
-        categories.add(new Statistic(centralPanelWidth, centralPanelHeight));
-        categories.add(new Rooms(centralPanelWidth, centralPanelHeight));
-        categories.add(new Contracts(centralPanelWidth, centralPanelHeight));
-        categories.add(new Representatives(centralPanelWidth, centralPanelHeight));
-        categories.add(new Electricity_Water(centralPanelWidth, centralPanelHeight));
-        categories.add(new Consumption(centralPanelWidth, centralPanelHeight));
-        categories.add(new Invoices(centralPanelWidth, centralPanelHeight));
+        pages.add(new Statistic(centralPanelWidth, centralPanelHeight));
+        pages.add(new Rooms(centralPanelWidth, centralPanelHeight));
+        pages.add(new Contracts(centralPanelWidth, centralPanelHeight));
+        pages.add(new Representatives(centralPanelWidth, centralPanelHeight));
+        pages.add(new Electricity_Water(centralPanelWidth, centralPanelHeight));
+        pages.add(new Consumption(centralPanelWidth, centralPanelHeight));
+        pages.add(new Invoices(centralPanelWidth, centralPanelHeight));
 
-        for (int i = 0; i < categories.size(); i++) {
-            categories.get(i).setPreferredSize(new Dimension(centralPanelWidth, centralPanelHeight));
+        for (int i = 0; i < pages.size(); i++) {
+            pages.get(i).setPreferredSize(new Dimension(centralPanelWidth, centralPanelHeight));
 
-            category.addTab(null, categories.get(i));
+            category.addTab(null, pages.get(i));
             category.setTabComponentAt(i, labels.get(i));
             category.setBackgroundAt(i, Configuration.lightGreen);
         }
@@ -57,13 +57,13 @@ public class CentralPanel extends JPanel {
         add(category);
     }
 
-    public JLabel generateCategoryChild(String name) {
+    public JLabel generateTabLabel(String name) {
         JLabel l = new JLabel(name);
         l.setPreferredSize(new Dimension(220, 45));
         l.setForeground(Configuration.blackTextColor);
         l.setBorder(new EmptyBorder(0, 30, 0, 0));
         l.setFont(l.getFont().deriveFont(18.0f));
-
+        
         return l;
     }
 }

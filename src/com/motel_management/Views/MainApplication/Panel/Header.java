@@ -28,7 +28,7 @@ public class Header extends JPanel {
         JLabel headerLabel = new JLabel("Motel Management - Welcome " + user);
         headerLabel.setFont(headerLabel.getFont().deriveFont(24.0f));
         headerLabel.setBorder(new EmptyBorder(6, headerWidth/3, 0, 0));
-        headerLabel.setForeground(Configuration.greenTextColor);
+        headerLabel.setForeground(Configuration.blackTextColor);
 
         // headerTools: logout,...
         headerTools.setBackground(Configuration.lightGreen);

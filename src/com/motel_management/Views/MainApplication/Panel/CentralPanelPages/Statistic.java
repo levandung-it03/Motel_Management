@@ -1,4 +1,4 @@
-package com.motel_management.Views.MainApplication.Panel.CentralPanels;
+package com.motel_management.Views.MainApplication.Panel.CentralPanelPages;
 import javax.swing.*;
 
 public class Statistic extends JPanel {
