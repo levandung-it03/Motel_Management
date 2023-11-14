@@ -12,7 +12,7 @@ public class Controller_Login {
     public static String validate(String username, String password) {
         ArrayList<Account> a = AccountDAO.getInstance().selectByCondition("WHERE (username=\"" + username + "\")");
         if (!a.isEmpty() && a.get(0).getPassword().equals(password))
-            return a.name;
+            return a.get(0).getName();
         else
             return null;
     }
