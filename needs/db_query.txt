@@ -11,8 +11,7 @@ INSERT INTO Account VALUES ("admin000", "Root", "root", "123456"), ("admin001", 
 CREATE TABLE Room (
     roomId VARCHAR(15) UNIQUE,
     quantity INT,
-
-    CONSTRAINT PK_Room PRIMARY KEY (roomCode)
+    CONSTRAINT PK_Room PRIMARY KEY (roomId)
 )
 
 CREATE TABLE Person (
@@ -27,6 +26,6 @@ CREATE TABLE Person (
     email VARCHAR(255),
     creditCard VARCHAR(255),
     bank VARCHAR(255),
-    CONSTRAINT FK_Person_roomCode FOREIGN KEY (roomCode) REFERENCES Room(roomCode),
+    CONSTRAINT FK_Person_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT PK_Person PRIMARY KEY (Identifier)
 )

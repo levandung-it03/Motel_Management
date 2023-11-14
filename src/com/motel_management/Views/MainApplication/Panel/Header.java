@@ -10,7 +10,7 @@ public class Header extends JPanel {
     private final int headerWidth;
     private final int headerHeight;
     private final JPanel headerTools = new JPanel(new FlowLayout());
-    
+
     public Header(int fullWidth, int fullHeight, String user) {
         super();
         this.headerWidth = fullWidth;
@@ -18,7 +18,7 @@ public class Header extends JPanel {
         this.user = user;
         this.createHeader();
     }
-    
+
     public void createHeader() {
         setPreferredSize(new Dimension(headerWidth, headerHeight));
         setBackground(Configuration.lightGreen);

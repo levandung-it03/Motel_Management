@@ -32,6 +32,18 @@ public class Frame_MainApplication extends JFrame {
         UIManager.put("Label.foreground", Configuration.blackTextColor);
 
         setSize(fullWidth, fullHeight);
+        setLayout(new BorderLayout());
+
+        mainApp.header = new Header(fullWidth, fullHeight, user);
+        mainApp.category = new Category(fullWidth, fullHeight);
+        mainApp.footer = new Footer(fullWidth, fullHeight);
+        mainApp.centralPanel = new CentralPanel(fullWidth, fullHeight);
+
+        add(mainApp.header, BorderLayout.NORTH);
+        add(mainApp.category, BorderLayout.WEST);
+        add(mainApp.centralPanel, BorderLayout.CENTER);
+        add(mainApp.footer, BorderLayout.SOUTH);
+
         setVisible(true);
         setResizable(false);
         setLocationRelativeTo(null);
