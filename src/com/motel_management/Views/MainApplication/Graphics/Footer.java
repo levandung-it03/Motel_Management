@@ -9,11 +9,11 @@ public class Footer extends JPanel {
     private final int footerHeight;
 
     // Constructor
-    public Footer(int fullWidth, int fullHeight) {
+    public Footer() {
         // Add Your Layout Here
         super(new FlowLayout());
-        this.footerWidth = fullWidth;
-        this.footerHeight = (int) (fullHeight / 22);
+        this.footerWidth = Configuration.fullWidth;
+        this.footerHeight = (int) (Configuration.fullHeight / 22);
         this.createFooter();
     }
 

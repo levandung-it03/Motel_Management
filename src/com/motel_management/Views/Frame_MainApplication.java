@@ -29,9 +29,9 @@ public class Frame_MainApplication extends JFrame {
         setSize(Configuration.fullWidth, Configuration.fullHeight);
         setLayout(new BorderLayout());
 
-        mainApp.header = new Header(Configuration.fullWidth, Configuration.fullHeight, user);
-        mainApp.footer = new Footer(Configuration.fullWidth, Configuration.fullHeight);
-        mainApp.centralPanel = new CentralPanel(Configuration.fullWidth, Configuration.fullHeight);
+        mainApp.header = new Header(user);
+        mainApp.footer = new Footer();
+        mainApp.centralPanel = new CentralPanel();
 
         add(mainApp.header, BorderLayout.NORTH);
         add(mainApp.centralPanel, BorderLayout.CENTER);

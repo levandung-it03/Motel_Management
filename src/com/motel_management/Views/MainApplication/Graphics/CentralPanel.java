@@ -14,7 +14,7 @@ public class CentralPanel extends JPanel {
     ArrayList<JLabel> labels = new ArrayList<JLabel>();
 
     // Constructor
-    public CentralPanel(int fullWidth, int fullHeight) {
+    public CentralPanel() {
         // Add Your Layout Here
         super();
         this.createCentralPanel();
@@ -42,7 +42,7 @@ public class CentralPanel extends JPanel {
         pages.add(new InvoicesPage());
 
         for (int i = 0; i < pages.size(); i++) {
-            pages.get(i).setPreferredSize(new Dimension());
+            pages.get(i).setPreferredSize(new Dimension(Configuration.centralPanelWidth, Configuration.centralPanelHeight));
 
             category.addTab(null, pages.get(i));
             category.setTabComponentAt(i, labels.get(i));
