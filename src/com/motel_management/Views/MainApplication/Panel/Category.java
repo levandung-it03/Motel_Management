@@ -33,7 +33,9 @@ public class Category extends JPanel {
         categories.add(generateCategoryChild("Consumption"));
         categories.add(generateCategoryChild("Invoices"));
 
-        categories.forEach(this::btn);
+        categories.forEach(btnPanel -> {
+            add(btnPanel);
+        });
 
     }
 
@@ -47,7 +49,7 @@ public class Category extends JPanel {
         b.setBackground(Configuration.lightGreen);
         b.setFont(b.getFont().deriveFont(18.0f));
 
-        b.addActionListener()
+//        b.addActionListener();
 
         p.add(b);
         return p;

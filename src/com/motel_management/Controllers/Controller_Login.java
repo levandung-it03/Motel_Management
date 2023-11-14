@@ -1,4 +1,4 @@
-package com.motel_management.Cotrollers;
+package com.motel_management.Controllers;
 
 import com.motel_management.DataAccessObject.AccountDAO;
 import com.motel_management.Models.Account;
