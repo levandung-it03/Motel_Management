@@ -1,14 +1,11 @@
 package com.motel_management.Views;
 
-import com.motel_management.Cotrollers.Controller_Login;
-import com.motel_management.DataAccessObject.AccountDAO;
-import com.motel_management.Models.Account;
+import com.motel_management.Controllers.Controller_Login;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 public class Frame_Login extends JFrame {
     int fullWith = 500, fullHeight = 350;
