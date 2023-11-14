@@ -4,6 +4,6 @@ public class Application {
     public Application() {}
 
     public static void createApplication() {
-        LoginFrame.startLoginFrame();
+        Frame_Login.startLoginFrame();
     }
 }

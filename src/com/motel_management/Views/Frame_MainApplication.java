@@ -2,15 +2,15 @@ package com.motel_management.Views;
 
 import javax.swing.*;
 
-public class MainApplicationFrame extends JFrame {
+public class Frame_MainApplication extends JFrame {
     String user;
-    public MainApplicationFrame(String user) {
+    public Frame_MainApplication(String user) {
         super("Motel Management");
         this.user = user;
     }
 
     public static void startMainApplicationFrame(String user) {
-        MainApplicationFrame mainApp = new MainApplicationFrame(user);
+        Frame_MainApplication mainApp = new Frame_MainApplication(user);
         mainApp.createMainFrame();
     }
 

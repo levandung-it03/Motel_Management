@@ -1,5 +1,6 @@
 package com.motel_management.Views;
 
+import com.motel_management.Cotrollers.Controller_Login;
 import com.motel_management.DataAccessObject.AccountDAO;
 import com.motel_management.Models.Account;
 
@@ -9,7 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class LoginFrame extends JFrame {
+public class Frame_Login extends JFrame {
     int fullWith = 500, fullHeight = 350;
     private final Color mainBackgroundColor = new Color(74, 161, 67);
     private final Color mainTextColor = new Color(0, 0, 0);
@@ -26,12 +27,12 @@ public class LoginFrame extends JFrame {
     private final JButton loginBtn = new JButton("Login");
     private final JButton resetBtn = new JButton("Reset");
 
-    public LoginFrame() {
+    public Frame_Login() {
         super("Motel Management - Login");
     }
 
     public static void startLoginFrame() {
-        LoginFrame mainFrame = new LoginFrame();
+        Frame_Login mainFrame = new Frame_Login();
         mainFrame.createLoginFrame();
         mainFrame.createListeners();
     }
@@ -93,13 +94,9 @@ public class LoginFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String u = usernameField.getText();
                 String p = passwordField.getText();
-                ArrayList<Account> a = AccountDAO.getInstance().selectByCondition("WHERE (username=\"" + u + "\")");
-                if (a.isEmpty()) {
-                    JOptionPane.showMessageDialog(centralPanel, "Username is not existed!");
-                } else if (!a.get(0).getPassword().equals(p)) {
-                    JOptionPane.showMessageDialog(centralPanel, "Password is not correct!");
+                if (Controller_Login.validate(u, p)) {
+                    JOptionPane.showMessageDialog(centralPanel, "Information is not correct!");
                 } else {
-                    JOptionPane.showMessageDialog(centralPanel, "Login successfully!");
                     setVisible(false);
                     startMainApplication(a.get(0).getName());
                 }
@@ -115,6 +112,6 @@ public class LoginFrame extends JFrame {
     }
 
     public void startMainApplication(String user) {
-        MainApplicationFrame.startMainApplicationFrame(user);
+        Frame_MainApplication.startMainApplicationFrame(user);
     }
 }
