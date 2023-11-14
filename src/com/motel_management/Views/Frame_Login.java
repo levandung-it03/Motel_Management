@@ -94,14 +94,16 @@ public class Frame_Login extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String u = usernameField.getText();
                 String p = passwordField.getText();
-                if (Controller_Login.validate(u, p)) {
+                String user = Controller_Login.validate(u, p);
+                if (user == null) {
                     JOptionPane.showMessageDialog(centralPanel, "Information is not correct!");
                 } else {
                     setVisible(false);
-                    startMainApplication(a.get(0).getName());
+                    Frame_MainApplication.startMainApplicationFrame(user);
                 }
             }
         });
+
         resetBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,9 +111,5 @@ public class Frame_Login extends JFrame {
                 passwordField.setText("");
             }
         });
-    }
-
-    public void startMainApplication(String user) {
-        Frame_MainApplication.startMainApplicationFrame(user);
     }
 }
