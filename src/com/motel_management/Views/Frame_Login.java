@@ -49,7 +49,7 @@ public class Frame_Login extends JFrame {
 
         add(centralPanel, BorderLayout.CENTER);
         // -------------Title-------------
-        title.setFont(title.getFont().deriveFont(38.0f));
+        title.setFont(title.getFont().deriveFont(42.0f));
         title.setBorder(new EmptyBorder(30, 30, 10, 40));
 
         // -------------Username (usernamePanel)-------------
