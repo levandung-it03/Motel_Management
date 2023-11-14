@@ -23,10 +23,10 @@ public class Frame_MainApplication extends JFrame {
     }
 
     public void createMainFrame(Frame_MainApplication mainApp) {
-        UIManager.put("Label.font", Configuration.labelFont);
-        UIManager.put("Label.foreground", Configuration.blackTextColor);
+        UIManager.put("Label.font", Configs.labelFont);
+        UIManager.put("Label.foreground", Configs.blackTextColor);
 
-        setSize(Configuration.fullWidth, Configuration.fullHeight);
+        setSize(Configs.fullWidth, Configs.fullHeight);
         setLayout(new BorderLayout());
 
         mainApp.header = new Header(user);

@@ -2,7 +2,7 @@ package com.motel_management.Views;
 
 import java.awt.*;
 
-public class Configuration {
+public class Configs {
     public static final Font labelFont = new Font("Consolas", Font.PLAIN, 16);
     public static final int fullWidth = 1366;
     public static final int fullHeight = 768;
@@ -15,5 +15,5 @@ public class Configuration {
     public static final Color lightGreen = new Color(93, 138, 90);
     public static final Color darkGreen = new Color(41, 89, 37);
 
-    public Configuration() {}
+    public Configs() {}
 }
