@@ -9,6 +9,7 @@ public class Category extends JPanel {
     private final int categoryHeight;
 
     public Category(int fullWidth, int fullHeight) {
+        super();
         this.categoryWidth = (int) (fullWidth / 7);
         this.categoryHeight = (int) (fullHeight * 10) /11;
         this.createCategory();

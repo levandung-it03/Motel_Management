@@ -8,6 +8,7 @@ public class CentralPanel extends JPanel {
     private final int centralPanelHeight;
 
     public CentralPanel(int fullWidth, int fullHeight) {
+        super();
         this.centralPanelWidth = (int) (fullWidth * 6) /7;
         this.centralPanelHeight = (int) (fullHeight * 10) /11;
         this.createCentralPanel();

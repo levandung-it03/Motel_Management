@@ -9,6 +9,7 @@ public class Footer extends JPanel {
     private final int footerHeight;
 
     public Footer(int fullWidth, int fullHeight) {
+        super();
         this.footerWidth = fullWidth;
         this.footerHeight = (int) (fullHeight / 22);
         this.createFooter();
