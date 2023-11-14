@@ -1,4 +1,4 @@
-package com.motel_management.Views.MainApplication.Panel;
+package com.motel_management.Views.MainApplication.Graphics;
 import com.motel_management.Views.Configuration;
 
 import javax.swing.*;

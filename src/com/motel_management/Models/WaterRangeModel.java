@@ -1,12 +1,12 @@
 package com.motel_management.Models;
 
-public class WaterRange {
+public class WaterRangeModel {
     private String rangeId;
     private String rangeName;
     private int maxRangeValue;
     private int price;
 
-    public WaterRange(String rangeId, String rangeName, int maxRangeValue, int price) {
+    public WaterRangeModel(String rangeId, String rangeName, int maxRangeValue, int price) {
         this.rangeId = rangeId;
         this.rangeName = rangeName;
         this.maxRangeValue = maxRangeValue;

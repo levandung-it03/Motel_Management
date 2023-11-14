@@ -1,6 +1,6 @@
-package com.motel_management.Views.MainApplication.Panel;
+package com.motel_management.Views.MainApplication.Graphics;
 import com.motel_management.Views.Configuration;
-import com.motel_management.Views.MainApplication.Panel.CentralPanelPages.*;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -37,13 +37,13 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Consumption"));
         labels.add(generateTabLabel("Invoices"));
 
-        pages.add(new Statistic(centralPanelWidth, centralPanelHeight));
-        pages.add(new Rooms(centralPanelWidth, centralPanelHeight));
-        pages.add(new Contracts(centralPanelWidth, centralPanelHeight));
-        pages.add(new Representatives(centralPanelWidth, centralPanelHeight));
-        pages.add(new Electricity_Water(centralPanelWidth, centralPanelHeight));
-        pages.add(new Consumption(centralPanelWidth, centralPanelHeight));
-        pages.add(new Invoices(centralPanelWidth, centralPanelHeight));
+        pages.add(new StatisticPage(centralPanelWidth, centralPanelHeight));
+        pages.add(new RoomsPage(centralPanelWidth, centralPanelHeight));
+        pages.add(new ContractsPage(centralPanelWidth, centralPanelHeight));
+        pages.add(new RepresentativesPage(centralPanelWidth, centralPanelHeight));
+        pages.add(new Electricity_WaterPage(centralPanelWidth, centralPanelHeight));
+        pages.add(new ConsumptionPage(centralPanelWidth, centralPanelHeight));
+        pages.add(new InvoicesPage(centralPanelWidth, centralPanelHeight));
 
         for (int i = 0; i < pages.size(); i++) {
             pages.get(i).setPreferredSize(new Dimension(centralPanelWidth, centralPanelHeight));

@@ -1,11 +1,11 @@
-package com.motel_management.Views.MainApplication.Panel.CentralPanelPages;
+package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages;
 import javax.swing.*;
 
-public class Statistic extends JPanel {
+public class StatisticPage extends JPanel {
     private final int centralPanelWidth;
     private final int centralPanelHeight;
     // Constructor
-    public Statistic(int centralPanelWidth, int centralPanelHeight) {
+    public StatisticPage(int centralPanelWidth, int centralPanelHeight) {
         // Set Layout Here
         super();
         this.centralPanelWidth = centralPanelWidth;
