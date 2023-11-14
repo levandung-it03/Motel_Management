@@ -48,12 +48,13 @@ public class Frame_MainApplication extends JFrame {
     }
 
     public void createHeader() {
+        int headerWidth = fullWidth, headerHeight = (int) (fullHeight / 22);
         JLabel headerLabel = new JLabel("Motel Management - Welcome " + user);
-        header.setPreferredSize(new Dimension(fullWidth, fullHeight/22));
+        header.setPreferredSize(new Dimension(headerWidth, headerHeight));
         header.setBackground(Configuration.lightGreen);
 
         headerLabel.setFont(headerLabel.getFont().deriveFont(24.0f));
-        headerLabel.setBorder(new EmptyBorder(6, 50, 0, 0));
+        headerLabel.setBorder(new EmptyBorder(6, headerWidth/20, 0, 0));
         headerLabel.setForeground(Configuration.blackTextColor);
 
         // headerTools: logout,...
@@ -63,18 +64,22 @@ public class Frame_MainApplication extends JFrame {
     }
 
     public void createCategory() {
+        int categoryWidth = (int) (fullWidth / 7), categoryHeight = (int) (fullHeight * 10) /11;
         category.setBackground(Configuration.darkGreen);
-        category.setPreferredSize(new Dimension(fullWidth/7, fullHeight*10/11));
+        category.setPreferredSize(new Dimension(categoryWidth, categoryHeight));
+
     }
 
     public void createCentralPanel() {
-        centralPanel.setPreferredSize(new Dimension(fullWidth*6/7, fullHeight*10/11));
+        int centralPanelWidth = (int) (fullWidth * 6) /7, centralPanelHeight = (int) (fullHeight * 10) /11;
+        centralPanel.setPreferredSize(new Dimension(centralPanelWidth, centralPanelHeight));
 
     }
 
 
     public void createFooter() {
-        footer.setPreferredSize(new Dimension(fullWidth, fullHeight/22));
+        int footerWidth = fullWidth, footerHeight = (int) (fullHeight / 22);
+        footer.setPreferredSize(new Dimension(footerWidth, footerHeight));
         footer.setBackground(Configuration.lightGreen);
 
     }
