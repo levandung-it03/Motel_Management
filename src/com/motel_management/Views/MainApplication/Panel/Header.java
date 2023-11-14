@@ -10,9 +10,11 @@ public class Header extends JPanel {
     private final int headerWidth;
     private final int headerHeight;
     private final JPanel headerTools = new JPanel(new FlowLayout());
-    
+
+    // Constructor
     public Header(int fullWidth, int fullHeight, String user) {
-        super();
+        // Add Your Layout Here
+        super(new BorderLayout());
         this.headerWidth = fullWidth;
         this.headerHeight = (int) (fullHeight / 22);
         this.user = user;
@@ -25,12 +27,13 @@ public class Header extends JPanel {
 
         JLabel headerLabel = new JLabel("Motel Management - Welcome " + user);
         headerLabel.setFont(headerLabel.getFont().deriveFont(24.0f));
-        headerLabel.setBorder(new EmptyBorder(6, headerWidth/20, 0, 0));
-        headerLabel.setForeground(Configuration.blackTextColor);
+        headerLabel.setBorder(new EmptyBorder(6, headerWidth/3, 0, 0));
+        headerLabel.setForeground(Configuration.greenTextColor);
 
         // headerTools: logout,...
+        headerTools.setBackground(Configuration.lightGreen);
 
-        add(headerLabel, BorderLayout.NORTH);
+        add(headerLabel, BorderLayout.WEST);
         add(headerTools, BorderLayout.EAST);
     }
 }
