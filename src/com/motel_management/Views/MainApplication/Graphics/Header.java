@@ -20,7 +20,7 @@ public class Header extends JPanel {
         this.user = user;
         this.createHeader();
     }
-    
+
     public void createHeader() {
         setPreferredSize(new Dimension(headerWidth, headerHeight));
         setBackground(Configs.lightGreen);

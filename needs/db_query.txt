@@ -9,12 +9,19 @@ CREATE TABLE Account (
 INSERT INTO Account VALUES ("admin000", "Root", "root", "123456"), ("admin001", "Dung", "levandung", "123456");
 
 CREATE TABLE Room (
+<<<<<<< HEAD
+    roomId VARCHAR(15) UNIQUE,
+    quantity INT,
+    CONSTRAINT PK_Room PRIMARY KEY (roomId)
+)
+=======
     roomId VARCHAR(20) UNIQUE NOT NULL,
     quantity INT DEFAULT 0,
     maxQuantity INT DEFAULT 0,
     defaultRoomPrice INT DEFAULT 0,
     CONSTRAINT PK_Room PRIMARY KEY (RoomId)
 );
+>>>>>>> 1041e489a9acb4e04eff459d83ab6ec6a9f91cb1
 
 CREATE TABLE Person (
     personId VARCHAR(25) UNIQUE NOT NULL,
