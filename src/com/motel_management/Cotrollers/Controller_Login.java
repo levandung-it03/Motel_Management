@@ -3,9 +3,6 @@ package com.motel_management.Cotrollers;
 import com.motel_management.DataAccessObject.AccountDAO;
 import com.motel_management.Models.Account;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Controller_Login {
