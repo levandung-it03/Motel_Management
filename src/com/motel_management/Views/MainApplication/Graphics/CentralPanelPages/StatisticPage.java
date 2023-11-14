@@ -7,14 +7,16 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class StatisticPage extends JPanel {
-    private final int centralPanelWidth;
-    private final int centralPanelHeight;
     // Constructor
-    public StatisticPage(int centralPanelWidth, int centralPanelHeight) {
+    public StatisticPage() {
         // Set Layout Here
+<<<<<<< HEAD
         super(new BorderLayout());
         this.centralPanelWidth = centralPanelWidth;
         this.centralPanelHeight = centralPanelHeight;
+=======
+        super();
+>>>>>>> a7b79d869bc86c008b792c4d09255635117dcea6
         this.createStatisticPanel();
     }
 

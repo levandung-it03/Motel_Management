@@ -4,9 +4,9 @@ public class RoomModel {
     private String roomId;
     private int quantity;
     private int maxQuantity;
-    private String defaultRoomPrice;
+    private int defaultRoomPrice;
 
-    public RoomModel(String roomId, int quantity, int maxQuantity, String defaultRoomPrice) {
+    public RoomModel(String roomId, int quantity, int maxQuantity, int defaultRoomPrice) {
         this.roomId = roomId;
         this.quantity = quantity;
         this.maxQuantity = maxQuantity;
@@ -25,7 +25,7 @@ public class RoomModel {
         return maxQuantity;
     }
 
-    public String getDefaultRoomPrice() {
+    public int getDefaultRoomPrice() {
         return defaultRoomPrice;
     }
 
@@ -41,7 +41,7 @@ public class RoomModel {
         this.maxQuantity = maxQuantity;
     }
 
-    public void setDefaultRoomPrice(String defaultRoomPrice) {
+    public void setDefaultRoomPrice(int defaultRoomPrice) {
         this.defaultRoomPrice = defaultRoomPrice;
     }
 }

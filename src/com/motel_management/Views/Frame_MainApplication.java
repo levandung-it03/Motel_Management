@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Frame_MainApplication extends JFrame {
-    int fullWidth = 1366, fullHeight = 768;
     String user;
 
     private JPanel header;
@@ -27,12 +26,12 @@ public class Frame_MainApplication extends JFrame {
         UIManager.put("Label.font", Configuration.labelFont);
         UIManager.put("Label.foreground", Configuration.blackTextColor);
 
-        setSize(fullWidth, fullHeight);
+        setSize(Configuration.fullWidth, Configuration.fullHeight);
         setLayout(new BorderLayout());
 
-        mainApp.header = new Header(fullWidth, fullHeight, user);
-        mainApp.footer = new Footer(fullWidth, fullHeight);
-        mainApp.centralPanel = new CentralPanel(fullWidth, fullHeight);
+        mainApp.header = new Header(user);
+        mainApp.footer = new Footer();
+        mainApp.centralPanel = new CentralPanel();
 
         add(mainApp.header, BorderLayout.NORTH);
         add(mainApp.centralPanel, BorderLayout.CENTER);

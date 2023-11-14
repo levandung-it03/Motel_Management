@@ -20,7 +20,7 @@ public class RoomsDAO implements DAOInterface<RoomModel> {
             ps.setString(1, obj.getRoomId());
             ps.setInt(2, obj.getQuantity());
             ps.setInt(3, obj.getMaxQuantity());
-            ps.setString(4, obj.getDefaultRoomPrice());
+            ps.setInt(4, obj.getDefaultRoomPrice());
             return ps.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -55,7 +55,7 @@ public class RoomsDAO implements DAOInterface<RoomModel> {
             ps.setString(1, obj.getRoomId());
             ps.setInt(2, obj.getQuantity());
             ps.setInt(3, obj.getMaxQuantity());
-            ps.setString(4, obj.getDefaultRoomPrice());
+            ps.setInt(4, obj.getDefaultRoomPrice());
             return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -73,7 +73,7 @@ public class RoomsDAO implements DAOInterface<RoomModel> {
             ResultSet rs = ps.executeQuery();
             rs.next();
             return new RoomModel(rs.getString("roomId"), rs.getInt("quantity"),
-                    rs.getInt("maxQuantity"), rs.getString("defaultRoomPrice"));
+                    rs.getInt("maxQuantity"), rs.getInt("defaultRoomPrice"));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -91,7 +91,7 @@ public class RoomsDAO implements DAOInterface<RoomModel> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new RoomModel(rs.getString("roomId"), rs.getInt("quantity"),
-                        rs.getInt("maxQuantity"), rs.getString("defaultRoomPrice")));
+                        rs.getInt("maxQuantity"), rs.getInt("defaultRoomPrice")));
             }
             return result;
         } catch (SQLException e) {
@@ -111,7 +111,7 @@ public class RoomsDAO implements DAOInterface<RoomModel> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new RoomModel(rs.getString("roomId"), rs.getInt("quantity"),
-                        rs.getInt("maxQuantity"), rs.getString("defaultRoomPrice")));
+                        rs.getInt("maxQuantity"), rs.getInt("defaultRoomPrice")));
             }
             return result;
         } catch (SQLException e) {

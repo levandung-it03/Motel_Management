@@ -12,11 +12,11 @@ public class Header extends JPanel {
     private final JPanel headerTools = new JPanel(new FlowLayout());
 
     // Constructor
-    public Header(int fullWidth, int fullHeight, String user) {
+    public Header(String user) {
         // Add Your Layout Here
         super(new BorderLayout());
-        this.headerWidth = fullWidth;
-        this.headerHeight = (int) (fullHeight / 22);
+        this.headerWidth = Configuration.fullWidth;
+        this.headerHeight = (int) (Configuration.fullHeight / 22);
         this.user = user;
         this.createHeader();
     }
