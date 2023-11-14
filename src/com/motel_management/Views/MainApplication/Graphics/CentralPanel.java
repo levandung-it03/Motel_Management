@@ -1,6 +1,7 @@
 package com.motel_management.Views.MainApplication.Graphics;
 import com.motel_management.Views.Configuration;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.*;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.RoomPages.RoomPage;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -8,9 +9,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CentralPanel extends JPanel {
-    private final int centralPanelWidth;
-    private final int centralPanelHeight;
-
     JTabbedPane category;
     ArrayList<JPanel> pages = new ArrayList<JPanel>();
     ArrayList<JLabel> labels = new ArrayList<JLabel>();
@@ -19,15 +17,13 @@ public class CentralPanel extends JPanel {
     public CentralPanel(int fullWidth, int fullHeight) {
         // Add Your Layout Here
         super();
-        this.centralPanelWidth = (int) (fullWidth * 6) / 7;
-        this.centralPanelHeight = (int) (fullHeight * 10) /11;
         this.createCentralPanel();
     }
 
     public void createCentralPanel() {
-        setPreferredSize(new Dimension(centralPanelWidth, centralPanelHeight));
+        setPreferredSize(new Dimension());
         category = new JTabbedPane(JTabbedPane.LEFT);
-        category.setBounds(0, 0, centralPanelWidth, centralPanelHeight);
+        category.setBounds(0, 0, Configuration.centralPanelWidth, Configuration.centralPanelHeight);
 
         labels.add(generateTabLabel("Statistic"));
         labels.add(generateTabLabel("Rooms"));
@@ -37,16 +33,16 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Consumption"));
         labels.add(generateTabLabel("Invoices"));
 
-        pages.add(new StatisticPage(centralPanelWidth, centralPanelHeight));
-        pages.add(new RoomsPage(centralPanelWidth, centralPanelHeight));
-        pages.add(new ContractsPage(centralPanelWidth, centralPanelHeight));
-        pages.add(new RepresentativesPage(centralPanelWidth, centralPanelHeight));
-        pages.add(new Electricity_WaterPage(centralPanelWidth, centralPanelHeight));
-        pages.add(new ConsumptionPage(centralPanelWidth, centralPanelHeight));
-        pages.add(new InvoicesPage(centralPanelWidth, centralPanelHeight));
+        pages.add(new StatisticPage());
+        pages.add(new RoomPage());
+        pages.add(new ContractsPage());
+        pages.add(new RepresentativesPage());
+        pages.add(new Electricity_WaterPage());
+        pages.add(new ConsumptionPage());
+        pages.add(new InvoicesPage());
 
         for (int i = 0; i < pages.size(); i++) {
-            pages.get(i).setPreferredSize(new Dimension(centralPanelWidth, centralPanelHeight));
+            pages.get(i).setPreferredSize(new Dimension());
 
             category.addTab(null, pages.get(i));
             category.setTabComponentAt(i, labels.get(i));
