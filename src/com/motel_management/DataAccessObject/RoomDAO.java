@@ -5,10 +5,10 @@ import com.motel_management.DB_interaction.DB_connection;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class RoomsDAO implements DAOInterface<RoomModel> {
-    public RoomsDAO() {}
-    public static RoomsDAO getInstance() {
-        return new RoomsDAO();
+public class RoomDAO implements DAOInterface<RoomModel> {
+    public RoomDAO() {}
+    public static RoomDAO getInstance() {
+        return new RoomDAO();
     }
 
     @Override

@@ -14,6 +14,7 @@ public class Configs {
     public static final Color normalGreen = new Color(74, 161, 67);
     public static final Color lightGreen = new Color(93, 138, 90);
     public static final Color darkGreen = new Color(41, 89, 37);
+    public static final Color mainWhiteBackground = new Color(248, 248, 248);
 
     public Configs() {}
 }

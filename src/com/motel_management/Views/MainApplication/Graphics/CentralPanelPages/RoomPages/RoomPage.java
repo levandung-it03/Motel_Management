@@ -1,5 +1,7 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.RoomPages;
 
+import com.motel_management.Views.Configs;
+
 import javax.swing.*;
 
 public class RoomPage extends JPanel {
@@ -16,11 +18,11 @@ public class RoomPage extends JPanel {
         JPanel roomsListPanel = new RoomListPage();
         JPanel addRoomPanel = new AddRoomPage();
 
+        roomsListPanel.setBackground(Configs.mainWhiteBackground);
+        addRoomPanel.setBackground(Configs.mainWhiteBackground);
+
         mainPage.add("Rooms List", roomsListPanel);
         mainPage.add("Add New Room", addRoomPanel);
-
-        roomsListPanel.add(new JLabel("List"));
-        addRoomPanel.add(new JLabel("Add"));
 
         add(mainPage);
     }
