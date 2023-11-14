@@ -8,8 +8,10 @@ public class Footer extends JPanel {
     private final int footerWidth;
     private final int footerHeight;
 
+    // Constructor
     public Footer(int fullWidth, int fullHeight) {
-        super();
+        // Add Your Layout Here
+        super(new FlowLayout());
         this.footerWidth = fullWidth;
         this.footerHeight = (int) (fullHeight / 22);
         this.createFooter();
@@ -19,5 +21,9 @@ public class Footer extends JPanel {
         setPreferredSize(new Dimension(footerWidth, footerHeight));
         setBackground(Configuration.lightGreen);
 
+        JLabel footerLabel = new JLabel("Powered By TDBT, contact: levandung.it03@gmail.com");
+        footerLabel.setForeground(Configuration.greenTextColor);
+
+        add(footerLabel);
     }
 }
