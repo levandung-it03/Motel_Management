@@ -1,9 +1,6 @@
 package com.motel_management.Views;
 
-import com.motel_management.Views.MainApplication.Panel.Category;
-import com.motel_management.Views.MainApplication.Panel.CentralPanel;
-import com.motel_management.Views.MainApplication.Panel.Footer;
-import com.motel_management.Views.MainApplication.Panel.Header;
+import com.motel_management.Views.MainApplication.Panel.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +10,6 @@ public class Frame_MainApplication extends JFrame {
     String user;
 
     private JPanel header;
-    private JPanel category;
     private JPanel centralPanel;
     private JPanel footer;
 
@@ -35,12 +31,10 @@ public class Frame_MainApplication extends JFrame {
         setLayout(new BorderLayout());
 
         mainApp.header = new Header(fullWidth, fullHeight, user);
-        mainApp.category = new Category(fullWidth, fullHeight);
         mainApp.footer = new Footer(fullWidth, fullHeight);
         mainApp.centralPanel = new CentralPanel(fullWidth, fullHeight);
 
         add(mainApp.header, BorderLayout.NORTH);
-        add(mainApp.category, BorderLayout.WEST);
         add(mainApp.centralPanel, BorderLayout.CENTER);
         add(mainApp.footer, BorderLayout.SOUTH);
 

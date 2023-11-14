@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class AccountDAO implements DAOInterface<Account> {
-
+    // Fixing, Waiting for me
     public AccountDAO() { }
     public static AccountDAO getInstance() {
         return new AccountDAO();
@@ -16,13 +16,13 @@ public class AccountDAO implements DAOInterface<Account> {
     public int insert(Account obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            Statement st = myConnection.createStatement();
-            String query = "INSERT INTO Account VALUES ("
-                    + "\"" + obj.getUserId() + "\", "
-                    + "\"" + obj.getName() + "\", "
-                    + "\"" + obj.getUsername() + "\", "
-                    + "\"" + obj.getPassword() + "\")";
-            return st.executeUpdate(query);
+            String query = "INSERT INTO Account VALUES (?, ?, ?, ?)";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, obj.getUserId());
+            ps.setString(2, obj.getName());
+            ps.setString(3, obj.getUsername());
+            ps.setString(4, obj.getPassword());
+            return ps.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -35,8 +35,10 @@ public class AccountDAO implements DAOInterface<Account> {
     public int delete(Account obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            Statement st = myConnection.createStatement();
-            return st.executeUpdate("DELETE FROM Account WHERE userId=\"" + obj.getUserId() + "\"");
+            String query = "DELETE FROM Account WHERE userId=?";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, obj.getUserId());
+            return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -49,14 +51,13 @@ public class AccountDAO implements DAOInterface<Account> {
     public int update(Account obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            Statement st = myConnection.createStatement();
-            String query = "UPDATE Account SET "
-                    + "name=\"" + obj.getName() + "\", "
-                    + "username=\"" + obj.getUsername() + "\", "
-                    + "password=\"" + obj.getPassword() + "\" "
-                    + "WHERE (userId=\"" + obj.getUserId() +"\");";
-            System.out.println(query);
-            return st.executeUpdate(query);
+            String query = "UPDATE Account SET  name=?, username=?, password=? WHERE (userId=?);";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, obj.getName());
+            ps.setString(2, obj.getUsername());
+            ps.setString(3, obj.getPassword());
+            ps.setString(4, obj.getUserId());
+            return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -68,8 +69,9 @@ public class AccountDAO implements DAOInterface<Account> {
     public Account selectById(String id) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            Statement st = myConnection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM Account WHERE (userId=\"" + id + "\")");
+            String query = ("SELECT * FROM Account WHERE (userId=?)");
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
             rs.next();
             return new Account(rs.getString("userId"), rs.getString("name"),
                     rs.getString("username"), rs.getString("password"));
@@ -85,9 +87,9 @@ public class AccountDAO implements DAOInterface<Account> {
     public ArrayList<Account> selectAll() {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            Statement st = myConnection.createStatement();
+            PreparedStatement ps = myConnection.prepareStatement("SELECT * FROM Account");
             ArrayList<Account> result = new ArrayList<>();
-            ResultSet rs = st.executeQuery("SELECT * FROM Account");
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new Account(rs.getString("userId"), rs.getString("name"),
                         rs.getString("username"), rs.getString("password")));
@@ -105,9 +107,9 @@ public class AccountDAO implements DAOInterface<Account> {
     public ArrayList<Account> selectByCondition(String condition) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            Statement st = myConnection.createStatement();
+            PreparedStatement ps = myConnection.prepareStatement("SELECT * FROM Account " + condition);
             ArrayList<Account> result = new ArrayList<>();
-            ResultSet rs = st.executeQuery("SELECT * FROM Account " + condition);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new Account(rs.getString("userId"), rs.getString("name"),
                         rs.getString("username"), rs.getString("password")));
