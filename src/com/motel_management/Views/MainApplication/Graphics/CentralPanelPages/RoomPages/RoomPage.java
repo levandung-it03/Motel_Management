@@ -7,8 +7,8 @@ import javax.swing.event.ChangeListener;
 
 public class RoomPage extends JPanel {
     private JTabbedPane mainPage;
-    private static JPanel roomsListPanel;
-    private static JPanel addRoomPanel;
+    private JPanel roomsListPanel;
+    private JPanel addRoomPanel;
 
     // Constructor
     public RoomPage() {
@@ -38,11 +38,11 @@ public class RoomPage extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 System.out.println(mainPage.getSelectedIndex());
                 if (mainPage.getSelectedIndex() == 0) {
-                    RoomPage.roomsListPanel = new RoomListPage();
-                    mainPage.setComponentAt(0, RoomPage.roomsListPanel);
+                    roomsListPanel = new RoomListPage();
+                    mainPage.setComponentAt(0, roomsListPanel);
                 } else {
-                    RoomPage.addRoomPanel = new AddRoomPage();
-                    mainPage.setComponentAt(1, RoomPage.addRoomPanel);
+                    addRoomPanel = new AddRoomPage();
+                    mainPage.setComponentAt(1, addRoomPanel);
                 }
             }
         });
