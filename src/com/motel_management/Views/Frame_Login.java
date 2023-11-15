@@ -27,7 +27,7 @@ public class Frame_Login extends JFrame {
     public static void startLoginFrame() {
         Frame_Login mainFrame = new Frame_Login();
         mainFrame.createLoginFrame();
-        mainFrame.createListeners();
+        mainFrame.createOnsiteListeners();
     }
 
     public void createLoginFrame() {
@@ -85,7 +85,7 @@ public class Frame_Login extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public void createListeners() {
+    public void createOnsiteListeners() {
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
