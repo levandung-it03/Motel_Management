@@ -3,6 +3,7 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Ro
 import com.motel_management.Views.Configs;
 import com.motel_management.Controllers.Controller_RoomList;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.TableAsList;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.RoomListeners.RoomListListeners;
 
 import javax.swing.*;
@@ -11,9 +12,9 @@ import javax.swing.table.*;
 import java.awt.*;
 
 public class RoomListPage extends JPanel {
-    public JTable roomTable;
+    public JTable table;
     public JScrollPane roomScrollPane;
-    public DefaultTableModel defaultRoomTable;
+    public DefaultTableModel defaultTable;
     public Object[][] tableData;
 
     // Constructor
@@ -21,7 +22,7 @@ public class RoomListPage extends JPanel {
         super(new GridLayout());
         this.createRoomListPage();
         this.createListeners();
-        this.getTableData();
+        this.saveCurrentTableData();
     }
 
     public void createRoomListPage() {
@@ -33,32 +34,35 @@ public class RoomListPage extends JPanel {
 
         // Generate Table.
         TableAsList tableAsList = new TableAsList(rooms, columns);
-        this.defaultRoomTable = tableAsList.getDefaultModel();
-        this.roomTable = tableAsList.getTable();
+        this.defaultTable = tableAsList.getDefaultModel();
+        this.table = tableAsList.getTable();
         this.roomScrollPane = tableAsList.getScrollPane();
-
 
         // Margin Table.
         this.roomScrollPane.setBorder(new EmptyBorder(20, 20, 0, Configs.centralPanelWidth/3));
 
         // Resize several Columns.
-        this.roomTable.getColumnModel().getColumn(0).setPreferredWidth(25);
-        this.roomTable.getColumnModel().getColumn(4).setPreferredWidth(40);
+        this.table.getColumnModel().getColumn(0).setPreferredWidth(25);
+        this.table.getColumnModel().getColumn(4).setPreferredWidth(40);
 
         // Add ScrollPane into CentralPanel/Room.
         add(roomScrollPane);
     }
 
     public void createListeners() {
-        roomTable.getModel().addTableModelListener(RoomListListeners.cellValueUpdated(roomTable, this));
+        // Add Changing Cells Value Action.
+        table.getModel().addTableModelListener(RoomListListeners.cellValueUpdated(this));
+
+        // Add Clicking Delete Button Action.
+        table.addMouseListener(GeneralListeners.getCustomDeleteButtonMouseAdapter(this.defaultTable, this.table));
     }
 
-    public void getTableData() {
+    public void saveCurrentTableData() {
         // Copy Data from Table.
-        this.tableData = new Object[this.roomTable.getRowCount()][this.roomTable.getColumnCount() - 1];
-        for (int row = 0; row < this.roomTable.getRowCount(); row++)
-            for (int col = 0; col < this.roomTable.getColumnCount() - 1; col++)
-                this.tableData[row][col] = this.roomTable.getValueAt(row, col);
+        this.tableData = new Object[this.table.getRowCount()][this.table.getColumnCount() - 1];
+        for (int row = 0; row < this.table.getRowCount(); row++)
+            for (int col = 0; col < this.table.getColumnCount() - 1; col++)
+                this.tableData[row][col] = this.table.getValueAt(row, col);
     }
 
 }

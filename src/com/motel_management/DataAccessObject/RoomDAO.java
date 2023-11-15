@@ -31,12 +31,12 @@ public class RoomDAO implements DAOInterface<RoomModel> {
     }
 
     @Override
-    public int delete(RoomModel obj) {
+    public int delete(String id) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = "DELETE FROM Room WHERE roomId=?";
             PreparedStatement ps = myConnection.prepareStatement(query);
-            ps.setString(1, obj.getRoomId());
+            ps.setString(1, id);
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

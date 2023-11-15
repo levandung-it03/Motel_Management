@@ -32,12 +32,12 @@ public class AccountDAO implements DAOInterface<AccountModel> {
     }
 
     @Override
-    public int delete(AccountModel obj) {
+    public int delete(String id) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = "DELETE FROM Account WHERE userId=?";
             PreparedStatement ps = myConnection.prepareStatement(query);
-            ps.setString(1, obj.getUserId());
+            ps.setString(1, id);
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
