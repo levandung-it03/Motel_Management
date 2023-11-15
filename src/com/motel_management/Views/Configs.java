@@ -16,5 +16,15 @@ public class Configs {
     public static final Color darkGreen = new Color(41, 89, 37);
     public static final Color mainWhiteBackground = new Color(248, 248, 248);
 
+    public static boolean isNumeric(String str) {
+        if (str == null)    return false;
+        try {
+            Double.parseDouble(str);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
     public Configs() {}
 }
