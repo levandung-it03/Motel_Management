@@ -2,6 +2,7 @@ package com.motel_management.Views.MainApplication.Graphics;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.*;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.RoomPages.RoomPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.StatisticPage;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

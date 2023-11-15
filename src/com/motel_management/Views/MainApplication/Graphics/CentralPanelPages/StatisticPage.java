@@ -1,5 +1,5 @@
 
-package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Statistic;
+package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages;
 import com.motel_management.Views.Configs;
 
 import javax.swing.*;
