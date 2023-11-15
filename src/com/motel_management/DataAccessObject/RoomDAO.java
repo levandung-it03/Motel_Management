@@ -50,12 +50,29 @@ public class RoomDAO implements DAOInterface<RoomModel> {
     public int update(RoomModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Account SET  quantity=?, maxQuantity=?, defaultRoomPrice=? WHERE (roomId=?);";
+            String query = "UPDATE Room SET  quantity=?, maxQuantity=?, defaultRoomPrice=? WHERE (roomId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
-            ps.setString(1, obj.getRoomId());
-            ps.setInt(2, obj.getQuantity());
-            ps.setInt(3, obj.getMaxQuantity());
-            ps.setInt(4, obj.getDefaultRoomPrice());
+            ps.setInt(1, obj.getQuantity());
+            ps.setInt(2, obj.getMaxQuantity());
+            ps.setInt(3, obj.getDefaultRoomPrice());
+            ps.setString(4, obj.getRoomId());
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+    }
+    // Overload
+    public int update(String[] values) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            String query = "UPDATE Room SET  quantity=?, maxQuantity=?, defaultRoomPrice=? WHERE (roomId=?);";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setInt(1, Integer.parseInt(values[1]));
+            ps.setInt(2, Integer.parseInt(values[2]));
+            ps.setInt(3, Integer.parseInt(values[3]));
+            ps.setString(4, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -106,7 +123,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
     public ArrayList<RoomModel> selectByCondition(String condition) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            PreparedStatement ps = myConnection.prepareStatement("SELECT * FROM Account " + condition);
+            PreparedStatement ps = myConnection.prepareStatement("SELECT * FROM Room " + condition);
             ArrayList<RoomModel> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
