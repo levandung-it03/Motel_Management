@@ -1,22 +1,18 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.RoomPages;
 
-import com.motel_management.Controllers.Controller_RoomList;
-import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
+import com.motel_management.Controllers.Controller_RoomList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.RoomListeners.RoomListListeners;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.border.*;
+import javax.swing.table.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 public class RoomListPage extends JPanel {
     JTable roomTable;
     JScrollPane roomScrollPane;
+    DefaultTableModel defaultRoomTable;
 
     // Constructor
     public RoomListPage() {
@@ -31,10 +27,15 @@ public class RoomListPage extends JPanel {
         String[][] rooms = Controller_RoomList.getAllRoom();
         String[] columns = {"Room Code", "Number of People", "Maximum Quantity", "Default Room Price", "Delete Button"};
 
-        DefaultTableModel defaultRoomTable = new DefaultTableModel(rooms, columns);
+        this.defaultRoomTable = new DefaultTableModel(rooms, columns);
+        this.defaultRoomTable.fireTableDataChanged();
+
         this.roomTable = new JTable(defaultRoomTable);
+        JTableHeader header = roomTable.getTableHeader();
+        header.setFont(Configs.labelFont);
         this.roomTable.setFont(Configs.labelFont);
         this.roomTable.setRowHeight(30);
+
         this.roomTable.getColumnModel().getColumn(this.roomTable.getColumnCount() - 1).setCellRenderer(
             new DefaultTableCellRenderer() {
                 @Override
@@ -47,14 +48,18 @@ public class RoomListPage extends JPanel {
                 }
             }
         );
+
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
         cellRenderer.setHorizontalAlignment(JLabel.CENTER);
+        cellRenderer.setVerticalAlignment(JLabel.CENTER);
         for (int i = 0; i < this.roomTable.getColumnCount() - 1; i++)
             this.roomTable.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
 
+        this.roomTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+        this.roomTable.getColumnModel().getColumn(4).setPreferredWidth(40);
 
         this.roomScrollPane = new JScrollPane(roomTable);
-        this.roomScrollPane.setBorder(new EmptyBorder(20, 20, 0, Configs.centralPanelWidth*4/9));
+        this.roomScrollPane.setBorder(new EmptyBorder(20, 20, 0, Configs.centralPanelWidth/3));
         this.roomTable.setBorder(new LineBorder(Configs.blackTextColor, 1, true));
         add(roomScrollPane);
     }

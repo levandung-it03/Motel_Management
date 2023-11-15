@@ -5,6 +5,8 @@ import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Roo
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -18,6 +20,7 @@ public class CentralPanel extends JPanel {
         // Add Your Layout Here
         super();
         this.createCentralPanel();
+        this.createOnsiteListeners();
     }
 
     public void createCentralPanel() {
@@ -61,5 +64,23 @@ public class CentralPanel extends JPanel {
         l.setFont(l.getFont().deriveFont(18.0f));
         
         return l;
+    }
+
+    public void createOnsiteListeners() {
+        category.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int tabSelected = category.getSelectedIndex();
+                switch(tabSelected) {
+                    case 0 -> category.setComponentAt(0, new StatisticPage());
+                    case 1 -> category.setComponentAt(1, new RoomPage());
+                    case 2 -> category.setComponentAt(2, new ContractsPage());
+                    case 3 -> category.setComponentAt(3, new RepresentativesPage());
+                    case 4 -> category.setComponentAt(4, new Electricity_WaterPage());
+                    case 5 -> category.setComponentAt(5, new ConsumptionPage());
+                    case 6 -> category.setComponentAt(6, new InvoicesPage());
+                }
+            }
+        });
     }
 }
