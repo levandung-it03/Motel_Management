@@ -1,8 +1,11 @@
-package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages;
+package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Electricity_WaterPage;
 
 import javax.swing.*;
 
 public class Electricity_WaterPage extends JPanel {
+    private JTabbedPane mainPage;
+    private JPanel EWListPanel;
+    private JPanel addEWPanel;
     // Constructor
     public Electricity_WaterPage() {
         // Set Layout Here
@@ -11,6 +14,6 @@ public class Electricity_WaterPage extends JPanel {
     }
 
     public void createElectricity_WaterPanel() {
-        add(new JLabel("This is Electricity_Water!"));
+
     }
 }
