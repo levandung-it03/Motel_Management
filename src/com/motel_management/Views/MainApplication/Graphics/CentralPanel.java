@@ -46,7 +46,9 @@ public class CentralPanel extends JPanel {
         pages.add(new InvoicesPage());
 
         for (int i = 0; i < pages.size(); i++) {
-            pages.get(i).setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
+            pages.get(i).setPreferredSize(
+                    new Dimension(Configs.centralPanelWidth + 16, Configs.centralPanelHeight + 38)
+            );
 
             category.addTab(null, pages.get(i));
             category.setTabComponentAt(i, labels.get(i));
@@ -61,7 +63,7 @@ public class CentralPanel extends JPanel {
         JLabel l = new JLabel(name);
         l.setPreferredSize(new Dimension(220, 45));
         l.setForeground(Configs.blackTextColor);
-        l.setBorder(new EmptyBorder(0, 30, 0, 0));
+        l.setBorder(new EmptyBorder(0, 10, 0, 0));
         l.setFont(l.getFont().deriveFont(18.0f));
         
         return l;

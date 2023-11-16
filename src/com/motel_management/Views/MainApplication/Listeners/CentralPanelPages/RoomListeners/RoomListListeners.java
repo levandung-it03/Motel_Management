@@ -4,12 +4,8 @@ import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.RoomPages.RoomListPage;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 
-import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class RoomListListeners {
     static TableModelListener tmListener;

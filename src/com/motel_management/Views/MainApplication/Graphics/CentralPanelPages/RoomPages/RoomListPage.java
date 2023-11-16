@@ -2,7 +2,7 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Ro
 
 import com.motel_management.Views.Configs;
 import com.motel_management.Controllers.Controller_RoomList;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.TableAsList;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.RoomListeners.RoomListListeners;
 
@@ -39,7 +39,7 @@ public class RoomListPage extends JPanel {
         this.roomScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.
-        this.roomScrollPane.setBorder(new EmptyBorder(20, 20, 0, Configs.centralPanelWidth/3));
+        this.roomScrollPane.setBorder(new EmptyBorder(20, 20, 0, Configs.centralPanelWidth/4));
 
         // Resize several Columns.
         this.table.getColumnModel().getColumn(0).setPreferredWidth(25);

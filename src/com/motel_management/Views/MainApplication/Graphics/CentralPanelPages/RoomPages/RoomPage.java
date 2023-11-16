@@ -36,7 +36,6 @@ public class RoomPage extends JPanel {
         mainPage.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                System.out.println(mainPage.getSelectedIndex());
                 if (mainPage.getSelectedIndex() == 0) {
                     roomsListPanel = new RoomListPage();
                     mainPage.setComponentAt(0, roomsListPanel);

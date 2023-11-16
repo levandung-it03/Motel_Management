@@ -1,6 +1,7 @@
 package com.motel_management.Views;
 
 import com.motel_management.Controllers.Controller_Login;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -17,8 +18,8 @@ public class Frame_Login extends JFrame {
     private final JTextField usernameField = new JTextField();
     private final JPasswordField passwordField = new JPasswordField();
 
-    private final JButton loginBtn = new JButton("Login");
-    private final JButton resetBtn = new JButton("Reset");
+    private final JButton loginBtn = InputComboPanel.generateButton("Login");
+    private final JButton resetBtn = InputComboPanel.generateButton("Reset");
 
     public Frame_Login() {
         super("Motel Management - Login");
@@ -50,20 +51,18 @@ public class Frame_Login extends JFrame {
         title.setBorder(new EmptyBorder(30, 30, 10, 40));
 
         // -------------Username (usernamePanel)-------------
-        usernameField.setPreferredSize(new Dimension(fullWith*3/5, 35));
+        usernameField.setPreferredSize(new Dimension(fullWith*3/5, Configs.inputTagHeight));
         usernameLabel.setFont(usernameLabel.getFont().deriveFont(14.0f));
         usernamePanel.add(usernameLabel, BorderLayout.NORTH);
         usernamePanel.add(usernameField, BorderLayout.CENTER);
 
         // -------------Password (passwordPanel)-------------
-        passwordField.setPreferredSize(new Dimension(fullWith*3/5, 35));
+        passwordField.setPreferredSize(new Dimension(fullWith*3/5, Configs.inputTagHeight));
         passwordLabel.setFont(passwordLabel.getFont().deriveFont(14.0f));
         passwordPanel.add(passwordLabel, BorderLayout.NORTH);
         passwordPanel.add(passwordField, BorderLayout.CENTER);
 
         // -------------Buttons (buttonsPanel)-------------
-        loginBtn.setPreferredSize(new Dimension(70, 30));
-        resetBtn.setPreferredSize(new Dimension(70, 30));
         buttonsPanel.add(loginBtn, BorderLayout.WEST);
         buttonsPanel.add(resetBtn, BorderLayout.EAST);
         buttonsPanel.setBorder(new EmptyBorder(15, 0, 0, 0));
