@@ -1,6 +1,6 @@
 package com.motel_management.Views;
 
-import com.motel_management.Controllers.Controller_Login;
+import  com.motel_management.Controllers.Controller_Login;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
