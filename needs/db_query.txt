@@ -15,8 +15,8 @@ CREATE TABLE Room (
     defaultRoomPrice INT DEFAULT 0,
     CONSTRAINT PK_Room PRIMARY KEY (RoomId)
 );
-INSERT INTO Room VALUES ("A02", 3, 9, 3000000), ("A02", 6, 9, 3000000), ("A03", 2, 9, 3000000), ("A04", 0, 9, 3000000), ("A05", 2, 9, 3000000),
-("A06", 6, 9, 3000000);
+INSERT INTO Room VALUES ("A001", 3, 9, 3000000), ("A002", 6, 9, 3000000), ("A003", 2, 9, 3000000), ("A004", 0, 9, 3000000), ("A005", 2, 9, 3000000),
+("A006", 6, 9, 3000000);
 
 ALTER TABLE Room ADD CHECK (quantity <= maxQuantity);
 

@@ -27,4 +27,15 @@ public class Controller_Statistic {
         return result.size();
     }
 
+    public static String[][] getRoomList() {
+        ArrayList<RoomModel> result = RoomDAO.getInstance().selectAll();
+        String[][] rooms = new String[result.size()][4];
+        for (int i = 0; i < result.size(); i++) {
+            rooms[i][0] = result.get(i).getRoomId();
+            rooms[i][1] = Integer.toString(result.get(i).getQuantity());
+            rooms[i][2] = Integer.toString(result.get(i).getMaxQuantity());
+            rooms[i][3] = Integer.toString(result.get(i).getDefaultRoomPrice());
+        }
+        return rooms;
+    }
 }
