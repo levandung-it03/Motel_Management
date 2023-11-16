@@ -1,7 +1,7 @@
-package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.RoomListeners;
+package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Room;
 
 import com.motel_management.DataAccessObject.RoomDAO;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.RoomPages.RoomListPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomListPage;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 
 import javax.swing.event.TableModelEvent;
