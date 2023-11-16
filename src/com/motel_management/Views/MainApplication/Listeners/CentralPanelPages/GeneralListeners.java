@@ -108,12 +108,13 @@ public class GeneralListeners {
                     });
                     if (res != 0) {
                         ArrayList<RoomModel> roomList = RoomDAO.getInstance().selectByCondition("ORDER BY roomId ASC");
-                        JOptionPane.showMessageDialog(new JPanel(), "Add new Room successfully. See it at \"Room List\"",
-                                "Notice", JOptionPane.PLAIN_MESSAGE);
-
                         StringBuilder lastRoomId = new StringBuilder(roomList.get(roomList.size() - 1).getRoomId());
                         lastRoomId.replace(0, 1, "0");
-                        inpTags.get("roomCodeInp").setText("A" + (Integer.parseInt(lastRoomId.toString()) + 1));
+                        StringBuilder idTail = new StringBuilder(Integer.toString(Integer.parseInt(lastRoomId.toString()) + 1));
+                        while (idTail.length() != 3)
+                            idTail.insert(0, "0");
+
+                        inpTags.get("roomCodeInp").setText("A" + idTail);
                         inpTags.get("quantity").setText("");
                         inpTags.get("maxQuantity").setText("");
                         inpTags.get("defaultPrice").setText("");
