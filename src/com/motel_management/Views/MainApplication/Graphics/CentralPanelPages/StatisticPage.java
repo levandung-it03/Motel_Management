@@ -116,9 +116,11 @@ public class StatisticPage extends JPanel {
 
         // Prepare Data to generate Table.
         String[][] rooms = Controller_Statistic.getRoomList();
-        String[] columns = {"Room Code", "Representative","Quantity", "Default Room Price"};
+        String[] columns = {"Room Code", "Representative","Quantity", "Room Price"};
         HashMap<Integer,Integer> resizeColumnList = new HashMap<>();
-//        resizeColumnList.put();
+        resizeColumnList.put(0,30);
+        resizeColumnList.put(2,30);
+
 
         // Generate Table.
         JScrollPane roomScrollPane = this.createTableAsList(rooms, columns, resizeColumnList);
@@ -139,9 +141,9 @@ public class StatisticPage extends JPanel {
 
         // Prepare Data to generate Table.
         String[][] rooms = Controller_Statistic.getRoomList();
-        String[] columns = {"Room Code", "Representative","Quantity", "Default Room Price"};
+        String[] columns = {"Room Code", "Representative","Quantity", "Room Price"};
         HashMap<Integer,Integer> resizeColumnList = new HashMap<>();
-//        resizeColumnList.put();
+        //resizeColumnList.put();
 
         // Generate Table.
         JScrollPane roomScrollPane = this.createTableAsList(rooms, columns, resizeColumnList);
@@ -179,7 +181,7 @@ public class StatisticPage extends JPanel {
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
         cellRenderer.setHorizontalAlignment(JLabel.CENTER);
         cellRenderer.setVerticalAlignment(JLabel.CENTER);
-        for (int i = 0; i < table.getColumnCount() - 1; i++)
+        for (int i = 0; i < table.getColumnCount(); i++)
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
 
         // Resize several Columns.
