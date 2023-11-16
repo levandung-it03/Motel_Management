@@ -9,19 +9,22 @@ public class ContractModel {
     private String firstname;
     private String birthday;
     private String phone;
-    private Date gender;
-    private int jobtitle;
-    private int permanentAddress;
+    private String gender;
+    private String jobtitle;
+    private String permanentAddress;
     private String email;
     private String creditCard;
     private String bank;
     private String roomId;
-    private String quantity;
-    private String roomDeposit;
-    private String startingDate;
-    private String endingDate;
+    private int quantity;
+    private int roomDeposit;
+    private Date startingDate;
+    private Date endingDate;
 
-    public ContractModel(String contractId, String identifier, String lastName, String firstname, String birthday, String phone, Date gender, int jobtitle, int permanentAddress, String email, String creditCard, String bank, String roomId, String quantity, String roomDeposit, String startingDate, String endingDate) {
+    public ContractModel (String contractId , String identifier , String lastName , String firstname , String birthday ,
+                          String phone , String gender , String jobtitle , String permanentAddress , String email ,
+                          String creditCard , String bank , String roomId , int quantity , int roomDeposit ,
+                          Date startingDate , Date endingDate) {
         this.contractId = contractId;
         this.identifier = identifier;
         this.lastName = lastName;
@@ -41,139 +44,139 @@ public class ContractModel {
         this.endingDate = endingDate;
     }
 
-    public String getContractId() {
+    public String getContractId () {
         return contractId;
     }
 
-    public void setContractId(String contractId) {
+    public void setContractId (String contractId) {
         this.contractId = contractId;
     }
 
-    public String getIdentifier() {
+    public String getIdentifier () {
         return identifier;
     }
 
-    public void setIdentifier(String identifier) {
+    public void setIdentifier (String identifier) {
         this.identifier = identifier;
     }
 
-    public String getLastName() {
+    public String getLastName () {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName (String lastName) {
         this.lastName = lastName;
     }
 
-    public String getFirstname() {
+    public String getFirstname () {
         return firstname;
     }
 
-    public void setFirstname(String firstname) {
+    public void setFirstname (String firstname) {
         this.firstname = firstname;
     }
 
-    public String getBirthday() {
+    public String getBirthday () {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday (String birthday) {
         this.birthday = birthday;
     }
 
-    public String getPhone() {
+    public String getPhone () {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone (String phone) {
         this.phone = phone;
     }
 
-    public Date getGender() {
+    public String getGender () {
         return gender;
     }
 
-    public void setGender(Date gender) {
+    public void setGender (String gender) {
         this.gender = gender;
     }
 
-    public int getJobtitle() {
+    public String getJobtitle () {
         return jobtitle;
     }
 
-    public void setJobtitle(int jobtitle) {
+    public void setJobtitle (String jobtitle) {
         this.jobtitle = jobtitle;
     }
 
-    public int getPermanentAddress() {
+    public String getPermanentAddress () {
         return permanentAddress;
     }
 
-    public void setPermanentAddress(int permanentAddress) {
+    public void setPermanentAddress (String permanentAddress) {
         this.permanentAddress = permanentAddress;
     }
 
-    public String getEmail() {
+    public String getEmail () {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail (String email) {
         this.email = email;
     }
 
-    public String getCreditCard() {
+    public String getCreditCard () {
         return creditCard;
     }
 
-    public void setCreditCard(String creditCard) {
+    public void setCreditCard (String creditCard) {
         this.creditCard = creditCard;
     }
 
-    public String getBank() {
+    public String getBank () {
         return bank;
     }
 
-    public void setBank(String bank) {
+    public void setBank (String bank) {
         this.bank = bank;
     }
 
-    public String getRoomId() {
+    public String getRoomId () {
         return roomId;
     }
 
-    public void setRoomId(String roomId) {
+    public void setRoomId (String roomId) {
         this.roomId = roomId;
     }
 
-    public String getQuantity() {
+    public int getQuantity () {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity (int quantity) {
         this.quantity = quantity;
     }
 
-    public String getRoomDeposit() {
+    public int getRoomDeposit () {
         return roomDeposit;
     }
 
-    public void setRoomDeposit(String roomDeposit) {
+    public void setRoomDeposit (int roomDeposit) {
         this.roomDeposit = roomDeposit;
     }
 
-    public String getStartingDate() {
+    public Date getStartingDate () {
         return startingDate;
     }
 
-    public void setStartingDate(String startingDate) {
+    public void setStartingDate (Date startingDate) {
         this.startingDate = startingDate;
     }
 
-    public String getEndingDate() {
+    public Date getEndingDate () {
         return endingDate;
     }
 
-    public void setEndingDate(String endingDate) {
+    public void setEndingDate (Date endingDate) {
         this.endingDate = endingDate;
     }
 }

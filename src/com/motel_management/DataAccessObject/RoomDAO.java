@@ -82,7 +82,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             DB_connection.closeMMDBConnection(myConnection);
         }
     }
-    // Overload
+    // OverLOAD
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
@@ -104,7 +104,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
     public RoomModel selectById(String id) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = ("SELECT * FROM Room WHERE (userId=?)");
+            String query = ("SELECT * FROM Room WHERE (roomId=?)");
             PreparedStatement ps = myConnection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             rs.next();
