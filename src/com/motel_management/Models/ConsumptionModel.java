@@ -2,7 +2,7 @@ package com.motel_management.Models;
 
 import java.sql.Date;
 
-public class Consumption {
+public class ConsumptionModel {
     private String consumptionId;
     private String roomId;
     private String consumptionMonth;
@@ -12,7 +12,7 @@ public class Consumption {
     private int electricNumber;
     private String vehicle;
 
-    public Consumption(String consumptionId, String roomId, String consumptionMonth, String consumptionYear, Date dateCreated, int waterNumber, int electricNumber, String vehicle) {
+    public ConsumptionModel(String consumptionId, String roomId, String consumptionMonth, String consumptionYear, Date dateCreated, int waterNumber, int electricNumber, String vehicle) {
         this.consumptionId = consumptionId;
         this.roomId = roomId;
         this.consumptionMonth = consumptionMonth;

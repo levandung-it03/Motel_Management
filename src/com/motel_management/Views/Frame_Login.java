@@ -1,31 +1,25 @@
 package com.motel_management.Views;
 
-import com.motel_management.Cotrollers.Controller_Login;
-import com.motel_management.DataAccessObject.AccountDAO;
-import com.motel_management.Models.Account;
+import com.motel_management.Controllers.Controller_Login;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 public class Frame_Login extends JFrame {
     int fullWith = 500, fullHeight = 350;
-    private final Color mainBackgroundColor = new Color(74, 161, 67);
-    private final Color mainTextColor = new Color(0, 0, 0);
-    private final Font labelFont = new Font("Arial", Font.PLAIN, 14);
     private final JPanel centralPanel = new JPanel();
-    private final JLabel title = new JLabel("MOTEL");
     private final JPanel usernamePanel = new JPanel(new BorderLayout());
-    private final JLabel usernameLabel = new JLabel("Username");
-    private final JTextField usernameField = new JTextField();
     private final JPanel passwordPanel = new JPanel(new BorderLayout());
-    private final JLabel passwordLabel = new JLabel("Password");
-    private final JPasswordField passwordField = new JPasswordField();
     private final JPanel buttonsPanel = new JPanel(new BorderLayout());
-    private final JButton loginBtn = new JButton("Login");
-    private final JButton resetBtn = new JButton("Reset");
+
+    private final JTextField usernameField = new JTextField();
+    private final JPasswordField passwordField = new JPasswordField();
+
+    private final JButton loginBtn = InputComboPanel.generateButton("Login");
+    private final JButton resetBtn = InputComboPanel.generateButton("Reset");
 
     public Frame_Login() {
         super("Motel Management - Login");
@@ -34,12 +28,16 @@ public class Frame_Login extends JFrame {
     public static void startLoginFrame() {
         Frame_Login mainFrame = new Frame_Login();
         mainFrame.createLoginFrame();
-        mainFrame.createListeners();
+        mainFrame.createOnsiteListeners();
     }
 
     public void createLoginFrame() {
-        UIManager.put("Label.font", labelFont);
-        UIManager.put("Label.foreground", mainTextColor);
+        UIManager.put("Label.font", Configs.labelFont);
+        UIManager.put("Label.foreground", Configs.blackTextColor);
+
+        JLabel title = new JLabel("MOTEL");
+        JLabel usernameLabel = new JLabel("Username");
+        JLabel passwordLabel = new JLabel("Password");
 
         setLayout(new BorderLayout());
         setSize(fullWith, fullHeight);
@@ -49,33 +47,31 @@ public class Frame_Login extends JFrame {
 
         add(centralPanel, BorderLayout.CENTER);
         // -------------Title-------------
-        title.setFont(title.getFont().deriveFont(38.0f));
+        title.setFont(title.getFont().deriveFont(42.0f));
         title.setBorder(new EmptyBorder(30, 30, 10, 40));
 
         // -------------Username (usernamePanel)-------------
-        usernameField.setPreferredSize(new Dimension(fullWith*3/5, 35));
+        usernameField.setPreferredSize(new Dimension(fullWith*3/5, Configs.inputTagHeight));
         usernameLabel.setFont(usernameLabel.getFont().deriveFont(14.0f));
         usernamePanel.add(usernameLabel, BorderLayout.NORTH);
         usernamePanel.add(usernameField, BorderLayout.CENTER);
 
         // -------------Password (passwordPanel)-------------
-        passwordField.setPreferredSize(new Dimension(fullWith*3/5, 35));
+        passwordField.setPreferredSize(new Dimension(fullWith*3/5, Configs.inputTagHeight));
         passwordLabel.setFont(passwordLabel.getFont().deriveFont(14.0f));
         passwordPanel.add(passwordLabel, BorderLayout.NORTH);
         passwordPanel.add(passwordField, BorderLayout.CENTER);
 
         // -------------Buttons (buttonsPanel)-------------
-        loginBtn.setPreferredSize(new Dimension(70, 30));
-        resetBtn.setPreferredSize(new Dimension(70, 30));
         buttonsPanel.add(loginBtn, BorderLayout.WEST);
         buttonsPanel.add(resetBtn, BorderLayout.EAST);
         buttonsPanel.setBorder(new EmptyBorder(15, 0, 0, 0));
         buttonsPanel.setPreferredSize(new Dimension(fullWith/2, 50));
 
-        usernamePanel.setBackground(mainBackgroundColor);
-        passwordPanel.setBackground(mainBackgroundColor);
-        buttonsPanel.setBackground(mainBackgroundColor);
-        centralPanel.setBackground(mainBackgroundColor);
+        usernamePanel.setBackground(Configs.normalGreen);
+        passwordPanel.setBackground(Configs.normalGreen);
+        buttonsPanel.setBackground(Configs.normalGreen);
+        centralPanel.setBackground(Configs.normalGreen);
 
         centralPanel.add(title);
         centralPanel.add(usernamePanel);
@@ -88,7 +84,7 @@ public class Frame_Login extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public void createListeners() {
+    public void createOnsiteListeners() {
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
