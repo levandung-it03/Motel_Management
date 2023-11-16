@@ -27,6 +27,7 @@ public class Configs {
         }
         return true;
     }
+
     public static boolean isNumeric(String str) {
         if (str == null)    return false;
         try {
