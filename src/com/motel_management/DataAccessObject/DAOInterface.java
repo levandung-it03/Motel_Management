@@ -7,7 +7,7 @@ package com.motel_management.DataAccessObject;
 import java.util.ArrayList;
 
 public interface DAOInterface<Obj> {
-    int delete(Obj obj);
+    int delete(String id);
 
     int insert(Obj obj);
 

@@ -2,7 +2,7 @@ package com.motel_management.Models;
 
 import java.sql.Date;
 
-public class Invoice {
+public class InvoiceModel {
     private String invoiceId;
     private String roomId;
     private String consumptionId;
@@ -17,7 +17,7 @@ public class Invoice {
     private int total;
     private boolean wasPaid;
 
-    public Invoice(String invoiceId, String roomId, String consumptionId, int defaultRoomPrice, String monthPayment, String yearPayment, Date dateCreated, int totalWaterBill, int totalElectricBill, int garbage, int vehicle, int total, boolean wasPaid) {
+    public InvoiceModel(String invoiceId, String roomId, String consumptionId, int defaultRoomPrice, String monthPayment, String yearPayment, Date dateCreated, int totalWaterBill, int totalElectricBill, int garbage, int vehicle, int total, boolean wasPaid) {
         this.invoiceId = invoiceId;
         this.roomId = roomId;
         this.consumptionId = consumptionId;

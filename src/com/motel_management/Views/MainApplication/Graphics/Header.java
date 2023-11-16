@@ -1,5 +1,5 @@
-package com.motel_management.Views.MainApplication.Panel;
-import com.motel_management.Views.Configuration;
+package com.motel_management.Views.MainApplication.Graphics;
+import com.motel_management.Views.Configs;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,26 +12,26 @@ public class Header extends JPanel {
     private final JPanel headerTools = new JPanel(new FlowLayout());
 
     // Constructor
-    public Header(int fullWidth, int fullHeight, String user) {
+    public Header(String user) {
         // Add Your Layout Here
         super(new BorderLayout());
-        this.headerWidth = fullWidth;
-        this.headerHeight = (int) (fullHeight / 22);
+        this.headerWidth = Configs.fullWidth;
+        this.headerHeight = (int) (Configs.fullHeight / 22);
         this.user = user;
         this.createHeader();
     }
-    
+
     public void createHeader() {
         setPreferredSize(new Dimension(headerWidth, headerHeight));
-        setBackground(Configuration.lightGreen);
+        setBackground(Configs.lightGreen);
 
         JLabel headerLabel = new JLabel("Motel Management - Welcome " + user);
         headerLabel.setFont(headerLabel.getFont().deriveFont(24.0f));
         headerLabel.setBorder(new EmptyBorder(6, headerWidth/3, 0, 0));
-        headerLabel.setForeground(Configuration.greenTextColor);
+        headerLabel.setForeground(Configs.blackTextColor);
 
         // headerTools: logout,...
-        headerTools.setBackground(Configuration.lightGreen);
+        headerTools.setBackground(Configs.lightGreen);
 
         add(headerLabel, BorderLayout.WEST);
         add(headerTools, BorderLayout.EAST);
