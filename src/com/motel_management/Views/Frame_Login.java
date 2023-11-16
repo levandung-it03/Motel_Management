@@ -1,11 +1,8 @@
 package com.motel_management.Views;
 
-<<<<<<< HEAD
-import  com.motel_management.Controllers.Controller_Login;
-=======
 import com.motel_management.Controllers.Controller_Login;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
->>>>>>> 144381b24417423813bf0490bcbe18574049b328
+
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

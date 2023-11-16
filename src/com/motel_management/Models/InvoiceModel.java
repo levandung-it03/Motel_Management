@@ -15,9 +15,9 @@ public class InvoiceModel {
     private int garbage;
     private int vehicle;
     private int total;
-    private boolean wasPaid;
+    private String wasPaid;
 
-    public InvoiceModel(String invoiceId, String roomId, String consumptionId, int defaultRoomPrice, String monthPayment, String yearPayment, Date dateCreated, int totalWaterBill, int totalElectricBill, int garbage, int vehicle, int total, boolean wasPaid) {
+    public InvoiceModel(String invoiceId, String roomId, String consumptionId, int defaultRoomPrice, String monthPayment, String yearPayment, Date dateCreated, int totalWaterBill, int totalElectricBill, int garbage, int vehicle, int total, String wasPaid) {
         this.invoiceId = invoiceId;
         this.roomId = roomId;
         this.consumptionId = consumptionId;
@@ -33,107 +33,81 @@ public class InvoiceModel {
         this.wasPaid = wasPaid;
     }
 
-    public String getInvoiceId() {
-        return invoiceId;
-    }
+    public String getInvoiceId () {return invoiceId;}
 
-    public void setInvoiceId(String invoiceId) {
+    public String getRoomId () {return roomId;}
+
+    public String getConsumptionId () {return consumptionId;}
+
+    public int getDefaultRoomPrice () {return defaultRoomPrice;}
+
+    public String getMonthPayment () {return monthPayment;}
+
+    public String getYearPayment () {return yearPayment;}
+
+    public Date getDateCreated () {return dateCreated;}
+
+    public int getTotalWaterBill () {return totalWaterBill;}
+
+    public int getTotalElectricBill () {return totalElectricBill;}
+
+    public int getGarbage () {return garbage;}
+
+    public int getVehicle () {return vehicle;}
+
+    public int getTotal () {return total;}
+
+    public String getWasPaid () {return wasPaid;}
+
+    public void setInvoiceId (String invoiceId) {
         this.invoiceId = invoiceId;
     }
 
-    public String getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(String roomId) {
+    public void setRoomId (String roomId) {
         this.roomId = roomId;
     }
 
-    public String getConsumptionId() {
-        return consumptionId;
-    }
-
-    public void setConsumptionId(String consumptionId) {
+    public void setConsumptionId (String consumptionId) {
         this.consumptionId = consumptionId;
     }
 
-    public int getDefaultRoomPrice() {
-        return defaultRoomPrice;
-    }
-
-    public void setDefaultRoomPrice(int defaultRoomPrice) {
+    public void setDefaultRoomPrice (int defaultRoomPrice) {
         this.defaultRoomPrice = defaultRoomPrice;
     }
 
-    public String getMonthPayment() {
-        return monthPayment;
-    }
-
-    public void setMonthPayment(String monthPayment) {
+    public void setMonthPayment (String monthPayment) {
         this.monthPayment = monthPayment;
     }
 
-    public String getYearPayment() {
-        return yearPayment;
-    }
-
-    public void setYearPayment(String yearPayment) {
+    public void setYearPayment (String yearPayment) {
         this.yearPayment = yearPayment;
     }
 
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated (Date dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public int getTotalWaterBill() {
-        return totalWaterBill;
-    }
-
-    public void setTotalWaterBill(int totalWaterBill) {
+    public void setTotalWaterBill (int totalWaterBill) {
         this.totalWaterBill = totalWaterBill;
     }
 
-    public int getTotalElectricBill() {
-        return totalElectricBill;
-    }
-
-    public void setTotalElectricBill(int totalElectricBill) {
+    public void setTotalElectricBill (int totalElectricBill) {
         this.totalElectricBill = totalElectricBill;
     }
 
-    public int getGarbage() {
-        return garbage;
-    }
-
-    public void setGarbage(int garbage) {
+    public void setGarbage (int garbage) {
         this.garbage = garbage;
     }
 
-    public int getVehicle() {
-        return vehicle;
-    }
-
-    public void setVehicle(int vehicle) {
+    public void setVehicle (int vehicle) {
         this.vehicle = vehicle;
     }
 
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
+    public void setTotal (int total) {
         this.total = total;
     }
 
-    public boolean isWasPaid() {
-        return wasPaid;
-    }
-
-    public void setWasPaid(boolean wasPaid) {
+    public void setWasPaid (String wasPaid) {
         this.wasPaid = wasPaid;
     }
 }
