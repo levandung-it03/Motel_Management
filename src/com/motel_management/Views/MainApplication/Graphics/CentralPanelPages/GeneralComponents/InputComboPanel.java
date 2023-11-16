@@ -9,17 +9,16 @@ import java.awt.*;
 public class InputComboPanel {
     public InputComboPanel() {}
 
-    public static JPanel generateTextInputPanel(String strLabel) {
+    public static JPanel generateTextInputPanel(String strLabel, JTextField originInp) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(new EmptyBorder(5, 5, 10, 5));
         panel.setPreferredSize(new Dimension(Configs.centralPanelWidth/4, 65));
 
         JLabel label = new JLabel(strLabel);
-        JTextField input = new JTextField(20);
         label.setFont(label.getFont().deriveFont(14.0f));
 
         panel.add(label, BorderLayout.NORTH);
-        panel.add(input, BorderLayout.CENTER);
+        panel.add(originInp, BorderLayout.CENTER);
         return panel;
     }
 

@@ -21,7 +21,26 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             ps.setInt(2, obj.getQuantity());
             ps.setInt(3, obj.getMaxQuantity());
             ps.setInt(4, obj.getDefaultRoomPrice());
-            return ps.executeUpdate(query);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return 0;
+    }
+
+    public int insert(String[] values) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            String query = "INSERT INTO Room VALUES (?, ?, ?, ?);";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, values[0]);
+            ps.setInt(2, Integer.parseInt(values[1]));
+            ps.setInt(3, Integer.parseInt(values[2]));
+            ps.setInt(4, Integer.parseInt(values[3]));
+            System.out.println(ps);
+            return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

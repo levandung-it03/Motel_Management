@@ -1,6 +1,7 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages;
 
 import com.motel_management.DataAccessObject.RoomDAO;
+import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 
 import javax.swing.*;
@@ -8,8 +9,14 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GeneralListeners {
     public GeneralListeners() { }
@@ -71,6 +78,50 @@ public class GeneralListeners {
 
                         model.removeRow(clickedRow);
                     }
+                }
+            }
+        };
+    }
+
+    public static ActionListener addNewDataByActionListener(HashMap<String, JTextField> inpTags) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                Pattern pattern = Pattern.compile("A\\d{3}");
+                Matcher matcher = pattern.matcher(inpTags.get("roomCodeInp").getText());
+                boolean isValid;
+
+                try {
+                    isValid = matcher.matches()
+                            && (Integer.parseInt(inpTags.get("quantity").getText()) <= Integer.parseInt(inpTags.get("maxQuantity").getText()))
+                            && Configs.isIntegerNumeric(inpTags.get("defaultPrice").getText());
+                } catch (NumberFormatException exc) {
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    int res = RoomDAO.getInstance().insert(new String[] {
+                            inpTags.get("roomCodeInp").getText(),
+                            inpTags.get("quantity").getText(),
+                            inpTags.get("maxQuantity").getText(),
+                            inpTags.get("defaultPrice").getText()
+                    });
+                    if (res != 0) {
+                        ArrayList<RoomModel> roomList = RoomDAO.getInstance().selectByCondition("ORDER BY roomId ASC");
+                        JOptionPane.showMessageDialog(new JPanel(), "Add new Room successfully. See it at \"Room List\"",
+                                "Notice", JOptionPane.PLAIN_MESSAGE);
+
+                        StringBuilder lastRoomId = new StringBuilder(roomList.get(roomList.size() - 1).getRoomId());
+                        lastRoomId.replace(0, 1, "0");
+                        inpTags.get("roomCodeInp").setText("A" + (Integer.parseInt(lastRoomId.toString()) + 1));
+                        inpTags.get("quantity").setText("");
+                        inpTags.get("maxQuantity").setText("");
+                        inpTags.get("defaultPrice").setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(new JPanel(), "RoomCode Already Existed", "Notice", JOptionPane.PLAIN_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(new JPanel(), "Invalid Information", "Notice", JOptionPane.PLAIN_MESSAGE);
                 }
             }
         };
