@@ -30,7 +30,7 @@ public class AddRoomPage extends JPanel {
     public void createAddRoomPage() {
         container = new JPanel(new FlowLayout());
         container.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
-        container.setBorder(new EmptyBorder(20, 20, 0, Configs.centralPanelWidth*9/20));
+        container.setBorder(new EmptyBorder(20, 20, 0, Configs.centralPanelWidth*2/3));
 
         this.submitBtn = InputComboPanel.generateButton("Submit");
 
