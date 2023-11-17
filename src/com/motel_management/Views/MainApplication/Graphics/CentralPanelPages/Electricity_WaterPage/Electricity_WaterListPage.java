@@ -94,7 +94,7 @@ public class Electricity_WaterListPage extends JPanel {
         table.getModel().addTableModelListener(EWListListeners.cellValueUpdated(this));
 
         // Add Clicking Delete Button Action.
-        table.addMouseListener(GeneralListeners.getCustomDeleteButtonMouseAdapter(this.defaultTable, this.table));
+//        table.addMouseListener(GeneralListeners.getCustomDeleteButtonMouseAdapter(this.defaultTable, this.table));
     }
 
     public void saveCurrentTableData() {

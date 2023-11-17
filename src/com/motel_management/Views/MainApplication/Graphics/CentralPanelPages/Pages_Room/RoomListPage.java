@@ -3,7 +3,6 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 import com.motel_management.Views.Configs;
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Room.RoomListListeners;
 
 import javax.swing.*;
@@ -54,7 +53,7 @@ public class RoomListPage extends JPanel {
         table.getModel().addTableModelListener(RoomListListeners.cellValueUpdated(this));
 
         // Add Clicking Delete Button Action.
-        table.addMouseListener(GeneralListeners.getCustomDeleteButtonMouseAdapter(this.defaultTable, this.table));
+        table.addMouseListener(RoomListListeners.getDeleteCellByMouseListener(defaultTable, table));
     }
 
     public void saveCurrentTableData() {

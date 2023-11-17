@@ -1,8 +1,9 @@
-package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Room;
+package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Contract;
 
+import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Controllers.Controller_Room;
-import com.motel_management.DataAccessObject.RoomDAO;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomListPage;
+import com.motel_management.DataAccessObject.ContractDAO;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractListPage;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 
 import javax.swing.*;
@@ -13,31 +14,31 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class RoomListListeners {
+public class ContractListListeners {
     static TableModelListener tmListener;
 
     // Constructor
-    public RoomListListeners() {}
+    public ContractListListeners() {}
 
-    public static TableModelListener cellValueUpdated(RoomListPage roomList) {
+    public static TableModelListener cellValueUpdated(ContractListPage contractList) {
         tmListener = new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if (e.getType() == TableModelEvent.UPDATE) {
-                    String[] res = GeneralListeners.getChangedTableRow(e, tmListener, roomList.table, roomList.tableData);
+                    String[] res = GeneralListeners.getChangedTableRow(e, tmListener, contractList.table, contractList.tableData);
 
                     if (res != null) {
                         System.out.println("Value Updated");
-                        RoomDAO.getInstance().update(res);
+                        ContractDAO.getInstance().update(res);
                     }
                 }
-                roomList.saveCurrentTableData();
+                contractList.saveCurrentTableData();
             }
         };
         return tmListener;
     }
 
-    public static MouseAdapter getDeleteCellByMouseListener(DefaultTableModel defaultTable, JTable table) {
+    public static MouseAdapter getCustomDeleteButtonMouseAdapter(DefaultTableModel defaultTable, JTable table) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -49,7 +50,7 @@ public class RoomListListeners {
                 if (clickedColumn == table.getColumnCount() - 1) {
                     if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this row?", "Confirm",
                             JOptionPane.YES_NO_OPTION) == 0) {
-                        if (Controller_Room.deleteById(table.getValueAt(clickedRow, 0).toString()) != 0) {
+                        if (Controller_Contract.deleteById(table.getValueAt(clickedRow, 0).toString()) != 0) {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
                             defaultTable.removeRow(clickedRow);
                         } else {
@@ -63,5 +64,3 @@ public class RoomListListeners {
     }
 
 }
-
-

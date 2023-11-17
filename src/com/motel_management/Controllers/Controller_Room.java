@@ -41,6 +41,10 @@ public class Controller_Room {
         return RoomDAO.getInstance().selectByCondition(condition);
     }
 
+    public static int deleteById(String id) {
+        return RoomDAO.getInstance().delete(id);
+    }
+
     public static String[][] getAllRoomWithTableFormat() {
         ArrayList<RoomModel> result = RoomDAO.getInstance().selectAll();
         String[][] rooms = new String[result.size()][5];
