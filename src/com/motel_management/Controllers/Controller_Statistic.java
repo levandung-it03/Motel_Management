@@ -2,9 +2,11 @@ package com.motel_management.Controllers;
 
 import com.motel_management.DataAccessObject.AccountDAO;
 import com.motel_management.DataAccessObject.ContractDAO;
+import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.Models.AccountModel;
 import com.motel_management.Models.ContractModel;
+import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
 
 import java.util.ArrayList;
@@ -30,13 +32,13 @@ public class Controller_Statistic {
     }
 
     public static String[][] getRoomList() {
-        ArrayList<ContractModel> result = ContractDAO.getInstance().selectAll();
+        ArrayList<PersonModel> result = PersonDAO.getInstance().selectAll();
         String[][] rooms = new String[result.size()][4];
         for (int i = 0; i < result.size(); i++) {
-            RoomModel roomResult = RoomDAO.getInstance().selectById(result.get(i).getRoomId());
-            rooms[i][0] = result.get(i).getRoomId();
-            rooms[i][1] = result.get(i).getLastName()+ " " +result.get(i).getFirstname();
-            rooms[i][2] = Integer.toString(result.get(i).getQuantity());
+            RoomModel roomResult = RoomDAO.getInstance().selectById(result.get(i).getRoomCode());
+            rooms[i][0] = result.get(i).getRoomCode();
+            rooms[i][1] = result.get(i).getLastName()+ " " +result.get(i).getFirstName();
+            rooms[i][2] = Integer.toString(roomResult.getQuantity());
             rooms[i][3] = Integer.toString(roomResult.getDefaultRoomPrice());
         }
         return rooms;

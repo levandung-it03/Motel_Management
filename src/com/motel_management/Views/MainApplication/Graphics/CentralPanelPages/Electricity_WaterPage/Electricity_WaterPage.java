@@ -21,10 +21,10 @@ public class Electricity_WaterPage extends JPanel {
     public void createElectricity_WaterPanel() {
         this.mainPage = new JTabbedPane(JTabbedPane.TOP);
         EWListPanel = new Electricity_WaterListPage();
-//        addEWPanel = new JPanel();
+        addEWPanel = new AddElectricity_WaterPage();
 
         EWListPanel.setBackground(Configs.mainWhiteBackground);
-//        addEWPanel.setBackground(Configs.mainWhiteBackground);
+        addEWPanel.setBackground(Configs.mainWhiteBackground);
 
         mainPage.add("Electricity_Water List", EWListPanel);
         mainPage.add("Add New Electricity_Water", addEWPanel);
@@ -40,7 +40,7 @@ public class Electricity_WaterPage extends JPanel {
                     EWListPanel = new Electricity_WaterListPage();
                     mainPage.setComponentAt(0, EWListPanel);
                 } else {
-                    addEWPanel = new JPanel();
+                    addEWPanel = new AddElectricity_WaterPage();
                     mainPage.setComponentAt(1, addEWPanel);
                 }
             }
