@@ -71,6 +71,7 @@ public class AccountDAO implements DAOInterface<AccountModel> {
         try {
             String query = ("SELECT * FROM Account WHERE (userId=?)");
             PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             rs.next();
             return new AccountModel(rs.getString("userId"), rs.getString("name"),

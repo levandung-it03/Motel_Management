@@ -119,6 +119,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
         try {
             String query = ("SELECT * FROM Invoice WHERE (invoiceId=?)");
             PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             rs.next();
             return new InvoiceModel(rs.getString("invoiceId"), rs.getString("roomId"),

@@ -112,6 +112,7 @@ public class PersonDAO implements DAOInterface<PersonModel>{
         try {
             String query = ("SELECT * FROM Person WHERE (identifier=?)");
             PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             rs.next();
             return new PersonModel(rs.getString("identifier"), rs.getString("roomCode"),
