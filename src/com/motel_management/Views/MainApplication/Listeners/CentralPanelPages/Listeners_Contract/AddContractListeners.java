@@ -4,6 +4,7 @@ import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractPage;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -22,42 +23,46 @@ public class AddContractListeners {
         roomList.forEach(r -> {
             maxQuantityList.put(r.getRoomId(), r.getMaxQuantity());
         });
-        return new JComboBox<>(roomList.stream().map(RoomModel::getRoomId).toArray());
+        return new JComboBox<Object>(roomList.stream().map(RoomModel::getRoomId).toArray());
     }
 
     public static ActionListener addNewContractListener(HashMap<String, JTextField> inpTags,
                                                         HashMap<String, JDateChooser> dateTags,
                                                         HashMap<String, JComboBox<Object>> comboTags) {
-        String validateResult = validate(inpTags, dateTags, comboTags, maxQuantityList);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
+                String validateResult = validate(inpTags, dateTags, comboTags, maxQuantityList);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
                 if (validateResult.equals("1")) {
                     HashMap<String, String> data = new HashMap<>();
                     data.put("identifier", inpTags.get("identifier").getText());
                     data.put("lastName", inpTags.get("lastName").getText());
                     data.put("firstname", inpTags.get("firstname").getText());
-                    data.put("birthday", dateFormat.format(dateTags.get("birthday").getCalendar()));
+                    data.put("birthday", dateFormat.format(dateTags.get("birthday").getCalendar().getTime()));
                     data.put("phone", inpTags.get("phone").getText());
                     data.put("jobTitle", inpTags.get("jobTitle").getText());
                     data.put("permanentAddress", inpTags.get("permanentAddress").getText());
                     data.put("email", inpTags.get("email").getText());
-                    data.put("creditCard", inpTags.get("creditCard").getText());
+                    data.put("bankAccountNumber", inpTags.get("bankAccountNumber").getText());
+                    data.put("bank", Objects.requireNonNull(comboTags.get("bank").getSelectedItem()).toString());
                     data.put("roomId", Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString());
                     data.put("quantity", inpTags.get("quantity").getText());
                     data.put("roomDeposit", inpTags.get("roomDeposit").getText());
-                    data.put("startingDate", dateFormat.format(dateTags.get("startingDate").getCalendar()));
-                    data.put("endingDate", dateFormat.format(dateTags.get("endingDate").getCalendar()));
-                    data.put("gender", Objects.requireNonNull(comboTags.get("gender").getSelectedItem()).toString());
+                    data.put("startingDate", dateFormat.format(dateTags.get("startingDate").getCalendar().getTime()));
+                    data.put("endingDate", dateFormat.format(dateTags.get("endingDate").getCalendar().getTime()));
+                    data.put("gender",
+                        Objects.requireNonNull(comboTags.get("gender").getSelectedItem()).toString().equals("Men") ? "0" : "1");
 
                     int newContractUpdated = Controller_Contract.addNewContract(data);
 
                     if (newContractUpdated != 0) {
                         JOptionPane.showMessageDialog(new JPanel(), "New Contract was added! Open \"Contract List\" to check it!",
                                 "Notice", JOptionPane.PLAIN_MESSAGE);
-                        inpTags.forEach((key, tag) -> tag.setText(""));
+
+                        ContractPage.mainPage.setSelectedIndex(0);
                     } else {
                         JOptionPane.showMessageDialog(
                                 new JPanel(),
@@ -80,7 +85,8 @@ public class AddContractListeners {
 
     public static String validate(HashMap<String, JTextField> inpTags, HashMap<String, JDateChooser> dateTags,
                                   HashMap<String, JComboBox<Object>> comboTags, HashMap<String, Integer> maxQuantityList) {
-        if (!Pattern.compile("\\d{9}").matcher(inpTags.get("identifier").getText()).matches())
+        System.out.println();
+        if (!Pattern.compile("\\d{12}").matcher(inpTags.get("identifier").getText()).matches())
             return "Identity Card";
 
         if (!Pattern.compile("^[A-Z][a-z]+(\\s[A-Z][a-z]*)*$").matcher(inpTags.get("lastName").getText()).matches())
@@ -107,28 +113,28 @@ public class AddContractListeners {
 
         if (!inpTags.get("email").getText().equals("")) {
             // Checking "Email" if it's not empty!
-            if (!Pattern.compile("^(.+)@(\\\\S+)$").matcher(inpTags.get("email").getText()).matches()) {
+            if (!Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$").matcher(inpTags.get("email").getText()).matches()) {
                 return "Email";
             }
         }
 
-        if (!inpTags.get("creditCard").getText().equals("")) {
+        if (!inpTags.get("bankAccountNumber").getText().equals("")) {
             if (!Objects.requireNonNull(comboTags.get("bank").getSelectedItem()).toString().equals("")) {
-                if (!Configs.isIntegerNumeric(inpTags.get("creditCard").getText())) {
-                    return "Credit Card";
+                if (!Pattern.compile("^[0-9]{1,13}$").matcher(inpTags.get("bankAccountNumber").getText()).matches()) {
+                    return "Bank Account Number";
                 }
             } else {
                 return "empty Bank Name";
             }
         }
         if (!Objects.requireNonNull(comboTags.get("bank").getSelectedItem()).toString().equals("")) {
-            if (inpTags.get("creditCard").getText().equals("")) {
-                return "empty Credit Card";
+            if (inpTags.get("bankAccountNumber").getText().equals("")) {
+                return "empty Bank Account Number";
             }
         }
         try {
             Object temp = Objects.requireNonNull(comboTags.get("roomId").getSelectedItem());
-        } catch (NullPointerException e) { return "";}
+        } catch (NullPointerException e) { return "Room Code";}
 
         try {
             Integer max = maxQuantityList.get(Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString());
@@ -147,6 +153,13 @@ public class AddContractListeners {
             }
         } catch (NumberFormatException e) {
             return "Deposit";
+        }
+
+        try {
+            if (dateTags.get("startingDate").getCalendar().before(dateTags.get("birthday").getCalendar()))
+                return "Started Date";
+        } catch (NullPointerException e) {
+            return "Empty Started Date";
         }
 
         try {

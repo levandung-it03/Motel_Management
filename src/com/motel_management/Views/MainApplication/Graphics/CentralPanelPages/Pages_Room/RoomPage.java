@@ -6,7 +6,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class RoomPage extends JPanel {
-    private JTabbedPane mainPage;
+    public static JTabbedPane mainPage;
     private JPanel roomsListPanel;
     private JPanel addRoomPanel;
 
@@ -19,7 +19,7 @@ public class RoomPage extends JPanel {
     }
 
     public void createRoomsPanel() {
-        this.mainPage = new JTabbedPane(JTabbedPane.TOP);
+        mainPage = new JTabbedPane(JTabbedPane.TOP);
         roomsListPanel = new RoomListPage();
         addRoomPanel = new AddRoomPage();
 

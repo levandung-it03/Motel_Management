@@ -48,7 +48,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             ps.setString(6, values[5]);
             ps.setString(7, values[6]);
             ps.setDate(8, Date.valueOf(values[7]));
-            System.out.println(ps);
+
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -107,7 +107,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             ps.setString(4, values[4]);
             ps.setString(5, values[5]);
             ps.setString(6, values[6]);
-            ps.setDate(7, Date.valueOf(Configs.StringToDate(values[7])));
+            ps.setDate(7, Date.valueOf(Configs.stringToDate(values[7])));
             ps.setString(8, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {

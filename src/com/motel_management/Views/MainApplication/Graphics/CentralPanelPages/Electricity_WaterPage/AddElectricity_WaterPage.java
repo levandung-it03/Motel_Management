@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class AddElectricity_WaterPage extends JPanel{
     JPanel container;
     JButton submitBtn;
-    JTextField roomCodeInp = new JTextField(20);
+    JTextField roomIdInp = new JTextField(20);
     JTextField maxQuantity = new JTextField(20);
     JTextField defaultPrice = new JTextField(20);
     public AddElectricity_WaterPage() {
@@ -26,7 +26,7 @@ public class AddElectricity_WaterPage extends JPanel{
         this.createListeners();
     }
     public void createAddElectricityPage() {
-        JTextField roomCodeInp = new JTextField(20);
+        JTextField roomIdInp = new JTextField(20);
         JTextField maxQuantity = new JTextField(20);
         JTextField maxRangeValue = new JTextField(20);
         JTextField defaultPrice = new JTextField(20);
@@ -39,7 +39,7 @@ public class AddElectricity_WaterPage extends JPanel{
         this.submitBtn = InputComboPanel.generateButton("Submit");
 
         container.add(title);
-        container.add(InputComboPanel.generateTextInputPanel("Water Code", roomCodeInp));
+        container.add(InputComboPanel.generateTextInputPanel("Water Code", roomIdInp));
         container.add(InputComboPanel.generateTextInputPanel("Range Name", maxQuantity));
         container.add(InputComboPanel.generateTextInputPanel("Max Range Value", maxRangeValue));
         container.add(InputComboPanel.generateTextInputPanel("Price", defaultPrice));
@@ -48,7 +48,7 @@ public class AddElectricity_WaterPage extends JPanel{
         add(container);
     }
     public void createAddWaterPage() {
-        JTextField roomCodeInp = new JTextField(20);
+        JTextField roomIdInp = new JTextField(20);
         JTextField maxQuantity = new JTextField(20);
         JTextField maxRangeValue = new JTextField(20);
         JTextField defaultPrice = new JTextField(20);
@@ -61,7 +61,7 @@ public class AddElectricity_WaterPage extends JPanel{
         this.submitBtn = InputComboPanel.generateButton("Submit");
 
         container.add(title);
-        container.add(InputComboPanel.generateTextInputPanel("Electric Code", roomCodeInp));
+        container.add(InputComboPanel.generateTextInputPanel("Electric Code", roomIdInp));
         container.add(InputComboPanel.generateTextInputPanel("Range Name", maxQuantity));
         container.add(InputComboPanel.generateTextInputPanel("Max Range Value", maxRangeValue));
         container.add(InputComboPanel.generateTextInputPanel("Price", defaultPrice));
@@ -78,10 +78,10 @@ public class AddElectricity_WaterPage extends JPanel{
         StringBuilder idTail = new StringBuilder(Integer.toString(Integer.parseInt(lastRoomId.toString()) + 1));
         while (idTail.length() != 3)
             idTail.insert(0, "0");
-        roomCodeInp.setText("A" + idTail);
+        roomIdInp.setText("A" + idTail);
 
         HashMap<String, JTextField> inpTags = new HashMap<>();
-        inpTags.put("roomCodeInp", this.roomCodeInp);
+        inpTags.put("roomIdInp", this.roomIdInp);
         inpTags.put("maxQuantity", this.maxQuantity);
         inpTags.put("defaultPrice", this.defaultPrice);
 

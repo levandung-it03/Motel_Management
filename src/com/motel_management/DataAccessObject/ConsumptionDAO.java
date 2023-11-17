@@ -44,11 +44,11 @@ public class ConsumptionDAO implements DAOInterface<ConsumptionModel> {
             ps.setString(2, values[1]);
             ps.setString(3, values[2]);
             ps.setString(4, values[3]);
-            ps.setDate(5, Date.valueOf(Configs.StringToDate(values[4])));
+            ps.setDate(5, Date.valueOf(Configs.stringToDate(values[4])));
             ps.setInt(6, Integer.parseInt(values[5]));
             ps.setInt(7, Integer.parseInt(values[6]));
             ps.setInt(8, Integer.parseInt(values[7]));
-            System.out.println(ps);
+
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -106,7 +106,7 @@ public class ConsumptionDAO implements DAOInterface<ConsumptionModel> {
             ps.setString(1, values[1]);
             ps.setString(2, values[2]);
             ps.setString(3, values[3]);
-            ps.setDate(4,Date.valueOf(Configs.StringToDate(values[4])));
+            ps.setDate(4,Date.valueOf(Configs.stringToDate(values[4])));
             ps.setInt(5, Integer.parseInt(values[5]));
             ps.setInt(6, Integer.parseInt(values[6]));
             ps.setInt(7, Integer.parseInt(values[7]));

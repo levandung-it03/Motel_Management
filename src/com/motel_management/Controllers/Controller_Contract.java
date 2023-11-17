@@ -3,19 +3,17 @@ package com.motel_management.Controllers;
 import com.motel_management.DataAccessObject.ContractDAO;
 import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.DataAccessObject.RoomDAO;
-import com.motel_management.Models.ContractModel;
 import com.motel_management.Models.RoomModel;
+import com.motel_management.Views.Configs;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 
 public class Controller_Contract {
     public Controller_Contract() {}
     public static int addNewContract(HashMap<String, String> data) {
-        ArrayList<String> preparedContractData = new ArrayList<>();
+        String contractId = "C" + Configs.generateIdTail();
         String[] contractData = new String[] {
-                "000",
+                contractId,
                 data.get("identifier"),
                 data.get("roomId"),
                 data.get("quantity"),
@@ -26,6 +24,7 @@ public class Controller_Contract {
         
         String[] personData = new String[] {
                 data.get("identifier"),
+                data.get("roomId"),
                 data.get("lastName"),
                 data.get("firstname"),
                 data.get("birthday"),
@@ -34,9 +33,8 @@ public class Controller_Contract {
                 data.get("jobTitle"),
                 data.get("permanentAddress"),
                 data.get("email"),
-                data.get("creditCard"),
+                data.get("bankAccountNumber"),
                 data.get("bank"),
-                data.get("roomId")
         };
 
         RoomModel roomData = RoomDAO.getInstance().selectById(data.get("roomId"));

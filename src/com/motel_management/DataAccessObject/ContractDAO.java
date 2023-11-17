@@ -43,9 +43,8 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ps.setString(3, values[2]);
             ps.setInt(4, Integer.parseInt(values[3]));
             ps.setInt(5, Integer.parseInt(values[4]));
-            ps.setDate(6,Date.valueOf(Configs.StringToDate(values[5])));
-            ps.setDate(7, Date.valueOf(Configs.StringToDate(values[6])));
-            System.out.println(ps);
+            ps.setDate(6,Date.valueOf(Configs.stringToDate(values[5])));
+            ps.setDate(7, Date.valueOf(Configs.stringToDate(values[6])));
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,8 +89,8 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ps.setString(2, values[2]);
             ps.setInt(3, Integer.parseInt(values[3]));
             ps.setInt(4, Integer.parseInt(values[4]));
-            ps.setDate(5,Date.valueOf(Configs.StringToDate(values[5])));
-            ps.setDate(6, Date.valueOf(Configs.StringToDate(values[6])));
+            ps.setDate(5,Date.valueOf(Configs.stringToDate(values[5])));
+            ps.setDate(6, Date.valueOf(Configs.stringToDate(values[6])));
             ps.setString(7, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {

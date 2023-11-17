@@ -49,14 +49,14 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
             ps.setInt(4, Integer.parseInt(values[3]));
             ps.setString(5, values[4]);
             ps.setString(6, values[5]);
-            ps.setDate(7, Date.valueOf(Configs.StringToDate(values[6])));
+            ps.setDate(7, Date.valueOf(Configs.stringToDate(values[6])));
             ps.setInt(8, Integer.parseInt(values[7]));
             ps.setInt(9, Integer.parseInt(values[8]));
             ps.setInt(10, Integer.parseInt(values[9]));
             ps.setInt(11, Integer.parseInt(values[10]));
             ps.setInt(12, Integer.parseInt(values[11]));
             ps.setString(13, values[12]);
-            System.out.println(ps);
+
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -124,7 +124,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
             ps.setInt(3, Integer.parseInt(values[3]));
             ps.setString(4, values[4]);
             ps.setString(5, values[5]);
-            ps.setDate(6, Date.valueOf(Configs.StringToDate(values[6])));
+            ps.setDate(6, Date.valueOf(Configs.stringToDate(values[6])));
             ps.setInt(7, Integer.parseInt(values[7]));
             ps.setInt(8, Integer.parseInt(values[8]));
             ps.setInt(9, Integer.parseInt(values[9]));

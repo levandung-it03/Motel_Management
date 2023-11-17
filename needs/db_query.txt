@@ -1,4 +1,4 @@
-
+CREATE DATABASE Motel_Management
 CREATE TABLE Account (
     userId VARCHAR(10) UNIQUE NOT NULL,
     name VARCHAR(10) NOT NULL,
@@ -6,8 +6,6 @@ CREATE TABLE Account (
 	password VARCHAR(10) NOT NULL,
     CONSTRAINT PK_Account PRIMARY KEY (userId)
 );
-INSERT INTO Account VALUES ("admin000", "Root", "root", "123456"), ("admin001", "Dung", "levandung", "123456");
-
 CREATE TABLE Room (
     roomId VARCHAR(20) UNIQUE NOT NULL,
     quantity INT DEFAULT 0,
@@ -15,9 +13,6 @@ CREATE TABLE Room (
     defaultRoomPrice INT DEFAULT 0,
     CONSTRAINT PK_Room PRIMARY KEY (RoomId)
 );
-INSERT INTO Room VALUES ("A001", 3, 9, 3000000), ("A002", 6, 9, 3000000), ("A003", 2, 9, 3000000), ("A004", 0, 9, 3000000), ("A005", 2, 9, 3000000),
-("A006", 6, 9, 3000000);
-
 ALTER TABLE Room ADD CHECK (quantity <= maxQuantity);
 
 CREATE TABLE Person (
@@ -28,10 +23,10 @@ CREATE TABLE Person (
     birthday DATE NOT NULL,
     phone VARCHAR(15) NOT NULL,
     gender VARCHAR(1) NOT NULL,
-    jobtitle VARCHAR(70) NOT NULL,
+    jobTitle VARCHAR(70) NOT NULL,
     permanentAddress VARCHAR(255) NOT NULL,
     email VARCHAR(255),
-    creditCard VARCHAR(255),
+    bankAccountNumber VARCHAR(255),
     bank VARCHAR(255),
     CONSTRAINT FK_Person_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT PK_Person PRIMARY KEY (Identifier)
@@ -112,3 +107,7 @@ CREATE TABLE Invoice(
     CONSTRAINT FK_Invoice_consumptionId FOREIGN KEY (consumptionId) REFERENCES Consumption(consumptionId),
     CONSTRAINT PK_Invoice PRIMARY KEY (invoiceId)
 );
+
+INSERT INTO Account VALUES ("admin000", "Root", "root", "123456"), ("admin001", "Dung", "levandung", "123456");
+INSERT INTO Room VALUES ("A001", 0, 9, 3000000), ("A002", 0, 9, 3000000), ("A003", 2, 9, 3000000), ("A004", 0, 9, 3000000), ("A005", 2, 9, 3000000),
+("A006", 6, 9, 3000000);

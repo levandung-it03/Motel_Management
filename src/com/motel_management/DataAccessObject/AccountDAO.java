@@ -39,7 +39,6 @@ public class AccountDAO implements DAOInterface<AccountModel> {
             ps.setString(2, values[1]);
             ps.setString(3, values[2]);
             ps.setString(4, values[3]);
-            System.out.println(ps);
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

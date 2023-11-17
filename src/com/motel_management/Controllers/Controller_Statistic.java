@@ -35,8 +35,8 @@ public class Controller_Statistic {
         ArrayList<PersonModel> result = PersonDAO.getInstance().selectAll();
         String[][] rooms = new String[result.size()][4];
         for (int i = 0; i < result.size(); i++) {
-            RoomModel roomResult = RoomDAO.getInstance().selectById(result.get(i).getRoomCode());
-            rooms[i][0] = result.get(i).getRoomCode();
+            RoomModel roomResult = RoomDAO.getInstance().selectById(result.get(i).getRoomId());
+            rooms[i][0] = result.get(i).getRoomId();
             rooms[i][1] = result.get(i).getLastName()+ " " +result.get(i).getFirstName();
             rooms[i][2] = Integer.toString(roomResult.getQuantity());
             rooms[i][3] = Integer.toString(roomResult.getDefaultRoomPrice());

@@ -4,6 +4,8 @@ import java.awt.*;
 import java.time.LocalDate;
 
 public class Configs {
+    public Configs() {}
+
     public static final Font labelFont = new Font("Consolas", Font.PLAIN, 16);
     public static final int fullWidth = 1366;
     public static final int fullHeight = 768;
@@ -29,22 +31,18 @@ public class Configs {
         return true;
     }
 
-    public static boolean isNumeric(String str) {
-        if (str == null)    return false;
-        try {
-            Double.parseDouble(str);
-        } catch (NumberFormatException e) {
-            return false;
+    public static LocalDate stringToDate(String str){
+        String[] tempStr= str.split("/");
+        if (tempStr.length == 1) {
+            tempStr = tempStr[0].split("-");
         }
-        return true;
+        int day = Integer.parseInt(tempStr[0]);
+        int month = Integer.parseInt(tempStr[1]);
+        int year = Integer.parseInt(tempStr[2]);
+        return LocalDate.of(year, month, day);
     }
 
-    public Configs() {}
-    public static LocalDate StringToDate(String str){
-        String[] TempStr= str.split("/");
-        int Day = Integer.parseInt(TempStr[0]);
-        int Month = Integer.parseInt(TempStr[1]);
-        int Year = Integer.parseInt(TempStr[2]);
-        return LocalDate.of(Year,Month,Day);
+    public static String generateIdTail() {
+        return Integer.toString((int) (Math.random()*10)) + Long.toString(System.currentTimeMillis());
     }
 }

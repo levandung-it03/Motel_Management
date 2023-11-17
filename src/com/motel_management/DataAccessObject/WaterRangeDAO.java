@@ -42,7 +42,7 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
             ps.setInt(3, Integer.parseInt(values[2]));
             ps.setInt(4, Integer.parseInt(values[3]));
             ps.setInt(5, Integer.parseInt(values[4]));
-            System.out.println(ps);
+
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

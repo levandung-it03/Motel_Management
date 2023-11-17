@@ -39,7 +39,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             ps.setInt(2, Integer.parseInt(values[1]));
             ps.setInt(3, Integer.parseInt(values[2]));
             ps.setInt(4, Integer.parseInt(values[3]));
-            System.out.println(ps);
+
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -25,7 +25,7 @@ public class AddRoomListeners {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 Pattern pattern = Pattern.compile("A\\d{3}");
-                Matcher matcher = pattern.matcher(inpTags.get("roomCodeInp").getText());
+                Matcher matcher = pattern.matcher(inpTags.get("roomIdInp").getText());
                 boolean isValid = matcher.matches()
                         && Configs.isIntegerNumeric(inpTags.get("maxQuantity").getText())
                         && Configs.isIntegerNumeric(inpTags.get("defaultPrice").getText());
@@ -33,7 +33,7 @@ public class AddRoomListeners {
                 if (isValid) {
                     // Call API here.
                     String nextIdWhenSuccessfully = Controller_Room.addNewRoom(new String[] {
-                            inpTags.get("roomCodeInp").getText(),
+                            inpTags.get("roomIdInp").getText(),
                             "0",
                             inpTags.get("maxQuantity").getText(),
                             inpTags.get("defaultPrice").getText()
@@ -42,11 +42,11 @@ public class AddRoomListeners {
                         JOptionPane.showMessageDialog(new JPanel(), "New room was added! Open \"Room List\" to check it!",
                                 "Notice", JOptionPane.PLAIN_MESSAGE);
 
-                        inpTags.get("roomCodeInp").setText(nextIdWhenSuccessfully);
+                        inpTags.get("roomIdInp").setText(nextIdWhenSuccessfully);
                         inpTags.get("maxQuantity").setText("");
                         inpTags.get("defaultPrice").setText("");
                     } else {
-                        JOptionPane.showMessageDialog(new JPanel(), "RoomCode Already Existed", "Notice", JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(new JPanel(), "RoomId Already Existed", "Notice", JOptionPane.PLAIN_MESSAGE);
                     }
                 } else {
                     JOptionPane.showMessageDialog(new JPanel(), "Invalid Information", "Notice", JOptionPane.PLAIN_MESSAGE);

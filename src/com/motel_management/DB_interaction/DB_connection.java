@@ -6,7 +6,7 @@ import java.sql.SQLException;
 public class DB_connection {
     public static Connection getMMDBConnection() {
         Connection myConnection = null;
-        final String dbURL = "jdbc:mysql://localhost:3306/MOTEL_MANAGEMENT";
+        final String dbURL = "jdbc:mysql://localhost:3306/Motel_Management";
         final String username = "root";
         final String password = "";
 

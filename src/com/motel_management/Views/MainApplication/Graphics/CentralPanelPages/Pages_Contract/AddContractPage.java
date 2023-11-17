@@ -23,7 +23,7 @@ public class AddContractPage extends JPanel {
     JTextField jobTitle = new JTextField(20);
     JTextField permanentAddress = new JTextField(20);
     JTextField email = new JTextField(20);
-    JTextField creditCard = new JTextField(20);
+    JTextField bankAccountNumber = new JTextField(20);
     JComboBox<Object> bank = new JComboBox<>();
     JComboBox<Object> roomId;
     JTextField quantity = new JTextField(20);
@@ -62,7 +62,7 @@ public class AddContractPage extends JPanel {
         container.add(InputComboPanel.generateTextInputPanel("Job (*)", jobTitle));
         container.add(InputComboPanel.generateTextInputPanel("Permanent Address (*)", permanentAddress));
         container.add(InputComboPanel.generateTextInputPanel("Email", email));
-        container.add(InputComboPanel.generateTextInputPanel("Credit Card", creditCard));
+        container.add(InputComboPanel.generateTextInputPanel("Bank Account Number", bankAccountNumber));
         container.add(InputComboPanel.generateComboBoxInputPanel("Bank Name", bank));
         container.add(InputComboPanel.generateComboBoxInputPanel("Room Code (*)", roomId));
         container.add(InputComboPanel.generateTextInputPanel("Number Of People (*)", quantity));
@@ -77,6 +77,17 @@ public class AddContractPage extends JPanel {
     }
 
     public void createListeners() {
+        this.identifier.setText("038203032578");
+        this.lastName.setText("Le Van");
+        this.firstname.setText("Dung");
+        this.phone.setText("0377863928");
+        this.jobTitle.setText("Sinh Vien");
+        this.permanentAddress.setText("Bien Hoa");
+        this.email.setText("levandung.it03@gmail.com");
+        this.bankAccountNumber.setText("21097877");
+        this.quantity.setText("5");
+        this.roomDeposit.setText("3000000");
+
         HashMap<String, JTextField> inpTags = new HashMap<>();
         HashMap<String, JDateChooser> dateTags = new HashMap<>();
         HashMap<String, JComboBox<Object>> comboTags = new HashMap<>();
@@ -88,7 +99,7 @@ public class AddContractPage extends JPanel {
         inpTags.put("jobTitle", this.jobTitle);
         inpTags.put("permanentAddress", this.permanentAddress);
         inpTags.put("email", this.email);
-        inpTags.put("creditCard", this.creditCard);
+        inpTags.put("bankAccountNumber", this.bankAccountNumber);
         comboTags.put("bank", this.bank);
         inpTags.put("quantity", this.quantity);
         inpTags.put("roomDeposit", this.roomDeposit);

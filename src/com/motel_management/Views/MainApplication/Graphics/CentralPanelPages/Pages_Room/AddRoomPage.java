@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class AddRoomPage extends JPanel {
     JPanel container;
-    JTextField roomCodeInp = new JTextField(20);
+    JTextField roomIdInp = new JTextField(20);
     JTextField maxQuantity = new JTextField(20);
     JTextField defaultPrice = new JTextField(20);
 
@@ -31,7 +31,7 @@ public class AddRoomPage extends JPanel {
 
         this.submitBtn = InputComboPanel.generateButton("Submit");
 
-        container.add(InputComboPanel.generateTextInputPanel("Room Code", this.roomCodeInp));
+        container.add(InputComboPanel.generateTextInputPanel("Room Code", this.roomIdInp));
         container.add(InputComboPanel.generateTextInputPanel("Maximum Quantity", this.maxQuantity));
         container.add(InputComboPanel.generateTextInputPanel("Default Room Price (VNĐ)", this.defaultPrice));
         container.add(this.submitBtn);
@@ -40,10 +40,10 @@ public class AddRoomPage extends JPanel {
     }
 
     public void createListeners() {
-        roomCodeInp.setText(AddRoomListeners.getLastRoomId());
+        roomIdInp.setText(AddRoomListeners.getLastRoomId());
 
         HashMap<String, JTextField> inpTags = new HashMap<>();
-        inpTags.put("roomCodeInp", this.roomCodeInp);
+        inpTags.put("roomIdInp", this.roomIdInp);
         inpTags.put("maxQuantity", this.maxQuantity);
         inpTags.put("defaultPrice", this.defaultPrice);
 

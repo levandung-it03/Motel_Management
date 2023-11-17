@@ -7,7 +7,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class ContractPage extends JPanel {
-    private JTabbedPane mainPage;
+    public static JTabbedPane mainPage;
     private JPanel contractListPanel;
     private JPanel addContractPanel;
     
@@ -20,7 +20,7 @@ public class ContractPage extends JPanel {
     }
 
     public void createContractPanel() {
-        this.mainPage = new JTabbedPane(JTabbedPane.TOP);
+        mainPage = new JTabbedPane(JTabbedPane.TOP);
         contractListPanel = new ContractListPage();
         addContractPanel = new AddContractPage();
 

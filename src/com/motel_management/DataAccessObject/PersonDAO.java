@@ -17,16 +17,16 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             String query = "INSERT INTO Person VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getIdentifier());
-            ps.setString(2, obj.getRoomCode());
+            ps.setString(2, obj.getRoomId());
             ps.setString(3, obj.getLastName());
             ps.setString(4, obj.getFirstName());
             ps.setDate(5, obj.getBirthday());
             ps.setString(6, obj.getPhone());
             ps.setString(7,obj.getGender());
-            ps.setString(8,obj.getJobtitle());
+            ps.setString(8,obj.getJobTitle());
             ps.setString(9, obj.getPermanentAddress());
             ps.setString(10, obj.getEmail());
-            ps.setString(11, obj.getCreditCard());
+            ps.setString(11, obj.getBankAccountNumber());
             ps.setString(12, obj.getBank());
             return ps.executeUpdate(query);
         } catch (SQLException e) {
@@ -45,15 +45,14 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(2, values[1]);
             ps.setString(3, values[2]);
             ps.setString(4, values[3]);
-            ps.setDate(5, Date.valueOf(Configs.StringToDate(values[4])));
+            ps.setDate(5, Date.valueOf(Configs.stringToDate(values[4])));
             ps.setString(6, values[5]);
             ps.setString(7, values[6]);
             ps.setString(8,values[7]);
             ps.setString(9, values[8]);
-            ps.setString(7, values[6]);
             ps.setString(10, values[9]);
             ps.setString(11, values[10]);
-            System.out.println(ps);
+            ps.setString(12, values[11]);
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,20 +66,20 @@ public class PersonDAO implements DAOInterface<PersonModel>{
     public int update (PersonModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Person SET  roomCode=?, lastName=?, firstName=?,"+
-                    "birthday=?, phone=?, gender=?,jobtitle=?, permanentAddress=?, email=?, creditCard=?," +
+            String query = "UPDATE Person SET  roomId=?, lastName=?, firstName=?,"+
+                    "birthday=?, phone=?, gender=?, jobTitle=?, permanentAddress=?, email=?, bankAccountNumber=?," +
                     "bank=? WHERE (identifier=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
-            ps.setString(1, obj.getRoomCode());
+            ps.setString(1, obj.getRoomId());
             ps.setString(2, obj.getLastName());
             ps.setString(3, obj.getFirstName());
             ps.setDate(4, obj.getBirthday());
             ps.setString(5, obj.getPhone());
             ps.setString(6,obj.getGender());
-            ps.setString(7,obj.getJobtitle());
+            ps.setString(7,obj.getJobTitle());
             ps.setString(8, obj.getPermanentAddress());
             ps.setString(9, obj.getEmail());
-            ps.setString(10, obj.getCreditCard());
+            ps.setString(10, obj.getBankAccountNumber());
             ps.setString(11, obj.getBank());
             ps.setString(12, obj.getIdentifier());
             return ps.executeUpdate();
@@ -95,14 +94,14 @@ public class PersonDAO implements DAOInterface<PersonModel>{
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Person SET  roomCode=?, lastName=?, firstName=?,"+
-                    "birthday=?, phone=?, gender=?, jobtitle=?, permanentAddress=?, email=?, creditCard=?," +
+            String query = "UPDATE Person SET  roomId=?, lastName=?, firstName=?,"+
+                    "birthday=?, phone=?, gender=?, jobTitle=?, permanentAddress=?, email=?, bankAccountNumber=?," +
                     "bank=? WHERE (identifier=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[1]);
             ps.setString(2, values[2]);
             ps.setString(3, values[3]);
-            ps.setDate(4, Date.valueOf(Configs.StringToDate(values[4])));
+            ps.setDate(4, Date.valueOf(Configs.stringToDate(values[4])));
             ps.setString(5, values[5]);
             ps.setString(6, values[6]);
             ps.setString(7,values[7]);
@@ -145,12 +144,12 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            return new PersonModel(rs.getString("identifier"), rs.getString("roomCode"),
+            return new PersonModel(rs.getString("identifier"), rs.getString("roomId"),
                     rs.getString("lastName"),rs.getString("firstName"),
                     rs.getDate("birthday"),rs.getString("phone"),
-                    rs.getString("gender"), rs.getString("jobtitle"),
+                    rs.getString("gender"), rs.getString("jobTitle"),
                     rs.getString("permanentAddress"), rs.getString("email"),
-                    rs.getString("creditCard"), rs.getString("bank"));
+                    rs.getString("bankAccountNumber"), rs.getString("bank"));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -167,12 +166,12 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ArrayList<PersonModel> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                result.add(new PersonModel(rs.getString("identifier"), rs.getString("roomCode"),
+                result.add(new PersonModel(rs.getString("identifier"), rs.getString("roomId"),
                         rs.getString("lastName"),rs.getString("firstName"),
                         rs.getDate("birthday"),rs.getString("phone"),
-                        rs.getString("gender"), rs.getString("jobtitle"),
+                        rs.getString("gender"), rs.getString("jobTitle"),
                         rs.getString("permanentAddress"), rs.getString("email"),
-                        rs.getString("creditCard"), rs.getString("bank")));
+                        rs.getString("bankAccountNumber"), rs.getString("bank")));
             }
             return result;
         } catch (SQLException e) {
@@ -191,12 +190,12 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ArrayList<PersonModel> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                result.add(new PersonModel(rs.getString("identifier"), rs.getString("roomCode"),
+                result.add(new PersonModel(rs.getString("identifier"), rs.getString("roomId"),
                         rs.getString("lastName"),rs.getString("firstName"),
                         rs.getDate("birthday"),rs.getString("phone"),
-                        rs.getString("gender"), rs.getString("jobtitle"),
+                        rs.getString("gender"), rs.getString("jobTitle"),
                         rs.getString("permanentAddress"), rs.getString("email"),
-                        rs.getString("creditCard"), rs.getString("bank")));
+                        rs.getString("bankAccountNumber"), rs.getString("bank")));
             }
             return result;
         } catch (SQLException e) {
