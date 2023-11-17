@@ -1,6 +1,6 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Room;
 
-import com.motel_management.DataAccessObject.RoomDAO;
+import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 
@@ -15,7 +15,12 @@ import java.util.regex.Pattern;
 public class AddRoomListeners {
     public AddRoomListeners() {}
 
+    public static String getLastRoomId() {
+        return Controller_Room.getLastId();
+    }
+
     public static ActionListener addNewRoomListener(HashMap<String, JTextField> inpTags) {
+
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -26,23 +31,18 @@ public class AddRoomListeners {
                         && Configs.isIntegerNumeric(inpTags.get("defaultPrice").getText());
 
                 if (isValid) {
-                    int res = RoomDAO.getInstance().insert(new String[] {
+                    // Call API here.
+                    String nextIdWhenSuccessfully = Controller_Room.addNewRoom(new String[] {
                             inpTags.get("roomCodeInp").getText(),
                             "0",
                             inpTags.get("maxQuantity").getText(),
                             inpTags.get("defaultPrice").getText()
                     });
-                    if (res != 0) {
-                        ArrayList<RoomModel> roomList = RoomDAO.getInstance().selectByCondition("ORDER BY roomId ASC");
-                        StringBuilder lastRoomId = new StringBuilder(roomList.get(roomList.size() - 1).getRoomId());
-                        lastRoomId.replace(0, 1, "0");
-                        StringBuilder idTail = new StringBuilder(Integer.toString(Integer.parseInt(lastRoomId.toString()) + 1));
-                        while (idTail.length() != 3)
-                            idTail.insert(0, "0");
-
+                    if (nextIdWhenSuccessfully != null) {
                         JOptionPane.showMessageDialog(new JPanel(), "New room was added! Open \"Room List\" to check it!",
                                 "Notice", JOptionPane.PLAIN_MESSAGE);
-                        inpTags.get("roomCodeInp").setText("A" + idTail);
+
+                        inpTags.get("roomCodeInp").setText(nextIdWhenSuccessfully);
                         inpTags.get("maxQuantity").setText("");
                         inpTags.get("defaultPrice").setText("");
                     } else {

@@ -1,12 +1,17 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract;
 
+import com.motel_management.DataAccessObject.RoomDAO;
+import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Contract.AddContractListeners;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,21 +20,22 @@ public class AddContractPage extends JPanel {
     JTextField identifier = new JTextField(20);
     JTextField lastName = new JTextField(20);
     JTextField firstname = new JTextField(20);
-    JTextField birthday = new JTextField(20);
-    JTextField gender = new JTextField(20);
+    JDateChooser birthday = new JDateChooser();
+    JComboBox<Object> gender;
     JTextField phone = new JTextField(20);
     JTextField jobTitle = new JTextField(20);
     JTextField permanentAddress = new JTextField(20);
     JTextField email = new JTextField(20);
     JTextField creditCard = new JTextField(20);
-    JTextField bank = new JTextField(20);
-    JTextField roomId = new JTextField(20);
+    JComboBox<Object> bank = new JComboBox<>();
+    JComboBox<Object> roomId;
     JTextField quantity = new JTextField(20);
     JTextField roomDeposit = new JTextField(20);
-    JTextField startingDate = new JTextField(20);
-    JTextField endingDate = new JTextField(20);
-
+    JDateChooser startingDate = new JDateChooser(Date.valueOf(LocalDate.now()));
+    JDateChooser endingDate = new JDateChooser(Date.valueOf(LocalDate.now()));
     JButton submitBtn;
+
+    HashMap<String, Integer> maxQuantity = new HashMap<>();
 
     // Constructor
     public AddContractPage() {
@@ -41,27 +47,40 @@ public class AddContractPage extends JPanel {
     public void createAddRoomPage() {
         container = new JPanel(new FlowLayout());
         container.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
-        container.setBorder(new EmptyBorder(20, 20, 0, Configs.centralPanelWidth*9/20));
+        container.setBorder(new EmptyBorder(20, 40, 0, 40));
 
-        this.submitBtn = InputComboPanel.generateButton("Submit");
+        String[] genders = {"Men", "Women"};
+        this.gender = new JComboBox<Object>(genders);
 
-        container.add(InputComboPanel.generateTextInputPanel("CCCD (CMND)", identifier));
-        container.add(InputComboPanel.generateTextInputPanel("Last Name", lastName));
-        container.add(InputComboPanel.generateTextInputPanel("First Name", firstname));
-        container.add(InputComboPanel.generateTextInputPanel("Birth Day", birthday));
-        container.add(InputComboPanel.generateTextInputPanel("Gender", gender));
-        container.add(InputComboPanel.generateTextInputPanel("Phone", phone));
-        container.add(InputComboPanel.generateTextInputPanel("Job", jobTitle));
-        container.add(InputComboPanel.generateTextInputPanel("Permanent Address", permanentAddress));
+        String[] banks = {"", "ABB", "ACB", "AGRIBANK", "BACABANK", "BID", "CTG", "EIB", "HDBANK", "KLB", "LIENVIET", "MBB",
+                "MSB", "NAMA", "NCB", "OCB", "PGBANK", "PVCOMBANK", "SCB", "SEABANK", "SGB", "SHB", "STB", "TCB", "TPB",
+                "VCB", "VIB", "VIETABANK", "VIETCAPITALBANK", "VPB", "VIETBANK"};
+
+        this.bank = new JComboBox<>(banks);
+        ArrayList<RoomModel> roomList = RoomDAO.getInstance().selectByCondition("WHERE (quantity > 0)");
+        for (RoomModel r: roomList)
+            this.maxQuantity.put(r.getRoomId(), r.getMaxQuantity());
+
+        this.roomId = new JComboBox<>(roomList.stream().map(RoomModel::getRoomId).toArray());
+
+        container.add(InputComboPanel.generateTextInputPanel("Identity Card (*)", identifier));
+        container.add(InputComboPanel.generateTextInputPanel("Last Name (*)", lastName));
+        container.add(InputComboPanel.generateTextInputPanel("First Name (*)", firstname));
+        container.add(InputComboPanel.generateDateInputPanel("Birthday (*)", birthday));
+        container.add(InputComboPanel.generateComboBoxInputPanel("Gender (*)", gender));
+        container.add(InputComboPanel.generateTextInputPanel("Phone (*)", phone));
+        container.add(InputComboPanel.generateTextInputPanel("Job (*)", jobTitle));
+        container.add(InputComboPanel.generateTextInputPanel("Permanent Address (*)", permanentAddress));
         container.add(InputComboPanel.generateTextInputPanel("Email", email));
         container.add(InputComboPanel.generateTextInputPanel("Credit Card", creditCard));
-        container.add(InputComboPanel.generateTextInputPanel("Bank Name", bank));
-        container.add(InputComboPanel.generateTextInputPanel("Room Code", roomId));
-        container.add(InputComboPanel.generateTextInputPanel("Number Of People", quantity));
-        container.add(InputComboPanel.generateTextInputPanel("Deposit (VNĐ)", roomDeposit));
-        container.add(InputComboPanel.generateTextInputPanel("Started Date", startingDate));
-        container.add(InputComboPanel.generateTextInputPanel("Ended Date", endingDate));
+        container.add(InputComboPanel.generateComboBoxInputPanel("Bank Name", bank));
+        container.add(InputComboPanel.generateComboBoxInputPanel("Room Code (*)", roomId));
+        container.add(InputComboPanel.generateTextInputPanel("Number Of People (*)", quantity));
+        container.add(InputComboPanel.generateTextInputPanel("Deposit (VNĐ) (*)", roomDeposit));
+        container.add(InputComboPanel.generateDateInputPanel("Started Date (*)", startingDate));
+        container.add(InputComboPanel.generateDateInputPanel("Ended Date (*)", endingDate));
 
+        this.submitBtn = InputComboPanel.generateButton("Submit");
         container.add(this.submitBtn);
 
         add(container);
@@ -69,23 +88,25 @@ public class AddContractPage extends JPanel {
 
     public void createListeners() {
         HashMap<String, JTextField> inpTags = new HashMap<>();
+        HashMap<String, JDateChooser> dateTags = new HashMap<>();
+        HashMap<String, JComboBox<Object>> comboTags = new HashMap<>();
         inpTags.put("identifier", this.identifier);
         inpTags.put("lastName", this.lastName);
         inpTags.put("firstname", this.firstname);
-        inpTags.put("birthday", this.birthday);
-        inpTags.put("gender", this.gender);
+        dateTags.put("birthday", this.birthday);
         inpTags.put("phone", this.phone);
         inpTags.put("jobTitle", this.jobTitle);
         inpTags.put("permanentAddress", this.permanentAddress);
         inpTags.put("email", this.email);
         inpTags.put("creditCard", this.creditCard);
-        inpTags.put("bank", this.bank);
-        inpTags.put("roomId", this.roomId);
+        comboTags.put("bank", this.bank);
         inpTags.put("quantity", this.quantity);
         inpTags.put("roomDeposit", this.roomDeposit);
-        inpTags.put("startingDate", this.startingDate);
-        inpTags.put("endingDate", this.endingDate);
+        dateTags.put("startingDate", this.startingDate);
+        dateTags.put("endingDate", this.endingDate);
+        comboTags.put("gender", gender);
+        comboTags.put("roomId", roomId);
 
-        this.submitBtn.addActionListener(AddContractListeners.addNewContractListener(inpTags));
+        this.submitBtn.addActionListener(AddContractListeners.addNewContractListener(inpTags, dateTags, comboTags, maxQuantity));
     }
 }

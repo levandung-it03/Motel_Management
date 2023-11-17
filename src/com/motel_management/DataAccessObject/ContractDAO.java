@@ -1,9 +1,11 @@
 package com.motel_management.DataAccessObject;
 import com.motel_management.DB_interaction.DB_connection;
 import com.motel_management.Models.ContractModel;
+import com.motel_management.Views.Configs;
 
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ContractDAO implements DAOInterface<ContractModel>{
@@ -34,6 +36,37 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ps.setDate(16, obj.getStartingDate());
             ps.setDate(17, obj.getEndingDate());
             return ps.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return 0;
+    }
+    public int insert(String[] values) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            String query = "INSERT INTO Contract VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,?, ?, ?)";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, values[0]);
+            ps.setString(2,values[1]);
+            ps.setString(3, values[2]);
+            ps.setString(4, values[3]);
+            ps.setString(5, values[4]);
+            ps.setString(6,values[5]);
+            ps.setString(7, values[6]);
+            ps.setString(8,values[7]);
+            ps.setString(9, values[8]);
+            ps.setString(10, values[9]);
+            ps.setString(11, values[10]);
+            ps.setString(12, values[11]);
+            ps.setString(13, values[12]);
+            ps.setInt(14, Integer.parseInt(values[13]));
+            ps.setInt(15, Integer.parseInt(values[14]));
+            ps.setDate(16,Date.valueOf(Configs.StringToDate(values[15])));
+            ps.setDate(17, Date.valueOf(Configs.StringToDate(values[16])));
+            System.out.println(ps);
+            return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -101,8 +134,8 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ps.setString(12, values[12]);
             ps.setInt(13, Integer.parseInt(values[13]));
             ps.setInt(14, Integer.parseInt(values[14]));
-            ps.setDate(15,java.sql.Date.valueOf(values[15]));
-            ps.setDate(16, java.sql.Date.valueOf(values[16]));
+            ps.setDate(15,Date.valueOf(Configs.StringToDate(values[15])));
+            ps.setDate(16, Date.valueOf(Configs.StringToDate(values[16])));
             ps.setString(17, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
