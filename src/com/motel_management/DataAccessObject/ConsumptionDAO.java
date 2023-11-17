@@ -22,10 +22,10 @@ public class ConsumptionDAO implements DAOInterface<ConsumptionModel> {
             ps.setString(2, obj.getRoomId());
             ps.setString(3, obj.getConsumptionMonth());
             ps.setString(4, obj.getConsumptionYear());
-            ps.setDate(1, obj.getDateCreated());
-            ps.setInt(1, obj.getWaterNumber());
-            ps.setInt(1, obj.getElectricNumber());
-            ps.setInt(1, obj.getVehicle());
+            ps.setDate(5, obj.getDateCreated());
+            ps.setInt(6, obj.getWaterNumber());
+            ps.setInt(7, obj.getElectricNumber());
+            ps.setInt(8, obj.getVehicle());
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,7 +79,7 @@ public class ConsumptionDAO implements DAOInterface<ConsumptionModel> {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = "UPDATE Consumption SET  roomId=?  consumptionMonth=? consumptionYear=? dateCreated=? " +
-                    "waterNumber=? electricNumber=? vehicle=?  getVehicle=? WHERE (consumptionId=?);";
+                    "waterNumber=? electricNumber=? vehicle=? WHERE (consumptionId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getRoomId());
             ps.setString(2, obj.getConsumptionMonth());
@@ -101,7 +101,7 @@ public class ConsumptionDAO implements DAOInterface<ConsumptionModel> {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = "UPDATE Consumption SET  roomId=?  consumptionMonth=? consumptionYear=? dateCreated=? " +
-                    "waterNumber=? electricNumber=? vehicle=?  getVehicle=? WHERE (consumptionId=?);";
+                    "waterNumber=? electricNumber=? vehicle=? WHERE (consumptionId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[1]);
             ps.setString(2, values[2]);

@@ -40,7 +40,7 @@ public class ElectricRangeDAO implements DAOInterface<ElectricRangeModel>{
             ps.setString(1, values[0]);
             ps.setString(2, values[1]);
             ps.setInt(3, Integer.parseInt(values[2]));
-            ps.setInt(3, Integer.parseInt(values[3]));
+            ps.setInt(4, Integer.parseInt(values[3]));
             ps.setInt(5, Integer.parseInt(values[4]));
             System.out.println(ps);
             return ps.executeUpdate();
@@ -77,7 +77,7 @@ public class ElectricRangeDAO implements DAOInterface<ElectricRangeModel>{
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getRangeName());
             ps.setInt(2, obj.getMaxRangeValue());
-            ps.setInt(3, obj.getMaxRangeValue());
+            ps.setInt(3, obj.getMinRangeValue());
             ps.setInt(4, obj.getPrice());
             ps.setString(5, obj.getRangeId());
             return ps.executeUpdate();
