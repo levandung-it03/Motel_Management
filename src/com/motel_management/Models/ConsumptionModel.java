@@ -10,9 +10,9 @@ public class ConsumptionModel {
     private Date dateCreated;
     private int waterNumber;
     private int electricNumber;
-    private String vehicle;
+    private int vehicle;
 
-    public ConsumptionModel(String consumptionId, String roomId, String consumptionMonth, String consumptionYear, Date dateCreated, int waterNumber, int electricNumber, String vehicle) {
+    public ConsumptionModel(String consumptionId, String roomId, String consumptionMonth, String consumptionYear, Date dateCreated, int waterNumber, int electricNumber, int vehicle) {
         this.consumptionId = consumptionId;
         this.roomId = roomId;
         this.consumptionMonth = consumptionMonth;
@@ -79,11 +79,11 @@ public class ConsumptionModel {
         this.electricNumber = electricNumber;
     }
 
-    public String getVehicle() {
+    public int getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(String vehicle) {
+    public void setVehicle(int vehicle) {
         this.vehicle = vehicle;
     }
 }

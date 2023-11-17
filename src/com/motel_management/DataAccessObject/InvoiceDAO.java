@@ -1,7 +1,7 @@
 package com.motel_management.DataAccessObject;
 import com.motel_management.Models.InvoiceModel;
 import com.motel_management.DB_interaction.DB_connection;
-import com.motel_management.Models.RoomModel;
+import com.motel_management.Views.Configs;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,6 +31,33 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
             ps.setInt(12, obj.getTotal());
             ps.setString(13, obj.getWasPaid());
             return ps.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return 0;
+    }
+    public int insert(String[] values) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            String query = "INSERT INTO Invoice VALUES (?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,?)";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, values[0]);
+            ps.setString(2, values[1]);
+            ps.setString(3, values[2]);
+            ps.setInt(4, Integer.parseInt(values[3]));
+            ps.setString(5, values[4]);
+            ps.setString(6, values[5]);
+            ps.setDate(7, Date.valueOf(Configs.StringToDate(values[6])));
+            ps.setInt(8, Integer.parseInt(values[7]));
+            ps.setInt(9, Integer.parseInt(values[8]));
+            ps.setInt(10, Integer.parseInt(values[9]));
+            ps.setInt(11, Integer.parseInt(values[10]));
+            ps.setInt(12, Integer.parseInt(values[11]));
+            ps.setString(13, values[12]);
+            System.out.println(ps);
+            return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -97,7 +124,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
             ps.setInt(3, Integer.parseInt(values[3]));
             ps.setString(4, values[4]);
             ps.setString(5, values[5]);
-            ps.setDate(6, java.sql.Date.valueOf(values[6]));
+            ps.setDate(6, Date.valueOf(Configs.StringToDate(values[6])));
             ps.setInt(7, Integer.parseInt(values[7]));
             ps.setInt(8, Integer.parseInt(values[8]));
             ps.setInt(9, Integer.parseInt(values[9]));
