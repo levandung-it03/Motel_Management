@@ -52,6 +52,7 @@ public class AddContractPage extends JPanel {
                 "VCB", "VIB", "VIETABANK", "VIETCAPITALBANK", "VPB", "VIETBANK"};
         this.bank = new JComboBox<>(banks);
 
+        this.roomId = AddContractListeners.createRoomIdComboBox();
         container.add(InputComboPanel.generateTextInputPanel("Identity Card (*)", identifier));
         container.add(InputComboPanel.generateTextInputPanel("Last Name (*)", lastName));
         container.add(InputComboPanel.generateTextInputPanel("First Name (*)", firstname));
@@ -76,8 +77,6 @@ public class AddContractPage extends JPanel {
     }
 
     public void createListeners() {
-        this.roomId = AddContractListeners.createRoomIdComboBox();
-
         HashMap<String, JTextField> inpTags = new HashMap<>();
         HashMap<String, JDateChooser> dateTags = new HashMap<>();
         HashMap<String, JComboBox<Object>> comboTags = new HashMap<>();
