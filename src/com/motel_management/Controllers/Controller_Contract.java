@@ -12,7 +12,6 @@ import java.util.HashMap;
 
 public class Controller_Contract {
     public Controller_Contract() {}
-
     public static int addNewContract(HashMap<String, String> data) {
         ArrayList<String> preparedContractData = new ArrayList<>();
         String[] contractData = new String[] {

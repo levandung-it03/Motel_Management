@@ -41,6 +41,7 @@ CREATE TABLE Person (
 CREATE TABLE ElectricRange(
     rangeId VARCHAR(20) UNIQUE NOT NULL,
     rangeName VARCHAR(20) NOT NULL,
+    minRangeValue INT DEFAULT 0,
     maxRangeValue INT DEFAULT 0,
     price INT DEFAULT 0,
     CONSTRAINT PK_ElectricRange PRIMARY KEY (rangeId)
@@ -49,6 +50,7 @@ CREATE TABLE ElectricRange(
 CREATE TABLE WaterRange(
     rangeId VARCHAR(20) UNIQUE NOT NULL,
     rangeName VARCHAR(20) NOT NULL,
+    minRangeValue INT DEFAULT 0,
     maxRangeValue INT DEFAULT 0,
     price INT DEFAULT 0,
     CONSTRAINT PK_WaterRange PRIMARY KEY (rangeId)
@@ -57,16 +59,6 @@ CREATE TABLE WaterRange(
 CREATE TABLE Contract (
     contractId VARCHAR(20) UNIQUE NOT NULL,
     identifier VARCHAR(20) UNIQUE NOT NULL,
-    lastName VARCHAR(70) NOT NULL,
-    firstname VARCHAR(70) NOT NULL,
-    birthday DATE NOT NULL,
-    phone VARCHAR(15) NOT NULL,
-    gender VARCHAR(1) NOT NULL,
-    jobtitle VARCHAR(70) NOT NULL,
-    permanentAddress VARCHAR(255) NOT NULL,
-    email VARCHAR(255),
-    creditCard VARCHAR(255),
-    bank VARCHAR(255),
     roomId VARCHAR(20) UNIQUE NOT NULL,
     quantity INT DEFAULT 0,
     roomDeposit INT DEFAULT 0,

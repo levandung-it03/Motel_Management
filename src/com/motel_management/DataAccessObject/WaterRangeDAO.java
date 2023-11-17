@@ -20,8 +20,8 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getRangeId());
             ps.setString(2, obj.getRangeName());
-            ps.setInt(3, obj.getMaxRangeValue());
-            ps.setInt(4, obj.getMinRangeValue());
+            ps.setInt(3, obj.getMinRangeValue());
+            ps.setInt(4, obj.getMaxRangeValue());
             ps.setInt(5, obj.getPrice());
             return ps.executeUpdate();
         } catch (SQLException e) {
@@ -72,12 +72,12 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
     public int update(WaterRangeModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE WaterRange SET  rangeName=?, maxRangeValue=?, minRangeValue=?, price=? " +
+            String query = "UPDATE WaterRange SET  rangeName=?, minRangeValue=?, maxRangeValue=?, price=? " +
                     "WHERE (rangeId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getRangeName());
-            ps.setInt(2, obj.getMaxRangeValue());
-            ps.setInt(3, obj.getMinRangeValue());
+            ps.setInt(2, obj.getMinRangeValue());
+            ps.setInt(3, obj.getMaxRangeValue());
             ps.setInt(4, obj.getPrice());
             ps.setString(5, obj.getRangeId());
             return ps.executeUpdate();
@@ -91,7 +91,7 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE WaterRange SET  rangeName=?, maxRangeValue=?, minRangeValue=?, price=? " +
+            String query = "UPDATE WaterRange SET  rangeName=?, minRangeValue=?, maxRangeValue=?, price=? " +
                     "WHERE (rangeId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[1]);
@@ -117,7 +117,7 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
             ResultSet rs = ps.executeQuery();
             rs.next();
             return new WaterRangeModel(rs.getString("rangeId"), rs.getString("rangeName"),
-                    rs.getInt("maxRangeValue"),rs.getInt("minRangeValue"),
+                    rs.getInt("minRangeValue"),rs.getInt("maxRangeValue"),
                     rs.getInt("price"));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -136,7 +136,7 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new WaterRangeModel(rs.getString("rangeId"), rs.getString("rangeName"),
-                        rs.getInt("maxRangeValue"),rs.getInt("minRangeValue"),
+                        rs.getInt("minRangeValue"),rs.getInt("maxRangeValue"),
                         rs.getInt("price")));
             }
             return result;
@@ -157,7 +157,7 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new WaterRangeModel(rs.getString("rangeId"), rs.getString("rangeName"),
-                        rs.getInt("maxRangeValue"),rs.getInt("minRangeValue"),
+                        rs.getInt("minRangeValue"),rs.getInt("maxRangeValue"),
                         rs.getInt("price")));
             }
             return result;

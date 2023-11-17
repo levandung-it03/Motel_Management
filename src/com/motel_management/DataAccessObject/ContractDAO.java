@@ -16,25 +16,15 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public int insert (ContractModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Contract VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,?, ?, ?)";
+            String query = "INSERT INTO Contract VALUES (?, ?, ? ,? ,? ,?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getContractId());
             ps.setString(2,obj.getIdentifier());
-            ps.setString(3, obj.getLastName());
-            ps.setString(4, obj.getFirstname());
-            ps.setString(5, obj.getBirthday());
-            ps.setString(6,obj.getPhone());
-            ps.setString(7,obj.getGender());
-            ps.setString(8,obj.getJobtitle());
-            ps.setString(9, obj.getPermanentAddress());
-            ps.setString(10, obj.getEmail());
-            ps.setString(11, obj.getCreditCard());
-            ps.setString(12, obj.getBank());
-            ps.setString(13, obj.getRoomId());
-            ps.setInt(14, obj.getQuantity());
-            ps.setInt(15, obj.getRoomDeposit());
-            ps.setDate(16, obj.getStartingDate());
-            ps.setDate(17, obj.getEndingDate());
+            ps.setString(3, obj.getRoomId());
+            ps.setInt(4, obj.getQuantity());
+            ps.setInt(5, obj.getRoomDeposit());
+            ps.setDate(6, obj.getStartingDate());
+            ps.setDate(7, obj.getEndingDate());
             return ps.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,25 +36,15 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public int insert(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Contract VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,?, ?, ?)";
+            String query = "INSERT INTO Contract VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[0]);
             ps.setString(2,values[1]);
             ps.setString(3, values[2]);
-            ps.setString(4, values[3]);
-            ps.setString(5, values[4]);
-            ps.setString(6,values[5]);
-            ps.setString(7, values[6]);
-            ps.setString(8,values[7]);
-            ps.setString(9, values[8]);
-            ps.setString(10, values[9]);
-            ps.setString(11, values[10]);
-            ps.setString(12, values[11]);
-            ps.setString(13, values[12]);
-            ps.setInt(14, Integer.parseInt(values[13]));
-            ps.setInt(15, Integer.parseInt(values[14]));
-            ps.setDate(16,Date.valueOf(Configs.StringToDate(values[15])));
-            ps.setDate(17, Date.valueOf(Configs.StringToDate(values[16])));
+            ps.setInt(4, Integer.parseInt(values[3]));
+            ps.setInt(5, Integer.parseInt(values[4]));
+            ps.setDate(6,Date.valueOf(Configs.StringToDate(values[5])));
+            ps.setDate(7, Date.valueOf(Configs.StringToDate(values[6])));
             System.out.println(ps);
             return ps.executeUpdate();
         } catch (SQLException e) {
@@ -79,29 +59,17 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public int update (ContractModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Contract SET identifier=?, " +
-                    "lastName=? ,firstname=?,  birthday=?, phone=?, gender=?, jobtitle=? " +
-                    "permanentAddress=?, email=?, creditCard=?, bank=?, roomId=?, quantity=? " +
+            String query = "UPDATE Contract SET identifier=?, roomId=?, quantity=? " +
                     "roomDeposit=?, startingDate=? + endingDate=? WHERE (contractId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
 
             ps.setString(1,obj.getIdentifier());
-            ps.setString(2, obj.getLastName());
-            ps.setString(3, obj.getFirstname());
-            ps.setString(4, obj.getBirthday());
-            ps.setString(5,obj.getPhone());
-            ps.setString(6,obj.getGender());
-            ps.setString(7,obj.getJobtitle());
-            ps.setString(8, obj.getPermanentAddress());
-            ps.setString(9, obj.getEmail());
-            ps.setString(10, obj.getCreditCard());
-            ps.setString(11, obj.getBank());
-            ps.setString(12, obj.getRoomId());
-            ps.setInt(13, obj.getQuantity());
-            ps.setInt(14, obj.getRoomDeposit());
-            ps.setDate(15, obj.getStartingDate());
-            ps.setDate(16, obj.getEndingDate());
-            ps.setString(17, obj.getContractId());
+            ps.setString(2, obj.getRoomId());
+            ps.setInt(3, obj.getQuantity());
+            ps.setInt(4, obj.getRoomDeposit());
+            ps.setDate(5, obj.getStartingDate());
+            ps.setDate(6, obj.getEndingDate());
+            ps.setString(7, obj.getContractId());
             return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -114,29 +82,17 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public int update(String[] values) {             //-------------------------------------------------------------
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Contract SET identifier=?, " +
-                    "lastName=? ,firstname=?,  birthday=?, phone=?, gender=?, jobtitle=? " +
-                    "permanentAddress=?, email=?, creditCard=?, bank=?, roomId=?, quantity=? " +
+            String query = "UPDATE Contract SET identifier=?, roomId=?, quantity=? " +
                     "roomDeposit=?, startingDate=? + endingDate=? WHERE (contractId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
 
             ps.setString(1,values[1]);
             ps.setString(2, values[2]);
-            ps.setString(3, values[3]);
-            ps.setString(4, values[4]);
-            ps.setString(5,values[5]);
-            ps.setString(6, values[6]);
-            ps.setString(7,values[7]);
-            ps.setString(8, values[8]);
-            ps.setString(9, values[9]);
-            ps.setString(10, values[10]);
-            ps.setString(11, values[11]);
-            ps.setString(12, values[12]);
-            ps.setInt(13, Integer.parseInt(values[13]));
-            ps.setInt(14, Integer.parseInt(values[14]));
-            ps.setDate(15,Date.valueOf(Configs.StringToDate(values[15])));
-            ps.setDate(16, Date.valueOf(Configs.StringToDate(values[16])));
-            ps.setString(17, values[0]);
+            ps.setInt(3, Integer.parseInt(values[3]));
+            ps.setInt(4, Integer.parseInt(values[4]));
+            ps.setDate(5,Date.valueOf(Configs.StringToDate(values[5])));
+            ps.setDate(6, Date.valueOf(Configs.StringToDate(values[6])));
+            ps.setString(7, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -172,11 +128,6 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ResultSet rs = ps.executeQuery();
             rs.next();
             return new ContractModel(rs.getString("contractId"),rs.getString("identifier"),
-                    rs.getString("lastName"), rs.getString("firstname"),
-                    rs.getString("birthday"), rs.getString("phone"),
-                    rs.getString("gender"), rs.getString("jobtitle"),
-                    rs.getString("permanentAddress"), rs.getString("email"),
-                    rs.getString("creditCard"), rs.getString("bank"),
                     rs.getString("roomId"), rs.getInt("quantity"),
                     rs.getInt("roomDeposit"), rs.getDate("startingDate"),
                     rs.getDate("endingDate"));
@@ -197,11 +148,6 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new ContractModel(rs.getString("contractId"),rs.getString("identifier"),
-                        rs.getString("lastName"), rs.getString("firstname"),
-                        rs.getString("birthday"), rs.getString("phone"),
-                        rs.getString("gender"), rs.getString("jobtitle"),
-                        rs.getString("permanentAddress"), rs.getString("email"),
-                        rs.getString("creditCard"), rs.getString("bank"),
                         rs.getString("roomId"), rs.getInt("quantity"),
                         rs.getInt("roomDeposit"), rs.getDate("startingDate"),
                         rs.getDate("endingDate")));
@@ -224,11 +170,6 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new ContractModel(rs.getString("contractId"),rs.getString("identifier"),
-                        rs.getString("lastName"), rs.getString("firstname"),
-                        rs.getString("birthday"), rs.getString("phone"),
-                        rs.getString("gender"), rs.getString("jobtitle"),
-                        rs.getString("permanentAddress"), rs.getString("email"),
-                        rs.getString("creditCard"), rs.getString("bank"),
                         rs.getString("roomId"), rs.getInt("quantity"),
                         rs.getInt("roomDeposit"), rs.getDate("startingDate"),
                         rs.getDate("endingDate")));
