@@ -89,7 +89,7 @@ public class StatisticPage extends JPanel {
 
             iconPanel.add(icons.get(i));
             iconPanel.setOpaque(false);
-            iconPanel.add(icons.get(i));
+
             tags.get(i).add(iconPanel, BorderLayout.CENTER);
             overviewPanel.add(tags.get(i));
         }

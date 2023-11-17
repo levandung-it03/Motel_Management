@@ -2,7 +2,6 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 
 import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Controllers.Controller_Room;
-import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 import com.toedter.calendar.JDateChooser;
@@ -58,9 +57,7 @@ public class AddContractListeners {
                     if (newContractUpdated != 0) {
                         JOptionPane.showMessageDialog(new JPanel(), "New Contract was added! Open \"Contract List\" to check it!",
                                 "Notice", JOptionPane.PLAIN_MESSAGE);
-                        inpTags.forEach((key, tag) -> {
-                            tag.setText("");
-                        });
+                        inpTags.forEach((key, tag) -> tag.setText(""));
                     } else {
                         JOptionPane.showMessageDialog(
                                 new JPanel(),
