@@ -1,6 +1,9 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Contract;
 
+import com.motel_management.Controllers.Controller_Contract;
+import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.DataAccessObject.RoomDAO;
+import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 import com.toedter.calendar.JDateChooser;
 
@@ -8,48 +11,51 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AddContractListeners {
-    public AddContractListeners() {
+    static HashMap<String, Integer> maxQuantityList = new HashMap<>();
+    public AddContractListeners() { }
+
+    public static JComboBox<Object> createRoomIdComboBox() {
+        ArrayList<RoomModel> roomList = Controller_Room.getAllRoomWithCondition("WHERE (quantity = 0)");
+        roomList.forEach(r -> {
+            maxQuantityList.put(r.getRoomId(), r.getMaxQuantity());
+        });
+        return new JComboBox<>(roomList.stream().map(RoomModel::getRoomId).toArray());
     }
 
     public static ActionListener addNewContractListener(HashMap<String, JTextField> inpTags,
                                                         HashMap<String, JDateChooser> dateTags,
-                                                        HashMap<String, JComboBox<Object>> comboTags,
-                                                        HashMap<String, Integer> maxQuantity) {
-        String validateResult = validate(inpTags, dateTags, comboTags, maxQuantity);
+                                                        HashMap<String, JComboBox<Object>> comboTags) {
+        String validateResult = validate(inpTags, dateTags, comboTags, maxQuantityList);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 if (validateResult.equals("1")) {
-                    int res = RoomDAO.getInstance().insert(new String[] {
-                            inpTags.get("identifier").getText(),
-                            inpTags.get("lastName").getText(),
-                            inpTags.get("firstname").getText(),
-                            dateFormat.format(dateTags.get("birthday").getCalendar()),
-                            inpTags.get("phone").getText(),
-                            inpTags.get("jobTitle").getText(),
-                            inpTags.get("permanentAddress").getText(),
-                            inpTags.get("email").getText(),
-                            inpTags.get("creditCard").getText(),
-                            Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString(),
-                            inpTags.get("quantity").getText(),
-                            inpTags.get("roomDeposit").getText(),
-                            dateFormat.format(dateTags.get("startingDate").getCalendar()),
-                            dateFormat.format(dateTags.get("endingDate").getCalendar()),
-                            Objects.requireNonNull(comboTags.get("gender").getSelectedItem()).toString(),
-                            Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString()
-                    });
-                    boolean newContractUpdated = true;
+                    HashMap<String, String> data = new HashMap<>();
+                    data.put("identifier", inpTags.get("identifier").getText());
+                    data.put("lastName", inpTags.get("lastName").getText());
+                    data.put("firstname", inpTags.get("firstname").getText());
+                    data.put("birthday", dateFormat.format(dateTags.get("birthday").getCalendar()));
+                    data.put("phone", inpTags.get("phone").getText());
+                    data.put("jobTitle", inpTags.get("jobTitle").getText());
+                    data.put("permanentAddress", inpTags.get("permanentAddress").getText());
+                    data.put("email", inpTags.get("email").getText());
+                    data.put("creditCard", inpTags.get("creditCard").getText());
+                    data.put("roomId", Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString());
+                    data.put("quantity", inpTags.get("quantity").getText());
+                    data.put("roomDeposit", inpTags.get("roomDeposit").getText());
+                    data.put("startingDate", dateFormat.format(dateTags.get("startingDate").getCalendar()));
+                    data.put("endingDate", dateFormat.format(dateTags.get("endingDate").getCalendar()));
+                    data.put("gender", Objects.requireNonNull(comboTags.get("gender").getSelectedItem()).toString());
 
-                    if (newContractUpdated) {
+                    int newContractUpdated = Controller_Contract.addNewContract(data);
+
+                    if (newContractUpdated != 0) {
                         JOptionPane.showMessageDialog(new JPanel(), "New Contract was added! Open \"Contract List\" to check it!",
                                 "Notice", JOptionPane.PLAIN_MESSAGE);
                         inpTags.forEach((key, tag) -> {
@@ -76,7 +82,7 @@ public class AddContractListeners {
     }
 
     public static String validate(HashMap<String, JTextField> inpTags, HashMap<String, JDateChooser> dateTags,
-                                  HashMap<String, JComboBox<Object>> comboTags, HashMap<String, Integer> maxQuantity) {
+                                  HashMap<String, JComboBox<Object>> comboTags, HashMap<String, Integer> maxQuantityList) {
         if (!Pattern.compile("\\d{9}").matcher(inpTags.get("identifier").getText()).matches())
             return "Identity Card";
 
@@ -128,7 +134,7 @@ public class AddContractListeners {
         } catch (NullPointerException e) { return "";}
 
         try {
-            Integer max = maxQuantity.get(Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString());
+            Integer max = maxQuantityList.get(Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString());
             int quantity = Integer.parseInt(inpTags.get("quantity").getText());
             if (!(quantity > 0 && quantity <= max.intValue())) {
                 return "Number Of People";

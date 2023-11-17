@@ -1,5 +1,5 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Electricity_WaterPage;
-import com.motel_management.Controllers.Controller_RoomList;
+import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
@@ -35,7 +35,7 @@ public class Electricity_WaterListPage extends JPanel{
         ElectricPanel.add(title, BorderLayout.NORTH);
 
         // Prepare Date to generate Table.
-        String[][] rooms = Controller_RoomList.getAllRoom();
+        String[][] rooms = Controller_Room.getAllRoomWithTableFormat();
         String[] columns = {"Room Code", "Number of People", "Maximum Quantity", "Default Room Price", "Delete Button"};
 
         // Generate Table.
@@ -62,7 +62,7 @@ public class Electricity_WaterListPage extends JPanel{
         ElectricPanel.add(title, BorderLayout.NORTH);
 
         // Prepare Date to generate Table.
-        String[][] rooms = Controller_RoomList.getAllRoom();
+        String[][] rooms = Controller_Room.getAllRoomWithTableFormat();
         String[] columns = {"Room Code", "Number of People", "Maximum Quantity", "Default Room Price", "Delete Button"};
 
         // Generate Table.
