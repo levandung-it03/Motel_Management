@@ -106,6 +106,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
         try {
             String query = ("SELECT * FROM Room WHERE (roomId=\""+id+"\")");
             PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             rs.next();
             return new RoomModel(rs.getString("roomId"), rs.getInt("quantity"),

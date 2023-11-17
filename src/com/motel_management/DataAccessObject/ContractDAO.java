@@ -135,6 +135,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         try {
             String query = ("SELECT * FROM Contract WHERE (contractId=?)");
             PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             rs.next();
             return new ContractModel(rs.getString("contractId"),rs.getString("identifier"),
