@@ -33,7 +33,7 @@ public class AddContractListeners {
 //                            inpTags.get("maxQuantity").getText(),
 //                            inpTags.get("defaultPrice").getText()
 //                    });
-                    if (false) {
+                    if (true) {
 //                        ArrayList<RoomModel> roomList = RoomDAO.getInstance().selectByCondition("ORDER BY roomId ASC");
 //                        StringBuilder lastRoomId = new StringBuilder(roomList.get(roomList.size() - 1).getRoomId());
 //                        lastRoomId.replace(0, 1, "0");
