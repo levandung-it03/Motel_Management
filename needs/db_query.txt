@@ -1,4 +1,4 @@
-CREATE DATABASE MOTEL_MANAGEMENT
+
 CREATE TABLE Account (
     userId VARCHAR(10) UNIQUE NOT NULL,
     name VARCHAR(10) NOT NULL,
@@ -18,6 +18,8 @@ CREATE TABLE Room (
 INSERT INTO Room VALUES ("A001", 3, 9, 3000000), ("A002", 6, 9, 3000000), ("A003", 2, 9, 3000000), ("A004", 0, 9, 3000000), ("A005", 2, 9, 3000000),
 ("A006", 6, 9, 3000000);
 
+ALTER TABLE Room ADD CHECK (quantity <= maxQuantity);
+
 CREATE TABLE Person (
     personId VARCHAR(25) UNIQUE NOT NULL,
     identifier VARCHAR(20) UNIQUE NOT NULL,
@@ -26,7 +28,7 @@ CREATE TABLE Person (
     firstName VARCHAR(30) NOT NULL,
     birthday DATE NOT NULL,
     phone VARCHAR(15) NOT NULL,
-    gender BOOLEAN NOT NULL,
+    gender VARCHAR(1) NOT NULL,
     jobtitle VARCHAR(70) NOT NULL,
     permanentAddress VARCHAR(255) NOT NULL,
     email VARCHAR(255),
@@ -59,7 +61,7 @@ CREATE TABLE Contract (
     firstname VARCHAR(70) NOT NULL,
     birthday DATE NOT NULL,
     phone VARCHAR(15) NOT NULL,
-    gender BOOLEAN NOT NULL,
+    gender VARCHAR(1) NOT NULL,
     jobtitle VARCHAR(70) NOT NULL,
     permanentAddress VARCHAR(255) NOT NULL,
     email VARCHAR(255),

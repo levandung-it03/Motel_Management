@@ -1,10 +1,7 @@
 
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages;
-
-import com.motel_management.Controllers.Controller_RoomList;
 import com.motel_management.Controllers.Controller_Statistic;
 import com.motel_management.Views.Configs;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,6 +10,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -41,13 +39,24 @@ public class StatisticPage extends JPanel {
 
         nameTag.setFont(nameTag.getFont().deriveFont(Font.BOLD, 24.0f));
         nameTag.setForeground(Color.white);
-        nameTag.setBorder(new EmptyBorder(0, 10, 10, 10));
+        nameTag.setBorder(new EmptyBorder(0, 10, 0, 10));
 
         infoPanel.add(quantityTag);
         infoPanel.add(nameTag);
         infoPanel.setOpaque(false);
 
+        JPanel timePanel = new JPanel();
+        LocalDate time = LocalDate.now();
+        JLabel currentTime = new JLabel(time.getDayOfMonth()+"/"+time.getMonthValue()+"/"+time.getYear());
+        currentTime.setFont(currentTime.getFont().deriveFont(Font.BOLD, 18.0f));
+        currentTime.setForeground(Color.white);
+        currentTime.setHorizontalAlignment(JLabel.CENTER);
+        timePanel.add(currentTime);
+        timePanel.setBackground(new Color(0,0,0, 40));
+        timePanel.setPreferredSize(new Dimension(0,30));
+
         tag.add(infoPanel, BorderLayout.WEST);
+        tag.add(timePanel,BorderLayout.SOUTH);
         return tag;
     }
 
@@ -98,35 +107,51 @@ public class StatisticPage extends JPanel {
     }
 
     public JPanel createRoomListPanel() {
-        JPanel roomList = new JPanel(new BorderLayout());
+        JPanel roomListPanel = new JPanel(new BorderLayout());
         JLabel title = new JLabel("Room List");
         title.setFont(title.getFont().deriveFont(Font.BOLD,34.0f));
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setBorder(new EmptyBorder(10, 10, 0, 10));
-        roomList.add(title, BorderLayout.NORTH);
+        roomListPanel.add(title, BorderLayout.NORTH);
 
         // Prepare Data to generate Table.
         String[][] rooms = Controller_Statistic.getRoomList();
-        String[] columns = {"Room Code", "Representative","Quantity", "Default Room Price"};
+        String[] columns = {"Room Code", "Representative","Quantity", "Room Price"};
         HashMap<Integer,Integer> resizeColumnList = new HashMap<>();
-//        resizeColumnList.put();
+        resizeColumnList.put(0,30);
+        resizeColumnList.put(2,30);
+
 
         // Generate Table.
         JScrollPane roomScrollPane = this.createTableAsList(rooms, columns, resizeColumnList);
 
         // Margin Table.
         roomScrollPane.setBorder(new EmptyBorder(0, 20, 20,20));
-        roomList.add(roomScrollPane);
-        return roomList;
+        roomListPanel.add(roomScrollPane);
+        return roomListPanel;
     }
 
     public JPanel createRevenuePanel() {
-        JPanel revenue = new JPanel(new BorderLayout());
-        JLabel title = new JLabel("Revenue Statistics");
+        JPanel revenuePanel = new JPanel(new BorderLayout());
+        JLabel title = new JLabel("Revenue Of Year");
+        title.setFont(title.getFont().deriveFont(Font.BOLD,34.0f));
         title.setHorizontalAlignment(JLabel.CENTER);
-        title.setBorder(new EmptyBorder(10, 10, 10, 10));
-        revenue.add(title, BorderLayout.NORTH);
-        return revenue;
+        title.setBorder(new EmptyBorder(10, 10, 0, 10));
+        revenuePanel.add(title, BorderLayout.NORTH);
+
+        // Prepare Data to generate Table.
+        String[][] rooms = Controller_Statistic.getRoomList();
+        String[] columns = {"Room Code", "Representative","Quantity", "Room Price"};
+        HashMap<Integer,Integer> resizeColumnList = new HashMap<>();
+        //resizeColumnList.put();
+
+        // Generate Table.
+        JScrollPane roomScrollPane = this.createTableAsList(rooms, columns, resizeColumnList);
+
+        // Margin Table.
+        roomScrollPane.setBorder(new EmptyBorder(0, 20, 20,20));
+        revenuePanel.add(roomScrollPane);
+        return revenuePanel;
     }
 
     public JScrollPane createTableAsList(String[][] rows, String[] columns,HashMap<Integer,Integer> resizeColumnList) {
@@ -156,7 +181,7 @@ public class StatisticPage extends JPanel {
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
         cellRenderer.setHorizontalAlignment(JLabel.CENTER);
         cellRenderer.setVerticalAlignment(JLabel.CENTER);
-        for (int i = 0; i < table.getColumnCount() - 1; i++)
+        for (int i = 0; i < table.getColumnCount(); i++)
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
 
         // Resize several Columns.

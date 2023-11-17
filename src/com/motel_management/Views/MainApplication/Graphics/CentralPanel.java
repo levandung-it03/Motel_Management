@@ -1,7 +1,10 @@
 package com.motel_management.Views.MainApplication.Graphics;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.*;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.RoomPages.RoomPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Electricity_WaterPage.Electricity_WaterPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.InvoicesPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.StatisticPage;
 
 import javax.swing.*;
@@ -39,7 +42,7 @@ public class CentralPanel extends JPanel {
 
         pages.add(new StatisticPage());
         pages.add(new RoomPage());
-        pages.add(new ContractsPage());
+        pages.add(new ContractPage());
         pages.add(new RepresentativesPage());
         pages.add(new Electricity_WaterPage());
         pages.add(new ConsumptionPage());
@@ -77,7 +80,7 @@ public class CentralPanel extends JPanel {
                 switch(tabSelected) {
                     case 0 -> category.setComponentAt(0, new StatisticPage());
                     case 1 -> category.setComponentAt(1, new RoomPage());
-                    case 2 -> category.setComponentAt(2, new ContractsPage());
+                    case 2 -> category.setComponentAt(2, new ContractPage());
                     case 3 -> category.setComponentAt(3, new RepresentativesPage());
                     case 4 -> category.setComponentAt(4, new Electricity_WaterPage());
                     case 5 -> category.setComponentAt(5, new ConsumptionPage());

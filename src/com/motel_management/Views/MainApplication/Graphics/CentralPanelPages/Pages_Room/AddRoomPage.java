@@ -1,10 +1,10 @@
-package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.RoomPages;
+package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room;
 
 import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.RoomListeners.AddRoomListeners;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Room.AddRoomListeners;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,7 +15,6 @@ import java.util.HashMap;
 public class AddRoomPage extends JPanel {
     JPanel container;
     JTextField roomCodeInp = new JTextField(20);
-    JTextField quantity = new JTextField(20);
     JTextField maxQuantity = new JTextField(20);
     JTextField defaultPrice = new JTextField(20);
 
@@ -31,12 +30,11 @@ public class AddRoomPage extends JPanel {
     public void createAddRoomPage() {
         container = new JPanel(new FlowLayout());
         container.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
-        container.setBorder(new EmptyBorder(20, 20, 0, Configs.centralPanelWidth*9/20));
+        container.setBorder(new EmptyBorder(20, 20, 0, Configs.centralPanelWidth*2/3));
 
         this.submitBtn = InputComboPanel.generateButton("Submit");
 
         container.add(InputComboPanel.generateTextInputPanel("Room Code", this.roomCodeInp));
-        container.add(InputComboPanel.generateTextInputPanel("Number Of People", this.quantity));
         container.add(InputComboPanel.generateTextInputPanel("Maximum Quantity", this.maxQuantity));
         container.add(InputComboPanel.generateTextInputPanel("Default Room Price (VNĐ)", this.defaultPrice));
         container.add(this.submitBtn);
@@ -45,6 +43,7 @@ public class AddRoomPage extends JPanel {
     }
 
     public void createListeners() {
+        // Automatically Set Next RoomId.
         ArrayList<RoomModel> roomList = RoomDAO.getInstance().selectByCondition("ORDER BY roomId ASC");
         StringBuilder lastRoomId = new StringBuilder(roomList.get(roomList.size() - 1).getRoomId());
         lastRoomId.replace(0, 1, "0");
@@ -55,7 +54,6 @@ public class AddRoomPage extends JPanel {
 
         HashMap<String, JTextField> inpTags = new HashMap<>();
         inpTags.put("roomCodeInp", this.roomCodeInp);
-        inpTags.put("quantity", this.quantity);
         inpTags.put("maxQuantity", this.maxQuantity);
         inpTags.put("defaultPrice", this.defaultPrice);
 

@@ -1,10 +1,10 @@
-package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.RoomPages;
+package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room;
 
 import com.motel_management.Views.Configs;
 import com.motel_management.Controllers.Controller_RoomList;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.RoomListeners.RoomListListeners;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Room.RoomListListeners;
 
 import javax.swing.*;
 import javax.swing.border.*;
