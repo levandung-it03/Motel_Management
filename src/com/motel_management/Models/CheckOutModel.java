@@ -6,18 +6,16 @@ public class CheckOutModel {
     private String checkOutId;
     private String contractId;
     private String roomId;
-    private String personId;
     private String identifier;
     private String lastName;
     private String firstname;
     private String phone;
     private Date checkOutDate;
 
-    public CheckOutModel(String checkOutId, String contractId, String roomId, String personId, String identifier, String lastName, String firstname, String phone, Date checkOutDate) {
+    public CheckOutModel(String checkOutId, String contractId, String roomId, String identifier, String lastName, String firstname, String phone, Date checkOutDate) {
         this.checkOutId = checkOutId;
         this.contractId = contractId;
         this.roomId = roomId;
-        this.personId = personId;
         this.identifier = identifier;
         this.lastName = lastName;
         this.firstname = firstname;
@@ -47,14 +45,6 @@ public class CheckOutModel {
 
     public void setRoomId(String roomId) {
         this.roomId = roomId;
-    }
-
-    public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
     }
 
     public String getIdentifier() {

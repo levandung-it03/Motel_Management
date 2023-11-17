@@ -21,7 +21,6 @@ INSERT INTO Room VALUES ("A001", 3, 9, 3000000), ("A002", 6, 9, 3000000), ("A003
 ALTER TABLE Room ADD CHECK (quantity <= maxQuantity);
 
 CREATE TABLE Person (
-    personId VARCHAR(25) UNIQUE NOT NULL,
     identifier VARCHAR(20) UNIQUE NOT NULL,
     roomId VARCHAR(20) UNIQUE NOT NULL,
     lastName VARCHAR(70) NOT NULL,
@@ -72,7 +71,6 @@ CREATE TABLE CheckOut(
     checkOutId VARCHAR(20) UNIQUE NOT NULL,
     contractId VARCHAR(20) UNIQUE NOT NULL,
     roomId VARCHAR(20) UNIQUE NOT NULL,
-    personId VARCHAR(25) UNIQUE NOT NULL,
     identifier VARCHAR(20) UNIQUE NOT NULL,
     lastName VARCHAR(70) NOT NULL,
     firstname VARCHAR(70) NOT NULL,
@@ -80,7 +78,7 @@ CREATE TABLE CheckOut(
     checkOutDate DATE DEFAULT (CURRENT_DATE()),
     CONSTRAINT FK_CheckOut_contractId FOREIGN KEY (contractId) REFERENCES Contract(contractId),
     CONSTRAINT FK_CheckOut_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT FK_CheckOut_personId FOREIGN KEY (personId) REFERENCES Person(personId),
+    CONSTRAINT FK_CheckOut_identifier FOREIGN KEY (identifier) REFERENCES Person(identifier),
     CONSTRAINT PK_CheckOut PRIMARY KEY (CheckOutId)
 );
 
