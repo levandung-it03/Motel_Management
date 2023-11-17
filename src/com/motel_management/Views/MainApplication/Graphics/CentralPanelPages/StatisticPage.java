@@ -108,7 +108,7 @@ public class StatisticPage extends JPanel {
 
     public JPanel createRoomListPanel() {
         JPanel roomListPanel = new JPanel(new BorderLayout());
-        JLabel title = new JLabel("Room List");
+        JLabel title = new JLabel("Occupied Room");
         title.setFont(title.getFont().deriveFont(Font.BOLD,34.0f));
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setBorder(new EmptyBorder(10, 10, 0, 10));

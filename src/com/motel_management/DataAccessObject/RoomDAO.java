@@ -104,7 +104,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
     public RoomModel selectById(String id) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = ("SELECT * FROM Room WHERE (roomId=\""+id+"\")");
+            String query = ("SELECT * FROM Room WHERE (roomId=?)");
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();

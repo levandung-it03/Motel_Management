@@ -1,42 +1,46 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Electricity_WaterPage;
+
 import com.motel_management.Controllers.Controller_RoomList;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Electricity_Water.EWListListeners;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class Electricity_WaterListPage extends JPanel{
+public class Electricity_WaterListPage extends JPanel {
     public JTable table;
     public JScrollPane roomScrollPane;
     public DefaultTableModel defaultTable;
     public Object[][] tableData;
 
     public Electricity_WaterListPage() {
-        super(new GridLayout(0,2));
+        super(new GridLayout(0, 2));
         this.createEWListPage();
         this.createListeners();
         this.saveCurrentTableData();
     }
+
     public void createEWListPage() {
         setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
         add(createElectricPanel());
         add(createWaterPanel());
     }
+
     public JPanel createElectricPanel() {
         JPanel ElectricPanel = new JPanel(new BorderLayout());
         JLabel title = new JLabel("Electric");
-        title.setFont(title.getFont().deriveFont(Font.BOLD,34.0f));
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 34.0f));
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setBorder(new EmptyBorder(10, 10, 0, 10));
         ElectricPanel.add(title, BorderLayout.NORTH);
 
         // Prepare Date to generate Table.
         String[][] rooms = Controller_RoomList.getAllRoom();
-        String[] columns = {"Room Code", "Number of People", "Maximum Quantity", "Default Room Price", "Delete Button"};
+        String[] columns = {"Electric Range", "Min Value", "Max Value", "Price", "Delete"};
 
         // Generate Table.
         TableAsList tableAsList = new TableAsList(rooms, columns);
@@ -48,22 +52,23 @@ public class Electricity_WaterListPage extends JPanel{
         this.roomScrollPane.setBorder(new EmptyBorder(20, 20, 0, 10));
 
         // Resize several Columns.
-        this.table.getColumnModel().getColumn(0).setPreferredWidth(25);
-        this.table.getColumnModel().getColumn(4).setPreferredWidth(40);
+        this.table.getColumnModel().getColumn(0).setPreferredWidth(120);
+
         ElectricPanel.add(roomScrollPane);
         return ElectricPanel;
     }
+
     public JPanel createWaterPanel() {
         JPanel ElectricPanel = new JPanel(new BorderLayout());
         JLabel title = new JLabel("Water");
-        title.setFont(title.getFont().deriveFont(Font.BOLD,34.0f));
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 34.0f));
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setBorder(new EmptyBorder(10, 10, 0, 10));
         ElectricPanel.add(title, BorderLayout.NORTH);
 
         // Prepare Date to generate Table.
         String[][] rooms = Controller_RoomList.getAllRoom();
-        String[] columns = {"Room Code", "Number of People", "Maximum Quantity", "Default Room Price", "Delete Button"};
+        String[] columns = {"Water Range", "Min Value", "Max Value", "Price", "Delete"};
 
         // Generate Table.
         TableAsList tableAsList = new TableAsList(rooms, columns);
@@ -75,8 +80,7 @@ public class Electricity_WaterListPage extends JPanel{
         this.roomScrollPane.setBorder(new EmptyBorder(20, 20, 0, 10));
 
         // Resize several Columns.
-        this.table.getColumnModel().getColumn(0).setPreferredWidth(25);
-        this.table.getColumnModel().getColumn(4).setPreferredWidth(40);
+        this.table.getColumnModel().getColumn(0).setPreferredWidth(100);
         ElectricPanel.add(roomScrollPane);
         return ElectricPanel;
     }
