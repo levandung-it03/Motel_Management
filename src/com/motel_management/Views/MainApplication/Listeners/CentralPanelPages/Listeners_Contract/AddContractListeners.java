@@ -126,7 +126,6 @@ public class AddContractListeners {
                 return "Deposit";
             }
         } catch (NumberFormatException e) {
-            e.printStackTrace();
             return "Deposit";
         }
 
