@@ -1,10 +1,8 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Electricity_WaterPage;
-<<<<<<< HEAD
 
-import com.motel_management.Controllers.Controller_RoomList;
-=======
+
+import com.motel_management.Controllers.Controller_Electricity_Water;
 import com.motel_management.Controllers.Controller_Room;
->>>>>>> ed71190e3dda9628cba57f545c95304b3bafb03b
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
@@ -43,16 +41,12 @@ public class Electricity_WaterListPage extends JPanel {
         ElectricPanel.add(title, BorderLayout.NORTH);
 
         // Prepare Date to generate Table.
-<<<<<<< HEAD
-        String[][] rooms = Controller_RoomList.getAllRoom();
+
+        String[][] electrics = Controller_Electricity_Water.getElectricList();
         String[] columns = {"Electric Range", "Min Value", "Max Value", "Price", "Delete"};
-=======
-        String[][] rooms = Controller_Room.getAllRoomWithTableFormat();
-        String[] columns = {"Room Code", "Number of People", "Maximum Quantity", "Default Room Price", "Delete Button"};
->>>>>>> ed71190e3dda9628cba57f545c95304b3bafb03b
 
         // Generate Table.
-        TableAsList tableAsList = new TableAsList(rooms, columns);
+        TableAsList tableAsList = new TableAsList(electrics, columns);
         this.defaultTable = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
         this.roomScrollPane = tableAsList.getScrollPane();
@@ -76,16 +70,12 @@ public class Electricity_WaterListPage extends JPanel {
         ElectricPanel.add(title, BorderLayout.NORTH);
 
         // Prepare Date to generate Table.
-<<<<<<< HEAD
-        String[][] rooms = Controller_RoomList.getAllRoom();
+
+        String[][] waters = Controller_Electricity_Water.getWaterList();
         String[] columns = {"Water Range", "Min Value", "Max Value", "Price", "Delete"};
-=======
-        String[][] rooms = Controller_Room.getAllRoomWithTableFormat();
-        String[] columns = {"Room Code", "Number of People", "Maximum Quantity", "Default Room Price", "Delete Button"};
->>>>>>> ed71190e3dda9628cba57f545c95304b3bafb03b
 
         // Generate Table.
-        TableAsList tableAsList = new TableAsList(rooms, columns);
+        TableAsList tableAsList = new TableAsList(waters, columns);
         this.defaultTable = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
         this.roomScrollPane = tableAsList.getScrollPane();
