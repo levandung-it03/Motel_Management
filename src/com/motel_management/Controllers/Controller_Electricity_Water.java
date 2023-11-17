@@ -1,8 +1,10 @@
 package com.motel_management.Controllers;
 import com.motel_management.DataAccessObject.ElectricRangeDAO;
 import com.motel_management.DataAccessObject.RoomDAO;
+import com.motel_management.DataAccessObject.WaterRangeDAO;
 import com.motel_management.Models.ElectricRangeModel;
 import com.motel_management.Models.RoomModel;
+import com.motel_management.Models.WaterRangeModel;
 
 import java.util.ArrayList;
 
@@ -33,5 +35,25 @@ public class Controller_Electricity_Water {
             waters[i][4] = "Delete";
         }
         return waters;
+    }
+    public static String getElectricLastId() {
+        ArrayList<ElectricRangeModel> roomList = ElectricRangeDAO.getInstance().selectByCondition("ORDER BY rangeId ASC");
+        int id =1;
+        if (roomList.isEmpty()) {
+            return "E"+String.format("%03d", id);
+        } else {
+            id++;
+            return "E"+String.format("%03d", id);
+        }
+    }
+    public static String getWaterLastId() {
+        ArrayList<WaterRangeModel> roomList = WaterRangeDAO.getInstance().selectByCondition("ORDER BY rangeId ASC");
+        int id =1;
+        if (roomList.isEmpty()) {
+            return "W"+String.format("%03d", id);
+        } else {
+            id++;
+            return "W"+String.format("%03d", id);
+        }
     }
 }
