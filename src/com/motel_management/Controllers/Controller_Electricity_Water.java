@@ -12,6 +12,11 @@ public class Controller_Electricity_Water {
     public Controller_Electricity_Water() {
     }
 
+    public static int deleteElectricById(String id) {
+        return ElectricRangeDAO.getInstance().delete(id);
+    }
+    public static int deleteWaterById(String id) { return WaterRangeDAO.getInstance().delete(id); }
+
     public static String[][] getElectricList() {
         ArrayList<ElectricRangeModel> result = ElectricRangeDAO.getInstance().selectAll();
         String[][] electrics = new String[result.size()][5];

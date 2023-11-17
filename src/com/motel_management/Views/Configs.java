@@ -43,6 +43,8 @@ public class Configs {
     }
 
     public static String generateIdTail() {
-        return Integer.toString((int) (Math.random()*10)) + Long.toString(System.currentTimeMillis());
+        StringBuilder milisec = new StringBuilder(Long.toString(System.currentTimeMillis()));
+        milisec.replace(0, 4, "");
+        return Integer.toString((int) (Math.random()*10)) + milisec.toString();
     }
 }

@@ -1,6 +1,5 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages;
 
-import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.Views.Configs;
 
 import javax.swing.*;
@@ -51,29 +50,6 @@ public class GeneralListeners {
             table.getModel().addTableModelListener(listener);
         }
         return null;
-    }
-
-    public static MouseAdapter getCustomDeleteButtonMouseAdapter(DefaultTableModel model, JTable table) {
-        return new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                int clickedRow = table.rowAtPoint(e.getPoint());
-                int clickedColumn = table.columnAtPoint(e.getPoint());
-
-                // Delete Button Clicked
-                if (clickedColumn == table.getColumnCount() - 1) {
-                    if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this row?", "Confirm",
-                            JOptionPane.YES_NO_OPTION) == 0) {
-
-                        if (RoomDAO.getInstance().delete(table.getValueAt(clickedRow, 0).toString()) != 0)
-                            JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
-
-                        model.removeRow(clickedRow);
-                    }
-                }
-            }
-        };
     }
 
 }
