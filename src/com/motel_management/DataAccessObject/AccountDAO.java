@@ -30,6 +30,24 @@ public class AccountDAO implements DAOInterface<AccountModel> {
         }
         return 0;
     }
+    public int insert(String[] values) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            String query = "INSERT INTO Account VALUES (?, ?, ?, ?)";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, values[0]);
+            ps.setString(2, values[1]);
+            ps.setString(3, values[2]);
+            ps.setString(4, values[3]);
+            System.out.println(ps);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return 0;
+    }
 
     @Override
     public int delete(String id) {
@@ -57,6 +75,23 @@ public class AccountDAO implements DAOInterface<AccountModel> {
             ps.setString(2, obj.getUsername());
             ps.setString(3, obj.getPassword());
             ps.setString(4, obj.getUserId());
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+    }
+    // OverLOAD
+    public int update(String[] values) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            String query = "UPDATE Account SET  name=?, username=?, password=? WHERE (userId=?);";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, values[1]);
+            ps.setString(2, values[2]);
+            ps.setString(3, values[3]);
+            ps.setString(4, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

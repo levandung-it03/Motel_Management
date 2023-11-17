@@ -10,6 +10,7 @@ public class PersonModel {
     private Date birthday;
     private String phone;
     private String gender;
+    private String jobtitle;
     private String permanentAddress;
     private String email;
     private String creditCard;
@@ -17,7 +18,8 @@ public class PersonModel {
 
     public PersonModel() {}
     public PersonModel(String identifier, String roomCode, String lastName, String firstName, Date birthday,
-                       String phone, String gender, String permanentAddress, String email, String creditCard, String bank) {
+                       String phone, String gender,String jobtitle, String permanentAddress, String email,
+                       String creditCard, String bank) {
         this.identifier = identifier;
         this.roomCode = roomCode;
         this.lastName = lastName;
@@ -25,6 +27,7 @@ public class PersonModel {
         this.birthday = birthday;
         this.phone = phone;
         this.gender = gender;
+        this.jobtitle = jobtitle;
         this.permanentAddress = permanentAddress;
         this.email = email;
         this.creditCard = creditCard;
@@ -39,6 +42,9 @@ public class PersonModel {
     public Date getBirthday() { return birthday; }
     public String getPhone() { return phone; }
     public String getGender() {return gender; }
+
+    public String getJobtitle () {return jobtitle;}
+
     public String getPermanentAddress() { return permanentAddress; }
     public String getEmail() { return email; }
     public String getCreditCard() { return creditCard; }
@@ -52,6 +58,9 @@ public class PersonModel {
     public void setBirthday(Date birthday) { this.birthday = birthday; }
     public void setPhone(String phone) { this.phone = phone; }
     public void setGender (String gender) {this.gender = gender;}
+
+    public void setJobtitle (String jobtitle) {this.jobtitle = jobtitle;}
+
     public void setPermanentAddress(String permanentAddress) { this.permanentAddress = permanentAddress; }
     public void setEmail(String email) { this.email = email; }
     public void setCreditCard(String creditCard) { this.creditCard = creditCard; }
