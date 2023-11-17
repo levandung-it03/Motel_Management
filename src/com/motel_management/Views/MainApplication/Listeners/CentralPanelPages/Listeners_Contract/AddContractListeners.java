@@ -57,9 +57,7 @@ public class AddContractListeners {
                     if (newContractUpdated != 0) {
                         JOptionPane.showMessageDialog(new JPanel(), "New Contract was added! Open \"Contract List\" to check it!",
                                 "Notice", JOptionPane.PLAIN_MESSAGE);
-                        inpTags.forEach((key, tag) -> {
-                            tag.setText("");
-                        });
+                        inpTags.forEach((key, tag) -> tag.setText(""));
                     } else {
                         JOptionPane.showMessageDialog(
                                 new JPanel(),
