@@ -1,6 +1,7 @@
 package com.motel_management.Views;
 
 import java.awt.*;
+import java.time.LocalDate;
 
 public class Configs {
     public static final Font labelFont = new Font("Consolas", Font.PLAIN, 16);
@@ -39,4 +40,11 @@ public class Configs {
     }
 
     public Configs() {}
+    public static LocalDate StringToDate(String str){
+        String[] TempStr= str.split("/");
+        int Day = Integer.parseInt(TempStr[0]);
+        int Month = Integer.parseInt(TempStr[1]);
+        int Year = Integer.parseInt(TempStr[2]);
+        return LocalDate.of(Year,Month,Day);
+    }
 }
