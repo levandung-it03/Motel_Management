@@ -28,7 +28,7 @@ public class Electricity_WaterListPage extends JPanel{
     }
     public JPanel createElectricPanel() {
         JPanel ElectricPanel = new JPanel(new BorderLayout());
-        JLabel title = new JLabel("Electricity");
+        JLabel title = new JLabel("Electric");
         title.setFont(title.getFont().deriveFont(Font.BOLD,34.0f));
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setBorder(new EmptyBorder(10, 10, 0, 10));
