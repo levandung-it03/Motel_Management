@@ -1,7 +1,5 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract;
 
-import com.motel_management.DataAccessObject.RoomDAO;
-import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Contract.AddContractListeners;
@@ -12,7 +10,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AddContractPage extends JPanel {
@@ -35,8 +32,6 @@ public class AddContractPage extends JPanel {
     JDateChooser endingDate = new JDateChooser(Date.valueOf(LocalDate.now()));
     JButton submitBtn;
 
-    HashMap<String, Integer> maxQuantity = new HashMap<>();
-
     // Constructor
     public AddContractPage() {
         super(new FlowLayout());
@@ -55,13 +50,7 @@ public class AddContractPage extends JPanel {
         String[] banks = {"", "ABB", "ACB", "AGRIBANK", "BACABANK", "BID", "CTG", "EIB", "HDBANK", "KLB", "LIENVIET", "MBB",
                 "MSB", "NAMA", "NCB", "OCB", "PGBANK", "PVCOMBANK", "SCB", "SEABANK", "SGB", "SHB", "STB", "TCB", "TPB",
                 "VCB", "VIB", "VIETABANK", "VIETCAPITALBANK", "VPB", "VIETBANK"};
-
         this.bank = new JComboBox<>(banks);
-        ArrayList<RoomModel> roomList = RoomDAO.getInstance().selectByCondition("WHERE (quantity > 0)");
-        for (RoomModel r: roomList)
-            this.maxQuantity.put(r.getRoomId(), r.getMaxQuantity());
-
-        this.roomId = new JComboBox<>(roomList.stream().map(RoomModel::getRoomId).toArray());
 
         container.add(InputComboPanel.generateTextInputPanel("Identity Card (*)", identifier));
         container.add(InputComboPanel.generateTextInputPanel("Last Name (*)", lastName));
@@ -87,6 +76,8 @@ public class AddContractPage extends JPanel {
     }
 
     public void createListeners() {
+        this.roomId = AddContractListeners.createRoomIdComboBox();
+
         HashMap<String, JTextField> inpTags = new HashMap<>();
         HashMap<String, JDateChooser> dateTags = new HashMap<>();
         HashMap<String, JComboBox<Object>> comboTags = new HashMap<>();
@@ -107,6 +98,6 @@ public class AddContractPage extends JPanel {
         comboTags.put("gender", gender);
         comboTags.put("roomId", roomId);
 
-        this.submitBtn.addActionListener(AddContractListeners.addNewContractListener(inpTags, dateTags, comboTags, maxQuantity));
+        this.submitBtn.addActionListener(AddContractListeners.addNewContractListener(inpTags, dateTags, comboTags));
     }
 }
