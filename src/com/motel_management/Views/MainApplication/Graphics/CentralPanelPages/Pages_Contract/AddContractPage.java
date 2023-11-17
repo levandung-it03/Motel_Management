@@ -55,8 +55,8 @@ public class AddContractPage extends JPanel {
         String[] banks = {"", "ABB", "ACB", "AGRIBANK", "BACABANK", "BID", "CTG", "EIB", "HDBANK", "KLB", "LIENVIET", "MBB",
                 "MSB", "NAMA", "NCB", "OCB", "PGBANK", "PVCOMBANK", "SCB", "SEABANK", "SGB", "SHB", "STB", "TCB", "TPB",
                 "VCB", "VIB", "VIETABANK", "VIETCAPITALBANK", "VPB", "VIETBANK"};
-        this.bank = new JComboBox<>(banks);
 
+        this.bank = new JComboBox<>(banks);
         ArrayList<RoomModel> roomList = RoomDAO.getInstance().selectByCondition("WHERE (quantity > 0)");
         for (RoomModel r: roomList)
             this.maxQuantity.put(r.getRoomId(), r.getMaxQuantity());
