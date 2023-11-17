@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class Controller_Room {
     public Controller_Room() {}
+
     public static String addNewRoom(String[] data) {
         int res = RoomDAO.getInstance().insert(data);
         if (res == 0) {
@@ -34,5 +35,22 @@ public class Controller_Room {
                 idTail.insert(0, "0");
             return "A" + idTail;
         }
+    }
+
+    public static ArrayList<RoomModel> getAllRoomWithCondition(String condition) {
+        return RoomDAO.getInstance().selectByCondition(condition);
+    }
+
+    public static String[][] getAllRoomWithTableFormat() {
+        ArrayList<RoomModel> result = RoomDAO.getInstance().selectAll();
+        String[][] rooms = new String[result.size()][5];
+        for (int i = 0; i < result.size(); i++) {
+            rooms[i][0] = result.get(i).getRoomId();
+            rooms[i][1] = Integer.toString(result.get(i).getQuantity());
+            rooms[i][2] = Integer.toString(result.get(i).getMaxQuantity());
+            rooms[i][3] = Integer.toString(result.get(i).getDefaultRoomPrice());
+            rooms[i][4] = "Delete";
+        }
+        return rooms;
     }
 }
