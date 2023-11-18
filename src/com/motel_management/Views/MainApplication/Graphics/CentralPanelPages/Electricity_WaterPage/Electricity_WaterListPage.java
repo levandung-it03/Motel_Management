@@ -16,7 +16,7 @@ import java.awt.*;
 public class Electricity_WaterListPage extends JPanel {
     public JTable table;
     public JScrollPane roomScrollPane;
-    public DefaultTableModel defaultTable;
+    public DefaultTableModel defaultModel;
     public Object[][] tableData;
 
     public Electricity_WaterListPage() {
@@ -46,8 +46,13 @@ public class Electricity_WaterListPage extends JPanel {
         String[] columns = {"Electric Range", "Min Value", "Max Value", "Price", "Delete"};
 
         // Generate Table.
-        TableAsList tableAsList = new TableAsList(electrics, columns);
-        this.defaultTable = tableAsList.getDefaultModel();
+        TableAsList tableAsList = new TableAsList(new DefaultTableModel(electrics, columns) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column != 0;
+            }
+        });
+        this.defaultModel = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
         this.roomScrollPane = tableAsList.getScrollPane();
 
@@ -70,13 +75,17 @@ public class Electricity_WaterListPage extends JPanel {
         ElectricPanel.add(title, BorderLayout.NORTH);
 
         // Prepare Date to generate Table.
-
         String[][] waters = Controller_Electricity_Water.getWaterList();
         String[] columns = {"Water Range", "Min Value", "Max Value", "Price", "Delete"};
 
         // Generate Table.
-        TableAsList tableAsList = new TableAsList(waters, columns);
-        this.defaultTable = tableAsList.getDefaultModel();
+        TableAsList tableAsList = new TableAsList(new DefaultTableModel(waters, columns) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column != 0;
+            }
+        });
+        this.defaultModel = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
         this.roomScrollPane = tableAsList.getScrollPane();
 
@@ -95,10 +104,10 @@ public class Electricity_WaterListPage extends JPanel {
 
         // Tách table ra rồi nhét vô đi
         // Add Clicking Delete Electric Button Action.
-        table.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfElectric(this.defaultTable, this.table));
+        table.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfElectric(this.defaultModel, this.table));
 
         // Add Clicking Delete Electric Button Action.
-        table.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfWater(this.defaultTable, this.table));
+        table.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfWater(this.defaultModel, this.table));
     }
 
     public void saveCurrentTableData() {

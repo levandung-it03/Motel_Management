@@ -32,13 +32,18 @@ public class RoomListPage extends JPanel {
         String[] columns = {"Room Code", "Number of People", "Maximum Quantity", "Default Room Price", "Delete Button"};
 
         // Generate Table.
-        TableAsList tableAsList = new TableAsList(rooms, columns);
+        TableAsList tableAsList = new TableAsList(new DefaultTableModel(rooms, columns) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column != 0;
+            }
+        });
         this.defaultTable = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
         this.roomScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.
-        this.roomScrollPane.setBorder(new EmptyBorder(20, 20, 0, Configs.centralPanelWidth/4));
+        this.roomScrollPane.setBorder(new EmptyBorder(20, 20, 0, Configs.centralPanelWidth / 4));
 
         // Resize several Columns.
         this.table.getColumnModel().getColumn(0).setPreferredWidth(25);

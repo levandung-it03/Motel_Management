@@ -1,12 +1,10 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Room;
 
 import com.motel_management.Controllers.Controller_Room;
-import com.motel_management.Views.Configs;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

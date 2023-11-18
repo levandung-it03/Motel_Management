@@ -13,25 +13,20 @@ public class TableAsList {
     private DefaultTableModel defaultModel;
 
     // Constructor
-    public TableAsList(String[][] rows, String[] columns) {
-        this.createTableAsList(rows, columns);
+    public TableAsList(DefaultTableModel defaultModel) {
+        this.createTableAsList(defaultModel);
     }
-    
-    public void createTableAsList(String[][] rows, String[] columns) {
-        
+
+    public void createTableAsList(DefaultTableModel defaultModel) {
+
         // Create a Table Model (with IDs Unchangeable).
-        this.setDefaultModel(new DefaultTableModel(rows, columns) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column != 0;
-            }
-        });
+        this.setDefaultModel(defaultModel);
 
         // Make Table Model automatically update if DB is changed.
-        defaultModel.fireTableDataChanged();
+        this.defaultModel.fireTableDataChanged();
 
         // Create Table
-        this.setTable(new JTable(defaultModel));
+        this.setTable(new JTable(this.defaultModel));
         table.setBorder(new LineBorder(Configs.blackTextColor, 1, true));
 
         // Automatically unfocused with blur action.

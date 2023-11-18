@@ -39,7 +39,7 @@ public class RoomListListeners {
         return tmListener;
     }
 
-    public static MouseAdapter getDeleteCellByMouseListener(DefaultTableModel defaultTable, JTable table, RoomListPage roomList) {
+    public static MouseAdapter getDeleteCellByMouseListener(DefaultTableModel defaultModel, JTable table, RoomListPage roomList) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -53,7 +53,7 @@ public class RoomListListeners {
                             JOptionPane.YES_NO_OPTION) == 0) {
                         if (Controller_Room.deleteById(table.getValueAt(clickedRow, 0).toString()) != 0) {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
-                            defaultTable.removeRow(clickedRow);
+                            defaultModel.removeRow(clickedRow);
                             roomList.saveCurrentTableData();
                         } else {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
