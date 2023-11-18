@@ -71,7 +71,7 @@ public class AddEWListeners {
                 try {
                     isValid = matcher.matches()
                             && Integer.parseInt(inpTags.get("minWRangeValue").getText()) > 0
-                            && Integer.parseInt(inpTags.get("maxWRangeValue").getText()) > Integer.parseInt(inpTags.get("minERangeValue").getText())
+                            && Integer.parseInt(inpTags.get("maxWRangeValue").getText()) > Integer.parseInt(inpTags.get("minWRangeValue").getText())
                             && Integer.parseInt(inpTags.get("defaultWPrice").getText()) >= 0;
                 } catch (NumberFormatException e) { isValid = false; }
 

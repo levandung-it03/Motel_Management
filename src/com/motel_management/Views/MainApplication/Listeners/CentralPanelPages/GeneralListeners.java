@@ -15,8 +15,6 @@ public class GeneralListeners {
                                               Object[][] oldData, String tableName) {
         int changedRowIndex = e.getFirstRow();
         int changedColumnIndex = e.getColumn();
-        System.out.println(changedRowIndex);
-        System.out.println(changedColumnIndex);
         Object oldCellData = oldData[changedRowIndex][changedColumnIndex];
 
         if (JOptionPane.showConfirmDialog(new JPanel(), "Confirm this action?", "Confirm", JOptionPane.YES_NO_OPTION) == 0) {
@@ -89,9 +87,19 @@ public class GeneralListeners {
         return true;
     }
     public static boolean validateEWTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
-        return (!Configs.isIntegerNumeric(oldCellData.toString()) || Configs.isIntegerNumeric(changedValue))
-                && Integer.parseInt(fullChangedRow[1]) <= Integer.parseInt(fullChangedRow[2])
-                && Integer.parseInt(fullChangedRow[1]) >= 0;
+        if (Integer.parseInt(fullChangedRow[2]) < 0) {
+            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
+            return false;
+        }
+        if (Integer.parseInt(fullChangedRow[2]) > Integer.parseInt(fullChangedRow[3])) {
+            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
+            return false;
+        }
+        if (Integer.parseInt(fullChangedRow[4]) < 0) {
+            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
+            return false;
+        }
+        return true;
     }
 
 //    public static boolean validateTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {

@@ -12,17 +12,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class EWListListeners {
-    static TableModelListener tmListener;
+    static TableModelListener tmElectricListener;
+    static TableModelListener tmWaterListener;
 
     // Constructor
     public EWListListeners() {}
 
     public static TableModelListener cellElectricValueUpdated(Electricity_WaterListPage EWList) {
-        tmListener = new TableModelListener() {
+        tmElectricListener = new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent evt) {
                 if (evt.getType() == TableModelEvent.UPDATE) {
-                    String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmListener, EWList.electricTable,
+                    String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmElectricListener, EWList.electricTable,
                             EWList.electricTableData, "Electric");
 
                     if (changedRow != null) {
@@ -35,14 +36,14 @@ public class EWListListeners {
                 EWList.saveCurrentElectricTableData(EWList.electricTable);
             }
         };
-        return tmListener;
+        return tmElectricListener;
     }
     public static TableModelListener cellWaterValueUpdated(Electricity_WaterListPage EWList) {
-        tmListener = new TableModelListener() {
+        tmWaterListener = new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent evt) {
                 if (evt.getType() == TableModelEvent.UPDATE) {
-                    String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmListener, EWList.waterTable,
+                    String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmWaterListener, EWList.waterTable,
                             EWList.waterTableData, "Water");
 
                     if (changedRow != null) {
@@ -55,7 +56,7 @@ public class EWListListeners {
                 EWList.saveCurrentWaterTableData(EWList.waterTable);
             }
         };
-        return tmListener;
+        return tmWaterListener;
     }
 
     public static MouseAdapter getDeleteCellByMouseListenerOfElectric(DefaultTableModel defaultModel, JTable table) {
