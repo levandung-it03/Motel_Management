@@ -146,7 +146,7 @@ public class AddContractListeners {
         }
 
         try {
-            if (!Pattern.compile("^[0-9]{1,13}$").matcher(inpTags.get("roomDeposit").getText()).matches()) {
+            if (!Pattern.compile("^[0-9]{1,9}$").matcher(inpTags.get("roomDeposit").getText()).matches()) {
                 return "Deposit";
             }
         } catch (NumberFormatException e) {
