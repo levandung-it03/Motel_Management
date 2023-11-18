@@ -3,7 +3,6 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Models.RoomModel;
-import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractPage;
 import com.toedter.calendar.JDateChooser;
 
@@ -147,8 +146,7 @@ public class AddContractListeners {
         }
 
         try {
-            if (Double.parseDouble(inpTags.get("roomDeposit").getText()) < 0) {
-                System.out.println(Double.parseDouble(inpTags.get("roomDeposit").getText()));
+            if (!Pattern.compile("^[0-9]{1,13}$").matcher(inpTags.get("roomDeposit").getText()).matches()) {
                 return "Deposit";
             }
         } catch (NumberFormatException e) {

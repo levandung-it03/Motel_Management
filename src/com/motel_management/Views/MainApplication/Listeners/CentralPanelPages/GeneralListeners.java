@@ -6,14 +6,12 @@ import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class GeneralListeners {
     public GeneralListeners() { }
 
-    public static String[] getChangedTableRow(TableModelEvent e, TableModelListener listener, JTable table, Object[][] oldData) {
+    public static String[] getChangedTableRow(TableModelEvent e, TableModelListener listener, JTable table,
+                                              Object[][] oldData, String tableName) {
         int changedRowIndex = e.getFirstRow();
         int changedColumnIndex = e.getColumn();
         Object oldCellData = oldData[changedRowIndex][changedColumnIndex];
@@ -27,10 +25,17 @@ public class GeneralListeners {
             for (int i = 0; i < fullChangedRow.length; i++)
                 fullChangedRow[i] = model.getValueAt(changedRowIndex, i).toString();
 
-            boolean isValid =
-                    (!Configs.isIntegerNumeric(oldCellData.toString()) || Configs.isIntegerNumeric(changedValue))
-                            && Integer.parseInt(fullChangedRow[1]) <= Integer.parseInt(fullChangedRow[2])
-                            && Integer.parseInt(fullChangedRow[1]) >= 0;
+            boolean isValid = false;
+
+            if (tableName.equals("Room")) {
+                isValid = GeneralListeners.validateRoomTableData(oldCellData, changedValue, fullChangedRow);
+            } else if (tableName.equals("Contract")) {
+                isValid = GeneralListeners.validateContractTableData(oldCellData, changedValue, fullChangedRow);
+            }else if (tableName.equals("ELectric")) {
+                isValid = GeneralListeners.validateEWTableData(oldCellData, changedValue, fullChangedRow);
+            }else if (tableName.equals("Water")) {
+                isValid = GeneralListeners.validateEWTableData(oldCellData, changedValue, fullChangedRow);
+            }
 
             if (isValid) {
                 return fullChangedRow;
@@ -50,6 +55,23 @@ public class GeneralListeners {
             table.getModel().addTableModelListener(listener);
         }
         return null;
+    }
+
+    public static boolean validateRoomTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
+        return (!Configs.isIntegerNumeric(oldCellData.toString()) || Configs.isIntegerNumeric(changedValue))
+                && Integer.parseInt(fullChangedRow[1]) <= Integer.parseInt(fullChangedRow[2])
+                && Integer.parseInt(fullChangedRow[1]) >= 0;
+    }
+    public static boolean validateContractTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
+        return false;
+//        (!Configs.isIntegerNumeric(oldCellData.toString()) || Configs.isIntegerNumeric(changedValue))
+//                && Integer.parseInt(fullChangedRow[1]) <= Integer.parseInt(fullChangedRow[2])
+//                && Integer.parseInt(fullChangedRow[1]) >= 0;
+    }
+    public static boolean validateEWTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
+        return (!Configs.isIntegerNumeric(oldCellData.toString()) || Configs.isIntegerNumeric(changedValue))
+                && Integer.parseInt(fullChangedRow[1]) <= Integer.parseInt(fullChangedRow[2])
+                && Integer.parseInt(fullChangedRow[1]) >= 0;
     }
 
 }

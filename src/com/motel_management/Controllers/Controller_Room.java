@@ -23,6 +23,10 @@ public class Controller_Room {
         }
     }
 
+    public static int updateRoom(String[] data) {
+        return RoomDAO.getInstance().update(data);
+    }
+
     public static String getLastId() {
         ArrayList<RoomModel> roomList = RoomDAO.getInstance().selectByCondition("ORDER BY roomId ASC");
         if (roomList.isEmpty()) {

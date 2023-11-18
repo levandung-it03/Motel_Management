@@ -49,6 +49,10 @@ public class Controller_Contract {
         return addContractRes * addPersonRes * updateRoomRes;
     }
 
+    public static int updateContract(String[] data) {
+        return RoomDAO.getInstance().update(data);
+    }
+
     public static int deleteById(String id) {
         return ContractDAO.getInstance().delete(id);
     }

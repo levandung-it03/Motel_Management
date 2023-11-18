@@ -1,7 +1,6 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Room;
 
 import com.motel_management.Controllers.Controller_Room;
-import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomListPage;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 
@@ -22,13 +21,16 @@ public class RoomListListeners {
     public static TableModelListener cellValueUpdated(RoomListPage roomList) {
         tmListener = new TableModelListener() {
             @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.UPDATE) {
-                    String[] res = GeneralListeners.getChangedTableRow(e, tmListener, roomList.table, roomList.tableData);
+            public void tableChanged(TableModelEvent evt) {
+                if (evt.getType() == TableModelEvent.UPDATE) {
+                    String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmListener, roomList.table,
+                            roomList.tableData, "Room");
 
-                    if (res != null) {
-                        System.out.println("Value Updated");
-                        RoomDAO.getInstance().update(res);
+                    if (changedRow != null) {
+                        if (Controller_Room.updateRoom(changedRow) != 0)
+                            JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
+                        else
+                            JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
                     }
                 }
                 roomList.saveCurrentTableData();
@@ -37,7 +39,7 @@ public class RoomListListeners {
         return tmListener;
     }
 
-    public static MouseAdapter getDeleteCellByMouseListener(DefaultTableModel defaultTable, JTable table) {
+    public static MouseAdapter getDeleteCellByMouseListener(DefaultTableModel defaultTable, JTable table, RoomListPage roomList) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -52,6 +54,7 @@ public class RoomListListeners {
                         if (Controller_Room.deleteById(table.getValueAt(clickedRow, 0).toString()) != 0) {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
                             defaultTable.removeRow(clickedRow);
+                            roomList.saveCurrentTableData();
                         } else {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
                         }

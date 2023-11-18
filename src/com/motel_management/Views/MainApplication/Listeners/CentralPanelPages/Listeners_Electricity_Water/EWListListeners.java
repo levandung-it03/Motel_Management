@@ -2,6 +2,7 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 
 import com.motel_management.Controllers.Controller_Electricity_Water;
 import com.motel_management.Controllers.Controller_Room;
+import com.motel_management.DataAccessObject.ElectricRangeDAO;
 import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Electricity_WaterPage.Electricity_WaterListPage;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
@@ -25,11 +26,10 @@ public class EWListListeners {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if (e.getType() == TableModelEvent.UPDATE) {
-                    String[] res = GeneralListeners.getChangedTableRow(e, tmListener, table, EWList.tableData);
-
+                    String[] res = GeneralListeners.getChangedTableRow(e, tmListener, table, EWList.tableData,"");
                     if (res != null) {
                         System.out.println("Value Updated");
-                        RoomDAO.getInstance().update(res);
+                        ElectricRangeDAO.getInstance().update(res);
                     }
                 }
                 EWList.saveCurrentTableData(table);
@@ -38,7 +38,7 @@ public class EWListListeners {
         return tmListener;
     }
 
-    public static MouseAdapter getCustomDeleteButtonMouseAdapterOfElectric(DefaultTableModel defaultTable, JTable table) {
+    public static MouseAdapter getDeleteCellByMouseListenerOfElectric(DefaultTableModel defaultTable, JTable table) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -64,7 +64,7 @@ public class EWListListeners {
         };
     }
 
-    public static MouseAdapter getCustomDeleteButtonMouseAdapterOfWater(DefaultTableModel defaultTable, JTable table) {
+    public static MouseAdapter getDeleteCellByMouseListenerOfWater(DefaultTableModel defaultTable, JTable table) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
