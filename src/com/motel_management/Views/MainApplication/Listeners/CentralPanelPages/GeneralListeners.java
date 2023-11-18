@@ -56,7 +56,8 @@ public class GeneralListeners {
     public static boolean validateRoomTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
         return (!Configs.isIntegerNumeric(oldCellData.toString()) || Configs.isIntegerNumeric(changedValue))
                 && Integer.parseInt(fullChangedRow[1]) <= Integer.parseInt(fullChangedRow[2])
-                && Integer.parseInt(fullChangedRow[1]) >= 0;
+                && Integer.parseInt(fullChangedRow[1]) >= 0
+                && Integer.parseInt(fullChangedRow[3]) >= 0;
     }
     public static boolean validateContractTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
         return false;
