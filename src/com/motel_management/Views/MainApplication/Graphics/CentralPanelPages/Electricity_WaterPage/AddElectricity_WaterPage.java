@@ -84,11 +84,11 @@ public class AddElectricity_WaterPage extends JPanel{
         inpElectricTags.put("defaultEPrice", this.defaultEPrice);
 
         HashMap<String, JTextField> inpWaterTags = new HashMap<>();
-        inpWaterTags.put("waterId", this.electricId);
+        inpWaterTags.put("waterId", this.waterId);
         inpWaterTags.put("rangeName", this.waterRangeName);
-        inpWaterTags.put("minWRangeValue", this.mỉnERangeValue);
-        inpWaterTags.put("maxWRangeValue", this.maxERangeValue);
-        inpWaterTags.put("defaultWPrice", this.defaultEPrice);
+        inpWaterTags.put("minWRangeValue", this.mỉnWRangeValue);
+        inpWaterTags.put("maxWRangeValue", this.maxWRangeValue);
+        inpWaterTags.put("defaultWPrice", this.defaultWPrice);
 
         this.submitEBtn.addActionListener(AddEWListeners.addNewELectricListener(inpElectricTags));
         this.submitWBtn.addActionListener(AddEWListeners.addNewWaterListener(inpWaterTags));

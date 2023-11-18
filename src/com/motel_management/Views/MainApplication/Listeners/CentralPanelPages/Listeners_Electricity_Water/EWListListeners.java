@@ -21,18 +21,42 @@ public class EWListListeners {
     // Constructor
     public EWListListeners() {}
 
-    public static TableModelListener cellValueUpdated(Electricity_WaterListPage EWList,JTable table) {
+    public static TableModelListener cellElectricValueUpdated(Electricity_WaterListPage EWList) {
         tmListener = new TableModelListener() {
             @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.UPDATE) {
-                    String[] res = GeneralListeners.getChangedTableRow(e, tmListener, table, EWList.tableData,"");
-                    if (res != null) {
-                        System.out.println("Value Updated");
-                        ElectricRangeDAO.getInstance().update(res);
+            public void tableChanged(TableModelEvent evt) {
+                if (evt.getType() == TableModelEvent.UPDATE) {
+                    String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmListener, EWList.electricTable,
+                            EWList.tableData, "Room");
+
+                    if (changedRow != null) {
+                        if (Controller_Electricity_Water.updateElectric(changedRow) != 0)
+                            JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
+                        else
+                            JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
                     }
                 }
-                EWList.saveCurrentTableData(table);
+                EWList.saveCurrentTableData(EWList.electricTable);
+            }
+        };
+        return tmListener;
+    }
+    public static TableModelListener cellWaterValueUpdated(Electricity_WaterListPage EWList) {
+        tmListener = new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent evt) {
+                if (evt.getType() == TableModelEvent.UPDATE) {
+                    String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmListener, EWList.waterTable,
+                            EWList.tableData, "Room");
+
+                    if (changedRow != null) {
+                        if (Controller_Electricity_Water.updateWater(changedRow) != 0)
+                            JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
+                        else
+                            JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
+                    }
+                }
+                EWList.saveCurrentTableData(EWList.waterTable);
             }
         };
         return tmListener;
@@ -51,7 +75,6 @@ public class EWListListeners {
                     if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this row?", "Confirm",
                             JOptionPane.YES_NO_OPTION) == 0) {
                         if (Controller_Electricity_Water.deleteElectricById(table.getValueAt(clickedRow, 0).toString()) != 0) {
-                            System.out.println(Controller_Electricity_Water.deleteElectricById(table.getValueAt(clickedRow, 0).toString()));
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
                             defaultTable.removeRow(clickedRow);
                         } else {

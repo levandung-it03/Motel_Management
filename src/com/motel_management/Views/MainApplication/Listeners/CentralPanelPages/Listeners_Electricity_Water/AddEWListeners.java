@@ -68,9 +68,7 @@ public class AddEWListeners {
                         && Configs.isIntegerNumeric(inpTags.get("minWRangeValue").getText())
                         && Configs.isIntegerNumeric(inpTags.get("maxWRangeValue").getText())
                         && Configs.isIntegerNumeric(inpTags.get("defaultWPrice").getText());
-                System.out.println(matcher.matches());
-                System.out.println(Configs.isIntegerNumeric(inpTags.get("minWRangeValue").getText()));
-                System.out.println(Configs.isIntegerNumeric(inpTags.get("maxWRangeValue").getText()));
+
                 if (isValid) {
                     // Call API here.
                     String nextIdWhenSuccessfully = Controller_Electricity_Water.addNewWater(new String[] {

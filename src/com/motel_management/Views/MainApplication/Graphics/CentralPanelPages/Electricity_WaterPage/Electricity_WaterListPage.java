@@ -17,7 +17,8 @@ public class Electricity_WaterListPage extends JPanel {
     public JTable electricTable;
     public JTable waterTable;
     public JScrollPane roomScrollPane;
-    public DefaultTableModel defaultTable;
+    public DefaultTableModel defaultElectricTable;
+    public DefaultTableModel defaultWaterTable;
     public Object[][] tableData;
 
     public Electricity_WaterListPage() {
@@ -49,7 +50,7 @@ public class Electricity_WaterListPage extends JPanel {
 
         // Generate Table.
         TableAsList tableAsList = new TableAsList(electrics, columns);
-        this.defaultTable = tableAsList.getDefaultModel();
+        this.defaultElectricTable = tableAsList.getDefaultModel();
         this.electricTable = tableAsList.getTable();
         this.roomScrollPane = tableAsList.getScrollPane();
 
@@ -78,7 +79,7 @@ public class Electricity_WaterListPage extends JPanel {
 
         // Generate Table.
         TableAsList tableAsList = new TableAsList(waters, columns);
-        this.defaultTable = tableAsList.getDefaultModel();
+        this.defaultWaterTable = tableAsList.getDefaultModel();
         this.waterTable = tableAsList.getTable();
         this.roomScrollPane = tableAsList.getScrollPane();
 
@@ -94,13 +95,13 @@ public class Electricity_WaterListPage extends JPanel {
 
     public void createListeners() {
         // Add Changing Cells Value Action.
-        electricTable.getModel().addTableModelListener(EWListListeners.cellValueUpdated(this,electricTable));
-        waterTable.getModel().addTableModelListener(EWListListeners.cellValueUpdated(this,waterTable));
+        electricTable.getModel().addTableModelListener(EWListListeners.cellElectricValueUpdated(this));
+        waterTable.getModel().addTableModelListener(EWListListeners.cellWaterValueUpdated(this));
 
         // Tách table ra rồi nhét vô đi
         // Add Clicking Delete Electric Button Action.
-        electricTable.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfElectric(this.defaultTable, this.electricTable));
-        waterTable.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfWater(this.defaultTable, this.waterTable));
+        electricTable.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfElectric(this.defaultElectricTable, this.electricTable));
+        waterTable.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfWater(this.defaultWaterTable, this.waterTable));
     }
 
     public void saveCurrentTableData(JTable table) {
