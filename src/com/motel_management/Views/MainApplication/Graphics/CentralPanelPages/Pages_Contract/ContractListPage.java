@@ -14,7 +14,7 @@ import java.awt.*;
 public class ContractListPage extends JPanel {
     public JTable table;
     public JScrollPane contractScrollPane;
-    public DefaultTableModel defaultTable;
+    public DefaultTableModel defaultModel;
     public Object[][] tableData;
 
     // Constructor
@@ -34,17 +34,25 @@ public class ContractListPage extends JPanel {
                 "Started Date", "Ended Date", "Delete Button"};
 
         // Generate Table.
-        TableAsList tableAsList = new TableAsList(contracts, columns);
-        this.defaultTable = tableAsList.getDefaultModel();
+        // Make All Value Unchangeable.
+        TableAsList tableAsList = new TableAsList(new DefaultTableModel(contracts, columns) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+        this.defaultModel = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
         this.contractScrollPane = tableAsList.getScrollPane();
+
 
         // Margin Table.
         this.contractScrollPane.setBorder(new EmptyBorder(20, 20, 0, 20));
 
         // Resize several Columns.
-        this.table.getColumnModel().getColumn(0).setPreferredWidth(25);
-        this.table.getColumnModel().getColumn(4).setPreferredWidth(40);
+        this.table.getColumnModel().getColumn(0).setPreferredWidth(80);
+        this.table.getColumnModel().getColumn(1).setPreferredWidth(180);
+        this.table.getColumnModel().getColumn(2).setPreferredWidth(60);
 
         // Add ScrollPane into CentralPanel/Contract.
         add(contractScrollPane);
@@ -55,7 +63,7 @@ public class ContractListPage extends JPanel {
         table.getModel().addTableModelListener(ContractListListeners.cellValueUpdated(this));
 
         // Add Clicking Delete Button Action.
-        table.addMouseListener(ContractListListeners.getDeleteCellByMouseListener(this.defaultTable, this.table, this));
+        table.addMouseListener(ContractListListeners.getDeleteCellByMouseListener(this.defaultModel, this.table, this));
     }
 
     public void saveCurrentTableData() {

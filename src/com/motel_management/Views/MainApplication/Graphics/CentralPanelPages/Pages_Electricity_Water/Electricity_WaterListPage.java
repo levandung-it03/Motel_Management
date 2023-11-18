@@ -1,11 +1,9 @@
-package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Electricity_WaterPage;
+package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water;
 
 
 import com.motel_management.Controllers.Controller_Electricity_Water;
-import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Electricity_Water.EWListListeners;
 
 import javax.swing.*;
@@ -49,7 +47,12 @@ public class Electricity_WaterListPage extends JPanel {
         String[] columns = {"ID","Range", "Min Value", "Max Value", "Price", "Delete"};
 
         // Generate Table.
-        TableAsList tableAsList = new TableAsList(electrics, columns);
+        TableAsList tableAsList = new TableAsList(new DefaultTableModel(electrics, columns) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column != 0;
+            }
+        });
         this.defaultElectricTable = tableAsList.getDefaultModel();
         this.electricTable = tableAsList.getTable();
         this.roomScrollPane = tableAsList.getScrollPane();
@@ -73,12 +76,16 @@ public class Electricity_WaterListPage extends JPanel {
         ElectricPanel.add(title, BorderLayout.NORTH);
 
         // Prepare Date to generate Table.
-
         String[][] waters = Controller_Electricity_Water.getWaterList();
         String[] columns = {"ID","Range", "Min Value", "Max Value", "Price", "Delete"};
 
         // Generate Table.
-        TableAsList tableAsList = new TableAsList(waters, columns);
+        TableAsList tableAsList = new TableAsList(new DefaultTableModel(waters, columns) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column != 0;
+            }
+        });
         this.defaultWaterTable = tableAsList.getDefaultModel();
         this.waterTable = tableAsList.getTable();
         this.roomScrollPane = tableAsList.getScrollPane();
@@ -102,7 +109,7 @@ public class Electricity_WaterListPage extends JPanel {
         // Add Clicking Delete Electric Button Action.
         electricTable.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfElectric(this.defaultElectricTable, this.electricTable));
         waterTable.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfWater(this.defaultWaterTable, this.waterTable));
-    }
+}
 
     public void saveCurrentTableData(JTable table) {
         // Copy Data from Table.

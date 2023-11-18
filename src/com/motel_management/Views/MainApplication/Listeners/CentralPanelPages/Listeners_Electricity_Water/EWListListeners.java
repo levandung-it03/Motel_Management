@@ -1,12 +1,8 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Electricity_Water;
 
 import com.motel_management.Controllers.Controller_Electricity_Water;
-import com.motel_management.Controllers.Controller_Room;
-import com.motel_management.DataAccessObject.ElectricRangeDAO;
-import com.motel_management.DataAccessObject.RoomDAO;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Electricity_WaterPage.Electricity_WaterListPage;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
-
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterListPage;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -62,7 +58,7 @@ public class EWListListeners {
         return tmListener;
     }
 
-    public static MouseAdapter getDeleteCellByMouseListenerOfElectric(DefaultTableModel defaultTable, JTable table) {
+    public static MouseAdapter getDeleteCellByMouseListenerOfElectric(DefaultTableModel defaultModel, JTable table) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -76,7 +72,7 @@ public class EWListListeners {
                             JOptionPane.YES_NO_OPTION) == 0) {
                         if (Controller_Electricity_Water.deleteElectricById(table.getValueAt(clickedRow, 0).toString()) != 0) {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
-                            defaultTable.removeRow(clickedRow);
+                            defaultModel.removeRow(clickedRow);
                         } else {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
                         }
@@ -87,7 +83,7 @@ public class EWListListeners {
         };
     }
 
-    public static MouseAdapter getDeleteCellByMouseListenerOfWater(DefaultTableModel defaultTable, JTable table) {
+    public static MouseAdapter getDeleteCellByMouseListenerOfWater(DefaultTableModel defaultModel, JTable table) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -101,7 +97,7 @@ public class EWListListeners {
                             JOptionPane.YES_NO_OPTION) == 0) {
                         if (Controller_Electricity_Water.deleteWaterById(table.getValueAt(clickedRow, 0).toString()) != 0) {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
-                            defaultTable.removeRow(clickedRow);
+                            defaultModel.removeRow(clickedRow);
                         } else {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
                         }

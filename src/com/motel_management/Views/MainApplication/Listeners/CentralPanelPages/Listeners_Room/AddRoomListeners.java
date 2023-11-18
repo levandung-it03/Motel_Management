@@ -1,13 +1,10 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Room;
 
 import com.motel_management.Controllers.Controller_Room;
-import com.motel_management.Models.RoomModel;
-import com.motel_management.Views.Configs;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,9 +23,13 @@ public class AddRoomListeners {
             public void actionPerformed(ActionEvent evt) {
                 Pattern pattern = Pattern.compile("A\\d{3}");
                 Matcher matcher = pattern.matcher(inpTags.get("roomIdInp").getText());
-                boolean isValid = matcher.matches()
-                        && Configs.isIntegerNumeric(inpTags.get("maxQuantity").getText())
-                        && Configs.isIntegerNumeric(inpTags.get("defaultPrice").getText());
+                boolean isValid = true;
+
+                try {
+                    isValid = matcher.matches()
+                            && Integer.parseInt(inpTags.get("maxQuantity").getText()) > 0
+                            && Integer.parseInt(inpTags.get("defaultPrice").getText()) >= 0;
+                } catch (NumberFormatException e) { isValid = false; }
 
                 if (isValid) {
                     // Call API here.

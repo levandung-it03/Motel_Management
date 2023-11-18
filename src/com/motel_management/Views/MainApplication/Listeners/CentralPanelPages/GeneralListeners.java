@@ -29,8 +29,6 @@ public class GeneralListeners {
 
             if (tableName.equals("Room")) {
                 isValid = GeneralListeners.validateRoomTableData(oldCellData, changedValue, fullChangedRow);
-            } else if (tableName.equals("Contract")) {
-                isValid = GeneralListeners.validateContractTableData(oldCellData, changedValue, fullChangedRow);
             }else if (tableName.equals("ELectric")) {
                 isValid = GeneralListeners.validateEWTableData(oldCellData, changedValue, fullChangedRow);
             }else if (tableName.equals("Water")) {
@@ -60,13 +58,8 @@ public class GeneralListeners {
     public static boolean validateRoomTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
         return (!Configs.isIntegerNumeric(oldCellData.toString()) || Configs.isIntegerNumeric(changedValue))
                 && Integer.parseInt(fullChangedRow[1]) <= Integer.parseInt(fullChangedRow[2])
-                && Integer.parseInt(fullChangedRow[1]) >= 0;
-    }
-    public static boolean validateContractTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
-        return false;
-//        (!Configs.isIntegerNumeric(oldCellData.toString()) || Configs.isIntegerNumeric(changedValue))
-//                && Integer.parseInt(fullChangedRow[1]) <= Integer.parseInt(fullChangedRow[2])
-//                && Integer.parseInt(fullChangedRow[1]) >= 0;
+                && Integer.parseInt(fullChangedRow[1]) >= 0
+                && Integer.parseInt(fullChangedRow[3]) >= 0;
     }
     public static boolean validateEWTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
         return (!Configs.isIntegerNumeric(oldCellData.toString()) || Configs.isIntegerNumeric(changedValue))

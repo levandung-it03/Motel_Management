@@ -39,7 +39,7 @@ public class ContractListListeners {
         return tmListener;
     }
 
-    public static MouseAdapter getDeleteCellByMouseListener(DefaultTableModel defaultTable, JTable table, ContractListPage contractList) {
+    public static MouseAdapter getDeleteCellByMouseListener(DefaultTableModel defaultModel, JTable table, ContractListPage contractList) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -51,9 +51,13 @@ public class ContractListListeners {
                 if (clickedColumn == table.getColumnCount() - 1) {
                     if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this row?", "Confirm",
                             JOptionPane.YES_NO_OPTION) == 0) {
-                        if (Controller_Contract.deleteById(table.getValueAt(clickedRow, 0).toString()) != 0) {
+                        if (Controller_Contract.deleteById(
+                                table.getValueAt(clickedRow, 0).toString(),
+                                table.getValueAt(clickedRow, 1).toString(),
+                                table.getValueAt(clickedRow, 2).toString()
+                        ) != 0) {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
-                            defaultTable.removeRow(clickedRow);
+                            defaultModel.removeRow(clickedRow);
                             contractList.saveCurrentTableData();
                         } else {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
