@@ -95,10 +95,10 @@ public class Electricity_WaterListPage extends JPanel {
 
         // Tách table ra rồi nhét vô đi
         // Add Clicking Delete Electric Button Action.
-        table.addMouseListener(EWListListeners.getCustomDeleteButtonMouseAdapterOfElectric(this.defaultTable, this.table));
+        table.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfElectric(this.defaultTable, this.table));
 
         // Add Clicking Delete Electric Button Action.
-        table.addMouseListener(EWListListeners.getCustomDeleteButtonMouseAdapterOfWater(this.defaultTable, this.table));
+        table.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfWater(this.defaultTable, this.table));
     }
 
     public void saveCurrentTableData() {

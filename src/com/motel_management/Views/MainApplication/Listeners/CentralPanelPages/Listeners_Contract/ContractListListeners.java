@@ -1,8 +1,6 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Contract;
 
 import com.motel_management.Controllers.Controller_Contract;
-import com.motel_management.Controllers.Controller_Room;
-import com.motel_management.DataAccessObject.ContractDAO;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractListPage;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 
@@ -23,13 +21,16 @@ public class ContractListListeners {
     public static TableModelListener cellValueUpdated(ContractListPage contractList) {
         tmListener = new TableModelListener() {
             @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.UPDATE) {
-                    String[] res = GeneralListeners.getChangedTableRow(e, tmListener, contractList.table, contractList.tableData);
+            public void tableChanged(TableModelEvent evt) {
+                if (evt.getType() == TableModelEvent.UPDATE) {
+                    String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmListener, contractList.table,
+                            contractList.tableData, "Contract");
 
-                    if (res != null) {
-                        System.out.println("Value Updated");
-                        ContractDAO.getInstance().update(res);
+                    if (changedRow != null) {
+                        if (Controller_Contract.updateContract(changedRow) != 0)
+                            JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
+                        else
+                            JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
                     }
                 }
                 contractList.saveCurrentTableData();
@@ -38,7 +39,7 @@ public class ContractListListeners {
         return tmListener;
     }
 
-    public static MouseAdapter getCustomDeleteButtonMouseAdapter(DefaultTableModel defaultTable, JTable table) {
+    public static MouseAdapter getDeleteCellByMouseListener(DefaultTableModel defaultTable, JTable table, ContractListPage contractList) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -53,6 +54,7 @@ public class ContractListListeners {
                         if (Controller_Contract.deleteById(table.getValueAt(clickedRow, 0).toString()) != 0) {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
                             defaultTable.removeRow(clickedRow);
+                            contractList.saveCurrentTableData();
                         } else {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
                         }
@@ -64,3 +66,5 @@ public class ContractListListeners {
     }
 
 }
+
+

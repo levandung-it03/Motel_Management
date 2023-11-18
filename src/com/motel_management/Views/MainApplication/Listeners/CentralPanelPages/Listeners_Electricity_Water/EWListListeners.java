@@ -25,12 +25,12 @@ public class EWListListeners {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if (e.getType() == TableModelEvent.UPDATE) {
-                    String[] res = GeneralListeners.getChangedTableRow(e, tmListener, EWList.table, EWList.tableData);
+//                    String[] res = GeneralListeners.getChangedTableRow(e, tmListener, EWList.table, EWList.tableData);
 
-                    if (res != null) {
-                        System.out.println("Value Updated");
-                        RoomDAO.getInstance().update(res);
-                    }
+//                    if (res != null) {
+//                        System.out.println("Value Updated");
+//                        RoomDAO.getInstance().update(res);
+//                    }
                 }
                 EWList.saveCurrentTableData();
             }
@@ -38,7 +38,7 @@ public class EWListListeners {
         return tmListener;
     }
 
-    public static MouseAdapter getCustomDeleteButtonMouseAdapterOfElectric(DefaultTableModel defaultTable, JTable table) {
+    public static MouseAdapter getDeleteCellByMouseListenerOfElectric(DefaultTableModel defaultTable, JTable table) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -63,7 +63,7 @@ public class EWListListeners {
         };
     }
 
-    public static MouseAdapter getCustomDeleteButtonMouseAdapterOfWater(DefaultTableModel defaultTable, JTable table) {
+    public static MouseAdapter getDeleteCellByMouseListenerOfWater(DefaultTableModel defaultTable, JTable table) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

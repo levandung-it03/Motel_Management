@@ -3,7 +3,6 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Contract.ContractListListeners;
 
 
@@ -31,8 +30,8 @@ public class ContractListPage extends JPanel {
 
         // Prepare Date to generate Table.
         String[][] contracts = Controller_Contract.getAllContractWithTableFormat();
-        String[] columns = {"Contract Code", "Representative Identity", "Room Code", "Room Deposit", "Started Date",
-                "Ended Date", "Delete Button"};
+        String[] columns = {"Contract Code", "Representative Identity", "Room Code", "Quantity", "Room Deposit",
+                "Started Date", "Ended Date", "Delete Button"};
 
         // Generate Table.
         TableAsList tableAsList = new TableAsList(contracts, columns);
@@ -56,14 +55,14 @@ public class ContractListPage extends JPanel {
         table.getModel().addTableModelListener(ContractListListeners.cellValueUpdated(this));
 
         // Add Clicking Delete Button Action.
-        table.addMouseListener(ContractListListeners.getCustomDeleteButtonMouseAdapter(this.defaultTable, this.table));
+        table.addMouseListener(ContractListListeners.getDeleteCellByMouseListener(this.defaultTable, this.table, this));
     }
 
     public void saveCurrentTableData() {
         // Copy Data from Table.
-        this.tableData = new Object[this.table.getRowCount()][this.table.getColumnCount() - 1];
+        tableData = new Object[this.table.getRowCount()][this.table.getColumnCount() - 1];
         for (int row = 0; row < this.table.getRowCount(); row++)
             for (int col = 0; col < this.table.getColumnCount() - 1; col++)
-                this.tableData[row][col] = this.table.getValueAt(row, col);
+                tableData[row][col] = this.table.getValueAt(row, col);
     }
 }

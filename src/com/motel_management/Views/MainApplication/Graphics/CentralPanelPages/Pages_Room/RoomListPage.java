@@ -53,15 +53,16 @@ public class RoomListPage extends JPanel {
         table.getModel().addTableModelListener(RoomListListeners.cellValueUpdated(this));
 
         // Add Clicking Delete Button Action.
-        table.addMouseListener(RoomListListeners.getDeleteCellByMouseListener(defaultTable, table));
+        table.addMouseListener(RoomListListeners.getDeleteCellByMouseListener(defaultTable, table, this));
     }
+
 
     public void saveCurrentTableData() {
         // Copy Data from Table.
-        this.tableData = new Object[this.table.getRowCount()][this.table.getColumnCount() - 1];
+        tableData = new Object[this.table.getRowCount()][this.table.getColumnCount() - 1];
         for (int row = 0; row < this.table.getRowCount(); row++)
             for (int col = 0; col < this.table.getColumnCount() - 1; col++)
-                this.tableData[row][col] = this.table.getValueAt(row, col);
+                tableData[row][col] = this.table.getValueAt(row, col);
     }
 
 }
