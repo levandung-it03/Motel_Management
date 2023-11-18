@@ -1,11 +1,9 @@
-package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Electricity_WaterPage;
+package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water;
 
 
 import com.motel_management.Controllers.Controller_Electricity_Water;
-import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Electricity_Water.EWListListeners;
 
 import javax.swing.*;

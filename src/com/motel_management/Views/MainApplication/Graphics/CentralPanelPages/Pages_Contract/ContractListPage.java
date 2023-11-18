@@ -50,8 +50,9 @@ public class ContractListPage extends JPanel {
         this.contractScrollPane.setBorder(new EmptyBorder(20, 20, 0, 20));
 
         // Resize several Columns.
-        this.table.getColumnModel().getColumn(0).setPreferredWidth(25);
-        this.table.getColumnModel().getColumn(4).setPreferredWidth(40);
+        this.table.getColumnModel().getColumn(0).setPreferredWidth(80);
+        this.table.getColumnModel().getColumn(1).setPreferredWidth(180);
+        this.table.getColumnModel().getColumn(2).setPreferredWidth(60);
 
         // Add ScrollPane into CentralPanel/Contract.
         add(contractScrollPane);

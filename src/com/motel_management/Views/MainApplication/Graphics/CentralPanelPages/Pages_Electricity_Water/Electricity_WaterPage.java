@@ -1,4 +1,4 @@
-package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Electricity_WaterPage;
+package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water;
 
 import com.motel_management.Views.Configs;
 
