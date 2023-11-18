@@ -20,19 +20,19 @@ public class EWListListeners {
     // Constructor
     public EWListListeners() {}
 
-    public static TableModelListener cellValueUpdated(Electricity_WaterListPage EWList) {
+    public static TableModelListener cellValueUpdated(Electricity_WaterListPage EWList,JTable table) {
         tmListener = new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if (e.getType() == TableModelEvent.UPDATE) {
-                    String[] res = GeneralListeners.getChangedTableRow(e, tmListener, EWList.table, EWList.tableData);
+                    String[] res = GeneralListeners.getChangedTableRow(e, tmListener, table, EWList.tableData);
 
                     if (res != null) {
                         System.out.println("Value Updated");
                         RoomDAO.getInstance().update(res);
                     }
                 }
-                EWList.saveCurrentTableData();
+                EWList.saveCurrentTableData(table);
             }
         };
         return tmListener;
@@ -51,6 +51,7 @@ public class EWListListeners {
                     if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this row?", "Confirm",
                             JOptionPane.YES_NO_OPTION) == 0) {
                         if (Controller_Electricity_Water.deleteElectricById(table.getValueAt(clickedRow, 0).toString()) != 0) {
+                            System.out.println(Controller_Electricity_Water.deleteElectricById(table.getValueAt(clickedRow, 0).toString()));
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
                             defaultTable.removeRow(clickedRow);
                         } else {

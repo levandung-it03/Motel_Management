@@ -35,9 +35,6 @@ public class AddElectricity_WaterPage extends JPanel{
         this.createListeners();
     }
     public void createAddElectricityPage() {
-
-
-
         JLabel title = new JLabel("Add Electricity");
         title.setFont(title.getFont().deriveFont(Font.BOLD,34.0f));
         container = new JPanel(new FlowLayout());
@@ -57,9 +54,6 @@ public class AddElectricity_WaterPage extends JPanel{
     }
     public void createAddWaterPage() {
 
-        JTextField maxQuantity = new JTextField(20);
-        JTextField maxRangeValue = new JTextField(20);
-        JTextField defaultPrice = new JTextField(20);
         JLabel title = new JLabel("Add Water");
         title.setFont(title.getFont().deriveFont(Font.BOLD,34.0f));
         container = new JPanel(new FlowLayout());

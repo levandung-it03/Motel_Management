@@ -21,21 +21,19 @@ public class AddEWListeners {
         return Controller_Electricity_Water.getWaterLastId();
     }
     public static ActionListener addNewELectricListener(HashMap<String, JTextField> inpTags) {
-
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 Pattern pattern = Pattern.compile("E\\d{3}");
                 Matcher matcher = pattern.matcher(inpTags.get("electricId").getText());
                 boolean isValid = matcher.matches()
-                        && Configs.isIntegerNumeric(inpTags.get("rangeName").getText())
                         && Configs.isIntegerNumeric(inpTags.get("minERangeValue").getText())
                         && Configs.isIntegerNumeric(inpTags.get("maxERangeValue").getText())
                         && Configs.isIntegerNumeric(inpTags.get("defaultEPrice").getText());
 
                 if (isValid) {
                     // Call API here.
-                    String nextIdWhenSuccessfully = Controller_Room.addNewRoom(new String[] {
+                    String nextIdWhenSuccessfully = Controller_Electricity_Water.addNewElectric(new String[] {
                             inpTags.get("electricId").getText(),
                             inpTags.get("rangeName").getText(),
                             inpTags.get("minERangeValue").getText(),
@@ -67,14 +65,15 @@ public class AddEWListeners {
                 Pattern pattern = Pattern.compile("W\\d{3}");
                 Matcher matcher = pattern.matcher(inpTags.get("waterId").getText());
                 boolean isValid = matcher.matches()
-                        && Configs.isIntegerNumeric(inpTags.get("rangeName").getText())
                         && Configs.isIntegerNumeric(inpTags.get("minWRangeValue").getText())
                         && Configs.isIntegerNumeric(inpTags.get("maxWRangeValue").getText())
                         && Configs.isIntegerNumeric(inpTags.get("defaultWPrice").getText());
-
+                System.out.println(matcher.matches());
+                System.out.println(Configs.isIntegerNumeric(inpTags.get("minWRangeValue").getText()));
+                System.out.println(Configs.isIntegerNumeric(inpTags.get("maxWRangeValue").getText()));
                 if (isValid) {
                     // Call API here.
-                    String nextIdWhenSuccessfully = Controller_Room.addNewRoom(new String[] {
+                    String nextIdWhenSuccessfully = Controller_Electricity_Water.addNewWater(new String[] {
                             inpTags.get("waterId").getText(),
                             inpTags.get("rangeName").getText(),
                             inpTags.get("minWRangeValue").getText(),
@@ -87,9 +86,9 @@ public class AddEWListeners {
 
                         inpTags.get("waterId").setText(nextIdWhenSuccessfully);
                         inpTags.get("rangeName").setText("");
-                        inpTags.get("minERangeValue").setText("");
-                        inpTags.get("maxERangeValue").setText("");
-                        inpTags.get("defaultEPrice").setText("");
+                        inpTags.get("minWRangeValue").setText("");
+                        inpTags.get("maxWRangeValue").setText("");
+                        inpTags.get("defaultWPrice").setText("");
                     } else {
                         JOptionPane.showMessageDialog(new JPanel(), "Water Range Already Existed", "Notice", JOptionPane.PLAIN_MESSAGE);
                     }
