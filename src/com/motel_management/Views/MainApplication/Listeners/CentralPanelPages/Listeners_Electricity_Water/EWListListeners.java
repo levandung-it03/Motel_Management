@@ -23,7 +23,7 @@ public class EWListListeners {
             public void tableChanged(TableModelEvent evt) {
                 if (evt.getType() == TableModelEvent.UPDATE) {
                     String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmListener, EWList.electricTable,
-                            EWList.tableData, "Room");
+                            EWList.tableData, "Electric");
 
                     if (changedRow != null) {
                         if (Controller_Electricity_Water.updateElectric(changedRow) != 0)
@@ -43,7 +43,7 @@ public class EWListListeners {
             public void tableChanged(TableModelEvent evt) {
                 if (evt.getType() == TableModelEvent.UPDATE) {
                     String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmListener, EWList.waterTable,
-                            EWList.tableData, "Room");
+                            EWList.tableData, "Water");
 
                     if (changedRow != null) {
                         if (Controller_Electricity_Water.updateWater(changedRow) != 0)

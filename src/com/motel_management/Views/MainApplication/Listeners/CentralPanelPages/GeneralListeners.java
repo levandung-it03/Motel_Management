@@ -29,7 +29,7 @@ public class GeneralListeners {
 
             if (tableName.equals("Room")) {
                 isValid = GeneralListeners.validateRoomTableData(oldCellData, changedValue, fullChangedRow);
-            }else if (tableName.equals("ELectric")) {
+            }else if (tableName.equals("Electric")) {
                 isValid = GeneralListeners.validateEWTableData(oldCellData, changedValue, fullChangedRow);
             }else if (tableName.equals("Water")) {
                 isValid = GeneralListeners.validateEWTableData(oldCellData, changedValue, fullChangedRow);
