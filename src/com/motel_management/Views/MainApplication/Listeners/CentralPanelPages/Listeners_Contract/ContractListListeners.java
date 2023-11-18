@@ -18,27 +18,6 @@ public class ContractListListeners {
     // Constructor
     public ContractListListeners() {}
 
-    public static TableModelListener cellValueUpdated(ContractListPage contractList) {
-        tmListener = new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent evt) {
-                if (evt.getType() == TableModelEvent.UPDATE) {
-                    String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmListener, contractList.table,
-                            contractList.tableData, "Contract");
-
-                    if (changedRow != null) {
-                        if (Controller_Contract.updateContract(changedRow) != 0)
-                            JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
-                        else
-                            JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
-                    }
-                }
-                contractList.saveCurrentTableData();
-            }
-        };
-        return tmListener;
-    }
-
     public static MouseAdapter getDeleteCellByMouseListener(DefaultTableModel defaultModel, JTable table, ContractListPage contractList) {
         return new MouseAdapter() {
             @Override

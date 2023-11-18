@@ -59,9 +59,6 @@ public class ContractListPage extends JPanel {
     }
 
     public void createListeners() {
-        // Add Changing Cells Value Action.
-        table.getModel().addTableModelListener(ContractListListeners.cellValueUpdated(this));
-
         // Add Clicking Delete Button Action.
         table.addMouseListener(ContractListListeners.getDeleteCellByMouseListener(this.defaultModel, this.table, this));
     }

@@ -65,7 +65,7 @@ public class AddContractListeners {
                     } else {
                         JOptionPane.showMessageDialog(
                                 new JPanel(),
-                                "Identifier Already Existed",
+                                "Identity Card Already Existed",
                                 "Notice",
                                 JOptionPane.PLAIN_MESSAGE
                         );

@@ -1,5 +1,6 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages;
 
+import com.motel_management.DataAccessObject.ContractDAO;
 import com.motel_management.Views.Configs;
 
 import javax.swing.*;
@@ -34,8 +35,6 @@ public class GeneralListeners {
             if (isValid) {
                 return fullChangedRow;
             } else {
-                JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
-
                 // Paying back Old Data.
                 table.getModel().removeTableModelListener(listener);
                 table.setValueAt(oldCellData, changedRowIndex, changedColumnIndex);
@@ -52,10 +51,45 @@ public class GeneralListeners {
     }
 
     public static boolean validateRoomTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
-        return (!Configs.isIntegerNumeric(oldCellData.toString()) || Configs.isIntegerNumeric(changedValue))
-                && Integer.parseInt(fullChangedRow[1]) <= Integer.parseInt(fullChangedRow[2])
-                && Integer.parseInt(fullChangedRow[1]) >= 0
-                && Integer.parseInt(fullChangedRow[3]) >= 0;
+        if (Configs.isIntegerNumeric(oldCellData.toString()) && !Configs.isIntegerNumeric(changedValue)) {
+            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
+            return false;
+        }
+        if (Integer.parseInt(fullChangedRow[1]) < 0) {
+            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
+            return false;
+        }
+        if (Integer.parseInt(fullChangedRow[1]) > Integer.parseInt(fullChangedRow[2])) {
+            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
+            return false;
+        }
+        if (Integer.parseInt(fullChangedRow[3]) < 0) {
+            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
+            return false;
+        }
+        // Occupied Room Being Changed.
+        if (ContractDAO.getInstance().selectByCondition("WHERE (roomId =\"" + fullChangedRow[0] + "\" )").size() > 0) {
+            if (Integer.parseInt(fullChangedRow[1]) == 0) {
+                JOptionPane.showMessageDialog(new JPanel(), "Max Quantity > 0 because Contract Existed!", "Notice", JOptionPane.PLAIN_MESSAGE);
+                return false;
+            }
+        } else {
+            // Not Occupied Room.
+            if (Integer.parseInt(fullChangedRow[1]) > 0) {
+                JOptionPane.showMessageDialog(new JPanel(), "Room Was Not Occupied, Can Not Change Quantity!", "Notice", JOptionPane.PLAIN_MESSAGE);
+                return false;
+            }
+        }
+        return true;
     }
+
+//    public static boolean validateTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
+//        boolean isValid = false;
+//        if (!isValid)
+//            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
+//
+//        return isValid;
+//    }
+
 
 }
