@@ -1,8 +1,8 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Electricity_Water;
 
 import com.motel_management.Controllers.Controller_Electricity_Water;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterListPage;
-
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -17,19 +17,42 @@ public class EWListListeners {
     // Constructor
     public EWListListeners() {}
 
-    public static TableModelListener cellValueUpdated(Electricity_WaterListPage EWList) {
+    public static TableModelListener cellElectricValueUpdated(Electricity_WaterListPage EWList) {
         tmListener = new TableModelListener() {
             @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.UPDATE) {
-//                    String[] res = GeneralListeners.getChangedTableRow(e, tmListener, EWList.table, EWList.tableData);
+            public void tableChanged(TableModelEvent evt) {
+                if (evt.getType() == TableModelEvent.UPDATE) {
+                    String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmListener, EWList.electricTable,
+                            EWList.tableData, "Electric");
 
-//                    if (res != null) {
-//                        System.out.println("Value Updated");
-//                        RoomDAO.getInstance().update(res);
-//                    }
+                    if (changedRow != null) {
+                        if (Controller_Electricity_Water.updateElectric(changedRow) != 0)
+                            JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
+                        else
+                            JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
+                    }
                 }
-                EWList.saveCurrentTableData();
+                EWList.saveCurrentTableData(EWList.electricTable);
+            }
+        };
+        return tmListener;
+    }
+    public static TableModelListener cellWaterValueUpdated(Electricity_WaterListPage EWList) {
+        tmListener = new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent evt) {
+                if (evt.getType() == TableModelEvent.UPDATE) {
+                    String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmListener, EWList.waterTable,
+                            EWList.tableData, "Water");
+
+                    if (changedRow != null) {
+                        if (Controller_Electricity_Water.updateWater(changedRow) != 0)
+                            JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
+                        else
+                            JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
+                    }
+                }
+                EWList.saveCurrentTableData(EWList.waterTable);
             }
         };
         return tmListener;
