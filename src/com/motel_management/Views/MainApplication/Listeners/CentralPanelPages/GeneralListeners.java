@@ -15,6 +15,8 @@ public class GeneralListeners {
                                               Object[][] oldData, String tableName) {
         int changedRowIndex = e.getFirstRow();
         int changedColumnIndex = e.getColumn();
+        System.out.println(changedRowIndex);
+        System.out.println(changedColumnIndex);
         Object oldCellData = oldData[changedRowIndex][changedColumnIndex];
 
         if (JOptionPane.showConfirmDialog(new JPanel(), "Confirm this action?", "Confirm", JOptionPane.YES_NO_OPTION) == 0) {

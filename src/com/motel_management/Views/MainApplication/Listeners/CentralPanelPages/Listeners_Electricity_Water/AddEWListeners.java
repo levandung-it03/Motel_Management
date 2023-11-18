@@ -26,10 +26,13 @@ public class AddEWListeners {
             public void actionPerformed(ActionEvent evt) {
                 Pattern pattern = Pattern.compile("E\\d{3}");
                 Matcher matcher = pattern.matcher(inpTags.get("electricId").getText());
-                boolean isValid = matcher.matches()
-                        && Configs.isIntegerNumeric(inpTags.get("minERangeValue").getText())
-                        && Configs.isIntegerNumeric(inpTags.get("maxERangeValue").getText())
-                        && Configs.isIntegerNumeric(inpTags.get("defaultEPrice").getText());
+                boolean isValid = true;
+                try {
+                    isValid = matcher.matches()
+                            && Integer.parseInt(inpTags.get("minERangeValue").getText()) > 0
+                            && Integer.parseInt(inpTags.get("maxERangeValue").getText()) > Integer.parseInt(inpTags.get("minERangeValue").getText())
+                            && Integer.parseInt(inpTags.get("defaultEPrice").getText()) >= 0;
+                } catch (NumberFormatException e) { isValid = false; }
 
                 if (isValid) {
                     // Call API here.
@@ -64,10 +67,13 @@ public class AddEWListeners {
             public void actionPerformed(ActionEvent evt) {
                 Pattern pattern = Pattern.compile("W\\d{3}");
                 Matcher matcher = pattern.matcher(inpTags.get("waterId").getText());
-                boolean isValid = matcher.matches()
-                        && Configs.isIntegerNumeric(inpTags.get("minWRangeValue").getText())
-                        && Configs.isIntegerNumeric(inpTags.get("maxWRangeValue").getText())
-                        && Configs.isIntegerNumeric(inpTags.get("defaultWPrice").getText());
+                boolean isValid = true;
+                try {
+                    isValid = matcher.matches()
+                            && Integer.parseInt(inpTags.get("minWRangeValue").getText()) > 0
+                            && Integer.parseInt(inpTags.get("maxWRangeValue").getText()) > Integer.parseInt(inpTags.get("minERangeValue").getText())
+                            && Integer.parseInt(inpTags.get("defaultWPrice").getText()) >= 0;
+                } catch (NumberFormatException e) { isValid = false; }
 
                 if (isValid) {
                     // Call API here.

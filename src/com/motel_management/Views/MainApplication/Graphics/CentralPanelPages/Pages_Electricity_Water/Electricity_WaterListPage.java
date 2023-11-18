@@ -17,14 +17,15 @@ public class Electricity_WaterListPage extends JPanel {
     public JScrollPane roomScrollPane;
     public DefaultTableModel defaultElectricTable;
     public DefaultTableModel defaultWaterTable;
-    public Object[][] tableData;
+    public Object[][] electricTableData;
+    public Object[][] waterTableData;
 
     public Electricity_WaterListPage() {
         super(new GridLayout(0, 2));
         this.createEWListPage();
         this.createListeners();
-        this.saveCurrentTableData(electricTable);
-        this.saveCurrentTableData(waterTable);
+        this.saveCurrentElectricTableData(electricTable);
+        this.saveCurrentWaterTableData(waterTable);
     }
 
     public void createEWListPage() {
@@ -111,11 +112,18 @@ public class Electricity_WaterListPage extends JPanel {
         waterTable.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfWater(this.defaultWaterTable, this.waterTable));
 }
 
-    public void saveCurrentTableData(JTable table) {
+    public void saveCurrentElectricTableData(JTable table) {
         // Copy Data from Table.
-        this.tableData = new Object[table.getRowCount()][table.getColumnCount() - 1];
+        this.electricTableData = new Object[table.getRowCount()][table.getColumnCount() - 1];
         for (int row = 0; row < table.getRowCount(); row++)
             for (int col = 0; col < table.getColumnCount() - 1; col++)
-                this.tableData[row][col] = table.getValueAt(row, col);
+                this.electricTableData[row][col] = table.getValueAt(row, col);
+    }
+    public void saveCurrentWaterTableData(JTable table) {
+        // Copy Data from Table.
+        this.waterTableData = new Object[table.getRowCount()][table.getColumnCount() - 1];
+        for (int row = 0; row < table.getRowCount(); row++)
+            for (int col = 0; col < table.getColumnCount() - 1; col++)
+                this.waterTableData[row][col] = table.getValueAt(row, col);
     }
 }
