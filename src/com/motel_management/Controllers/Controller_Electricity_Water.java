@@ -28,6 +28,11 @@ public class Controller_Electricity_Water {
             electrics[i][1] = result.get(i).getRangeName();
             electrics[i][2] = Integer.toString(result.get(i).getMinRangeValue());
             electrics[i][3] = Integer.toString(result.get(i).getMaxRangeValue());
+            if(result.get(i).getMaxRangeValue() == Integer.MAX_VALUE){
+                electrics[i][3] = "Unlimited";
+            }else{
+                electrics[i][3] = Integer.toString(result.get(i).getMaxRangeValue());
+            }
             electrics[i][4] = Integer.toString(result.get(i).getPrice());
             electrics[i][5] = "Delete";
         }
@@ -41,7 +46,11 @@ public class Controller_Electricity_Water {
             waters[i][0] = result.get(i).getRangeId();
             waters[i][1] = result.get(i).getRangeName();
             waters[i][2] = Integer.toString(result.get(i).getMinRangeValue());
-            waters[i][3] = Integer.toString(result.get(i).getMaxRangeValue());
+            if(result.get(i).getMaxRangeValue() == Integer.MAX_VALUE){
+                waters[i][3] = "Unlimited";
+            }else{
+                waters[i][3] = Integer.toString(result.get(i).getMaxRangeValue());
+            }
             waters[i][4] = Integer.toString(result.get(i).getPrice());
             waters[i][5] = "Delete";
         }
@@ -69,6 +78,23 @@ public class Controller_Electricity_Water {
             lastRoomId.replace(0, 1, "0");
             int id = Integer.parseInt(lastRoomId.toString()) + 1;
             return "W" + String.format("%03d", id);
+        }
+    }
+
+    public static int getLastElectricMaxRange() {
+        ArrayList<ElectricRangeModel> electricList = ElectricRangeDAO.getInstance().selectByCondition("ORDER BY maxRangeValue ASC");
+        if (electricList.isEmpty()) {
+            return 0;
+        } else {
+            return electricList.get(electricList.size() - 1).getMaxRangeValue();
+        }
+    }
+    public static int getLastWaterMaxRange() {
+        ArrayList<WaterRangeModel> waterList = WaterRangeDAO.getInstance().selectByCondition("ORDER BY maxRangeValue ASC");
+        if (waterList.isEmpty()) {
+            return 0;
+        } else {
+            return waterList.get(waterList.size() - 1).getMaxRangeValue();
         }
     }
 
