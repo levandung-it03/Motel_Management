@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class InvoiceDAO implements DAOInterface<InvoiceModel>{
     public InvoiceDAO() {}
-    public static RoomDAO getInstance() {
-        return new RoomDAO();
+    public static InvoiceDAO getInstance() {
+        return new InvoiceDAO();
     }
     @Override
     public int insert(InvoiceModel obj) {

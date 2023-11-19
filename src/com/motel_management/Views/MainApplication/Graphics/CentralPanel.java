@@ -40,11 +40,11 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Check-out"));
         labels.add(generateTabLabel("Invoices"));
 
-        pages.add(new StatisticPage());
-        pages.add(new RoomPage());
-        pages.add(new ContractPage());
-        pages.add(new RepresentativesPage());
-        pages.add(new Electricity_WaterPage());
+//        pages.add(new StatisticPage());
+//        pages.add(new RoomPage());
+//        pages.add(new ContractPage());
+//        pages.add(new RepresentativesPage());
+//        pages.add(new Electricity_WaterPage());
         pages.add(new InvoicesPage());
         pages.add(new CheckOutPage());
 
