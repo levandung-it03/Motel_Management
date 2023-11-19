@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,12 +22,13 @@ public class AddRoomListeners {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                Pattern pattern = Pattern.compile("A\\d{3}");
+                Pattern pattern = Pattern.compile("P\\d{3}");
                 Matcher matcher = pattern.matcher(inpTags.get("roomIdInp").getText());
                 boolean isValid = true;
 
                 try {
                     isValid = matcher.matches()
+                            && !Objects.equals(inpTags.get("roomIdInp").getText(), "P999")
                             && Integer.parseInt(inpTags.get("maxQuantity").getText()) > 0
                             && Integer.parseInt(inpTags.get("defaultPrice").getText()) >= 0;
                 } catch (NumberFormatException e) { isValid = false; }

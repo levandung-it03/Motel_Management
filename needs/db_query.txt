@@ -77,7 +77,7 @@ CREATE TABLE CheckOut(
     CONSTRAINT PK_CheckOut PRIMARY KEY (CheckOutId)
 );
 
-CREATE TABLE Consumption(
+CREATE TABLE CheckOut(
     consumptionId VARCHAR(20) UNIQUE NOT NULL,
     roomId VARCHAR(20) UNIQUE NOT NULL,
     consumptionMonth VARCHAR(2) NOT NULL,
@@ -86,8 +86,8 @@ CREATE TABLE Consumption(
     waterNumber	INT DEFAULT 0,
     electricNumber INT DEFAULT 0,
     vehicle INT DEFAULT 0,
-    CONSTRAINT FK_Consumption_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT PK_Consumption PRIMARY KEY (ConsumptionId)
+    CONSTRAINT FK_CheckOut_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
+    CONSTRAINT PK_CheckOut PRIMARY KEY (CheckOutId)
 );
 
 CREATE TABLE Invoice(
@@ -104,10 +104,10 @@ CREATE TABLE Invoice(
     total FLOAT(3),
     wasPaid BOOLEAN DEFAULT FALSE,
     CONSTRAINT FK_Invoice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT FK_Invoice_consumptionId FOREIGN KEY (consumptionId) REFERENCES Consumption(consumptionId),
+    CONSTRAINT FK_Invoice_consumptionId FOREIGN KEY (consumptionId) REFERENCES CheckOut(consumptionId),
     CONSTRAINT PK_Invoice PRIMARY KEY (invoiceId)
 );
 
 INSERT INTO Account VALUES ("admin000", "Root", "root", "123456"), ("admin001", "Dung", "levandung", "123456");
-INSERT INTO Room VALUES ("A001", 0, 9, 3000000), ("A002", 0, 9, 3000000), ("A003", 2, 9, 3000000), ("A004", 0, 9, 3000000), ("A005", 2, 9, 3000000),
-("A006", 6, 9, 3000000);
+INSERT INTO Room VALUES ("P001", 0, 9, 3000000), ("P002", 0, 9, 3000000), ("P003", 0, 9, 3000000), ("P004", 0, 9, 3000000), ("P005", 0, 9, 3000000),
+("P006", 0, 9, 3000000);

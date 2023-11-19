@@ -19,7 +19,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getInvoiceId());
             ps.setString(2, obj.getRoomId());
-            ps.setString(3, obj.getConsumptionId());
+            ps.setString(3, obj.getCheckOutId());
             ps.setInt(4, obj.getDefaultRoomPrice());
             ps.setString(5, obj.getMonthPayment());
             ps.setString(6, obj.getYearPayment());
@@ -91,7 +91,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
                     "garbage=?, vehicle=?, total=?, wasPaid=? WHERE (invoiceId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getRoomId());
-            ps.setString(2, obj.getConsumptionId());
+            ps.setString(2, obj.getCheckOutId());
             ps.setInt(3, obj.getDefaultRoomPrice());
             ps.setString(4, obj.getMonthPayment());
             ps.setString(5, obj.getYearPayment());

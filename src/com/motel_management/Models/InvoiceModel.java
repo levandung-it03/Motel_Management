@@ -37,7 +37,7 @@ public class InvoiceModel {
 
     public String getRoomId () {return roomId;}
 
-    public String getConsumptionId () {return consumptionId;}
+    public String getCheckOutId () {return consumptionId;}
 
     public int getDefaultRoomPrice () {return defaultRoomPrice;}
 
@@ -67,7 +67,7 @@ public class InvoiceModel {
         this.roomId = roomId;
     }
 
-    public void setConsumptionId (String consumptionId) {
+    public void setCheckOutId (String consumptionId) {
         this.consumptionId = consumptionId;
     }
 

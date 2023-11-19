@@ -1,9 +1,10 @@
 package com.motel_management.Views.MainApplication.Graphics;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.*;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_CheckOut.CheckOutPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractPage;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.InvoicesPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.StatisticPage;
 
@@ -28,7 +29,6 @@ public class CentralPanel extends JPanel {
     }
 
     public void createCentralPanel() {
-        setPreferredSize(new Dimension());
         category = new JTabbedPane(JTabbedPane.LEFT);
         category.setBounds(0, 0, Configs.centralPanelWidth, Configs.centralPanelHeight);
 
@@ -37,16 +37,16 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Contracts"));
         labels.add(generateTabLabel("Representatives"));
         labels.add(generateTabLabel("Electricity-Water"));
-        labels.add(generateTabLabel("Consumption"));
+        labels.add(generateTabLabel("Check-out"));
         labels.add(generateTabLabel("Invoices"));
 
-        pages.add(new StatisticPage());
-        pages.add(new RoomPage());
-        pages.add(new ContractPage());
-        pages.add(new RepresentativesPage());
-        pages.add(new Electricity_WaterPage());
-        pages.add(new ConsumptionPage());
+//        pages.add(new StatisticPage());
+//        pages.add(new RoomPage());
+//        pages.add(new ContractPage());
+//        pages.add(new RepresentativesPage());
+//        pages.add(new Electricity_WaterPage());
         pages.add(new InvoicesPage());
+        pages.add(new CheckOutPage());
 
         for (int i = 0; i < pages.size(); i++) {
             pages.get(i).setPreferredSize(
@@ -83,7 +83,7 @@ public class CentralPanel extends JPanel {
                     case 2 -> category.setComponentAt(2, new ContractPage());
                     case 3 -> category.setComponentAt(3, new RepresentativesPage());
                     case 4 -> category.setComponentAt(4, new Electricity_WaterPage());
-                    case 5 -> category.setComponentAt(5, new ConsumptionPage());
+                    case 5 -> category.setComponentAt(5, new CheckOutPage());
                     case 6 -> category.setComponentAt(6, new InvoicesPage());
                 }
             }

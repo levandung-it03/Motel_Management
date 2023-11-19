@@ -19,7 +19,7 @@ public class Controller_Room {
             StringBuilder idTail = new StringBuilder(Integer.toString(Integer.parseInt(lastRoomId.toString()) + 1));
             while (idTail.length() != 3)
                 idTail.insert(0, "0");
-            return "A" + idTail.toString();
+            return "P" + idTail.toString();
         }
     }
 
@@ -30,14 +30,14 @@ public class Controller_Room {
     public static String getLastId() {
         ArrayList<RoomModel> roomList = RoomDAO.getInstance().selectByCondition("ORDER BY roomId ASC");
         if (roomList.isEmpty()) {
-            return "A001";
+            return "P001";
         } else {
             StringBuilder lastRoomId = new StringBuilder(roomList.get(roomList.size() - 1).getRoomId());
             lastRoomId.replace(0, 1, "0");
             StringBuilder idTail = new StringBuilder(Integer.toString(Integer.parseInt(lastRoomId.toString()) + 1));
             while (idTail.length() != 3)
                 idTail.insert(0, "0");
-            return "A" + idTail;
+            return "P" + idTail;
         }
     }
 
