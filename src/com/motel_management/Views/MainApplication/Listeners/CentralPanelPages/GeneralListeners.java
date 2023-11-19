@@ -59,7 +59,7 @@ public class GeneralListeners {
             JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
             return false;
         }
-        if (Integer.parseInt(fullChangedRow[1]) < 0) {
+        if (Integer.parseInt(fullChangedRow[1]) < 0 && Integer.parseInt(fullChangedRow[1]) != -1) {
             JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
             return false;
         }
@@ -79,7 +79,7 @@ public class GeneralListeners {
             }
         } else {
             // Not Occupied Room.
-            if (Integer.parseInt(fullChangedRow[1]) > 0) {
+            if (Integer.parseInt(fullChangedRow[1]) > 0 || Integer.parseInt(fullChangedRow[1]) == -1) {
                 JOptionPane.showMessageDialog(new JPanel(), "Room Was Not Occupied, Can Not Change Quantity!", "Notice", JOptionPane.PLAIN_MESSAGE);
                 return false;
             }

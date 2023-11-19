@@ -65,7 +65,7 @@ public class AddContractPage extends JPanel {
         container.add(InputComboPanel.generateTextInputPanel("Bank Account Number", bankAccountNumber));
         container.add(InputComboPanel.generateComboBoxInputPanel("Bank Name", bank));
         container.add(InputComboPanel.generateComboBoxInputPanel("Room Code (*)", roomId));
-        container.add(InputComboPanel.generateTextInputPanel("Number Of People (*)", quantity));
+        container.add(InputComboPanel.generateTextInputPanel("People (Unknown = -1) (*)", quantity));
         container.add(InputComboPanel.generateTextInputPanel("Deposit (VNĐ) (*)", roomDeposit));
         container.add(InputComboPanel.generateDateInputPanel("Started Date (*)", startingDate));
         container.add(InputComboPanel.generateDateInputPanel("Ended Date (*)", endingDate));

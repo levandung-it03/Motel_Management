@@ -10,9 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 public class AddInvoiceListeners {
@@ -38,10 +38,10 @@ public class AddInvoiceListeners {
                 invoiceOfRoom.setMonthPayment("1");
                 invoiceOfRoom.setYearPayment(Integer.toString(Integer.parseInt(invoiceOfRoom.getYearPayment()) + 1));
             }
-            inpTags.get("yearPayment").setText(invoiceOfRoom.getYearPayment());
-            inpTags.get("monthPayment").setText(invoiceOfRoom.getMonthPayment());
-            inpTags.get("formerElectricNumber").setText(Integer.toString(invoiceOfRoom.getCurrentElectricNumber()));
-            inpTags.get("formerWaterNumber").setText(Integer.toString(invoiceOfRoom.getCurrentWaterNumber()));
+            inpTags.get("paymentYear").setText(invoiceOfRoom.getYearPayment());
+            inpTags.get("paymentMonth").setText(invoiceOfRoom.getMonthPayment());
+            inpTags.get("formerElectricNumber").setText(Integer.toString(invoiceOfRoom.getNewElectricNumber()));
+            inpTags.get("formerWaterNumber").setText(Integer.toString(invoiceOfRoom.getNewWaterNumber()));
             inpTags.get("garbage").setText(Integer.toString(invoiceOfRoom.getGarbage()));
             inpTags.get("wifi").setText(Integer.toString(invoiceOfRoom.getWifi()));
             inpTags.get("vehicle").setText(Integer.toString(invoiceOfRoom.getVehicle()));
@@ -64,8 +64,36 @@ public class AddInvoiceListeners {
             public void actionPerformed(ActionEvent e) {
                 String validateRes = AddInvoiceListeners.validate(inpTags);
                 if (validateRes.equals("1")) {
-                    if (JOptionPane.showConfirmDialog(new JPanel(), "Confirm This Submit Action?", "Confirm", JOptionPane.YES_NO_OPTION) == 0) {
-                        JOptionPane.showMessageDialog(new JPanel(), "Submitted (Testing)", "Notice", JOptionPane.PLAIN_MESSAGE);
+                    if (JOptionPane.showConfirmDialog(
+                            new JPanel(),
+                            "Confirm This Submitting Action?",
+                            "Confirm",
+                            JOptionPane.YES_NO_OPTION
+                    ) == 0) {
+
+                        HashMap<String, String> data = new HashMap<>();
+                        AtomicInteger total = new AtomicInteger();
+                        data.put("roomId", Objects.requireNonNull(roomId.getSelectedItem()).toString());
+
+                        int addRes = Controller_Invoices.addNewInvoice(data);
+                        if (addRes == 1) {
+                            JOptionPane.showMessageDialog(
+                                    new JPanel(),
+                                    "Successfully create Invoice of Room "
+                                            + Objects.requireNonNull(roomId.getSelectedItem()).toString(),
+                                    "Notice",
+                                    JOptionPane.PLAIN_MESSAGE
+                            );
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                    new JPanel(),
+                                    "This room has already had invoice on "
+                                            + data.get("paymentMonth")
+                                            + "\\" + data.get("paymentYear"),
+                                    "Notice",
+                                    JOptionPane.PLAIN_MESSAGE
+                            );
+                        }
                     }
                 } else {
                     JOptionPane.showMessageDialog(new JPanel(), validateRes, "Notice", JOptionPane.PLAIN_MESSAGE);
@@ -75,13 +103,13 @@ public class AddInvoiceListeners {
     }
     
     public static String validate(HashMap<String, JTextField> inpTags) {
-        if (!Pattern.compile("\\d{4}").matcher(inpTags.get("yearPayment").getText()).matches()
-        || Integer.parseInt(inpTags.get("yearPayment").getText()) > (LocalDateTime.now().getYear() + 1))
+        if (!Pattern.compile("\\d{4}").matcher(inpTags.get("paymentYear").getText()).matches()
+        || Integer.parseInt(inpTags.get("paymentYear").getText()) > (LocalDateTime.now().getYear() + 1))
             return "Need a number \"yyyy\" at Year Payment";
 
-        if (!Pattern.compile("\\d{1,2}").matcher(inpTags.get("monthPayment").getText()).matches()
-        || Integer.parseInt(inpTags.get("monthPayment").getText()) <= 0
-        || Integer.parseInt(inpTags.get("monthPayment").getText()) > 12)
+        if (!Pattern.compile("\\d{1,2}").matcher(inpTags.get("paymentMonth").getText()).matches()
+        || Integer.parseInt(inpTags.get("paymentMonth").getText()) <= 0
+        || Integer.parseInt(inpTags.get("paymentMonth").getText()) > 12)
             return "Need a number \"mm\" at Month Payment";
 
         if (!Pattern.compile("\\d{5}").matcher(inpTags.get("formerElectricNumber").getText()).matches())
@@ -90,7 +118,7 @@ public class AddInvoiceListeners {
         if (!Pattern.compile("\\d{5}").matcher(inpTags.get("newElectricNumber").getText()).matches())
             return "Need full 5 black digits at New Electric Number (ex: 00545)";
 
-        if (Integer.parseInt(inpTags.get("newElectricNumber").getText()) < Integer.parseInt(inpTags.get("formerElectricNumber").getText()))
+        if (Integer.parseInt(inpTags.get("formerElectricNumber").getText()) < Integer.parseInt(inpTags.get("formerElectricNumber").getText()))
             return "New Electric Number must be larger than Old Number";
 
         if (!Pattern.compile("\\d{4,5}").matcher(inpTags.get("formerWaterNumber").getText()).matches())

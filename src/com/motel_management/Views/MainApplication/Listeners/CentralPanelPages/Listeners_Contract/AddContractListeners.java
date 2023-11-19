@@ -58,10 +58,12 @@ public class AddContractListeners {
                     int newContractUpdated = Controller_Contract.addNewContract(data);
 
                     if (newContractUpdated != 0) {
-                        JOptionPane.showMessageDialog(new JPanel(), "New Contract was added! Open \"Contract List\" to check it!",
-                                "Notice", JOptionPane.PLAIN_MESSAGE);
+                        if (JOptionPane.showConfirmDialog(new JPanel(), "Confirm This Submitting Action?", "Confirm", JOptionPane.YES_NO_OPTION) == 0) {
+                            JOptionPane.showMessageDialog(new JPanel(), "New Contract was added! Open \"Contract List\" to check it!",
+                                    "Notice", JOptionPane.PLAIN_MESSAGE);
 
-                        ContractPage.mainPage.setSelectedIndex(0);
+                            ContractPage.mainPage.setSelectedIndex(0);
+                        }
                     } else {
                         JOptionPane.showMessageDialog(
                                 new JPanel(),
@@ -138,8 +140,10 @@ public class AddContractListeners {
         try {
             Integer max = maxQuantityList.get(Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString());
             int quantity = Integer.parseInt(inpTags.get("quantity").getText());
-            if (!(quantity > 0 && quantity <= max.intValue())) {
-                return "Number Of People";
+            if (quantity != -1) {
+                if (!(quantity > 0 && quantity <= max.intValue())) {
+                    return "Number Of People";
+                }
             }
         } catch (NumberFormatException e) {
             return "Number Of People";

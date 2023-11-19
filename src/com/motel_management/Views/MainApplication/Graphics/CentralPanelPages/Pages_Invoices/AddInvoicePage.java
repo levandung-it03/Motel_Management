@@ -14,8 +14,8 @@ public class AddInvoicePage extends JPanel {
     JComboBox<Object> roomId;
     JTextField identifier = new JTextField(20);
     JTextField defaultRoomPrice = new JTextField(20);
-    JTextField yearPayment = new JTextField(20);
-    JTextField monthPayment = new JTextField(20);
+    JTextField paymentYear = new JTextField(20);
+    JTextField paymentMonth = new JTextField(20);
 
     JTextField formerElectricNumber = new JTextField(20);
     JTextField newElectricNumber = new JTextField(20);
@@ -47,8 +47,8 @@ public class AddInvoicePage extends JPanel {
         this.roomId = this.addInvoiceObj.createRoomIdComboBox();
         container.add(InputComboPanel.generateComboBoxInputPanel("Room Code", roomId));
         container.add(InputComboPanel.generateTextInputPanel("Default Room Price", defaultRoomPrice));
-        container.add(InputComboPanel.generateTextInputPanel("Payment Year", yearPayment));
-        container.add(InputComboPanel.generateTextInputPanel("Payment Month", monthPayment));
+        container.add(InputComboPanel.generateTextInputPanel("Payment Year", paymentYear));
+        container.add(InputComboPanel.generateTextInputPanel("Payment Month", paymentMonth));
         container.add(InputComboPanel.generateTextInputPanel("(Full Black, Old) ELECTRIC", formerElectricNumber));
         container.add(InputComboPanel.generateTextInputPanel("(Full Black, New) ELECTRIC", newElectricNumber));
         container.add(InputComboPanel.generateTextInputPanel("(Full Black, Old) WATER", formerWaterNumber));
@@ -79,8 +79,8 @@ public class AddInvoicePage extends JPanel {
 
         HashMap<String, JTextField> inpTags = new HashMap<>();
         inpTags.put("defaultRoomPrice", this.defaultRoomPrice);
-        inpTags.put("yearPayment", this.yearPayment);
-        inpTags.put("monthPayment", this.monthPayment);
+        inpTags.put("paymentYear", this.paymentYear);
+        inpTags.put("paymentMonth", this.paymentMonth);
         inpTags.put("formerElectricNumber", this.formerElectricNumber);
         inpTags.put("newElectricNumber", this.newElectricNumber);
         inpTags.put("formerWaterNumber", this.formerWaterNumber);

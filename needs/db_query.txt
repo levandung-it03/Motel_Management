@@ -77,32 +77,23 @@ CREATE TABLE CheckOut(
     CONSTRAINT PK_CheckOut PRIMARY KEY (CheckOutId)
 );
 
-CREATE TABLE CheckOut(
-    consumptionId VARCHAR(20) UNIQUE NOT NULL,
-    roomId VARCHAR(20) UNIQUE NOT NULL,
-    consumptionMonth VARCHAR(2) NOT NULL,
-    consumptionYear VARCHAR(4) NOT NULL,
-    dateCreated DATE DEFAULT (CURRENT_DATE()),
-    waterNumber	INT DEFAULT 0,
-    electricNumber INT DEFAULT 0,
-    vehicle INT DEFAULT 0,
-    CONSTRAINT FK_CheckOut_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT PK_CheckOut PRIMARY KEY (CheckOutId)
-);
-
 CREATE TABLE Invoice(
     invoiceId VARCHAR(20) UNIQUE NOT NULL,
-    roomId VARCHAR(20) UNIQUE NOT NULL,
-    consumptionId VARCHAR(20) UNIQUE NOT NULL,
+    roomId VARCHAR(20) NOT NULL,
     defaultRoomPrice INT DEFAULT 0,
-    paymentDate VARCHAR(7) UNIQUE NOT NULL,
-    totalWaterBill INT DEFAULT 0,
-    totalElectricBill INT DEFAULT 0,
+    dateCreated DATE DEFAULT CURRENT_DATE,
+    paymentYear VARCHAR(4) NOT NULL,
+    paymentMonth VARCHAR(2) NOT NULL,
+    formerElectricNumber INT DEFAULT 0,
+    newElectricNumber INT DEFAULT 0,
+    formerWaterNumber INT DEFAULT 0,
+    newWaterNumber INT DEFAULT 0,
     garbage INT DEFAULT 0,
     wifi INT DEFAULT 0,
     vehicle	INT DEFAULT 0,
-    total FLOAT(3),
-    wasPaid BOOLEAN DEFAULT FALSE,
+    total INT DEFAULT 0,
+    wasPaid VARCHAR(1) DEFAULT "0",
+    CONSTRAINT UK_Invoice UNIQUE (roomId, paymentMonth, paymentYear),
     CONSTRAINT FK_Invoice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT FK_Invoice_consumptionId FOREIGN KEY (consumptionId) REFERENCES CheckOut(consumptionId),
     CONSTRAINT PK_Invoice PRIMARY KEY (invoiceId)

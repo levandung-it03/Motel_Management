@@ -37,14 +37,14 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Contracts"));
         labels.add(generateTabLabel("Representatives"));
         labels.add(generateTabLabel("Electricity-Water"));
-        labels.add(generateTabLabel("Check-out"));
         labels.add(generateTabLabel("Invoices"));
+        labels.add(generateTabLabel("Check-out"));
 
-//        pages.add(new StatisticPage());
-//        pages.add(new RoomPage());
-//        pages.add(new ContractPage());
-//        pages.add(new RepresentativesPage());
-//        pages.add(new Electricity_WaterPage());
+        pages.add(new StatisticPage());
+        pages.add(new RoomPage());
+        pages.add(new ContractPage());
+        pages.add(new RepresentativesPage());
+        pages.add(new Electricity_WaterPage());
         pages.add(new InvoicesPage());
         pages.add(new CheckOutPage());
 
@@ -83,8 +83,8 @@ public class CentralPanel extends JPanel {
                     case 2 -> category.setComponentAt(2, new ContractPage());
                     case 3 -> category.setComponentAt(3, new RepresentativesPage());
                     case 4 -> category.setComponentAt(4, new Electricity_WaterPage());
-                    case 5 -> category.setComponentAt(5, new CheckOutPage());
-                    case 6 -> category.setComponentAt(6, new InvoicesPage());
+                    case 5 -> category.setComponentAt(5, new InvoicesPage());
+                    case 6 -> category.setComponentAt(6, new CheckOutPage());
                 }
             }
         });
