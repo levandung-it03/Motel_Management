@@ -1,3 +1,4 @@
+
 package com.motel_management.Models;
 
 public class WaterRangeModel {
@@ -5,9 +6,9 @@ public class WaterRangeModel {
     private String rangeName;
     private int minRangeValue;
     private int maxRangeValue;
-    private float price;
+    private int price;
 
-    public WaterRangeModel (String rangeId , String rangeName , int minRangeValue , int maxRangeValue , float price) {
+    public WaterRangeModel (String rangeId , String rangeName , int minRangeValue , int maxRangeValue , int price) {
         this.rangeId = rangeId;
         this.rangeName = rangeName;
         this.minRangeValue = minRangeValue;
@@ -47,11 +48,11 @@ public class WaterRangeModel {
         this.maxRangeValue = maxRangeValue;
     }
 
-    public float getPrice () {
+    public int getPrice () {
         return price;
     }
 
-    public void setPrice (float price) {
+    public void setPrice (int price) {
         this.price = price;
     }
 }
