@@ -5,9 +5,9 @@ public class WaterRangeModel {
     private String rangeName;
     private int minRangeValue;
     private int maxRangeValue;
-    private int price;
+    private float price;
 
-    public WaterRangeModel (String rangeId , String rangeName , int minRangeValue , int maxRangeValue , int price) {
+    public WaterRangeModel (String rangeId , String rangeName , int minRangeValue , int maxRangeValue , float price) {
         this.rangeId = rangeId;
         this.rangeName = rangeName;
         this.minRangeValue = minRangeValue;
@@ -47,11 +47,11 @@ public class WaterRangeModel {
         this.maxRangeValue = maxRangeValue;
     }
 
-    public int getPrice () {
+    public float getPrice () {
         return price;
     }
 
-    public void setPrice (int price) {
+    public void setPrice (float price) {
         this.price = price;
     }
 }

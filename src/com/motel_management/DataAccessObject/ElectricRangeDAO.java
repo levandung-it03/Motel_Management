@@ -22,7 +22,7 @@ public class ElectricRangeDAO implements DAOInterface<ElectricRangeModel>{
             ps.setString(2, obj.getRangeName());
             ps.setInt(3, obj.getMinRangeValue());
             ps.setInt(4, obj.getMaxRangeValue());
-            ps.setInt(5, obj.getPrice());
+            ps.setFloat(5, obj.getPrice());
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,7 +41,7 @@ public class ElectricRangeDAO implements DAOInterface<ElectricRangeModel>{
             ps.setString(2, values[1]);
             ps.setInt(3, Integer.parseInt(values[2]));
             ps.setInt(4, Integer.parseInt(values[3]));
-            ps.setInt(5, Integer.parseInt(values[4]));
+            ps.setFloat(5, Integer.parseInt(values[4]));
 
             return ps.executeUpdate();
         } catch (SQLException e) {
@@ -78,7 +78,7 @@ public class ElectricRangeDAO implements DAOInterface<ElectricRangeModel>{
             ps.setString(1, obj.getRangeName());
             ps.setInt(2, obj.getMinRangeValue());
             ps.setInt(3, obj.getMaxRangeValue());
-            ps.setInt(4, obj.getPrice());
+            ps.setFloat(4, obj.getPrice());
             ps.setString(5, obj.getRangeId());
             return ps.executeUpdate();
         } catch (SQLException e) {
@@ -97,7 +97,7 @@ public class ElectricRangeDAO implements DAOInterface<ElectricRangeModel>{
             ps.setString(1, values[1]);
             ps.setInt(2, Integer.parseInt(values[2]));
             ps.setInt(3, Integer.parseInt(values[3]));
-            ps.setInt(4, Integer.parseInt(values[4]));
+            ps.setFloat(4, Float.parseFloat(values[4]));
             ps.setString(5, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
@@ -118,7 +118,7 @@ public class ElectricRangeDAO implements DAOInterface<ElectricRangeModel>{
             rs.next();
             return new ElectricRangeModel(rs.getString("rangeId"), rs.getString("rangeName"),
                     rs.getInt("minRangeValue"), rs.getInt("maxRangeValue"),
-                    rs.getInt("price"));
+                    rs.getFloat("price"));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -137,7 +137,7 @@ public class ElectricRangeDAO implements DAOInterface<ElectricRangeModel>{
             while (rs.next()) {
                 result.add(new ElectricRangeModel(rs.getString("rangeId"), rs.getString("rangeName"),
                         rs.getInt("minRangeValue"),rs.getInt("maxRangeValue"),
-                        rs.getInt("price")));
+                        rs.getFloat("price")));
             }
             return result;
         } catch (SQLException e) {
@@ -158,7 +158,7 @@ public class ElectricRangeDAO implements DAOInterface<ElectricRangeModel>{
             while (rs.next()) {
                 result.add(new ElectricRangeModel(rs.getString("rangeId"), rs.getString("rangeName"),
                         rs.getInt("minRangeValue"),rs.getInt("maxRangeValue"),
-                        rs.getInt("price")));
+                        rs.getFloat("price")));
             }
             return result;
         } catch (SQLException e) {
