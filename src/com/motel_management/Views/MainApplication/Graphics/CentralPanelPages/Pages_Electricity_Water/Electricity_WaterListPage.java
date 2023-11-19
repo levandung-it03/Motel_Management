@@ -45,13 +45,13 @@ public class Electricity_WaterListPage extends JPanel {
         // Prepare Date to generate Table.
 
         String[][] electrics = Controller_Electricity_Water.getElectricList();
-        String[] columns = {"ID","Range", "Min Value", "Max Value", "Price", "Delete"};
+        String[] columns = {"ID", "Range", "Min Value", "Max Value", "Price", "Delete"};
 
         // Generate Table.
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(electrics, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column != 0;
+                return column != 0 && column != 2 && column != 3;
             }
         });
         this.defaultElectricTable = tableAsList.getDefaultModel();
@@ -78,13 +78,13 @@ public class Electricity_WaterListPage extends JPanel {
 
         // Prepare Date to generate Table.
         String[][] waters = Controller_Electricity_Water.getWaterList();
-        String[] columns = {"ID","Range", "Min Value", "Max Value", "Price", "Delete"};
+        String[] columns = {"ID", "Range", "Min Value", "Max Value", "Price", "Delete"};
 
         // Generate Table.
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(waters, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column != 0;
+                return column != 0 && column != 2 && column != 3;
             }
         });
         this.defaultWaterTable = tableAsList.getDefaultModel();
@@ -110,7 +110,7 @@ public class Electricity_WaterListPage extends JPanel {
         // Add Clicking Delete Electric Button Action.
         electricTable.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfElectric(this.defaultElectricTable, this.electricTable));
         waterTable.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfWater(this.defaultWaterTable, this.waterTable));
-}
+    }
 
     public void saveCurrentElectricTableData(JTable table) {
         // Copy Data from Table.
@@ -119,6 +119,7 @@ public class Electricity_WaterListPage extends JPanel {
             for (int col = 0; col < table.getColumnCount() - 1; col++)
                 this.electricTableData[row][col] = table.getValueAt(row, col);
     }
+
     public void saveCurrentWaterTableData(JTable table) {
         // Copy Data from Table.
         this.waterTableData = new Object[table.getRowCount()][table.getColumnCount() - 1];
