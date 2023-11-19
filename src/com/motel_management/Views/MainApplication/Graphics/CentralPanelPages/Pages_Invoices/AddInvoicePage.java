@@ -1,21 +1,13 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices;
 
-import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Invoices.AddInvoiceListeners;
-import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class AddInvoicePage extends JPanel {
     JPanel container;
@@ -26,16 +18,16 @@ public class AddInvoicePage extends JPanel {
     JTextField monthPayment = new JTextField(20);
 
     JTextField formerElectricNumber = new JTextField(20);
-    JTextField currentElectricNumber = new JTextField(20);
+    JTextField newElectricNumber = new JTextField(20);
     JTextField formerWaterNumber = new JTextField(20);
-    JTextField currentWaterNumber = new JTextField(20);
+    JTextField newWaterNumber = new JTextField(20);
 
     JTextField garbage = new JTextField(20);
     JTextField wifi = new JTextField(20);
     JTextField vehicle = new JTextField(20);
-    JTextField total = new JTextField(20);
 
     JButton submitBtn;
+    JPanel submitBtnContainer = new JPanel();
     AddInvoiceListeners addInvoiceObj;
 
     // Constructor
@@ -53,21 +45,22 @@ public class AddInvoicePage extends JPanel {
 
         this.addInvoiceObj = new AddInvoiceListeners();
         this.roomId = this.addInvoiceObj.createRoomIdComboBox();
-        container.add(InputComboPanel.generateComboBoxInputPanel("Room Code (*)", roomId));
+        container.add(InputComboPanel.generateComboBoxInputPanel("Room Code", roomId));
         container.add(InputComboPanel.generateTextInputPanel("Default Room Price", defaultRoomPrice));
-        container.add(InputComboPanel.generateTextInputPanel("Payment Year (*)", yearPayment));
-        container.add(InputComboPanel.generateTextInputPanel("Payment Month (*)", monthPayment));
-        container.add(InputComboPanel.generateTextInputPanel("Former Electricity (*)", formerElectricNumber));
-        container.add(InputComboPanel.generateTextInputPanel("Current Electricity (*)", currentElectricNumber));
-        container.add(InputComboPanel.generateTextInputPanel("Former Water Number (*)", formerWaterNumber));
-        container.add(InputComboPanel.generateTextInputPanel("Current Water Number (*)", currentWaterNumber));
-        container.add(InputComboPanel.generateTextInputPanel("Garbage Fee(*)", garbage));
-        container.add(InputComboPanel.generateTextInputPanel("Wifi Fee (*)", wifi));
-        container.add(InputComboPanel.generateTextInputPanel("Vehicle Fee (*)", vehicle));
-        container.add(InputComboPanel.generateTextInputPanel("Total Payment", total));
+        container.add(InputComboPanel.generateTextInputPanel("Payment Year", yearPayment));
+        container.add(InputComboPanel.generateTextInputPanel("Payment Month", monthPayment));
+        container.add(InputComboPanel.generateTextInputPanel("(Full Black, Old) ELECTRIC", formerElectricNumber));
+        container.add(InputComboPanel.generateTextInputPanel("(Full Black, New) ELECTRIC", newElectricNumber));
+        container.add(InputComboPanel.generateTextInputPanel("(Full Black, Old) WATER", formerWaterNumber));
+        container.add(InputComboPanel.generateTextInputPanel("(Full Black, New) WATER", newWaterNumber));
+        container.add(InputComboPanel.generateTextInputPanel("Garbage Fee", garbage));
+        container.add(InputComboPanel.generateTextInputPanel("Wifi Fee", wifi));
+        container.add(InputComboPanel.generateTextInputPanel("Vehicle Fee", vehicle));
 
         this.submitBtn = InputComboPanel.generateButton("Submit");
-        container.add(this.submitBtn);
+        this.submitBtnContainer.add(this.submitBtn);
+        this.submitBtnContainer.setBorder(new EmptyBorder(10, 55, 0, 55));
+        container.add(this.submitBtnContainer);
 
         add(container);
     }
@@ -89,14 +82,14 @@ public class AddInvoicePage extends JPanel {
         inpTags.put("yearPayment", this.yearPayment);
         inpTags.put("monthPayment", this.monthPayment);
         inpTags.put("formerElectricNumber", this.formerElectricNumber);
-        inpTags.put("currentElectricNumber", this.currentElectricNumber);
+        inpTags.put("newElectricNumber", this.newElectricNumber);
         inpTags.put("formerWaterNumber", this.formerWaterNumber);
-        inpTags.put("currentWaterNumber", this.currentWaterNumber);
+        inpTags.put("newWaterNumber", this.newWaterNumber);
         inpTags.put("garbage", this.garbage);
         inpTags.put("wifi", this.wifi);
         inpTags.put("vehicle", this.vehicle);
-        inpTags.put("total", this.total);
 
+        AddInvoiceListeners.automaticallySetValueTextField(roomId, inpTags);
         this.roomId.addActionListener(AddInvoiceListeners.changeInpValuesWhenRoomIdChanged(this.roomId, inpTags));
         this.submitBtn.addActionListener(AddInvoiceListeners.addNewInvoicesListener(roomId, inpTags));
     }
