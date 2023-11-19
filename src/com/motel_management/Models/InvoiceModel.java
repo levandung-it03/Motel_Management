@@ -5,29 +5,33 @@ import java.sql.Date;
 public class InvoiceModel {
     private String invoiceId;
     private String roomId;
-    private String consumptionId;
     private int defaultRoomPrice;
-    private String monthPayment;
-    private String yearPayment;
     private Date dateCreated;
-    private int totalWaterBill;
-    private int totalElectricBill;
+    private String yearPayment;
+    private String monthPayment;
+    private int formerElectricNumber;
+    private int currentElectricNumber;
+    private int formerWaterNumber;
+    private int currentWaterNumber;
     private int garbage;
+    private int wifi;
     private int vehicle;
     private int total;
     private String wasPaid;
 
-    public InvoiceModel(String invoiceId, String roomId, String consumptionId, int defaultRoomPrice, String monthPayment, String yearPayment, Date dateCreated, int totalWaterBill, int totalElectricBill, int garbage, int vehicle, int total, String wasPaid) {
+    public InvoiceModel(String invoiceId, String roomId, int defaultRoomPrice, Date dateCreated, String yearPayment, String monthPayment, int formerElectricNumber, int currentElectricNumber, int formerWaterNumber, int currentWaterNumber, int garbage, int wifi, int vehicle, int total, String wasPaid) {
         this.invoiceId = invoiceId;
         this.roomId = roomId;
-        this.consumptionId = consumptionId;
         this.defaultRoomPrice = defaultRoomPrice;
-        this.monthPayment = monthPayment;
-        this.yearPayment = yearPayment;
         this.dateCreated = dateCreated;
-        this.totalWaterBill = totalWaterBill;
-        this.totalElectricBill = totalElectricBill;
+        this.yearPayment = yearPayment;
+        this.monthPayment = monthPayment;
+        this.formerElectricNumber = formerElectricNumber;
+        this.currentElectricNumber = currentElectricNumber;
+        this.formerWaterNumber = formerWaterNumber;
+        this.currentWaterNumber = currentWaterNumber;
         this.garbage = garbage;
+        this.wifi = wifi;
         this.vehicle = vehicle;
         this.total = total;
         this.wasPaid = wasPaid;
@@ -37,21 +41,25 @@ public class InvoiceModel {
 
     public String getRoomId () {return roomId;}
 
-    public String getCheckOutId () {return consumptionId;}
-
     public int getDefaultRoomPrice () {return defaultRoomPrice;}
-
-    public String getMonthPayment () {return monthPayment;}
-
-    public String getYearPayment () {return yearPayment;}
 
     public Date getDateCreated () {return dateCreated;}
 
-    public int getTotalWaterBill () {return totalWaterBill;}
+    public String getYearPayment () {return yearPayment;}
 
-    public int getTotalElectricBill () {return totalElectricBill;}
+    public String getMonthPayment () {return monthPayment;}
+
+    public int getFormerElectricNumber() {return formerElectricNumber;}
+
+    public int getCurrentElectricNumber() {return currentElectricNumber;}
+
+    public int getFormerWaterNumber() {return formerWaterNumber;}
+
+    public int getCurrentWaterNumber() {return currentWaterNumber;}
 
     public int getGarbage () {return garbage;}
+
+    public int getWifi () {return wifi;}
 
     public int getVehicle () {return vehicle;}
 
@@ -67,37 +75,29 @@ public class InvoiceModel {
         this.roomId = roomId;
     }
 
-    public void setCheckOutId (String consumptionId) {
-        this.consumptionId = consumptionId;
-    }
-
     public void setDefaultRoomPrice (int defaultRoomPrice) {
         this.defaultRoomPrice = defaultRoomPrice;
     }
 
-    public void setMonthPayment (String monthPayment) {
-        this.monthPayment = monthPayment;
-    }
+    public void setDateCreated (Date dateCreated) {this.dateCreated = dateCreated;}
 
-    public void setYearPayment (String yearPayment) {
-        this.yearPayment = yearPayment;
-    }
+    public void setYearPayment (String yearPayment) {this.yearPayment = yearPayment;}
 
-    public void setDateCreated (Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
+    public void setMonthPayment (String monthPayment) {this.monthPayment = monthPayment;}
 
-    public void setTotalWaterBill (int totalWaterBill) {
-        this.totalWaterBill = totalWaterBill;
-    }
+    public void setFormerElectricNumber(int formerElectricNumber) {this.formerElectricNumber = formerElectricNumber;}
 
-    public void setTotalElectricBill (int totalElectricBill) {
-        this.totalElectricBill = totalElectricBill;
-    }
+    public void setCurrentElectricNumber(int currentElectricNumber) {this.currentElectricNumber = currentElectricNumber;}
+
+    public void setFormerWaterNumber(int formerWaterNumber) {this.formerWaterNumber = formerWaterNumber;}
+
+    public void setCurrentWaterNumber(int currentWaterNumber) {this.currentWaterNumber = currentWaterNumber;}
 
     public void setGarbage (int garbage) {
         this.garbage = garbage;
     }
+
+    public void setWifi(int wifi) {this.wifi = wifi;}
 
     public void setVehicle (int vehicle) {
         this.vehicle = vehicle;
