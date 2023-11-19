@@ -37,7 +37,7 @@ CREATE TABLE ElectricRange(
     rangeName VARCHAR(20) UNIQUE NOT NULL,
     minRangeValue INT DEFAULT 0,
     maxRangeValue INT DEFAULT 0,
-    price INT DEFAULT 0,
+    price FLOAT(3) DEFAULT 0,
     CONSTRAINT PK_ElectricRange PRIMARY KEY (rangeId)
 );
 
@@ -46,7 +46,7 @@ CREATE TABLE WaterRange(
     rangeName VARCHAR(20) NOT NULL,
     minRangeValue INT DEFAULT 0,
     maxRangeValue INT DEFAULT 0,
-    price INT DEFAULT 0,
+    price FLOAT(3) DEFAULT 0,
     CONSTRAINT PK_WaterRange PRIMARY KEY (rangeId)
 );
 

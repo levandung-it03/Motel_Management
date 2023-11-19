@@ -7,6 +7,7 @@ import com.motel_management.DataAccessObject.WaterRangeDAO;
 import com.motel_management.Models.ElectricRangeModel;
 import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Models.RoomModel;
+import com.motel_management.Models.WaterRangeModel;
 import com.motel_management.Views.Configs;
 
 import java.time.LocalDateTime;
@@ -22,37 +23,52 @@ public class Controller_Invoices {
     }
 
     public static int addNewInvoice(HashMap<String, String> data) {
+        ArrayList<WaterRangeModel> waterRanges = WaterRangeDAO.getInstance().selectAll();
+        ArrayList<ElectricRangeModel> electricRanges = ElectricRangeDAO.getInstance().selectAll();
+        int total = STI(data.get("defaultRoomPrice")) + STI(data.get("garbage")) + STI(data.get("wifi"))
+                + STI(data.get("vehicle"));
+        int averagePeople = RoomDAO.getInstance().selectById(data.get("roomId")).getQuantity();
+
+        // Room with unknown quantity
+        if (averagePeople == -1) {
+            ArrayList<RoomModel> rooms = RoomDAO.getInstance().selectByCondition("WHERE quantity > 0");
+
+            averagePeople = rooms.stream().mapToInt(RoomModel::getQuantity).sum() / rooms.size();
+            if (averagePeople == 0)     { averagePeople = 1; }
+
+            // Add Electric Consumption Price into Total.
+            total += (STI(data.get("newElectricNumber")) - STI(data.get("formerElectricNumber"))) * electricRanges.get(2).getPrice();
+        }
+        // Room with specified quantity
+        else {
+            // Add Electric Consumption Price into Total.
+            int electricConsumed = STI(data.get("newElectricNumber")) - STI(data.get("formerElectricNumber"));
+            for (ElectricRangeModel e: electricRanges) {
+                if (e.getMaxRangeValue() <= electricConsumed)
+                    total += (e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice();
+                else
+                    total += (electricConsumed - e.getMinRangeValue() + 1) * e.getPrice();
+            }
+        }
+
+        // Add Water Consumption Price into Total.
+        double totalWaterConsumed = 0;
+        int waterConsumed = (STI(data.get("newWaterNumber")) - STI(data.get("formerWaterNumber"))) / averagePeople;
+        for (WaterRangeModel w: waterRanges) {
+            if (w.getMaxRangeValue() <= waterConsumed)
+                totalWaterConsumed += (w.getMaxRangeValue() - w.getMinRangeValue() + 1) * w.getPrice();
+            else
+                totalWaterConsumed += (waterConsumed - w.getMinRangeValue() + 1) * w.getPrice();
+        }
+        total += (int) (totalWaterConsumed * averagePeople);
+
         String invoiceId = "I" + Configs.generateIdTail();
         LocalDateTime d = LocalDateTime.now();
-        String nowStrDate = d.getDayOfMonth() + "/" + d.getMonthValue() + "/" + d.getYear();
-        AtomicInteger total = new AtomicInteger(
-                STI(data.get("defaultRoomPrice"))
-                + STI(data.get("garbage"))
-                + STI(data.get("wifi"))
-                + STI(data.get("vehicle"))
-        );
-
-        int electricConsumed = STI(data.get("newElectricNumber")) - STI(data.get("formerElectricNumber"));
-        ElectricRangeDAO.getInstance().selectAll().forEach(e -> {
-            if (e.getMaxRangeValue() <= electricConsumed)
-                total.addAndGet((e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice());
-            else
-                total.addAndGet((electricConsumed - e.getMinRangeValue() + 1) * e.getPrice());
-        });
-
-        int waterConsumed = STI(data.get("newWaterNumber")) - STI(data.get("formerWaterNumber"));
-        WaterRangeDAO.getInstance().selectAll().forEach(w -> {
-            if (w.getMaxRangeValue() <= waterConsumed)
-                total.addAndGet((w.getMaxRangeValue() - w.getMinRangeValue() + 1) * w.getPrice());
-            else
-                total.addAndGet((waterConsumed - w.getMinRangeValue() + 1) * w.getPrice());
-        });
-
         return InvoiceDAO.getInstance().insert(new String[] {
                 invoiceId,
                 data.get("roomId"),
                 data.get("defaultRoomPrice"),
-                nowStrDate,
+                d.getDayOfMonth() + "/" + d.getMonthValue() + "/" + d.getYear(),
                 data.get("paymentYear"),
                 data.get("paymentMonth"),
                 data.get("formerElectricNumber"),
@@ -62,7 +78,7 @@ public class Controller_Invoices {
                 data.get("garbage"),
                 data.get("wifi"),
                 data.get("vehicle"),
-                Integer.toString(total.get()),
+                Integer.toString(total),
                 "0"
         });
     }
