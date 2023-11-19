@@ -8,28 +8,30 @@ import java.util.ArrayList;
 
 public class InvoiceDAO implements DAOInterface<InvoiceModel>{
     public InvoiceDAO() {}
-    public static RoomDAO getInstance() {
-        return new RoomDAO();
+    public static InvoiceDAO getInstance() {
+        return new InvoiceDAO();
     }
     @Override
     public int insert(InvoiceModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Invoice VALUES (?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,?)";
+            String query = "INSERT INTO Invoice VALUES (?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getInvoiceId());
             ps.setString(2, obj.getRoomId());
-            ps.setString(3, obj.getCheckOutId());
-            ps.setInt(4, obj.getDefaultRoomPrice());
-            ps.setString(5, obj.getMonthPayment());
-            ps.setString(6, obj.getYearPayment());
-            ps.setDate(7, obj.getDateCreated());
-            ps.setInt(8, obj.getTotalWaterBill());
-            ps.setInt(9, obj.getTotalElectricBill());
-            ps.setInt(10, obj.getGarbage());
-            ps.setInt(11, obj.getVehicle());
-            ps.setInt(12, obj.getTotal());
-            ps.setString(13, obj.getWasPaid());
+            ps.setInt(3, obj.getDefaultRoomPrice());
+            ps.setDate(4, obj.getDateCreated());
+            ps.setString(5, obj.getYearPayment());
+            ps.setString(6, obj.getMonthPayment());
+            ps.setInt(7, obj.getFormerElectricNumber());
+            ps.setInt(8, obj.getCurrentElectricNumber());
+            ps.setInt(9, obj.getFormerWaterNumber());
+            ps.setInt(10, obj.getCurrentWaterNumber());
+            ps.setInt(11, obj.getGarbage());
+            ps.setInt(12, obj.getWifi());
+            ps.setInt(13, obj.getVehicle());
+            ps.setInt(14, obj.getTotal());
+            ps.setString(15, obj.getWasPaid());
             return ps.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,21 +43,23 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
     public int insert(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Invoice VALUES (?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,?)";
+            String query = "INSERT INTO Invoice VALUES (?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[0]);
             ps.setString(2, values[1]);
-            ps.setString(3, values[2]);
-            ps.setInt(4, Integer.parseInt(values[3]));
+            ps.setInt(3, Integer.parseInt(values[2]));
+            ps.setDate(4, Date.valueOf(Configs.stringToDate(values[3])));
             ps.setString(5, values[4]);
             ps.setString(6, values[5]);
-            ps.setDate(7, Date.valueOf(Configs.stringToDate(values[6])));
+            ps.setInt(7, Integer.parseInt(values[6]));
             ps.setInt(8, Integer.parseInt(values[7]));
             ps.setInt(9, Integer.parseInt(values[8]));
             ps.setInt(10, Integer.parseInt(values[9]));
             ps.setInt(11, Integer.parseInt(values[10]));
             ps.setInt(12, Integer.parseInt(values[11]));
-            ps.setString(13, values[12]);
+            ps.setInt(13, Integer.parseInt(values[12]));
+            ps.setInt(14, Integer.parseInt(values[13]));
+            ps.setString(15, values[14]);
 
             return ps.executeUpdate();
         } catch (SQLException e) {
@@ -86,23 +90,25 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
     public int update(InvoiceModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Invoice SET  roomId=?, consumptionId=?, defaultRoomPrice=?," +
-                    "monthPayment=?, yearPayment=?, dateCreated=?, totalWaterBill=?, totalElectricBill=?," +
-                    "garbage=?, vehicle=?, total=?, wasPaid=? WHERE (invoiceId=?);";
+            String query = "UPDATE Invoice SET  roomId=?, defaultRoomPrice=?," +
+                    "dateCreated=?, yearPayment=?, monthPayment=?, formerElectricNumber=?, currentElectricNumber=?" +
+                    "formerWaterNumber=?, currentWaterNumber=?, garbage=?, wifi=?, vehicle=?, total=?, wasPaid=? WHERE (invoiceId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getRoomId());
-            ps.setString(2, obj.getCheckOutId());
-            ps.setInt(3, obj.getDefaultRoomPrice());
-            ps.setString(4, obj.getMonthPayment());
-            ps.setString(5, obj.getYearPayment());
-            ps.setDate(6, obj.getDateCreated());
-            ps.setInt(7, obj.getTotalWaterBill());
-            ps.setInt(8, obj.getTotalElectricBill());
-            ps.setInt(9, obj.getGarbage());
-            ps.setInt(10, obj.getVehicle());
-            ps.setInt(111, obj.getTotal());
-            ps.setString(12, obj.getWasPaid());
-            ps.setString(13, obj.getInvoiceId());
+            ps.setInt(2, obj.getDefaultRoomPrice());
+            ps.setDate(3, obj.getDateCreated());
+            ps.setString(4, obj.getYearPayment());
+            ps.setString(5, obj.getMonthPayment());
+            ps.setInt(6, obj.getFormerElectricNumber());
+            ps.setInt(7, obj.getCurrentElectricNumber());
+            ps.setInt(8, obj.getFormerWaterNumber());
+            ps.setInt(9, obj.getCurrentWaterNumber());
+            ps.setInt(10, obj.getGarbage());
+            ps.setInt(11, obj.getWifi());
+            ps.setInt(12, obj.getVehicle());
+            ps.setInt(13, obj.getTotal());
+            ps.setString(14, obj.getWasPaid());
+            ps.setString(15, obj.getInvoiceId());
             return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -115,23 +121,25 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Invoice SET  roomId=?, consumptionId=?, defaultRoomPrice=?," +
-                    "monthPayment=?, yearPayment=?, dateCreated=?, totalWaterBill=?, totalElectricBill=?," +
-                    "garbage=?, vehicle=?, total=?, wasPaid=? WHERE (invoiceId=?);";
+            String query = "UPDATE Invoice SET  roomId=?, defaultRoomPrice=?," +
+                    "dateCreated=?, yearPayment=?, monthPayment=?, formerElectricNumber=?, currentElectricNumber=?" +
+                    "formerWaterNumber=?, currentWaterNumber=?, garbage=?, wifi=?, vehicle=?, total=?, wasPaid=? WHERE (invoiceId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[1]);
-            ps.setString(2, values[2]);
-            ps.setInt(3, Integer.parseInt(values[3]));
+            ps.setInt(2, Integer.parseInt(values[2]));
+            ps.setDate(3, Date.valueOf(Configs.stringToDate(values[3])));
             ps.setString(4, values[4]);
             ps.setString(5, values[5]);
-            ps.setDate(6, Date.valueOf(Configs.stringToDate(values[6])));
+            ps.setInt(6, Integer.parseInt(values[6]));
             ps.setInt(7, Integer.parseInt(values[7]));
             ps.setInt(8, Integer.parseInt(values[8]));
             ps.setInt(9, Integer.parseInt(values[9]));
             ps.setInt(10, Integer.parseInt(values[10]));
-            ps.setInt(111, Integer.parseInt(values[11]));
-            ps.setString(12, values[12]);
-            ps.setString(13, values[0]);
+            ps.setInt(11, Integer.parseInt(values[11]));
+            ps.setInt(12, Integer.parseInt(values[12]));
+            ps.setInt(13, Integer.parseInt(values[13]));
+            ps.setString(14, values[14]);
+            ps.setString(15, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -150,10 +158,11 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
             ResultSet rs = ps.executeQuery();
             rs.next();
             return new InvoiceModel(rs.getString("invoiceId"), rs.getString("roomId"),
-                    rs.getString("consumptionId"),rs.getInt("defaultRoomPrice"),
-                    rs.getString("monthPayment"),rs.getString("yearPayment"),
-                    rs.getDate("dateCreated"),rs.getInt("totalWaterBill"),
-                    rs.getInt("totalElectricBill"),rs.getInt("garbage"),
+                    rs.getInt("defaultRoomPrice"),rs.getDate("dateCreated"),
+                    rs.getString("yearPayment"),rs.getString("monthPayment"),
+                    rs.getInt("formerElectricNumber"),rs.getInt("currentElectricNumber"),
+                    rs.getInt("formerWaterNumber"),rs.getInt("currentWaterNumber"),
+                    rs.getInt("garbage"),rs.getInt("wifi"),
                     rs.getInt("vehicle"),rs.getInt("total"),
                     rs.getString("wasPaid"));
         } catch (SQLException e) {
@@ -172,10 +181,11 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new InvoiceModel(rs.getString("invoiceId"), rs.getString("roomId"),
-                        rs.getString("consumptionId"),rs.getInt("defaultRoomPrice"),
-                        rs.getString("monthPayment"),rs.getString("yearPayment"),
-                        rs.getDate("dateCreated"),rs.getInt("totalWaterBill"),
-                        rs.getInt("totalElectricBill"),rs.getInt("garbage"),
+                        rs.getInt("defaultRoomPrice"),rs.getDate("dateCreated"),
+                        rs.getString("yearPayment"),rs.getString("monthPayment"),
+                        rs.getInt("formerElectricNumber"),rs.getInt("currentElectricNumber"),
+                        rs.getInt("formerWaterNumber"),rs.getInt("currentWaterNumber"),
+                        rs.getInt("garbage"),rs.getInt("wifi"),
                         rs.getInt("vehicle"),rs.getInt("total"),
                         rs.getString("wasPaid")));
             }
@@ -197,10 +207,11 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new InvoiceModel(rs.getString("invoiceId"), rs.getString("roomId"),
-                        rs.getString("consumptionId"),rs.getInt("defaultRoomPrice"),
-                        rs.getString("monthPayment"),rs.getString("yearPayment"),
-                        rs.getDate("dateCreated"),rs.getInt("totalWaterBill"),
-                        rs.getInt("totalElectricBill"),rs.getInt("garbage"),
+                        rs.getInt("defaultRoomPrice"),rs.getDate("dateCreated"),
+                        rs.getString("yearPayment"),rs.getString("monthPayment"),
+                        rs.getInt("formerElectricNumber"),rs.getInt("currentElectricNumber"),
+                        rs.getInt("formerWaterNumber"),rs.getInt("currentWaterNumber"),
+                        rs.getInt("garbage"),rs.getInt("wifi"),
                         rs.getInt("vehicle"),rs.getInt("total"),
                         rs.getString("wasPaid")));
             }
