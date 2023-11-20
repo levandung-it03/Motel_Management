@@ -91,7 +91,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = "UPDATE Invoice SET  roomId=?, defaultRoomPrice=?," +
-                    "dateCreated=?, paymentYear=?, paymentMonth=?, formerElectricNumber=?, newElectricNumber=?" +
+                    "dateCreated=?, paymentYear=?, paymentMonth=?, formerElectricNumber=?, newElectricNumber=?," +
                     "formerWaterNumber=?, newWaterNumber=?, garbage=?, wifi=?, vehicle=?, total=?, wasPaid=? WHERE (invoiceId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getRoomId());
@@ -122,7 +122,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = "UPDATE Invoice SET  roomId=?, defaultRoomPrice=?," +
-                    "dateCreated=?, paymentYear=?, paymentMonth=?, formerElectricNumber=?, newElectricNumber=?" +
+                    "dateCreated=?, paymentYear=?, paymentMonth=?, formerElectricNumber=?, newElectricNumber=?," +
                     "formerWaterNumber=?, newWaterNumber=?, garbage=?, wifi=?, vehicle=?, total=?, wasPaid=? WHERE (invoiceId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[1]);

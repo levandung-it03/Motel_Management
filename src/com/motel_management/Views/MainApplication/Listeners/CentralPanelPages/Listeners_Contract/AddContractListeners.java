@@ -3,6 +3,7 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Models.RoomModel;
+import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractPage;
 import com.toedter.calendar.JDateChooser;
 
@@ -15,6 +16,7 @@ import java.util.regex.Pattern;
 
 public class AddContractListeners {
     static HashMap<String, Integer> maxQuantityList = new HashMap<>();
+    static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     public AddContractListeners() { }
 
     public static JComboBox<Object> createRoomIdComboBox() {
@@ -33,7 +35,6 @@ public class AddContractListeners {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 String validateResult = validate(inpTags, dateTags, comboTags, maxQuantityList);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
                 if (validateResult.equals("1")) {
                     HashMap<String, String> data = new HashMap<>();
@@ -52,9 +53,23 @@ public class AddContractListeners {
                     data.put("roomDeposit", inpTags.get("roomDeposit").getText());
                     data.put("startingDate", dateFormat.format(dateTags.get("startingDate").getCalendar().getTime()));
                     data.put("endingDate", dateFormat.format(dateTags.get("endingDate").getCalendar().getTime()));
-                    data.put("gender",
-                        Objects.requireNonNull(comboTags.get("gender").getSelectedItem()).toString().equals("Men") ? "0" : "1");
+                    data.put("gender", Objects.requireNonNull(comboTags.get("gender")
+                            .getSelectedItem())
+                            .toString()
+                            .equals("Men") ? "0" : "1"
+                    );
+                    data.put("isFamily", Objects.requireNonNull(comboTags.get("isFamily")
+                            .getSelectedItem())
+                            .toString()
+                            .equals("NO") ? "0" : "1"
+                    );
+                    data.put("isRegisteredPerAddress", Objects.requireNonNull(comboTags.get("isRegisteredPerAddress")
+                            .getSelectedItem())
+                            .toString()
+                            .equals("NO") ? "0" : "1"
+                    );
 
+                    // Add new Contract and get results.
                     int newContractUpdated = Controller_Contract.addNewContract(data);
 
                     if (newContractUpdated != 0) {
@@ -128,11 +143,13 @@ public class AddContractListeners {
                 return "empty Bank Name";
             }
         }
+
         if (!Objects.requireNonNull(comboTags.get("bank").getSelectedItem()).toString().equals("")) {
             if (inpTags.get("bankAccountNumber").getText().equals("")) {
                 return "empty Bank Account Number";
             }
         }
+
         try {
             Object temp = Objects.requireNonNull(comboTags.get("roomId").getSelectedItem());
         } catch (NullPointerException e) { return "Room Code";}
@@ -170,6 +187,12 @@ public class AddContractListeners {
         } catch (NullPointerException e) {
             return "Empty Ended Date";
         }
+
+        if (Configs.calTotalMonthsBetweenStrDates(dateFormat.format(dateTags.get("startingDate").getCalendar().getTime()),
+        dateFormat.format(dateTags.get("startingDate").getCalendar().getTime())) < 12
+        && Objects.requireNonNull(comboTags.get("isRegisteredPerAddress").getSelectedItem()).toString().equals("YES"))
+            return "Registering Permanent or Temporary Household with under 12 Months Total Contract Time!";
+
         return "1";
     }
 

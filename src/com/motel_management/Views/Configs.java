@@ -4,7 +4,7 @@ import java.awt.*;
 import java.time.LocalDate;
 
 public class Configs {
-    public Configs() {}
+    public Configs() { super(); }
 
     public static final Font labelFont = new Font("Consolas", Font.PLAIN, 16);
     public static final int fullWidth = 1366;
@@ -48,4 +48,11 @@ public class Configs {
         return Integer.toString((int) (Math.random()*10)) + millisecond.toString();
     }
 
+    public static int calTotalMonthsBetweenStrDates(String start, String end) {
+        int startingMonth = Integer.parseInt(start.split("/")[1]);
+        int endingMonth = Integer.parseInt(end.split("/")[1]);
+        int startingYear = Integer.parseInt(start.split("/")[2]);
+        int endingYear = Integer.parseInt(end.split("/")[2]);
+        return (endingYear*12 + endingMonth) - (startingYear*12 + startingMonth);
+    }
 }

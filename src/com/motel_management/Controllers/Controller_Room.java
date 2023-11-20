@@ -6,7 +6,7 @@ import com.motel_management.Models.RoomModel;
 import java.util.ArrayList;
 
 public class Controller_Room {
-    public Controller_Room() {}
+    public Controller_Room() { super(); }
 
     public static String addNewRoom(String[] data) {
         int res = RoomDAO.getInstance().insert(data);

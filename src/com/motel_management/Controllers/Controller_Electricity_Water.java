@@ -9,8 +9,7 @@ import com.motel_management.Models.WaterRangeModel;
 import java.util.ArrayList;
 
 public class Controller_Electricity_Water {
-    public Controller_Electricity_Water() {
-    }
+    public Controller_Electricity_Water() { super(); }
 
     public static int deleteElectricById(String id) {
         return ElectricRangeDAO.getInstance().delete(id);

@@ -12,7 +12,7 @@ import com.motel_management.Models.RoomModel;
 import java.util.ArrayList;
 
 public class Controller_Statistic {
-    public Controller_Statistic() {}
+    public Controller_Statistic() { super(); }
 
     public static int getTotalRoom() {
         ArrayList<RoomModel> result = RoomDAO.getInstance().selectAll();

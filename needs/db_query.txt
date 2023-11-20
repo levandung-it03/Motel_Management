@@ -1,9 +1,14 @@
 CREATE DATABASE Motel_Management
+CREATE TABLE Region (
+    regionId VARCHAR(20) UNIQUE NOT NULL,
+    region VARCHAR(20) UNIQUE NOT NULL,
+    CONSTRAINT PK_Region PRIMARY KEY (regionId)
+);
 CREATE TABLE Account (
-    userId VARCHAR(10) UNIQUE NOT NULL,
-    name VARCHAR(10) NOT NULL,
+    userId VARCHAR(20) UNIQUE NOT NULL,
+    name VARCHAR(20) NOT NULL,
 	username VARCHAR(10) UNIQUE NOT NULL,
-	password VARCHAR(10) NOT NULL,
+	password VARCHAR(20) NOT NULL,
     CONSTRAINT PK_Account PRIMARY KEY (userId)
 );
 CREATE TABLE Room (
@@ -56,8 +61,11 @@ CREATE TABLE Contract (
     roomId VARCHAR(20) UNIQUE NOT NULL,
     quantity INT DEFAULT 0,
     roomDeposit INT DEFAULT 0,
+    isFamily VARCHAR(1) DEFAULT "0",
     startingDate DATE DEFAULT (CURRENT_DATE()),
     endingDate DATE DEFAULT (CURRENT_DATE()),
+    totalMonths INT DEFAULT 0,
+    isRegisteredPerAddress VARCHAR(1) DEFAULT "0",
     CONSTRAINT FK_Contract_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT PK_Contract PRIMARY KEY (contractId)
 );
@@ -95,7 +103,6 @@ CREATE TABLE Invoice(
     wasPaid VARCHAR(1) DEFAULT "0",
     CONSTRAINT UK_Invoice UNIQUE (roomId, paymentMonth, paymentYear),
     CONSTRAINT FK_Invoice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT FK_Invoice_consumptionId FOREIGN KEY (consumptionId) REFERENCES CheckOut(consumptionId),
     CONSTRAINT PK_Invoice PRIMARY KEY (invoiceId)
 );
 

@@ -30,6 +30,8 @@ public class AddContractPage extends JPanel {
     JTextField roomDeposit = new JTextField(20);
     JDateChooser startingDate = new JDateChooser(Date.valueOf(LocalDate.now()));
     JDateChooser endingDate = new JDateChooser(Date.valueOf(LocalDate.now()));
+    JComboBox<Object> isFamily = new JComboBox<Object>(new String[] {"NO", "YES"});
+    JComboBox<Object> isRegisteredPerAddress = new JComboBox<Object>(new String[] {"NO", "YES"});
     JButton submitBtn;
 
     // Constructor
@@ -69,9 +71,14 @@ public class AddContractPage extends JPanel {
         container.add(InputComboPanel.generateTextInputPanel("Deposit (VNĐ) (*)", roomDeposit));
         container.add(InputComboPanel.generateDateInputPanel("Started Date (*)", startingDate));
         container.add(InputComboPanel.generateDateInputPanel("Ended Date (*)", endingDate));
+        container.add(InputComboPanel.generateComboBoxInputPanel("Is A Family?", isFamily));
+        container.add(InputComboPanel.generateComboBoxInputPanel("Register Temp Household?", isRegisteredPerAddress));
 
         this.submitBtn = InputComboPanel.generateButton("Submit");
-        container.add(this.submitBtn);
+        JPanel submitBtnContainer = new JPanel();
+        submitBtnContainer.add(this.submitBtn);
+        submitBtnContainer.setBorder(new EmptyBorder(10, 100, 0, 55));
+        container.add(submitBtnContainer);
 
         add(container);
     }
@@ -107,6 +114,8 @@ public class AddContractPage extends JPanel {
         dateTags.put("endingDate", this.endingDate);
         comboTags.put("gender", gender);
         comboTags.put("roomId", roomId);
+        comboTags.put("isFamily", isFamily);
+        comboTags.put("isRegisteredPerAddress", isRegisteredPerAddress);
 
         this.submitBtn.addActionListener(AddContractListeners.addNewContractListener(inpTags, dateTags, comboTags));
     }

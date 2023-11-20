@@ -24,8 +24,8 @@ public class Electricity_WaterListPage extends JPanel {
         super(new GridLayout(0, 2));
         this.createEWListPage();
         this.createListeners();
-        this.saveCurrentElectricTableData(electricTable);
-        this.saveCurrentWaterTableData(waterTable);
+        this.saveNewElectricTableData(electricTable);
+        this.saveNewWaterTableData(waterTable);
     }
 
     public void createEWListPage() {
@@ -112,7 +112,7 @@ public class Electricity_WaterListPage extends JPanel {
         waterTable.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfWater(this.defaultWaterTable, this.waterTable));
     }
 
-    public void saveCurrentElectricTableData(JTable table) {
+    public void saveNewElectricTableData(JTable table) {
         // Copy Data from Table.
         this.electricTableData = new Object[table.getRowCount()][table.getColumnCount() - 1];
         for (int row = 0; row < table.getRowCount(); row++)
@@ -120,7 +120,7 @@ public class Electricity_WaterListPage extends JPanel {
                 this.electricTableData[row][col] = table.getValueAt(row, col);
     }
 
-    public void saveCurrentWaterTableData(JTable table) {
+    public void saveNewWaterTableData(JTable table) {
         // Copy Data from Table.
         this.waterTableData = new Object[table.getRowCount()][table.getColumnCount() - 1];
         for (int row = 0; row < table.getRowCount(); row++)

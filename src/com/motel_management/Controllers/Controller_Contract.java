@@ -12,17 +12,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Controller_Contract {
-    public Controller_Contract() {}
+    public Controller_Contract() { super(); }
     public static int addNewContract(HashMap<String, String> data) {
         String contractId = "C" + Configs.generateIdTail();
+        int totalMonths = Configs.calTotalMonthsBetweenStrDates(data.get("startingDate"), data.get("endingDate"));
+
         String[] contractData = new String[] {
                 contractId,
                 data.get("identifier"),
                 data.get("roomId"),
                 data.get("quantity"),
                 data.get("roomDeposit"),
+                data.get("isFamily"),
                 data.get("startingDate"),
-                data.get("endingDate")
+                data.get("endingDate"),
+                Integer.toString(totalMonths),
+                data.get("isRegisteredPerAddress"),
         };
         
         String[] personData = new String[] {

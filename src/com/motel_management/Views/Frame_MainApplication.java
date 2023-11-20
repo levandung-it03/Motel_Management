@@ -7,18 +7,20 @@ import java.awt.*;
 
 public class Frame_MainApplication extends JFrame {
     String user;
+    String currentRegion;
 
     private JPanel header;
     private JPanel centralPanel;
     private JPanel footer;
 
-    public Frame_MainApplication(String user) {
+    public Frame_MainApplication(String user, String currentRegion) {
         super("Motel Management");
         this.user = user;
+        this.currentRegion = currentRegion;
     }
 
-    public static void startMainApplicationFrame(String user) {
-        Frame_MainApplication mainApp = new Frame_MainApplication(user);
+    public static void startMainApplicationFrame(String user, String currentRegion) {
+        Frame_MainApplication mainApp = new Frame_MainApplication(user, currentRegion);
         mainApp.createMainFrame(mainApp);
     }
 

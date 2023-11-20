@@ -7,7 +7,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class LabelAsColumnName {
-    public LabelAsColumnName() {}
+    public LabelAsColumnName() { super(); }
 
     public static JLabel createHeaderLabel(String text) {
         JLabel label = new JLabel(text);
