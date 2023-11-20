@@ -53,6 +53,10 @@ public class Configs {
         int endingMonth = Integer.parseInt(end.split("/")[1]);
         int startingYear = Integer.parseInt(start.split("/")[2]);
         int endingYear = Integer.parseInt(end.split("/")[2]);
+        System.out.println(startingMonth);
+        System.out.println(endingMonth);
+        System.out.println(startingYear);
+        System.out.println(endingYear);
         return (endingYear*12 + endingMonth) - (startingYear*12 + startingMonth);
     }
 }

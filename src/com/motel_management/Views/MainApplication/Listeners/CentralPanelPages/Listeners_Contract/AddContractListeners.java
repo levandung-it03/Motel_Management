@@ -189,7 +189,7 @@ public class AddContractListeners {
         }
 
         if (Configs.calTotalMonthsBetweenStrDates(dateFormat.format(dateTags.get("startingDate").getCalendar().getTime()),
-        dateFormat.format(dateTags.get("startingDate").getCalendar().getTime())) < 12
+        dateFormat.format(dateTags.get("endingDate").getCalendar().getTime())) < 12
         && Objects.requireNonNull(comboTags.get("isRegisteredPerAddress").getSelectedItem()).toString().equals("YES"))
             return "Registering Permanent or Temporary Household with under 12 Months Total Contract Time!";
 
