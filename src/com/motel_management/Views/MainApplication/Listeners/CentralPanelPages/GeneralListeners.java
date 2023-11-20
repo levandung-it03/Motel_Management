@@ -87,6 +87,9 @@ public class GeneralListeners {
         return true;
     }
     public static boolean validateEWTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
+        if(fullChangedRow[3].equalsIgnoreCase("unlimited")){
+            fullChangedRow[3]= String.valueOf(Integer.MAX_VALUE);
+        }
         if (Integer.parseInt(fullChangedRow[2]) < 0) {
             JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
             return false;

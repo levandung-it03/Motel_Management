@@ -25,7 +25,7 @@ public class AddEWListeners {
         return Controller_Electricity_Water.getLastWaterMaxRange();
     }
 
-    public static ActionListener addNewELectricListener(HashMap<String, JTextField> inpTags) {
+    public static ActionListener addNewElectricListener(HashMap<String, JTextField> inpTags) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -83,7 +83,7 @@ public class AddEWListeners {
                 try {
                     isValid = matcher.matches()
                             && !inpTags.get("rangeName").getText().isEmpty()
-                            && Integer.parseInt(inpTags.get("minWRangeValue").getText()) > 0
+                            && Integer.parseInt(inpTags.get("minWRangeValue").getText()) >= 0
                             && Integer.parseInt(inpTags.get("maxWRangeValue").getText()) > Integer.parseInt(inpTags.get("minWRangeValue").getText())
                             && Integer.parseInt(inpTags.get("defaultWPrice").getText()) >= 0;
                 } catch (NumberFormatException e) { isValid = false; }
@@ -103,7 +103,7 @@ public class AddEWListeners {
 
                         inpTags.get("waterId").setText(nextIdWhenSuccessfully);
                         inpTags.get("rangeName").setText("");
-                        inpTags.get("minWRangeValue").setText(String.valueOf(AddEWListeners.getLastWaterMaxRange()+1));
+                        inpTags.get("minWRangeValue").setText(String.valueOf(AddEWListeners.getLastWaterMaxRange()));
                         inpTags.get("maxWRangeValue").setText("");
                         inpTags.get("defaultWPrice").setText("");
                     } else {

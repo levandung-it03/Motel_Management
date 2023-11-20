@@ -42,7 +42,7 @@ public class Electricity_WaterListPage extends JPanel {
         title.setBorder(new EmptyBorder(10, 10, 0, 10));
         ElectricPanel.add(title, BorderLayout.NORTH);
 
-        // Prepare Date to generate Table.
+        // Prepare Data to generate Table.
 
         String[][] electrics = Controller_Electricity_Water.getElectricList();
         String[] columns = {"ID", "Range", "Min Value", "Max Value", "Price", "Delete"};

@@ -17,7 +17,7 @@ public class AddElectricity_WaterPage extends JPanel{
     JPanel container;
     JTextField electricId = new JTextField(20);
     JTextField electricRangeName = new JTextField(20);
-    JTextField mỉnERangeValue = new JTextField(20);
+    JTextField minERangeValue = new JTextField(20);
     JTextField maxERangeValue = new JTextField(20);
     JTextField defaultEPrice = new JTextField(20);
     JButton submitEBtn;
@@ -45,7 +45,7 @@ public class AddElectricity_WaterPage extends JPanel{
 
         container.add(title);
         container.add(InputComboPanel.generateTextInputPanel("Range Name", electricRangeName));
-        container.add(InputComboPanel.generateTextInputPanel("Min Range", mỉnERangeValue));
+        container.add(InputComboPanel.generateTextInputPanel("Min Range", minERangeValue));
         container.add(InputComboPanel.generateTextInputPanel("Max Range (Number/Unlimited)", maxERangeValue));
         container.add(InputComboPanel.generateTextInputPanel("Price", defaultEPrice));
         container.add(this.submitEBtn);
@@ -74,13 +74,13 @@ public class AddElectricity_WaterPage extends JPanel{
 
     public void createListeners() {
         electricId.setText(AddEWListeners.getLastElectricId());
-        mỉnERangeValue.setEditable(false);
+        minERangeValue.setEditable(false);
         if(AddEWListeners.getLastElectricMaxRange() == Integer.MAX_VALUE){
             electricRangeName.setEditable(false);
             maxERangeValue.setEditable(false);
             defaultEPrice.setEditable(false);
         }else {
-            mỉnERangeValue.setText(String.valueOf(AddEWListeners.getLastElectricMaxRange() + 1));
+            minERangeValue.setText(String.valueOf(AddEWListeners.getLastElectricMaxRange() + 1));
         }
 
         waterId.setText(AddEWListeners.getLastWaterId());
@@ -90,13 +90,13 @@ public class AddElectricity_WaterPage extends JPanel{
             maxWRangeValue.setEditable(false);
             defaultWPrice.setEditable(false);
         }else {
-            mỉnWRangeValue.setText(String.valueOf(AddEWListeners.getLastWaterMaxRange() + 1));
+            mỉnWRangeValue.setText(String.valueOf(AddEWListeners.getLastWaterMaxRange()));
         }
 
         HashMap<String, JTextField> inpElectricTags = new HashMap<>();
         inpElectricTags.put("electricId", this.electricId);
         inpElectricTags.put("rangeName", this.electricRangeName);
-        inpElectricTags.put("minERangeValue", this.mỉnERangeValue);
+        inpElectricTags.put("minERangeValue", this.minERangeValue);
         inpElectricTags.put("maxERangeValue", this.maxERangeValue);
         inpElectricTags.put("defaultEPrice", this.defaultEPrice);
 
@@ -107,7 +107,7 @@ public class AddElectricity_WaterPage extends JPanel{
         inpWaterTags.put("maxWRangeValue", this.maxWRangeValue);
         inpWaterTags.put("defaultWPrice", this.defaultWPrice);
 
-        this.submitEBtn.addActionListener(AddEWListeners.addNewELectricListener(inpElectricTags));
+        this.submitEBtn.addActionListener(AddEWListeners.addNewElectricListener(inpElectricTags));
         this.submitWBtn.addActionListener(AddEWListeners.addNewWaterListener(inpWaterTags));
     }
 }
