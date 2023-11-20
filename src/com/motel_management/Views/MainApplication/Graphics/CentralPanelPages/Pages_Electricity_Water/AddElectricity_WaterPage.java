@@ -73,7 +73,6 @@ public class AddElectricity_WaterPage extends JPanel{
     }
 
     public void createListeners() {
-        electricId.setText(AddEWListeners.getLastElectricId());
         minERangeValue.setEditable(false);
         if(AddEWListeners.getLastElectricMaxRange() == Integer.MAX_VALUE){
             electricRangeName.setEditable(false);
@@ -83,7 +82,6 @@ public class AddElectricity_WaterPage extends JPanel{
             minERangeValue.setText(String.valueOf(AddEWListeners.getLastElectricMaxRange() + 1));
         }
 
-        waterId.setText(AddEWListeners.getLastWaterId());
         mỉnWRangeValue.setEditable(false);
         if(AddEWListeners.getLastWaterMaxRange() == Integer.MAX_VALUE){
             waterRangeName.setEditable(false);
