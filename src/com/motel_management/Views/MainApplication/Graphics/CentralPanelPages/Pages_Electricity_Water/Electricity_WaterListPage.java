@@ -2,6 +2,8 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 
 
 import com.motel_management.Controllers.Controller_Electricity_Water;
+import com.motel_management.DataAccessObject.RegionDAO;
+import com.motel_management.Models.RegionModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Electricity_Water.EWListListeners;
@@ -10,6 +12,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Electricity_WaterListPage extends JPanel {
     public JTable electricTable;
@@ -21,7 +24,7 @@ public class Electricity_WaterListPage extends JPanel {
     public Object[][] waterTableData;
 
     public Electricity_WaterListPage() {
-        super(new GridLayout(0, 2));
+        super(new GridLayout(2,0));
         this.createEWListPage();
         this.createListeners();
         this.saveNewElectricTableData(electricTable);
@@ -36,7 +39,7 @@ public class Electricity_WaterListPage extends JPanel {
 
     public JPanel createElectricPanel() {
         JPanel ElectricPanel = new JPanel(new BorderLayout());
-        JLabel title = new JLabel("Electric");
+        JLabel title = new JLabel("Electricity");
         title.setFont(title.getFont().deriveFont(Font.BOLD, 34.0f));
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setBorder(new EmptyBorder(10, 10, 0, 10));
@@ -45,7 +48,7 @@ public class Electricity_WaterListPage extends JPanel {
         // Prepare Data to generate Table.
 
         String[][] electrics = Controller_Electricity_Water.getElectricList();
-        String[] columns = {"ID", "Range", "Min Value", "Max Value", "Price", "Delete"};
+        String[] columns = {"Electric ID", "Range Name", "Min Value", "Max Value", "Price(VND/kWh)", "Delete Button"};
 
         // Generate Table.
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(electrics, columns) {
@@ -59,10 +62,14 @@ public class Electricity_WaterListPage extends JPanel {
         this.roomScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.
-        this.roomScrollPane.setBorder(new EmptyBorder(20, 20, 0, 10));
+        this.roomScrollPane.setBorder(new EmptyBorder(20, 50, 0, 50));
 
         // Resize several Columns.
         this.electricTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+        this.electricTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+        this.electricTable.getColumnModel().getColumn(2).setPreferredWidth(40);
+        this.electricTable.getColumnModel().getColumn(3).setPreferredWidth(40);
+
 
         ElectricPanel.add(roomScrollPane);
         return ElectricPanel;
@@ -78,7 +85,8 @@ public class Electricity_WaterListPage extends JPanel {
 
         // Prepare Date to generate Table.
         String[][] waters = Controller_Electricity_Water.getWaterList();
-        String[] columns = {"ID", "Range", "Min Value", "Max Value", "Price", "Delete"};
+        String[] columns = {"Water ID", "Range Name", "Min Value", "Max Value",
+                Controller_Electricity_Water.checkRegion(), "Delete Button"};
 
         // Generate Table.
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(waters, columns) {
@@ -92,10 +100,13 @@ public class Electricity_WaterListPage extends JPanel {
         this.roomScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.
-        this.roomScrollPane.setBorder(new EmptyBorder(20, 20, 0, 10));
+        this.roomScrollPane.setBorder(new EmptyBorder(20, 50, 0, 50));
 
         // Resize several Columns.
         this.waterTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+        this.waterTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+        this.waterTable.getColumnModel().getColumn(2).setPreferredWidth(40);
+        this.waterTable.getColumnModel().getColumn(3).setPreferredWidth(40);
 
         ElectricPanel.add(roomScrollPane);
         return ElectricPanel;

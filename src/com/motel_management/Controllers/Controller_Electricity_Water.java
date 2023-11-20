@@ -1,10 +1,13 @@
 package com.motel_management.Controllers;
 
 import com.motel_management.DataAccessObject.ElectricRangeDAO;
+import com.motel_management.DataAccessObject.RegionDAO;
 import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.DataAccessObject.WaterRangeDAO;
 import com.motel_management.Models.ElectricRangeModel;
+import com.motel_management.Models.RegionModel;
 import com.motel_management.Models.WaterRangeModel;
+import com.motel_management.Views.Configs;
 
 import java.util.ArrayList;
 
@@ -20,7 +23,7 @@ public class Controller_Electricity_Water {
     }
 
     public static String[][] getElectricList() {
-        ArrayList<ElectricRangeModel> result = ElectricRangeDAO.getInstance().selectAll();
+        ArrayList<ElectricRangeModel> result = ElectricRangeDAO.getInstance().selectByCondition("ORDER by minRangeValue");
         String[][] electrics = new String[result.size()][6];
         for (int i = 0; i < result.size(); i++) {
             electrics[i][0] = result.get(i).getRangeId();
@@ -39,7 +42,7 @@ public class Controller_Electricity_Water {
     }
 
     public static String[][] getWaterList() {
-        ArrayList<WaterRangeModel> result = WaterRangeDAO.getInstance().selectAll();
+        ArrayList<WaterRangeModel> result = WaterRangeDAO.getInstance().selectByCondition("ORDER by minRangeValue");
         String[][] waters = new String[result.size()][6];
         for (int i = 0; i < result.size(); i++) {
             waters[i][0] = result.get(i).getRangeId();
@@ -54,30 +57,6 @@ public class Controller_Electricity_Water {
             waters[i][5] = "Delete";
         }
         return waters;
-    }
-
-    public static String getElectricLastId() {
-        ArrayList<ElectricRangeModel> electricList = ElectricRangeDAO.getInstance().selectByCondition("ORDER BY rangeId ASC");
-        if (electricList.isEmpty()) {
-            return "E" + String.format("%03d", 1);
-        } else {
-            StringBuilder lastRoomId = new StringBuilder(electricList.get(electricList.size() - 1).getRangeId());
-            lastRoomId.replace(0, 1, "0");
-            int id = Integer.parseInt(lastRoomId.toString()) + 1;
-            return "E" + String.format("%03d", id);
-        }
-    }
-
-    public static String getWaterLastId() {
-        ArrayList<WaterRangeModel> waterList = WaterRangeDAO.getInstance().selectByCondition("ORDER BY rangeId ASC");
-        if (waterList.isEmpty()) {
-            return "W" + String.format("%03d", 1);
-        } else {
-            StringBuilder lastRoomId = new StringBuilder(waterList.get(waterList.size() - 1).getRangeId());
-            lastRoomId.replace(0, 1, "0");
-            int id = Integer.parseInt(lastRoomId.toString()) + 1;
-            return "W" + String.format("%03d", id);
-        }
     }
 
     public static int getLastElectricMaxRange() {
@@ -96,21 +75,21 @@ public class Controller_Electricity_Water {
             return waterList.get(waterList.size() - 1).getMaxRangeValue();
         }
     }
+    public static String checkRegion() {
+        ArrayList<RegionModel> region = RegionDAO.getInstance().selectAll();
+        if (region.get(0).getRegion().equalsIgnoreCase("Tp.Ho Chi Minh")) {
+            return "Price(VND/Person/m³)";
+        } else {
+            return "Price(VND/m³)";
+        }
+    }
 
     public static String addNewElectric(String[] data) {
         int res = ElectricRangeDAO.getInstance().insert(data);
         if (res == 0) {
             return null;
         } else {
-            ArrayList<ElectricRangeModel> electricList = ElectricRangeDAO.getInstance().selectByCondition("ORDER BY rangeId ASC");
-            if (electricList.isEmpty()) {
-                return "E" + String.format("%03d", 1);
-            } else {
-                StringBuilder lastRoomId = new StringBuilder(electricList.get(electricList.size() - 1).getRangeId());
-                lastRoomId.replace(0, 1, "0");
-                int id = Integer.parseInt(lastRoomId.toString()) + 1;
-                return "E" + String.format("%03d", id);
-            }
+            return "E" + Configs.generateIdTail();
         }
     }
 
@@ -119,15 +98,7 @@ public class Controller_Electricity_Water {
         if (res == 0) {
             return null;
         } else {
-            ArrayList<WaterRangeModel> electricList = WaterRangeDAO.getInstance().selectByCondition("ORDER BY rangeId ASC");
-            if (electricList.isEmpty()) {
-                return "W" + String.format("%03d", 1);
-            } else {
-                StringBuilder lastRoomId = new StringBuilder(electricList.get(electricList.size() - 1).getRangeId());
-                lastRoomId.replace(0, 1, "0");
-                int id = Integer.parseInt(lastRoomId.toString()) + 1;
-                return "W" + String.format("%03d", id);
-            }
+            return "W" + Configs.generateIdTail();
         }
     }
 

@@ -1,6 +1,7 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Electricity_Water;
 
 import com.motel_management.Controllers.Controller_Electricity_Water;
+import com.motel_management.Views.Configs;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,12 +12,6 @@ import java.util.regex.Pattern;
 
 public class AddEWListeners {
     public AddEWListeners() {
-    }
-    public static String getLastElectricId() {
-        return Controller_Electricity_Water.getElectricLastId();
-    }
-    public static String getLastWaterId() {
-        return Controller_Electricity_Water.getWaterLastId();
     }
     public static int getLastElectricMaxRange() {
         return Controller_Electricity_Water.getLastElectricMaxRange();
@@ -29,16 +24,14 @@ public class AddEWListeners {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                Pattern pattern = Pattern.compile("E\\d{3}");
-                Matcher matcher = pattern.matcher(inpTags.get("electricId").getText());
+                String electricId = "E" + Configs.generateIdTail();
                 boolean isValid = true;
                 if (inpTags.get("maxERangeValue").getText().equalsIgnoreCase("unlimited")){
                     inpTags.get("maxERangeValue").setText(String.valueOf(Integer.MAX_VALUE));
                 }
                 try {
-                    isValid = matcher.matches()
-                            && !inpTags.get("rangeName").getText().isEmpty()
-                            && Integer.parseInt(inpTags.get("minERangeValue").getText()) > 0
+                    isValid = !inpTags.get("rangeName").getText().isEmpty()
+                            && Integer.parseInt(inpTags.get("minERangeValue").getText()) >= 0
                             && Integer.parseInt(inpTags.get("maxERangeValue").getText()) > Integer.parseInt(inpTags.get("minERangeValue").getText())
                             && Integer.parseInt(inpTags.get("defaultEPrice").getText()) >= 0;
                 } catch (NumberFormatException e) { isValid = false; }
@@ -46,7 +39,7 @@ public class AddEWListeners {
                 if (isValid) {
                     // Call API here.
                     String nextIdWhenSuccessfully = Controller_Electricity_Water.addNewElectric(new String[] {
-                            inpTags.get("electricId").getText(),
+                            electricId,
                             inpTags.get("rangeName").getText(),
                             inpTags.get("minERangeValue").getText(),
                             inpTags.get("maxERangeValue").getText(),
@@ -55,10 +48,10 @@ public class AddEWListeners {
                     if (nextIdWhenSuccessfully != null) {
                         JOptionPane.showMessageDialog(new JPanel(), "New electricity range was added! Open \"Electricity_Water List\" to check it!",
                                 "Notice", JOptionPane.PLAIN_MESSAGE);
-
-                        inpTags.get("electricId").setText(nextIdWhenSuccessfully);
                         inpTags.get("rangeName").setText("");
-                        inpTags.get("minERangeValue").setText(String.valueOf(AddEWListeners.getLastElectricMaxRange()+1));
+                        if (Integer.parseInt(inpTags.get("maxERangeValue").getText()) != Integer.MAX_VALUE){
+                            inpTags.get("minERangeValue").setText(String.valueOf(AddEWListeners.getLastElectricMaxRange()+1));
+                        }
                         inpTags.get("maxERangeValue").setText("");
                         inpTags.get("defaultEPrice").setText("");
                     } else {
@@ -74,15 +67,13 @@ public class AddEWListeners {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                Pattern pattern = Pattern.compile("W\\d{3}");
-                Matcher matcher = pattern.matcher(inpTags.get("waterId").getText());
+                String waterId = "W" + Configs.generateIdTail();
                 boolean isValid = true;
                 if (inpTags.get("maxWRangeValue").getText().equalsIgnoreCase("unlimited")){
                     inpTags.get("maxWRangeValue").setText(String.valueOf(Integer.MAX_VALUE));
                 }
                 try {
-                    isValid = matcher.matches()
-                            && !inpTags.get("rangeName").getText().isEmpty()
+                    isValid = !inpTags.get("rangeName").getText().isEmpty()
                             && Integer.parseInt(inpTags.get("minWRangeValue").getText()) >= 0
                             && Integer.parseInt(inpTags.get("maxWRangeValue").getText()) > Integer.parseInt(inpTags.get("minWRangeValue").getText())
                             && Integer.parseInt(inpTags.get("defaultWPrice").getText()) >= 0;
@@ -91,7 +82,7 @@ public class AddEWListeners {
                 if (isValid) {
                     // Call API here.
                     String nextIdWhenSuccessfully = Controller_Electricity_Water.addNewWater(new String[] {
-                            inpTags.get("waterId").getText(),
+                            waterId,
                             inpTags.get("rangeName").getText(),
                             inpTags.get("minWRangeValue").getText(),
                             inpTags.get("maxWRangeValue").getText(),
@@ -100,10 +91,10 @@ public class AddEWListeners {
                     if (nextIdWhenSuccessfully != null) {
                         JOptionPane.showMessageDialog(new JPanel(), "New water range was added! Open \"Electricity_Water List\" to check it!",
                                 "Notice", JOptionPane.PLAIN_MESSAGE);
-
-                        inpTags.get("waterId").setText(nextIdWhenSuccessfully);
                         inpTags.get("rangeName").setText("");
-                        inpTags.get("minWRangeValue").setText(String.valueOf(AddEWListeners.getLastWaterMaxRange()));
+                        if (Integer.parseInt(inpTags.get("maxWRangeValue").getText()) != Integer.MAX_VALUE){
+                            inpTags.get("minWRangeValue").setText(String.valueOf(AddEWListeners.getLastWaterMaxRange()));
+                        }
                         inpTags.get("maxWRangeValue").setText("");
                         inpTags.get("defaultWPrice").setText("");
                     } else {
