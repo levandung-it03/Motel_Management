@@ -22,13 +22,17 @@ public class AddInvoiceListeners {
 
     public JComboBox<Object> createRoomIdComboBox() {
         roomList = Controller_Room.getAllRoomWithCondition("WHERE (quantity > 0)");
+        if (roomList.size() == 0)
+            return new JComboBox<>(new String[] {""});
         return new JComboBox<Object>(roomList.stream().map(RoomModel::getRoomId).toArray());
     }
-    
+
     public static void automaticallySetValueTextField(JComboBox<Object> roomId, HashMap<String, JTextField> inpTags) {
         String roomIdValue = Objects.requireNonNull(roomId.getSelectedItem()).toString();
-        RoomModel room = Controller_Room.getAllRoomWithCondition("WHERE roomId=\"" + roomIdValue + "\"").get(0);
-        inpTags.get("defaultRoomPrice").setText(Integer.toString(room.getDefaultRoomPrice()));
+        ArrayList<RoomModel> room = Controller_Room.getAllRoomWithCondition("WHERE roomId=\"" + roomIdValue + "\"");
+        if (room.size() == 0)   return;
+
+        inpTags.get("defaultRoomPrice").setText(Integer.toString(room.get(0).getDefaultRoomPrice()));
 
         ArrayList<InvoiceModel> invoicesOfRoom =
                 Controller_Invoices.getInvoiceWithCondition("WHERE roomId=\"" + roomIdValue + "\"");
@@ -72,8 +76,8 @@ public class AddInvoiceListeners {
                     ) == 0) {
 
                         HashMap<String, String> data = new HashMap<>();
-                        AtomicInteger total = new AtomicInteger();
                         data.put("roomId", Objects.requireNonNull(roomId.getSelectedItem()).toString());
+                        inpTags.forEach((key, tag) -> data.put(key, tag.getText()));
 
                         int addRes = Controller_Invoices.addNewInvoice(data);
                         if (addRes == 1) {
@@ -101,15 +105,15 @@ public class AddInvoiceListeners {
             }
         };
     }
-    
+
     public static String validate(HashMap<String, JTextField> inpTags) {
         if (!Pattern.compile("\\d{4}").matcher(inpTags.get("paymentYear").getText()).matches()
-        || Integer.parseInt(inpTags.get("paymentYear").getText()) > (LocalDateTime.now().getYear() + 1))
+                || Integer.parseInt(inpTags.get("paymentYear").getText()) > (LocalDateTime.now().getYear() + 1))
             return "Need a number \"yyyy\" at Year Payment";
 
         if (!Pattern.compile("\\d{1,2}").matcher(inpTags.get("paymentMonth").getText()).matches()
-        || Integer.parseInt(inpTags.get("paymentMonth").getText()) <= 0
-        || Integer.parseInt(inpTags.get("paymentMonth").getText()) > 12)
+                || Integer.parseInt(inpTags.get("paymentMonth").getText()) <= 0
+                || Integer.parseInt(inpTags.get("paymentMonth").getText()) > 12)
             return "Need a number \"mm\" at Month Payment";
 
         if (!Pattern.compile("\\d{5}").matcher(inpTags.get("formerElectricNumber").getText()).matches())

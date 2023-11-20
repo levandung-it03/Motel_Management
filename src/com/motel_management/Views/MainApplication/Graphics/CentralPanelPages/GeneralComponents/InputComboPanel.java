@@ -8,7 +8,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class InputComboPanel {
-    public InputComboPanel() {}
+    public InputComboPanel() { super(); }
 
     public static JPanel generateTextInputPanel(String strLabel, JTextField originInp) {
         JPanel panel = new JPanel(new BorderLayout());

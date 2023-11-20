@@ -1,5 +1,6 @@
 package com.motel_management.Views;
 
+import com.motel_management.Controllers.Controller_ChooseRegion;
 import com.motel_management.Controllers.Controller_Login;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
 
@@ -48,7 +49,7 @@ public class Frame_Login extends JFrame {
 
         add(centralPanel, BorderLayout.CENTER);
         // -------------Title-------------
-        title.setFont(title.getFont().deriveFont(42.0f));
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 42.0f));
         title.setBorder(new EmptyBorder(30, 30, 10, 40));
 
         // -------------Username (usernamePanel)-------------
@@ -96,7 +97,12 @@ public class Frame_Login extends JFrame {
                     JOptionPane.showMessageDialog(centralPanel, "Information is not correct!");
                 } else {
                     setVisible(false);
-                    Frame_MainApplication.startMainApplicationFrame(user);
+                    String currentRegion = Controller_ChooseRegion.checkIfRegionExisted();
+                    if (currentRegion == null) {
+                        Frame_ChooseRegion.startChooseRegionFrame(user);
+                    } else {
+                        Frame_MainApplication.startMainApplicationFrame(user, currentRegion);
+                    }
                 }
             }
         });

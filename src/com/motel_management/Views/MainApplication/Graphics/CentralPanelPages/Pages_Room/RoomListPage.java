@@ -35,7 +35,7 @@ public class RoomListPage extends JPanel {
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(rooms, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column != 0;
+                return column != 0 && column != 4;
             }
         });
         this.defaultTable = tableAsList.getDefaultModel();
