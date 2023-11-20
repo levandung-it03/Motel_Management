@@ -85,7 +85,9 @@ public class AddInvoiceListeners {
                 JOptionPane.YES_NO_OPTION) != 0)
                     return;
 
-                if (Controller_Electricity_Water.getLastElectricMaxRange() * Controller_Electricity_Water.getLastWaterMaxRange() != 0) {
+                if (Controller_Electricity_Water.getLastElectricMaxRange() * Controller_Electricity_Water.getLastWaterMaxRange() == 0
+                || Controller_Electricity_Water.getLastElectricMaxRange() < Integer.MAX_VALUE
+                || Controller_Electricity_Water.getLastWaterMaxRange() < Integer.MAX_VALUE) {
                     JOptionPane.showMessageDialog(new JPanel(), "It's Not Enough Data To Calculate Water and" +
                            "Electric Price, please check Electric-Water", "Notice",JOptionPane.PLAIN_MESSAGE);
                     return;
@@ -96,7 +98,7 @@ public class AddInvoiceListeners {
                 inpTags.forEach((key, tag) -> data.put(key, tag.getText()));
 
                 int addRes = Controller_Invoices.addNewInvoice(data);
-                if (addRes != 1) {
+                if (addRes == -1) {
                     JOptionPane.showMessageDialog(new JPanel(),"This room has already had invoice on "
                             + data.get("paymentMonth") + "/" + data.get("paymentYear"),"Notice",JOptionPane.PLAIN_MESSAGE);
                     return;
@@ -104,8 +106,8 @@ public class AddInvoiceListeners {
 
                 // Successfully Create New Invoice
                 JOptionPane.showMessageDialog(new JPanel(),"Successfully Create Invoice of Room "
-                        + Objects.requireNonNull(roomId.getSelectedItem()).toString(),"Notice",JOptionPane.PLAIN_MESSAGE
-                );
+                        + Objects.requireNonNull(roomId.getSelectedItem()).toString() + ", Total is: " + addRes + "VNĐ"
+                        ,"Notice",JOptionPane.PLAIN_MESSAGE);
                 InvoicesPage.mainPage.setSelectedIndex(0);
             }
         };

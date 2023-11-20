@@ -38,8 +38,8 @@ public class Controller_Invoices {
         ArrayList<WaterRangeModel> waterRanges = WaterRangeDAO.getInstance().selectAll();
         ArrayList<ElectricRangeModel> electricRanges = ElectricRangeDAO.getInstance().selectAll();
 
-        // Check is data at Water Range, Electric Range is missing.
-        if (waterRanges.size() * electricRanges.size() == 0) {
+        // Check if data at Water Range, Electric Range is missing.
+        if (waterRanges.size() * electricRanges.size() != 0) {
             int total = STI(data.get("defaultRoomPrice"))
                     + STI(data.get("garbage"))
                     + STI(data.get("wifi"))
@@ -125,10 +125,10 @@ public class Controller_Invoices {
                     }
                 }
             }
-            System.out.println(total);
+
             String invoiceId = "I" + Configs.generateIdTail();
             LocalDateTime d = LocalDateTime.now();
-            return InvoiceDAO.getInstance().insert(new String[] {
+            int result = InvoiceDAO.getInstance().insert(new String[] {
                     invoiceId,
                     data.get("roomId"),
                     data.get("defaultRoomPrice"),
@@ -145,8 +145,10 @@ public class Controller_Invoices {
                     Integer.toString(total),
                     "0"
             });
+            if (result != 0)    return total;
+            else    return 0;
         } else {
-            return 0;
+            return -1;
         }
     }
 
