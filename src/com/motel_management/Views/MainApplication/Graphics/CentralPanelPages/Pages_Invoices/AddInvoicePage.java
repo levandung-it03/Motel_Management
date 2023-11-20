@@ -42,17 +42,16 @@ public class AddInvoicePage extends JPanel {
         container.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
         container.setBorder(new EmptyBorder(20, 40, 0, 40));
 
-
         this.addInvoiceObj = new AddInvoiceListeners();
         this.roomId = this.addInvoiceObj.createRoomIdComboBox();
         container.add(InputComboPanel.generateComboBoxInputPanel("Room Code", roomId));
         container.add(InputComboPanel.generateTextInputPanel("Default Room Price", defaultRoomPrice));
         container.add(InputComboPanel.generateTextInputPanel("Payment Year", paymentYear));
         container.add(InputComboPanel.generateTextInputPanel("Payment Month", paymentMonth));
-        container.add(InputComboPanel.generateTextInputPanel("(Full Black, Old) ELECTRIC", formerElectricNumber));
-        container.add(InputComboPanel.generateTextInputPanel("(Full Black, New) ELECTRIC", newElectricNumber));
-        container.add(InputComboPanel.generateTextInputPanel("(Full Black, Old) WATER", formerWaterNumber));
-        container.add(InputComboPanel.generateTextInputPanel("(Full Black, New) WATER", newWaterNumber));
+        container.add(InputComboPanel.generateTextInputPanel("Black Digits - Old ELECTRIC", formerElectricNumber));
+        container.add(InputComboPanel.generateTextInputPanel("Black Digits - New ELECTRIC", newElectricNumber));
+        container.add(InputComboPanel.generateTextInputPanel("Black Digits - Old WATER", formerWaterNumber));
+        container.add(InputComboPanel.generateTextInputPanel("Black Digits - New WATER", newWaterNumber));
         container.add(InputComboPanel.generateTextInputPanel("Garbage Fee", garbage));
         container.add(InputComboPanel.generateTextInputPanel("Wifi Fee", wifi));
         container.add(InputComboPanel.generateTextInputPanel("Vehicle Fee", vehicle));
@@ -66,17 +65,6 @@ public class AddInvoicePage extends JPanel {
     }
 
     public void createListeners() {
-//        this.identifier.setText("038203032578");
-//        this.lastName.setText("Le Van");
-//        this.firstname.setText("Dung");
-//        this.phone.setText("0377863928");
-//        this.jobTitle.setText("Sinh Vien");
-//        this.permanentAddress.setText("Bien Hoa");
-//        this.email.setText("levandung.it03@gmail.com");
-//        this.bankAccountNumber.setText("21097877");
-//        this.quantity.setText("5");
-//        this.roomDeposit.setText("3000000");
-
         HashMap<String, JTextField> inpTags = new HashMap<>();
         inpTags.put("defaultRoomPrice", this.defaultRoomPrice);
         inpTags.put("paymentYear", this.paymentYear);

@@ -30,7 +30,7 @@ public class ContractListPage extends JPanel {
 
         // Prepare Date to generate Table.
         String[][] contracts = Controller_Contract.getAllContractWithTableFormat();
-        String[] columns = {"Contract Code", "Representative Identity", "Room Code", "Quantity", "Room Deposit",
+        String[] columns = {"Room", "Representative Card", "Name", "Room Deposit", "Registered Temp Residence",
                 "Started Date", "Ended Date", "Delete Button"};
 
         // Generate Table.
@@ -45,14 +45,16 @@ public class ContractListPage extends JPanel {
         this.table = tableAsList.getTable();
         this.contractScrollPane = tableAsList.getScrollPane();
 
-
         // Margin Table.
         this.contractScrollPane.setBorder(new EmptyBorder(20, 20, 0, 20));
 
         // Resize several Columns.
-        this.table.getColumnModel().getColumn(0).setPreferredWidth(80);
-        this.table.getColumnModel().getColumn(1).setPreferredWidth(180);
-        this.table.getColumnModel().getColumn(2).setPreferredWidth(60);
+        this.table.getColumnModel().getColumn(0).setPreferredWidth(5);
+        this.table.getColumnModel().getColumn(1).setPreferredWidth(120);
+        this.table.getColumnModel().getColumn(2).setPreferredWidth(20);
+        this.table.getColumnModel().getColumn(4).setPreferredWidth(190);
+        this.table.getColumnModel().getColumn(5).setPreferredWidth(60);
+        this.table.getColumnModel().getColumn(6).setPreferredWidth(50);
 
         // Add ScrollPane into CentralPanel/Contract.
         add(contractScrollPane);

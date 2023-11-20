@@ -6,6 +6,7 @@ import com.motel_management.Views.Configs;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PersonDAO implements DAOInterface<PersonModel>{
     public PersonDAO() {}
@@ -196,6 +197,23 @@ public class PersonDAO implements DAOInterface<PersonModel>{
                         rs.getString("gender"), rs.getString("jobTitle"),
                         rs.getString("permanentAddress"), rs.getString("email"),
                         rs.getString("bankAccountNumber"), rs.getString("bank")));
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return null;
+    }
+
+    public HashMap<String, String> selectALlNameById() {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            ResultSet rs = myConnection.prepareStatement("SELECT identifier, firstName FROM Person;").executeQuery();
+            HashMap<String, String> result = new HashMap<>();
+            while (rs.next()) {
+                result.put(rs.getString("identifier"), rs.getString("firstName"));
             }
             return result;
         } catch (SQLException e) {

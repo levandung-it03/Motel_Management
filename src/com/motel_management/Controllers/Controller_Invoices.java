@@ -12,8 +12,12 @@ import java.util.HashMap;
 public class Controller_Invoices {
     public Controller_Invoices() { super(); }
 
-    public static ArrayList<InvoiceModel> getInvoiceWithCondition(String condition) {
-        return InvoiceDAO.getInstance().selectByCondition(condition);
+    public static InvoiceModel getLastInvoice(String roomIdValue) {
+        ArrayList<InvoiceModel> result = InvoiceDAO.getInstance()
+                .selectByCondition("WHERE roomId=\"" + roomIdValue + "\"" + "ORDER BY paymentYear DESC, paymentMonth DESC");
+        if (result.size() == 0)
+            return null;
+        return result.get(0);
     }
 
     public static int addNewInvoice(HashMap<String, String> data) {
@@ -121,7 +125,7 @@ public class Controller_Invoices {
                     }
                 }
             }
-
+            System.out.println(total);
             String invoiceId = "I" + Configs.generateIdTail();
             LocalDateTime d = LocalDateTime.now();
             return InvoiceDAO.getInstance().insert(new String[] {

@@ -4,12 +4,14 @@ import com.motel_management.DataAccessObject.ContractDAO;
 import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.Models.ContractModel;
+import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Controller_Contract {
     public Controller_Contract() { super(); }
@@ -70,16 +72,18 @@ public class Controller_Contract {
 
     public static String[][] getAllContractWithTableFormat() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        ArrayList<ContractModel> result = ContractDAO.getInstance().selectAll();
-        String[][] contracts = new String[result.size()][8];
-        for (int i = 0; i < result.size(); i++) {
-            contracts[i][0] = result.get(i).getContractId();
-            contracts[i][1] = result.get(i).getIdentifier();
-            contracts[i][2] = result.get(i).getRoomId();
-            contracts[i][3] = Integer.toString(result.get(i).getQuantity());
-            contracts[i][4] = Integer.toString(result.get(i).getRoomDeposit());
-            contracts[i][5] = dateFormat.format(result.get(i).getStartingDate());
-            contracts[i][6] = dateFormat.format(result.get(i).getEndingDate());
+        ArrayList<ContractModel> selectedContracts = ContractDAO.getInstance().selectAll();
+        HashMap<String, String> selectedPersons = PersonDAO.getInstance().selectALlNameById();
+
+        String[][] contracts = new String[selectedContracts.size()][8];
+        for (int i = 0; i < selectedContracts.size(); i++) {
+            contracts[i][0] = selectedContracts.get(i).getRoomId();
+            contracts[i][1] = selectedContracts.get(i).getIdentifier();
+            contracts[i][2] = selectedPersons.get(selectedContracts.get(i).getIdentifier());
+            contracts[i][3] = Integer.toString(selectedContracts.get(i).getRoomDeposit());
+            contracts[i][4] = selectedContracts.get(i).getIsRegisteredPerAddress().equals("1") ? "YES" : "NO";
+            contracts[i][5] = dateFormat.format(selectedContracts.get(i).getStartingDate());
+            contracts[i][6] = dateFormat.format(selectedContracts.get(i).getEndingDate());
             contracts[i][7] = "Delete";
         }
         return contracts;

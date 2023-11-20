@@ -20,7 +20,7 @@ public class AddContractListeners {
     public AddContractListeners() { }
 
     public static JComboBox<Object> createRoomIdComboBox() {
-        ArrayList<RoomModel> roomList = Controller_Room.getAllRoomWithCondition("WHERE (quantity = 0)");
+        ArrayList<RoomModel> roomList = Controller_Room.getAllRoomWithCondition("WHERE (quantity = 0) ORDER BY roomId ASC");
         roomList.forEach(r -> {
             maxQuantityList.put(r.getRoomId(), r.getMaxQuantity());
         });
