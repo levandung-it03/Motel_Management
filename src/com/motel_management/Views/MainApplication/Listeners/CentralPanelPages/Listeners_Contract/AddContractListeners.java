@@ -70,22 +70,21 @@ public class AddContractListeners {
                     );
 
                     // Add new Contract and get results.
-                    int newContractUpdated = Controller_Contract.addNewContract(data);
-
-                    if (newContractUpdated != 0) {
-                        if (JOptionPane.showConfirmDialog(new JPanel(), "Confirm This Submitting Action?", "Confirm", JOptionPane.YES_NO_OPTION) == 0) {
+                    if (JOptionPane.showConfirmDialog(new JPanel(), "Confirm This Submitting Action?", "Confirm", JOptionPane.YES_NO_OPTION) == 0) {
+                        int newContractUpdated = Controller_Contract.addNewContract(data);
+                        if (newContractUpdated != 0) {
                             JOptionPane.showMessageDialog(new JPanel(), "New Contract was added! Open \"Contract List\" to check it!",
                                     "Notice", JOptionPane.PLAIN_MESSAGE);
 
                             ContractPage.mainPage.setSelectedIndex(0);
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                    new JPanel(),
+                                    "Identity Card Already Existed",
+                                    "Notice",
+                                    JOptionPane.PLAIN_MESSAGE
+                            );
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(
-                                new JPanel(),
-                                "Identity Card Already Existed",
-                                "Notice",
-                                JOptionPane.PLAIN_MESSAGE
-                        );
                     }
                 } else {
                     JOptionPane.showMessageDialog(
