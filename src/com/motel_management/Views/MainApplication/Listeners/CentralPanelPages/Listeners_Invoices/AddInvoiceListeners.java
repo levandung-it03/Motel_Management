@@ -3,8 +3,6 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 import com.motel_management.Controllers.Controller_Electricity_Water;
 import com.motel_management.Controllers.Controller_Invoices;
 import com.motel_management.Controllers.Controller_Room;
-import com.motel_management.DataAccessObject.ElectricRangeDAO;
-import com.motel_management.Models.ElectricRangeModel;
 import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesPage;
