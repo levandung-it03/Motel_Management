@@ -1,7 +1,6 @@
 package com.motel_management.Controllers;
 
 import com.motel_management.DataAccessObject.ContractDAO;
-import com.motel_management.DataAccessObject.InvoiceDAO;
 import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.Models.ContractModel;
@@ -15,11 +14,6 @@ import java.util.HashMap;
 public class Controller_Contract {
     public Controller_Contract() { super(); }
     public static int addNewContract(HashMap<String, String> data) {
-        if (ContractDAO.getInstance()
-        .selectByCondition("WHERE roomId=\"" + data.get("roomId") + "\", checkedOut=\"0\"")
-        .size() != 0)
-            return -1;
-
         String contractId = "C" + Configs.generateIdTail();
         int totalMonths = Configs.calTotalMonthsBetweenStrDates(data.get("startingDate"), data.get("endingDate"));
 

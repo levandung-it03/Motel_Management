@@ -1,16 +1,21 @@
 package com.motel_management.DataAccessObject;
+
 import com.motel_management.Models.InvoiceModel;
 import com.motel_management.DB_interaction.DB_connection;
 import com.motel_management.Views.Configs;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class InvoiceDAO implements DAOInterface<InvoiceModel>{
-    public InvoiceDAO() {}
+public class InvoiceDAO implements DAOInterface<InvoiceModel> {
+    public InvoiceDAO() {
+    }
+
     public static InvoiceDAO getInstance() {
         return new InvoiceDAO();
     }
+
     @Override
     public int insert(InvoiceModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
@@ -40,6 +45,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
         }
         return 0;
     }
+
     public int insert(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
@@ -158,12 +164,12 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
             ResultSet rs = ps.executeQuery();
             rs.next();
             return new InvoiceModel(rs.getString("invoiceId"), rs.getString("roomId"),
-                    rs.getInt("defaultRoomPrice"),rs.getDate("dateCreated"),
-                    rs.getString("paymentYear"),rs.getString("paymentMonth"),
-                    rs.getInt("formerElectricNumber"),rs.getInt("newElectricNumber"),
-                    rs.getInt("formerWaterNumber"),rs.getInt("newWaterNumber"),
-                    rs.getInt("garbage"),rs.getInt("wifi"),
-                    rs.getInt("vehicle"),rs.getInt("total"),
+                    rs.getInt("defaultRoomPrice"), rs.getDate("dateCreated"),
+                    rs.getString("paymentYear"), rs.getString("paymentMonth"),
+                    rs.getInt("formerElectricNumber"), rs.getInt("newElectricNumber"),
+                    rs.getInt("formerWaterNumber"), rs.getInt("newWaterNumber"),
+                    rs.getInt("garbage"), rs.getInt("wifi"),
+                    rs.getInt("vehicle"), rs.getInt("total"),
                     rs.getString("wasPaid"));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -172,6 +178,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
         }
         return null;
     }
+
     @Override
     public ArrayList<InvoiceModel> selectAll() {
         Connection myConnection = DB_connection.getMMDBConnection();
@@ -181,12 +188,12 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new InvoiceModel(rs.getString("invoiceId"), rs.getString("roomId"),
-                        rs.getInt("defaultRoomPrice"),rs.getDate("dateCreated"),
-                        rs.getString("paymentYear"),rs.getString("paymentMonth"),
-                        rs.getInt("formerElectricNumber"),rs.getInt("newElectricNumber"),
-                        rs.getInt("formerWaterNumber"),rs.getInt("newWaterNumber"),
-                        rs.getInt("garbage"),rs.getInt("wifi"),
-                        rs.getInt("vehicle"),rs.getInt("total"),
+                        rs.getInt("defaultRoomPrice"), rs.getDate("dateCreated"),
+                        rs.getString("paymentYear"), rs.getString("paymentMonth"),
+                        rs.getInt("formerElectricNumber"), rs.getInt("newElectricNumber"),
+                        rs.getInt("formerWaterNumber"), rs.getInt("newWaterNumber"),
+                        rs.getInt("garbage"), rs.getInt("wifi"),
+                        rs.getInt("vehicle"), rs.getInt("total"),
                         rs.getString("wasPaid")));
             }
             return result;
@@ -207,15 +214,44 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel>{
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new InvoiceModel(rs.getString("invoiceId"), rs.getString("roomId"),
-                        rs.getInt("defaultRoomPrice"),rs.getDate("dateCreated"),
-                        rs.getString("paymentYear"),rs.getString("paymentMonth"),
-                        rs.getInt("formerElectricNumber"),rs.getInt("newElectricNumber"),
-                        rs.getInt("formerWaterNumber"),rs.getInt("newWaterNumber"),
-                        rs.getInt("garbage"),rs.getInt("wifi"),
-                        rs.getInt("vehicle"),rs.getInt("total"),
+                        rs.getInt("defaultRoomPrice"), rs.getDate("dateCreated"),
+                        rs.getString("paymentYear"), rs.getString("paymentMonth"),
+                        rs.getInt("formerElectricNumber"), rs.getInt("newElectricNumber"),
+                        rs.getInt("formerWaterNumber"), rs.getInt("newWaterNumber"),
+                        rs.getInt("garbage"), rs.getInt("wifi"),
+                        rs.getInt("vehicle"), rs.getInt("total"),
                         rs.getString("wasPaid")));
             }
             return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return null;
+    }
+
+    public HashMap<String, String> selectLastInvoice(String roomId) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            PreparedStatement ps = myConnection.prepareStatement("SELECT roomId, paymentYear, paymentMonth, "
+                    +"newElectricNumber, newWaterNumber, garbage, wifi, vehicle FROM Invoice WHERE roomId=\""
+                    + roomId + "\" ORDER BY paymentYear DESC, paymentMonth DESC LIMIT 1");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                HashMap<String, String> result = new HashMap<>();
+                result.put("roomId", rs.getString("roomId"));
+                result.put("paymentYear", rs.getString("paymentYear"));
+                result.put("paymentMonth", rs.getString("paymentMonth"));
+                result.put("newElectricNumber", Integer.toString(rs.getInt("newElectricNumber")));
+                result.put("newWaterNumber", Integer.toString(rs.getInt("newWaterNumber")));
+                result.put("garbage", Integer.toString(rs.getInt("garbage")));
+                result.put("wifi", Integer.toString(rs.getInt("wifi")));
+                result.put("vehicle", Integer.toString(rs.getInt("vehicle")));
+                return result;
+            } else {
+                return null;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

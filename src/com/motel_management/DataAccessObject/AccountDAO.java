@@ -107,9 +107,12 @@ public class AccountDAO implements DAOInterface<AccountModel> {
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
-            rs.next();
-            return new AccountModel(rs.getString("userId"), rs.getString("name"),
-                    rs.getString("username"), rs.getString("password"));
+            if (rs.next()) {
+                return new AccountModel(rs.getString("userId"), rs.getString("name"),
+                        rs.getString("username"), rs.getString("password"));
+            } else {
+                return null;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
