@@ -1,12 +1,14 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages;
 
 import com.motel_management.DataAccessObject.ContractDAO;
+import com.motel_management.Models.ContractModel;
 import com.motel_management.Views.Configs;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
 
 public class GeneralListeners {
     public GeneralListeners() { }
@@ -71,8 +73,9 @@ public class GeneralListeners {
             JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
             return false;
         }
+
         // Occupied Room Being Changed.
-        if (ContractDAO.getInstance().selectByCondition("WHERE (roomId =\"" + fullChangedRow[0] + "\" )").size() > 0) {
+        if (ContractDAO.getInstance().selectByCondition("WHERE (roomId =\"" + fullChangedRow[0] + "\" AND checkedOut=\"0\" )").size() > 0) {
             if (Integer.parseInt(fullChangedRow[1]) == 0) {
                 JOptionPane.showMessageDialog(new JPanel(), "Max Quantity > 0 because Contract Existed!", "Notice", JOptionPane.PLAIN_MESSAGE);
                 return false;
@@ -86,6 +89,7 @@ public class GeneralListeners {
         }
         return true;
     }
+
     public static boolean validateEWTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
         if(fullChangedRow[3].equalsIgnoreCase("unlimited")){
             fullChangedRow[3]= String.valueOf(Integer.MAX_VALUE);
