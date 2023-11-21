@@ -60,11 +60,11 @@ public class Controller_Contract {
         return RoomDAO.getInstance().update(data);
     }
 
-    public static int deleteById(String id, String identifier, String roomId) {
+    public static int deleteById(String roomId, String identifier) {
         RoomModel roomData = RoomDAO.getInstance().selectById(roomId);
         roomData.setQuantity(0);
 
-        int deleteContractRes = ContractDAO.getInstance().delete(id);
+        int deleteContractRes = ContractDAO.getInstance().deleteByIdentifier(identifier);
         int deletePersonRes = PersonDAO.getInstance().delete(identifier);
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
         return deleteContractRes * deletePersonRes * updateRoomRes;

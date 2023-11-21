@@ -19,7 +19,7 @@ public class Frame_ChooseRegion extends JFrame {
     public static void startChooseRegionFrame(String user) {
         Frame_ChooseRegion mainFrame = new Frame_ChooseRegion();
         mainFrame.createChooseRegionFrame();
-        mainFrame.createOnsiteListeners(user);
+        mainFrame.createOnsiteListeners(user, mainFrame);
     }
 
     public void createChooseRegionFrame() {
@@ -60,7 +60,7 @@ public class Frame_ChooseRegion extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    public void createOnsiteListeners(String user) {
+    public void createOnsiteListeners(String user, Frame_ChooseRegion mainFrame) {
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,6 +72,7 @@ public class Frame_ChooseRegion extends JFrame {
                     String newRegion = Objects.requireNonNull(region.getSelectedItem()).toString();
                     Controller_ChooseRegion.setNewRegion(newRegion);
                     Frame_MainApplication.startMainApplicationFrame(user, newRegion);
+                    mainFrame.setVisible(false);
                 }
             }
         });

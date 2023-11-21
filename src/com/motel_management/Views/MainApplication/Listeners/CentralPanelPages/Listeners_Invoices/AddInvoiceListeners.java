@@ -88,7 +88,7 @@ public class AddInvoiceListeners {
                 if (Controller_Electricity_Water.getLastElectricMaxRange() * Controller_Electricity_Water.getLastWaterMaxRange() == 0
                 || Controller_Electricity_Water.getLastElectricMaxRange() < Integer.MAX_VALUE
                 || Controller_Electricity_Water.getLastWaterMaxRange() < Integer.MAX_VALUE) {
-                    JOptionPane.showMessageDialog(new JPanel(), "It's Not Enough Data To Calculate Water and" +
+                    JOptionPane.showMessageDialog(new JPanel(), "It's Not Enough Data To Calculate Water and " +
                            "Electric Price, please check Electric-Water", "Notice",JOptionPane.PLAIN_MESSAGE);
                     return;
                 }

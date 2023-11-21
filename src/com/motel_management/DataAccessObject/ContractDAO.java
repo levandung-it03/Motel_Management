@@ -128,6 +128,21 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         return 0;
     }
 
+    public int deleteByIdentifier (String identifier) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            String query = "DELETE FROM Contract WHERE identifier=?";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, identifier);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return 0;
+    }
+
 
     @Override
     public ContractModel selectById (String id) {

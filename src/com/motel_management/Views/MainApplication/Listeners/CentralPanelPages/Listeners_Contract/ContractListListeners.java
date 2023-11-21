@@ -32,8 +32,7 @@ public class ContractListListeners {
                             JOptionPane.YES_NO_OPTION) == 0) {
                         if (Controller_Contract.deleteById(
                                 table.getValueAt(clickedRow, 0).toString(),
-                                table.getValueAt(clickedRow, 1).toString(),
-                                table.getValueAt(clickedRow, 2).toString()
+                                table.getValueAt(clickedRow, 1).toString()
                         ) != 0) {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
                             defaultModel.removeRow(clickedRow);

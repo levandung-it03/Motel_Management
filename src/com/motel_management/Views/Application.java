@@ -6,6 +6,5 @@ public class Application {
     public static void createApplication() {
 //        Frame_Login.startLoginFrame();
         Frame_MainApplication.startMainApplicationFrame("Root", "Tp. Ho Chi Minh");
-//        Frame_ChooseRegion.startChooseRegionFrame();
     }
 }
