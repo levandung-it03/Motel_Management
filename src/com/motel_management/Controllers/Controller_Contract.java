@@ -4,14 +4,12 @@ import com.motel_management.DataAccessObject.ContractDAO;
 import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.Models.ContractModel;
-import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class Controller_Contract {
     public Controller_Contract() { super(); }
@@ -30,6 +28,7 @@ public class Controller_Contract {
                 data.get("endingDate"),
                 Integer.toString(totalMonths),
                 data.get("isRegisteredPerAddress"),
+                "0"
         };
         
         String[] personData = new String[] {

@@ -58,7 +58,7 @@ CREATE TABLE WaterRange(
 CREATE TABLE Contract (
     contractId VARCHAR(20) UNIQUE NOT NULL,
     identifier VARCHAR(20) UNIQUE NOT NULL,
-    roomId VARCHAR(20) UNIQUE NOT NULL,
+    roomId VARCHAR(20) NOT NULL,
     quantity INT DEFAULT 0,
     roomDeposit INT DEFAULT 0,
     isFamily VARCHAR(1) DEFAULT "0",
@@ -66,6 +66,7 @@ CREATE TABLE Contract (
     endingDate DATE DEFAULT (CURRENT_DATE()),
     totalMonths INT DEFAULT 0,
     isRegisteredPerAddress VARCHAR(1) DEFAULT "0",
+    checkedOut VARCHAR(1) DEFAULT "0",
     CONSTRAINT FK_Contract_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT PK_Contract PRIMARY KEY (contractId)
 );
