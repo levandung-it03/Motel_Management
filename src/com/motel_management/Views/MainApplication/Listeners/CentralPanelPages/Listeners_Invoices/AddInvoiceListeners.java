@@ -1,6 +1,5 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Invoices;
 
-import com.motel_management.Controllers.Controller_Electricity_Water;
 import com.motel_management.Controllers.Controller_Invoices;
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Models.RoomModel;
@@ -87,42 +86,17 @@ public class AddInvoiceListeners {
                 JOptionPane.YES_NO_OPTION) != 0)
                     return;
 
-                if (Controller_Electricity_Water.getLastElectricMaxRange() * Controller_Electricity_Water.getLastWaterMaxRange() == 0
-                        || Controller_Electricity_Water.getLastElectricMaxRange() < Integer.MAX_VALUE
-                        || Controller_Electricity_Water.getLastWaterMaxRange() < Integer.MAX_VALUE) {
-                    JOptionPane.showMessageDialog(new JPanel(), "It's Not Enough Data To Calculate Water and " +
-                            "Electric Price, please check Electric-Water", "Notice",JOptionPane.PLAIN_MESSAGE);
-                    return;
-                }
-
-                HashMap<String, String> lastInvoice =
-                        Controller_Invoices.getLastInvoice(Objects.requireNonNull(roomId.getSelectedItem()).toString());
-
-                if (Integer.parseInt(lastInvoice.get("paymentYear")) > currentYear
-                        || (Integer.parseInt(lastInvoice.get("paymentYear")) == currentYear
-                        && Integer.parseInt(lastInvoice.get("paymentMonth")) > currentMonth)) {
-                    JOptionPane.showMessageDialog(new JPanel(),"This room had an invoice on "
-                                    + lastInvoice.get("paymentMonth") + "/" + lastInvoice.get("paymentYear")
-                            ,"Notice", JOptionPane.PLAIN_MESSAGE);
-                    return;
-                }
-
                 HashMap<String, String> data = new HashMap<>();
                 data.put("roomId", Objects.requireNonNull(roomId.getSelectedItem()).toString());
                 inpTags.forEach((key, tag) -> data.put(key, tag.getText()));
 
-                int addRes = Controller_Invoices.addNewInvoice(data);
-                if (addRes == -1) {
-                    JOptionPane.showMessageDialog(new JPanel(),"This room has already had invoice on "
-                            + data.get("paymentMonth") + "/" + data.get("paymentYear"),"Notice",JOptionPane.PLAIN_MESSAGE);
-                    return;
-                }
+                HashMap<String, String> addRes = Controller_Invoices.addNewInvoice(data);
 
                 // Successfully Create New Invoice
-                JOptionPane.showMessageDialog(new JPanel(),"Successfully Create Invoice of Room "
-                        + Objects.requireNonNull(roomId.getSelectedItem()).toString() + ", Total is: " + addRes + "VNĐ"
-                        ,"Notice",JOptionPane.PLAIN_MESSAGE);
-                InvoicesPage.mainPage.setSelectedIndex(0);
+                JOptionPane.showMessageDialog(new JPanel(),addRes.get("message"),"Notice",JOptionPane.PLAIN_MESSAGE);
+
+                if (addRes.get("result").equals("1"))
+                    InvoicesPage.mainPage.setSelectedIndex(0);
             }
         };
     }

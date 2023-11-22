@@ -1,15 +1,18 @@
-package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Presentatives;
+package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Representatives;
 
 import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.Models.PersonModel;
 import com.motel_management.Controllers.Controller_Representatives;
+<<<<<<< HEAD:src/com/motel_management/Views/MainApplication/Listeners/CentralPanelPages/Listeners_Presentatives/PresentativesListeners.java
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.Representatives_ShowID;
+=======
+>>>>>>> 5377781705a99750e84ae4c8394b0d8477f8dab1:src/com/motel_management/Views/MainApplication/Listeners/CentralPanelPages/Listeners_Representatives/RepresentativesListeners.java
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class PresentativesListeners {
+public class RepresentativesListeners {
     public static MouseAdapter getInformationByClick(JTable table) {
         return new MouseAdapter() {
             @Override
