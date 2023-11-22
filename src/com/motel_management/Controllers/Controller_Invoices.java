@@ -4,7 +4,6 @@ import com.motel_management.DataAccessObject.*;
 import com.motel_management.Models.*;
 import com.motel_management.Views.Configs;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,12 +11,8 @@ import java.util.HashMap;
 public class Controller_Invoices {
     public Controller_Invoices() { super(); }
 
-    public static InvoiceModel getLastInvoice(String roomIdValue) {
-        ArrayList<InvoiceModel> result = InvoiceDAO.getInstance()
-                .selectByCondition("WHERE roomId=\"" + roomIdValue + "\"" + "ORDER BY paymentYear DESC, paymentMonth DESC");
-        if (result.size() == 0)
-            return null;
-        return result.get(0);
+    public static HashMap<String, String> getLastInvoice(String roomIdValue) {
+        return InvoiceDAO.getInstance().selectLastInvoice(roomIdValue);
     }
 
     public static int addNewInvoice(HashMap<String, String> data) {
@@ -101,6 +96,7 @@ public class Controller_Invoices {
             }
 
             // Calculating Water Price
+            numberOfPeople = numberOfPeople == -1 ? 1 : numberOfPeople;
             if (waterConsumed != 0) {
                 // Case (1)
                 if (region.contains("Ho Chi Minh")) {

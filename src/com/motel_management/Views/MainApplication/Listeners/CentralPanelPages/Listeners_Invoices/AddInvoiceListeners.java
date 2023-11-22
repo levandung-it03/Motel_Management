@@ -3,7 +3,6 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 import com.motel_management.Controllers.Controller_Electricity_Water;
 import com.motel_management.Controllers.Controller_Invoices;
 import com.motel_management.Controllers.Controller_Room;
-import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesPage;
 
@@ -18,6 +17,9 @@ import java.util.regex.Pattern;
 
 public class AddInvoiceListeners {
     ArrayList<RoomModel> roomList = new ArrayList<>();
+    static int currentMonth = LocalDateTime.now().getMonthValue();
+    static int currentYear = LocalDateTime.now().getYear();
+    static HashMap<String, String> lastInvoiceOfRoom;
 
     public AddInvoiceListeners() {}
 
@@ -35,23 +37,23 @@ public class AddInvoiceListeners {
 
         inpTags.get("defaultRoomPrice").setText(Integer.toString(room.get(0).getDefaultRoomPrice()));
 
-        InvoiceModel invoiceOfRoom = Controller_Invoices.getLastInvoice(roomIdValue);
-        if (invoiceOfRoom != null) {
-            if (invoiceOfRoom.getMonthPayment().equals("12")) {
-                inpTags.get("paymentMonth").setText("1");
-                inpTags.get("paymentYear").setText(Integer.toString(Integer.parseInt(invoiceOfRoom.getYearPayment()) + 1));
+        lastInvoiceOfRoom = Controller_Invoices.getLastInvoice(roomIdValue);
+        if (lastInvoiceOfRoom != null) {
+            if (LocalDateTime.now().getMonthValue() == 1) {
+                inpTags.get("paymentMonth").setText(Integer.toString(12));
+                inpTags.get("paymentYear").setText(Integer.toString(currentYear - 1));
             } else {
-                inpTags.get("paymentYear").setText(invoiceOfRoom.getYearPayment());
-                inpTags.get("paymentMonth").setText(Integer.toString(Integer.parseInt(invoiceOfRoom.getMonthPayment()) + 1));
+                inpTags.get("paymentMonth").setText(Integer.toString(currentMonth - 1));
+                inpTags.get("paymentYear").setText(Integer.toString(currentYear));
             }
-            inpTags.get("formerElectricNumber").setText(Integer.toString(invoiceOfRoom.getNewElectricNumber()));
-            inpTags.get("formerWaterNumber").setText(Integer.toString(invoiceOfRoom.getNewWaterNumber()));
-            inpTags.get("garbage").setText(Integer.toString(invoiceOfRoom.getGarbage()));
-            inpTags.get("wifi").setText(Integer.toString(invoiceOfRoom.getWifi()));
-            inpTags.get("vehicle").setText(Integer.toString(invoiceOfRoom.getVehicle()));
+            inpTags.get("formerElectricNumber").setText(lastInvoiceOfRoom.get("newElectricNumber"));
+            inpTags.get("formerWaterNumber").setText(lastInvoiceOfRoom.get("newWaterNumber"));
+            inpTags.get("garbage").setText(lastInvoiceOfRoom.get("garbage"));
+            inpTags.get("wifi").setText(lastInvoiceOfRoom.get("wifi"));
+            inpTags.get("vehicle").setText(lastInvoiceOfRoom.get("vehicle"));
         } else {
-            inpTags.get("paymentYear").setText("");
-            inpTags.get("paymentMonth").setText("");
+            inpTags.get("paymentYear").setText(Integer.toString(currentYear));
+            inpTags.get("paymentMonth").setText(Integer.toString(currentMonth - 1));
             inpTags.get("formerElectricNumber").setText("");
             inpTags.get("formerWaterNumber").setText("");
             inpTags.get("garbage").setText("");
@@ -86,10 +88,22 @@ public class AddInvoiceListeners {
                     return;
 
                 if (Controller_Electricity_Water.getLastElectricMaxRange() * Controller_Electricity_Water.getLastWaterMaxRange() == 0
-                || Controller_Electricity_Water.getLastElectricMaxRange() < Integer.MAX_VALUE
-                || Controller_Electricity_Water.getLastWaterMaxRange() < Integer.MAX_VALUE) {
+                        || Controller_Electricity_Water.getLastElectricMaxRange() < Integer.MAX_VALUE
+                        || Controller_Electricity_Water.getLastWaterMaxRange() < Integer.MAX_VALUE) {
                     JOptionPane.showMessageDialog(new JPanel(), "It's Not Enough Data To Calculate Water and " +
-                           "Electric Price, please check Electric-Water", "Notice",JOptionPane.PLAIN_MESSAGE);
+                            "Electric Price, please check Electric-Water", "Notice",JOptionPane.PLAIN_MESSAGE);
+                    return;
+                }
+
+                HashMap<String, String> lastInvoice =
+                        Controller_Invoices.getLastInvoice(Objects.requireNonNull(roomId.getSelectedItem()).toString());
+
+                if (Integer.parseInt(lastInvoice.get("paymentYear")) > currentYear
+                        || (Integer.parseInt(lastInvoice.get("paymentYear")) == currentYear
+                        && Integer.parseInt(lastInvoice.get("paymentMonth")) > currentMonth)) {
+                    JOptionPane.showMessageDialog(new JPanel(),"This room had an invoice on "
+                                    + lastInvoice.get("paymentMonth") + "/" + lastInvoice.get("paymentYear")
+                            ,"Notice", JOptionPane.PLAIN_MESSAGE);
                     return;
                 }
 
@@ -120,13 +134,20 @@ public class AddInvoiceListeners {
         } catch (NumberFormatException e) { return "Invalid Number at Default Room Price"; }
 
         if (!Pattern.compile("\\d{4}").matcher(inpTags.get("paymentYear").getText()).matches()
-                || Integer.parseInt(inpTags.get("paymentYear").getText()) > (LocalDateTime.now().getYear() + 1))
+        || Integer.parseInt(inpTags.get("paymentYear").getText()) > (LocalDateTime.now().getYear() + 1))
             return "Need a number \"yyyy\" at Year Payment";
 
         if (!Pattern.compile("\\d{1,2}").matcher(inpTags.get("paymentMonth").getText()).matches()
-                || Integer.parseInt(inpTags.get("paymentMonth").getText()) <= 0
-                || Integer.parseInt(inpTags.get("paymentMonth").getText()) > 12)
+        || Integer.parseInt(inpTags.get("paymentMonth").getText()) <= 0
+        || Integer.parseInt(inpTags.get("paymentMonth").getText()) > 12)
             return "Need a number \"mm\" at Month Payment";
+
+        if (Integer.parseInt(inpTags.get("paymentYear").getText()) == currentYear
+        && Integer.parseInt(inpTags.get("paymentMonth").getText()) > currentMonth)
+            return "Invalid Payment Month because the Current Month is: " + currentMonth;
+
+        if (Integer.parseInt(inpTags.get("paymentYear").getText()) > currentYear)
+            return "Invalid Payment Year because the Current Year is: " + currentYear;
 
         if (!Pattern.compile("\\d{1,5}").matcher(inpTags.get("formerElectricNumber").getText()).matches())
             return "Need full 5 black digits at Old Electric Number (ex: 00545)";
@@ -139,7 +160,7 @@ public class AddInvoiceListeners {
 
         try {
             if (Integer.parseInt(inpTags.get("newElectricNumber").getText()) < 0
-                    || Integer.parseInt(inpTags.get("newElectricNumber").getText()) > 99999)
+            || Integer.parseInt(inpTags.get("newElectricNumber").getText()) > 99999)
                 return "New Electric Number must in range 0 <= number <= 99999";
         } catch (NumberFormatException e) { return "Invalid Number at New Electric Number"; }
 
@@ -148,13 +169,13 @@ public class AddInvoiceListeners {
 
         try {
             if (Integer.parseInt(inpTags.get("formerWaterNumber").getText()) < 0
-                    || Integer.parseInt(inpTags.get("formerWaterNumber").getText()) > 99999)
+            || Integer.parseInt(inpTags.get("formerWaterNumber").getText()) > 99999)
                 return "Old Water Number must in range 0 <= number <= 99999";
         } catch (NumberFormatException e) { return "Invalid Number at Old Water Number"; }
 
         try {
             if (Integer.parseInt(inpTags.get("newWaterNumber").getText()) < 0
-                    || Integer.parseInt(inpTags.get("newWaterNumber").getText()) > 99999)
+            || Integer.parseInt(inpTags.get("newWaterNumber").getText()) > 99999)
                 return "New Water Number must in range 0 <= number <= 99999";
         } catch (NumberFormatException e) { return "Invalid Number at New Water Number"; }
 

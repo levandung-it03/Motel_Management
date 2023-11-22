@@ -4,18 +4,17 @@ import com.motel_management.DataAccessObject.ContractDAO;
 import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.Models.ContractModel;
-import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class Controller_Contract {
     public Controller_Contract() { super(); }
-    public static int addNewContract(HashMap<String, String> data) {
+    public static HashMap<String, String> addNewContract(HashMap<String, String> data) {
+        HashMap<String, String> result = new HashMap<>();
         String contractId = "C" + Configs.generateIdTail();
         int totalMonths = Configs.calTotalMonthsBetweenStrDates(data.get("startingDate"), data.get("endingDate"));
 
@@ -30,6 +29,7 @@ public class Controller_Contract {
                 data.get("endingDate"),
                 Integer.toString(totalMonths),
                 data.get("isRegisteredPerAddress"),
+                "0"
         };
         
         String[] personData = new String[] {
@@ -45,15 +45,36 @@ public class Controller_Contract {
                 data.get("email"),
                 data.get("bankAccountNumber"),
                 data.get("bank"),
+                "1"
         };
+
+        if (ContractDAO.getInstance().selectByCondition("WHERE checkedOut=\"0\" AND identifier=\"" + data.get("identifier") + "\"").size() > 0) {
+            result.put("result", "0");
+            result.put("message", "This Person Is In Another Room!");
+            return result;
+        }
+
+        int addPersonRes = 0;
+        if (PersonDAO.getInstance().selectById(data.get("identifier")) != null) {
+            // Person existed but there is no Contract has this Person which hasn't checked out yet.
+            addPersonRes = PersonDAO.getInstance().update(personData);
+        } else
+            addPersonRes = PersonDAO.getInstance().insert(personData);
+
+        int addContractRes = ContractDAO.getInstance().insert(contractData);
 
         RoomModel roomData = RoomDAO.getInstance().selectById(data.get("roomId"));
         roomData.setQuantity(Integer.parseInt(data.get("quantity")));
-
-        int addContractRes = ContractDAO.getInstance().insert(contractData);
-        int addPersonRes = PersonDAO.getInstance().insert(personData);
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
-        return addContractRes * addPersonRes * updateRoomRes;
+
+        if (addContractRes * addPersonRes * updateRoomRes != 0) {
+            result.put("result", "1");
+            result.put("message", "New Contract was added!");
+        } else {
+            result.put("result", "0");
+            result.put("message", "Something Wrong!");
+        }
+        return result;
     }
 
     public static int updateContract(String[] data) {
@@ -73,7 +94,7 @@ public class Controller_Contract {
     public static String[][] getAllContractWithTableFormat() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         ArrayList<ContractModel> selectedContracts = ContractDAO.getInstance().selectAll();
-        HashMap<String, String> selectedPersons = PersonDAO.getInstance().selectALlNameById();
+        HashMap<String, String> selectedPersons = PersonDAO.getInstance().selectAllNameById();
 
         String[][] contracts = new String[selectedContracts.size()][8];
         for (int i = 0; i < selectedContracts.size(); i++) {
