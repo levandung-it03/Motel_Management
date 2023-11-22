@@ -45,19 +45,19 @@ public class Controller_Invoices {
                 --> Both cases follow Water Ranges Table.
          */
 
-        ArrayList<WaterRangeModel> waterRanges = WaterRangeDAO.getInstance().selectAll();
-        ArrayList<ElectricRangeModel> electricRanges = ElectricRangeDAO.getInstance().selectAll();
+        ArrayList<WaterRangeModel> waterRanges = WaterRangeDAO.getInstance().selectByCondition("ORDER BY maxRangeValue DESC");
+        ArrayList<ElectricRangeModel> electricRanges = ElectricRangeDAO.getInstance().selectByCondition("ORDER BY maxRangeValue DESC");
 
         // Check if data at Water Range, Electric Range is missing.
         if (waterRanges.size() == 0 || electricRanges.size() < 3
-        || Controller_Electricity_Water.getLastWaterMaxRange() < Integer.MAX_VALUE
-        || Controller_Electricity_Water.getLastElectricMaxRange() < Integer.MAX_VALUE) {
+        || waterRanges.get(0).getMaxRangeValue() < Integer.MAX_VALUE
+        || electricRanges.get(0).getMaxRangeValue() < Integer.MAX_VALUE) {
             result.put("result", "0");
             result.put("message", "It's Not Enough Data To Calculate Water and  Electric Price, please check Electric-Water");
             return result;
         }
 
-        double total = STI(data.get("defaultRoomPrice"))
+        int total = STI(data.get("defaultRoomPrice"))
                 + STI(data.get("garbage"))
                 + STI(data.get("wifi"))
                 + STI(data.get("vehicle"));
@@ -113,7 +113,7 @@ public class Controller_Invoices {
             }
         }
         // 15% tax.
-        total += electricPrice * electricTax / 100;
+        total += (int) (electricPrice * electricTax / 100);
 
         // Calculating Water Price
         numberOfPeople = numberOfPeople == -1 ? 1 : numberOfPeople;
@@ -162,7 +162,7 @@ public class Controller_Invoices {
                 data.get("garbage"),
                 data.get("wifi"),
                 data.get("vehicle"),
-                Double.toString(total),
+                Integer.toString(total),
                 "0"
         });
         if (addResult != 0) {
