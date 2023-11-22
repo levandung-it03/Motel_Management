@@ -48,7 +48,7 @@ CREATE TABLE Person (
     email VARCHAR(255),
     bankAccountNumber VARCHAR(255),
     bank VARCHAR(255),
-
+    isOccupied VARCHAR(1) NOT NULL DEFAULT "1",
     CONSTRAINT PK_Person PRIMARY KEY (identifier),
     CONSTRAINT FK_Person_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT UK_Person UNIQUE (identifier, roomId)
@@ -108,5 +108,4 @@ CREATE TABLE Invoice(
 INSERT INTO Account VALUES ("admin000", "Root", "root", "123456"), ("admin001", "Dung", "levandung", "123456");
 INSERT INTO Room VALUES ("P001", 0, 9, 3000000), ("P002", 0, 9, 3000000), ("P003", 0, 9, 3000000), ("P004", 0, 9, 3000000), ("P005", 0, 9, 3000000),
 ("P006", 0, 9, 3000000);
-INSERT INTO ElectricRange VALUES ();
-INSERT INTO WaterRange VALUES ();
+

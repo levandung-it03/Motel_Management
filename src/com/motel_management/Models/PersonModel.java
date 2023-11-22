@@ -15,11 +15,12 @@ public class PersonModel {
     private String email;
     private String bankAccountNumber;
     private String bank;
+    private String isOccupied;
 
     public PersonModel() {}
     public PersonModel(String identifier, String roomId, String lastName, String firstName, Date birthday,
                        String phone, String gender,String jobTitle, String permanentAddress, String email,
-                       String bankAccountNumber, String bank) {
+                       String bankAccountNumber, String bank, String isOccupied) {
         this.identifier = identifier;
         this.roomId = roomId;
         this.lastName = lastName;
@@ -32,6 +33,7 @@ public class PersonModel {
         this.email = email;
         this.bankAccountNumber = bankAccountNumber;
         this.bank = bank;
+        this.isOccupied = isOccupied;
     }
 
     // Getters
@@ -58,11 +60,12 @@ public class PersonModel {
     public void setBirthday(Date birthday) { this.birthday = birthday; }
     public void setPhone(String phone) { this.phone = phone; }
     public void setGender (String gender) {this.gender = gender;}
+    public String getIsOccupied() { return isOccupied; }
 
     public void setJobTitle (String jobTitle) {this.jobTitle = jobTitle;}
-
     public void setPermanentAddress(String permanentAddress) { this.permanentAddress = permanentAddress; }
     public void setEmail(String email) { this.email = email; }
     public void setBankAccountNumber(String bankAccountNumber) { this.bankAccountNumber = bankAccountNumber; }
     public void setBank(String bank) { this.bank = bank; }
+    public void setIsOccupied(String isOccupied) { this.isOccupied = isOccupied; }
 }

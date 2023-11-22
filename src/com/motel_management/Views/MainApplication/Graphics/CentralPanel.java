@@ -1,11 +1,11 @@
 package com.motel_management.Views.MainApplication.Graphics;
 import com.motel_management.Views.Configs;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.*;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_NewRoom.NewRoomPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_CheckOut.CheckOutPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.RepresentativesPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.StatisticPage;
 
