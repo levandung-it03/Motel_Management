@@ -4,7 +4,6 @@ import com.motel_management.DataAccessObject.ContractDAO;
 import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.Models.ContractModel;
-import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 
@@ -46,6 +45,7 @@ public class Controller_Contract {
                 data.get("email"),
                 data.get("bankAccountNumber"),
                 data.get("bank"),
+                "1"
         };
 
         if (ContractDAO.getInstance().selectByCondition("WHERE checkedOut=\"0\" AND identifier=\"" + data.get("identifier") + "\"").size() > 0) {

@@ -48,7 +48,7 @@ CREATE TABLE Person (
     email VARCHAR(255),
     bankAccountNumber VARCHAR(255),
     bank VARCHAR(255),
-
+    isOccupied VARCHAR(1) NOT NULL DEFAULT "1",
     CONSTRAINT PK_Person PRIMARY KEY (identifier),
     CONSTRAINT FK_Person_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT UK_Person UNIQUE (identifier, roomId)
