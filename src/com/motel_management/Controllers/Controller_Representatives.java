@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Controller_Representatives {
     public Controller_Representatives(){
@@ -17,7 +18,7 @@ public class Controller_Representatives {
     }
 
     public static String[][] getAllRepresentativesWithTableFormat() {
-        ArrayList<PersonModel> result = PersonDAO.getInstance().selectAll();
+        ArrayList<PersonModel> result = PersonDAO.getInstance().selectByCondition("Where isOccupied='1'");
         String[][] person = new String[result.size()][6];
         for (int i = 0; i < result.size(); i++) {
             person[i][0] = result.get(i).getIdentifier();
@@ -39,9 +40,12 @@ public class Controller_Representatives {
         JLabel firstname = new JLabel("First name: "+ person.getFirstName());
         JLabel birthday = new JLabel("Birth day: "+ person.getBirthday());
         JLabel phone = new JLabel("Phone: "+ person.getPhone());
-        JLabel gender = new JLabel("Gender: "+ person.getGender());
+        String tempGender; //Set Gender
+        if (Objects.equals(person.getGender() , "0"))
+            {tempGender = "Nam";} else {tempGender =  "Nu";}
+        JLabel gender = new JLabel("Gender: "+ tempGender);
         JLabel jobTitle = new JLabel("JobTitle: "+ person.getJobTitle());
-        JLabel permanentAddress = new JLabel("Permanent Address: "+ person.getPermanentAddress());
+        JLabel permanentAddress = new JLabel("Address: "+ person.getPermanentAddress());
         JLabel email = new JLabel("Email: "+ person.getEmail());
         JLabel bankAccountNumber = new JLabel("Bank Account Number: "+ person.getBankAccountNumber());
         JLabel bank = new JLabel("Bank: "+ person.getBank());
