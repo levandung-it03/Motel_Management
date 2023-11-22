@@ -3,6 +3,7 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.Models.PersonModel;
 import com.motel_management.Controllers.Controller_Representatives;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.Representatives_ShowID;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -20,7 +21,7 @@ public class RepresentativesListeners {
                 // Delete Button Clicked
                 if (clickedColumn == table.getColumnCount() - 1) {
                     PersonModel res = PersonDAO.getInstance().selectById(String.valueOf(table.getValueAt(clickedRow,0)));
-                    Controller_Representatives.showInformationById(res);
+                    new Representatives_ShowID(res);
                 }
             }
         };
