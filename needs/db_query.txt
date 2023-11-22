@@ -109,3 +109,4 @@ CREATE TABLE Invoice(
 INSERT INTO Account VALUES ("admin000", "Root", "root", "123456"), ("admin001", "Dung", "levandung", "123456");
 INSERT INTO Room VALUES ("P001", 0, 9, 3000000), ("P002", 0, 9, 3000000), ("P003", 0, 9, 3000000), ("P004", 0, 9, 3000000), ("P005", 0, 9, 3000000),
 ("P006", 0, 9, 3000000);
+
