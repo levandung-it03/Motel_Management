@@ -17,19 +17,20 @@ public class RepresentativesPage extends JPanel{
 
     public RepresentativesPage() {
         super(new BorderLayout());
-        this.createPresentativesPanel();
-        this.createPresentativesListPage();
+        this.createRepresentativesPanel();
+        this.createRepresentativesListPage();
         this.createListener();
     }
 
-    public void createPresentativesPanel(){
+    public void createRepresentativesPanel(){
         JLabel title = new JLabel("Representatives List");
         title.setBorder(new EmptyBorder(20,0,10,0));
         title.setFont(title.getFont().deriveFont(Font.BOLD, 34.0f));
         title.setHorizontalAlignment(JLabel.CENTER);
         this.add(title,BorderLayout.NORTH);
     }
-    public void createPresentativesListPage() {
+
+    public void createRepresentativesListPage() {
         this.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
 
         // Prepare Date to generate Table.
