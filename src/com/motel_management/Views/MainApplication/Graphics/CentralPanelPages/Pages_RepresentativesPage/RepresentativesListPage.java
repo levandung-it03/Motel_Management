@@ -3,7 +3,7 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 import com.motel_management.Controllers.Controller_Representatives;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Presentatives.PresentativesListeners;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Representatives.RepresentativesListeners;
 
 
 import javax.swing.*;
@@ -18,19 +18,19 @@ public class RepresentativesListPage extends JPanel {
 
     public RepresentativesListPage() {
         super(new BorderLayout());
-        this.createPresentativesPanel();
-        this.createPresentativesListPage();
+        this.createRepresentativesPanel();
+        this.createRepresentativesListPage();
         this.createListener();
     }
 
-    public void createPresentativesPanel(){
+    public void createRepresentativesPanel(){
         JLabel title = new JLabel("Representatives List");
         title.setBorder(new EmptyBorder(20,0,10,0));
         title.setFont(title.getFont().deriveFont(Font.BOLD, 34.0f));
         title.setHorizontalAlignment(JLabel.CENTER);
         add(title,BorderLayout.NORTH);
     }
-    public void createPresentativesListPage() {
+    public void createRepresentativesListPage() {
         setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
 
         // Prepare Date to generate Table.
@@ -66,7 +66,7 @@ public class RepresentativesListPage extends JPanel {
     }
 
     public void createListener(){
-        table.addMouseListener(PresentativesListeners.getInformationByClick(table));
+        table.addMouseListener(RepresentativesListeners.getInformationByClick(table));
     }
 
 
