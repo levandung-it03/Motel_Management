@@ -95,7 +95,7 @@ public class PersonDAO implements DAOInterface<PersonModel>{
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Person SET  roomId=?, lastName=?, firstName=?,"+
+            String query = "UPDATE Person SET roomId=?, lastName=?, firstName=?,"+
                     "birthday=?, phone=?, gender=?, jobTitle=?, permanentAddress=?, email=?, bankAccountNumber=?," +
                     "bank=? WHERE (identifier=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
@@ -144,13 +144,16 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
-            rs.next();
-            return new PersonModel(rs.getString("identifier"), rs.getString("roomId"),
-                    rs.getString("lastName"),rs.getString("firstName"),
-                    rs.getDate("birthday"),rs.getString("phone"),
-                    rs.getString("gender"), rs.getString("jobTitle"),
-                    rs.getString("permanentAddress"), rs.getString("email"),
-                    rs.getString("bankAccountNumber"), rs.getString("bank"));
+            if (rs.next()) {
+                return new PersonModel(rs.getString("identifier"), rs.getString("roomId"),
+                        rs.getString("lastName"),rs.getString("firstName"),
+                        rs.getDate("birthday"),rs.getString("phone"),
+                        rs.getString("gender"), rs.getString("jobTitle"),
+                        rs.getString("permanentAddress"), rs.getString("email"),
+                        rs.getString("bankAccountNumber"), rs.getString("bank"));
+            } else {
+                return null;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -207,7 +210,7 @@ public class PersonDAO implements DAOInterface<PersonModel>{
         return null;
     }
 
-    public HashMap<String, String> selectALlNameById() {
+    public HashMap<String, String> selectAllNameById() {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             ResultSet rs = myConnection.prepareStatement("SELECT identifier, firstName FROM Person;").executeQuery();

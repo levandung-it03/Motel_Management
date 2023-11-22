@@ -3,8 +3,6 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 import com.motel_management.Controllers.Controller_Electricity_Water;
 import com.motel_management.Controllers.Controller_Invoices;
 import com.motel_management.Controllers.Controller_Room;
-import com.motel_management.DataAccessObject.ContractDAO;
-import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesPage;
 
@@ -45,7 +43,7 @@ public class AddInvoiceListeners {
                 inpTags.get("paymentMonth").setText(Integer.toString(12));
                 inpTags.get("paymentYear").setText(Integer.toString(currentYear - 1));
             } else {
-                inpTags.get("paymentMonth").setText(Integer.toString(currentMonth));
+                inpTags.get("paymentMonth").setText(Integer.toString(currentMonth - 1));
                 inpTags.get("paymentYear").setText(Integer.toString(currentYear));
             }
             inpTags.get("formerElectricNumber").setText(lastInvoiceOfRoom.get("newElectricNumber"));
@@ -54,8 +52,8 @@ public class AddInvoiceListeners {
             inpTags.get("wifi").setText(lastInvoiceOfRoom.get("wifi"));
             inpTags.get("vehicle").setText(lastInvoiceOfRoom.get("vehicle"));
         } else {
-            inpTags.get("paymentYear").setText("");
-            inpTags.get("paymentMonth").setText("");
+            inpTags.get("paymentYear").setText(Integer.toString(currentYear));
+            inpTags.get("paymentMonth").setText(Integer.toString(currentMonth - 1));
             inpTags.get("formerElectricNumber").setText("");
             inpTags.get("formerWaterNumber").setText("");
             inpTags.get("garbage").setText("");
@@ -90,10 +88,10 @@ public class AddInvoiceListeners {
                     return;
 
                 if (Controller_Electricity_Water.getLastElectricMaxRange() * Controller_Electricity_Water.getLastWaterMaxRange() == 0
-                || Controller_Electricity_Water.getLastElectricMaxRange() < Integer.MAX_VALUE
-                || Controller_Electricity_Water.getLastWaterMaxRange() < Integer.MAX_VALUE) {
+                        || Controller_Electricity_Water.getLastElectricMaxRange() < Integer.MAX_VALUE
+                        || Controller_Electricity_Water.getLastWaterMaxRange() < Integer.MAX_VALUE) {
                     JOptionPane.showMessageDialog(new JPanel(), "It's Not Enough Data To Calculate Water and " +
-                           "Electric Price, please check Electric-Water", "Notice",JOptionPane.PLAIN_MESSAGE);
+                            "Electric Price, please check Electric-Water", "Notice",JOptionPane.PLAIN_MESSAGE);
                     return;
                 }
 
@@ -101,10 +99,10 @@ public class AddInvoiceListeners {
                         Controller_Invoices.getLastInvoice(Objects.requireNonNull(roomId.getSelectedItem()).toString());
 
                 if (Integer.parseInt(lastInvoice.get("paymentYear")) > currentYear
-                || (Integer.parseInt(lastInvoice.get("paymentYear")) == currentYear
+                        || (Integer.parseInt(lastInvoice.get("paymentYear")) == currentYear
                         && Integer.parseInt(lastInvoice.get("paymentMonth")) > currentMonth)) {
                     JOptionPane.showMessageDialog(new JPanel(),"This room had an invoice on "
-                            + lastInvoice.get("paymentMonth") + "/" + lastInvoice.get("paymentYear")
+                                    + lastInvoice.get("paymentMonth") + "/" + lastInvoice.get("paymentYear")
                             ,"Notice", JOptionPane.PLAIN_MESSAGE);
                     return;
                 }
