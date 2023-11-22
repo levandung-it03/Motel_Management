@@ -100,7 +100,7 @@ CREATE TABLE Invoice(
     total INT DEFAULT 0,
     wasPaid VARCHAR(1) DEFAULT "0",
 
-    CONSTRAINT PK_Invoice PRIMARY KEY (invoiceId)
+    CONSTRAINT PK_Invoice PRIMARY KEY (invoiceId),
     CONSTRAINT FK_Invoice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT UK_Invoice UNIQUE (roomId, paymentMonth, paymentYear),
 );
