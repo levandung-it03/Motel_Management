@@ -3,7 +3,7 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 import com.motel_management.Controllers.Controller_Representatives;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Presentatives.PresentativesListeners;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Representatives.RepresentativesListeners;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -65,7 +65,7 @@ public class RepresentativesPage extends JPanel{
     }
 
     public void createListener(){
-        table.addMouseListener(PresentativesListeners.getInformationByClick(table));
+        table.addMouseListener(RepresentativesListeners.getInformationByClick(table));
     }
 
 
