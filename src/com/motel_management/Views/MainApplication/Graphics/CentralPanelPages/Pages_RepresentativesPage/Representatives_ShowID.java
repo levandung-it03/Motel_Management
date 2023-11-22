@@ -13,18 +13,18 @@ public class Representatives_ShowID {
         showInformationById(person);
     }
     public void showInformationById(PersonModel person){
-        JPanel subpanel1 = new JPanel();
-        JPanel subpanel2 = new JPanel();
-        JPanel subpanel3 = new JPanel();
-        JPanel subpanel4 = new JPanel();
-        JPanel subpanel5 = new JPanel();
-        JPanel subpanel6 = new JPanel();
-        JPanel subpanel7 = new JPanel();
-        JPanel subpanel8 = new JPanel();
-        JPanel subpanel9 = new JPanel();
-        JPanel subpanel10 = new JPanel();
-        JPanel subpanel11 = new JPanel();
-        JPanel subpanel12 = new JPanel();
+        JPanel subPanel1 = new JPanel();
+        JPanel subPanel2 = new JPanel();
+        JPanel subPanel3 = new JPanel();
+        JPanel subPanel4 = new JPanel();
+        JPanel subPanel5 = new JPanel();
+        JPanel subPanel6 = new JPanel();
+        JPanel subPanel7 = new JPanel();
+        JPanel subPanel8 = new JPanel();
+        JPanel subPanel9 = new JPanel();
+        JPanel subPanel10 = new JPanel();
+        JPanel subPanel11 = new JPanel();
+        JPanel subPanel12 = new JPanel();
 
 
         JFrame maineFramePerson = new JFrame();
@@ -46,18 +46,18 @@ public class Representatives_ShowID {
         {tempGender = "Nam";} else {tempGender =  "Nu";}
         JLabel gender = new JLabel("Gender: "+ tempGender);
 
-        setBorderForJlabel(identifier);
-        setBorderForJlabel(roomId);
-        setBorderForJlabel(lastname);
-        setBorderForJlabel(firstname);
-        setBorderForJlabel(birthday);
-        setBorderForJlabel(phone);
-        setBorderForJlabel(gender);
-        setBorderForJlabel(jobTitle);
-        setBorderForJlabel(permanentAddress);
-        setBorderForJlabel(email);
-        setBorderForJlabel(bankAccountNumber);
-        setBorderForJlabel(bank);
+        setBorderForJLabel(identifier);
+        setBorderForJLabel(roomId);
+        setBorderForJLabel(lastname);
+        setBorderForJLabel(firstname);
+        setBorderForJLabel(birthday);
+        setBorderForJLabel(phone);
+        setBorderForJLabel(gender);
+        setBorderForJLabel(jobTitle);
+        setBorderForJLabel(permanentAddress);
+        setBorderForJLabel(email);
+        setBorderForJLabel(bankAccountNumber);
+        setBorderForJLabel(bank);
 
 
         panelShowById.setLayout(new GridLayout(4,3,3,3));
@@ -66,41 +66,42 @@ public class Representatives_ShowID {
         panelShowById.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 
-        subpanel1.add(identifier);
-        subpanel2.add(roomId);
-        subpanel3.add(phone);
-        subpanel4.add(lastname);
-        subpanel5.add(firstname);
-        subpanel6.add(birthday);
-        subpanel7.add(gender);
-        subpanel8.add(jobTitle);
-        subpanel9.add(permanentAddress);
-        subpanel10.add(email);
-        subpanel11.add(bankAccountNumber);
-        subpanel12.add(bank);
+        subPanel1.add(identifier);
+        subPanel2.add(roomId);
+        subPanel3.add(phone);
+        subPanel4.add(lastname);
+        subPanel5.add(firstname);
+        subPanel6.add(birthday);
+        subPanel7.add(gender);
+        subPanel8.add(jobTitle);
+        subPanel9.add(permanentAddress);
+        subPanel10.add(email);
+        subPanel11.add(bankAccountNumber);
+        subPanel12.add(bank);
 
-        panelShowById.add(subpanel1);
-        panelShowById.add(subpanel2);
-        panelShowById.add(subpanel3);
-        panelShowById.add(subpanel4);
-        panelShowById.add(subpanel5);
-        panelShowById.add(subpanel6);
-        panelShowById.add(subpanel7);
-        panelShowById.add(subpanel8);
-        panelShowById.add(subpanel9);
-        panelShowById.add(subpanel10);
-        panelShowById.add(subpanel11);
-        panelShowById.add(subpanel12);
+        panelShowById.add(subPanel1);
+        panelShowById.add(subPanel2);
+        panelShowById.add(subPanel3);
+        panelShowById.add(subPanel4);
+        panelShowById.add(subPanel5);
+        panelShowById.add(subPanel6);
+        panelShowById.add(subPanel7);
+        panelShowById.add(subPanel8);
+        panelShowById.add(subPanel9);
+        panelShowById.add(subPanel10);
+        panelShowById.add(subPanel11);
+        panelShowById.add(subPanel12);
 
 
         maineFramePerson.add(panelShowById);
         maineFramePerson.setVisible(true);
+        JOptionPane.showMessageDialog(new JPanel(), "msss", "ttt", JOptionPane.PLAIN_MESSAGE);
         maineFramePerson.setLocationRelativeTo(null);
         maineFramePerson.setSize(1000,300);
         maineFramePerson.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
-    void setBorderForJlabel(JLabel component){
+    void setBorderForJLabel(JLabel component){
         component.setBorder(new EmptyBorder(20,5,5,5));
     }
 }

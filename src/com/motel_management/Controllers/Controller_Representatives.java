@@ -17,6 +17,10 @@ public class Controller_Representatives {
         super();
     }
 
+    public static PersonModel getPersonById(String identifier) {
+        return PersonDAO.getInstance().selectById(identifier);
+    }
+
     public static String[][] getAllRepresentativesWithTableFormat() {
         ArrayList<PersonModel> result = PersonDAO.getInstance().selectByCondition("Where isOccupied='1'");
         String[][] person = new String[result.size()][6];
