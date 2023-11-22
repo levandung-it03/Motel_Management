@@ -92,7 +92,7 @@ public class AddInvoiceListeners {
 
                 HashMap<String, String> addRes = Controller_Invoices.addNewInvoice(data);
 
-                // Successfully Create New Invoice
+                // Show Result Message
                 JOptionPane.showMessageDialog(new JPanel(),addRes.get("message"),"Notice",JOptionPane.PLAIN_MESSAGE);
 
                 if (addRes.get("result").equals("1"))
