@@ -4,11 +4,9 @@ import com.motel_management.DataAccessObject.*;
 import com.motel_management.Models.*;
 import com.motel_management.Views.Configs;
 
-import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class Controller_Invoices {
     public Controller_Invoices() {
@@ -52,14 +50,14 @@ public class Controller_Invoices {
 
         // Check if data at Water Range, Electric Range is missing.
         if (waterRanges.size() == 0 || electricRanges.size() < 3
-        || waterRanges.get(waterRanges.size() - 1).getMaxRangeValue() < Integer.MAX_VALUE
-        || electricRanges.get(electricRanges.size() - 1).getMaxRangeValue() < Integer.MAX_VALUE) {
+        || Controller_Electricity_Water.getLastWaterMaxRange() < Integer.MAX_VALUE
+        || Controller_Electricity_Water.getLastElectricMaxRange() < Integer.MAX_VALUE) {
             result.put("result", "0");
             result.put("message", "It's Not Enough Data To Calculate Water and  Electric Price, please check Electric-Water");
             return result;
         }
 
-        int total = STI(data.get("defaultRoomPrice"))
+        double total = STI(data.get("defaultRoomPrice"))
                 + STI(data.get("garbage"))
                 + STI(data.get("wifi"))
                 + STI(data.get("vehicle"));
@@ -80,27 +78,30 @@ public class Controller_Invoices {
         int electricConsumed = STI(data.get("newElectricNumber")) - STI(data.get("formerElectricNumber"));
         int waterConsumed = (STI(data.get("newWaterNumber")) - STI(data.get("formerWaterNumber"))) / numberOfPeople;
 
+        int electricPrice = 0;
+        double totalWaterConsumed = 0;
+        int environmentalFee = 150000;
+        double electricTax = 8d;
+
         // Calculating Electric Price.
         if (electricConsumed != 0) {
-
             // Case (1) or (2.1)
             if (isFamily == 1 || (totalContractTimeAsMonth >= 12 && isRegisteredPerAddress == 1)) {
                 for (ElectricRangeModel e : electricRanges) {
                     if (e.getMaxRangeValue() <= electricConsumed)
-                        total += (e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice();
+                        electricPrice += (e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice();
                     else
-                        total += (electricConsumed - e.getMinRangeValue() + 1) * e.getPrice();
+                        electricPrice += (electricConsumed - e.getMinRangeValue() + 1) * e.getPrice();
                 }
             } else {
                 // Case (2.2.1)
                 if (numberOfPeople == -1) {
                     // Add Electric Consumption Price into Total with Range "3".
-                    total += STI(data.get("newElectricNumber")) * electricRanges.get(2).getPrice()
+                    electricPrice += STI(data.get("newElectricNumber")) * electricRanges.get(2).getPrice()
                             - STI(data.get("formerElectricNumber")) * electricRanges.get(2).getPrice();
                 }
                 // Case (2.2.2)
                 else {
-                    int electricPrice = 0;
                     for (ElectricRangeModel e : electricRanges) {
                         if (e.getMaxRangeValue() <= electricConsumed)
                             electricPrice += (e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice();
@@ -108,17 +109,17 @@ public class Controller_Invoices {
                             electricPrice += (electricConsumed - e.getMinRangeValue() + 1) * e.getPrice();
                     }
                     electricPrice = electricPrice * numberOfPeople / 4;
-                    total += electricPrice;
                 }
             }
         }
+        // 15% tax.
+        total += electricPrice * electricTax / 100;
 
         // Calculating Water Price
         numberOfPeople = numberOfPeople == -1 ? 1 : numberOfPeople;
         if (waterConsumed != 0) {
             // Case (1)
             if (region.contains("Ho Chi Minh")) {
-                double totalWaterConsumed = 0;
                 double averageWaterConsumed = (double) waterConsumed / numberOfPeople;
 
                 for (WaterRangeModel w : waterRanges) {
@@ -133,12 +134,17 @@ public class Controller_Invoices {
             else {
                 for (WaterRangeModel w : waterRanges) {
                     if (w.getMaxRangeValue() <= waterConsumed)
-                        total += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
+                        totalWaterConsumed += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
                     else
-                        total += (waterConsumed - w.getMinRangeValue()) * w.getPrice();
+                        totalWaterConsumed += (waterConsumed - w.getMinRangeValue()) * w.getPrice();
                 }
             }
         }
+        // 150.000VNĐ Environmental Fee if Water Price >= 1.000.000VNĐ
+        if (totalWaterConsumed >= 1000000)
+            totalWaterConsumed += environmentalFee;
+
+        total += totalWaterConsumed;
 
         String invoiceId = "I" + Configs.generateIdTail();
         LocalDateTime d = LocalDateTime.now();
@@ -156,7 +162,7 @@ public class Controller_Invoices {
                 data.get("garbage"),
                 data.get("wifi"),
                 data.get("vehicle"),
-                Integer.toString(total),
+                Double.toString(total),
                 "0"
         });
         if (addResult != 0) {
