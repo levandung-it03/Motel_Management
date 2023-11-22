@@ -170,7 +170,7 @@ public class Controller_Invoices {
             result.put("message", "Successfully Create Invoice of Room " + data.get("roomId") + ", Total is: " + total + "VNĐ");
         } else {
             result.put("result", "0");
-            result.put("message", "Something went wrong with your Database");
+            result.put("message", "This Room Already had invoice on" + data.get("paymentYear") + "/" + data.get("paymentMonth"));
         }
         return result;
     }
