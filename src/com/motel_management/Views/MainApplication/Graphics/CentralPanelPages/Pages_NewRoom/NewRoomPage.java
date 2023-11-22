@@ -1,5 +1,5 @@
 
-package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages;
+package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_NewRoom;
 
 import com.motel_management.Controllers.Controller_NewRoom;
 import com.motel_management.Views.Configs;
@@ -47,30 +47,33 @@ public class NewRoomPage extends JPanel {
         String[][] rooms = Controller_NewRoom.getRoomInfo();
         roomContainer = new JPanel(new BorderLayout());
         JPanel overviewPanel = new JPanel(new GridLayout(0, 5, 10, 10));
-        overviewPanel.setPreferredSize(new Dimension(0, 192 * Math.ceilDiv(rooms.length,5)));
+        overviewPanel.setPreferredSize(new Dimension(0, 190 * Math.ceilDiv(rooms.length,5)));
         overviewPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         overviewPanel.setOpaque(false);
 
-        for(int i = 0; i < rooms.length; ++i) {
-            overviewPanel.add(generateTagPanel(rooms[i][0],rooms[i][1], rooms[i][2], rooms[i][3], rooms[i][4]));
+        for (String[] room : rooms) {
+            overviewPanel.add(generateTagPanel(room[0], room[1], room[2], room[3], room[4]));
         }
 
         roomContainer.add(overviewPanel,BorderLayout.NORTH);
         roomScrollPane = new JScrollPane(roomContainer);
         roomScrollPane.setPreferredSize(new Dimension(0, 0));
+        roomScrollPane.getVerticalScrollBar().setUnitIncrement(10);
         add(roomScrollPane, BorderLayout.CENTER);
     }
 
     public JPanel generateTagPanel(String roomCode,String name, String quantity,String maxQuantity, String price) {
+        // Set color for tag
         tag = new JPanel(new BorderLayout());
-        if (Integer.parseInt(quantity) > 0) {
+        if (Integer.parseInt(quantity) > 0 || Integer.parseInt(quantity) == -1) {
             tag.setBackground(Configs.normalGreen);
         } else {
             tag.setBackground(Color.gray);
         }
 
+        //Create and format panel in tag
         JLabel roomCodeTag = new JLabel(roomCode);
-        roomCodeTag.setFont(roomCodeTag.getFont().deriveFont(1, 20.0F));
+        roomCodeTag.setFont(roomCodeTag.getFont().deriveFont(20.0F));
         roomCodeTag.setHorizontalAlignment(0);
         roomCodeTag.setBorder(new EmptyBorder(10, 0, 0, 0));
         roomCodeTag.setForeground(Color.white);
@@ -78,6 +81,7 @@ public class NewRoomPage extends JPanel {
         JPanel infoPanel = new JPanel(new GridLayout(4, 0));
         infoPanel.setBorder(new EmptyBorder(0, 20, 0, 0));
 
+        // Add information of each room
         infoPanel.add(editLabel(name,18));
         infoPanel.add(editLabel(quantity,18));
         infoPanel.add(editLabel(maxQuantity,18));
@@ -85,16 +89,19 @@ public class NewRoomPage extends JPanel {
         infoPanel.setOpaque(false);
         tag.add(infoPanel, BorderLayout.CENTER);
 
-        // create popupmenu
+        // Create popup menu
         popupMenu = new JPopupMenu();
+        JMenuItem contractMenu = new JMenuItem("Contract");
         JMenuItem checkoutMenu = new JMenuItem("Check Out");
-        JMenuItem editMenu = new JMenuItem("Edit");
+        JMenuItem updateMenu = new JMenuItem("Update");
         JMenuItem deleteMenu = new JMenuItem("Delete");
+        contractMenu.addActionListener(NewRoomListeners.contractMenu());
         checkoutMenu.addActionListener(NewRoomListeners.checkoutMenu());
-        editMenu.addActionListener(NewRoomListeners.editMenu(roomCode,quantity,maxQuantity,price));
+        updateMenu.addActionListener(NewRoomListeners.updateMenu(roomCode,quantity,maxQuantity,price));
         deleteMenu.addActionListener(NewRoomListeners.deleteMenu(roomCode));
+        popupMenu.add(contractMenu);
         popupMenu.add(checkoutMenu);
-        popupMenu.add(editMenu);
+        popupMenu.add(updateMenu);
         popupMenu.add(deleteMenu);
         tag.setComponentPopupMenu(popupMenu);
         createRoomTagListeners();

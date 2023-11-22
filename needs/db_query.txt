@@ -100,9 +100,9 @@ CREATE TABLE Invoice(
     total INT DEFAULT 0,
     wasPaid VARCHAR(1) DEFAULT "0",
 
-    CONSTRAINT PK_Invoice PRIMARY KEY (invoiceId)
+    CONSTRAINT PK_Invoice PRIMARY KEY (invoiceId),
     CONSTRAINT FK_Invoice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT UK_Invoice UNIQUE (roomId, paymentMonth, paymentYear),
+    CONSTRAINT UK_Invoice UNIQUE (roomId, paymentMonth, paymentYear)
 );
 
 INSERT INTO Account VALUES ("admin000", "Root", "root", "123456"), ("admin001", "Dung", "levandung", "123456");

@@ -1,6 +1,7 @@
 package com.motel_management.Views.MainApplication.Graphics;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.*;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_NewRoom.NewRoomPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_CheckOut.CheckOutPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractPage;
@@ -16,7 +17,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CentralPanel extends JPanel {
-    JTabbedPane category;
+    public static JTabbedPane category;
     ArrayList<JPanel> pages = new ArrayList<JPanel>();
     ArrayList<JLabel> labels = new ArrayList<JLabel>();
 
@@ -39,6 +40,7 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Electricity-Water"));
         labels.add(generateTabLabel("Invoices"));
         labels.add(generateTabLabel("Check-out"));
+        labels.add(generateTabLabel("NewRoomPage"));
 
         pages.add(new StatisticPage());
         pages.add(new RoomPage());
@@ -47,6 +49,7 @@ public class CentralPanel extends JPanel {
         pages.add(new Electricity_WaterPage());
         pages.add(new InvoicesPage());
         pages.add(new CheckOutPage());
+        pages.add(new NewRoomPage());
 
         for (int i = 0; i < pages.size(); i++) {
             pages.get(i).setPreferredSize(
@@ -85,6 +88,7 @@ public class CentralPanel extends JPanel {
                     case 4 -> category.setComponentAt(4, new Electricity_WaterPage());
                     case 5 -> category.setComponentAt(5, new InvoicesPage());
                     case 6 -> category.setComponentAt(6, new CheckOutPage());
+                    case 7 -> category.setComponentAt(7, new NewRoomPage());
                 }
             }
         });
