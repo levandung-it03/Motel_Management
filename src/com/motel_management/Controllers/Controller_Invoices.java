@@ -4,18 +4,35 @@ import com.motel_management.DataAccessObject.*;
 import com.motel_management.Models.*;
 import com.motel_management.Views.Configs;
 
+import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Controller_Invoices {
-    public Controller_Invoices() { super(); }
+    public Controller_Invoices() {
+        super();
+    }
 
     public static HashMap<String, String> getLastInvoice(String roomIdValue) {
         return InvoiceDAO.getInstance().selectLastInvoice(roomIdValue);
     }
 
-    public static int addNewInvoice(HashMap<String, String> data) {
+    public static HashMap<String, String> addNewInvoice(HashMap<String, String> data) {
+        HashMap<String, String> result = new HashMap<>();
+        HashMap<String, String> lastInvoice = Controller_Invoices.getLastInvoice(data.get("roomId"));
+
+        if (lastInvoice != null) {
+            if (Integer.parseInt(lastInvoice.get("paymentYear")) > LocalDateTime.now().getYear()
+                    || (Integer.parseInt(lastInvoice.get("paymentYear")) == LocalDateTime.now().getYear()
+                    && Integer.parseInt(lastInvoice.get("paymentMonth")) > LocalDateTime.now().getMonthValue())) {
+                result.put("result", "0");
+                result.put("message", "This room had an invoice on " + lastInvoice.get("paymentMonth") + "/" + lastInvoice.get("paymentYear"));
+                return result;
+            }
+        }
+
         /*
             - Electric Cases:
                 (1) Is A Family: Follow Electric Ranges Table.
@@ -34,118 +51,122 @@ public class Controller_Invoices {
         ArrayList<ElectricRangeModel> electricRanges = ElectricRangeDAO.getInstance().selectAll();
 
         // Check if data at Water Range, Electric Range is missing.
-        if (waterRanges.size() * electricRanges.size() != 0) {
-            int total = STI(data.get("defaultRoomPrice"))
-                    + STI(data.get("garbage"))
-                    + STI(data.get("wifi"))
-                    + STI(data.get("vehicle"));
+        if (waterRanges.size() == 0 || electricRanges.size() < 3
+        || waterRanges.get(waterRanges.size() - 1).getMaxRangeValue() < Integer.MAX_VALUE
+        || electricRanges.get(electricRanges.size() - 1).getMaxRangeValue() < Integer.MAX_VALUE) {
+            result.put("result", "0");
+            result.put("message", "It's Not Enough Data To Calculate Water and  Electric Price, please check Electric-Water");
+            return result;
+        }
 
-            int numberOfPeople = RoomDAO.getInstance()
-                    .selectById(data.get("roomId"))
-                    .getQuantity();
+        int total = STI(data.get("defaultRoomPrice"))
+                + STI(data.get("garbage"))
+                + STI(data.get("wifi"))
+                + STI(data.get("vehicle"));
 
-            ContractModel contract = ContractDAO.getInstance()
-                    .selectByCondition("WHERE roomId = \"" + data.get("roomId") + "\"")
-                    .get(0);
+        int numberOfPeople = RoomDAO.getInstance()
+                .selectById(data.get("roomId"))
+                .getQuantity();
 
-            int isFamily = Integer.parseInt(contract.getIsFamily());
-            int isRegisteredPerAddress = Integer.parseInt(contract.getIsRegisteredPerAddress());
-            int totalContractTimeAsMonth = contract.getTotalMonths();
-            String region = RegionDAO.getInstance().selectAll().get(0).getRegion();
+        ContractModel contract = ContractDAO.getInstance()
+                .selectByCondition("WHERE roomId = \"" + data.get("roomId") + "\"")
+                .get(0);
 
-            int electricConsumed = STI(data.get("newElectricNumber"))- STI(data.get("formerElectricNumber"));
-            int waterConsumed = (STI(data.get("newWaterNumber")) - STI(data.get("formerWaterNumber"))) / numberOfPeople;
+        int isFamily = Integer.parseInt(contract.getIsFamily());
+        int isRegisteredPerAddress = Integer.parseInt(contract.getIsRegisteredPerAddress());
+        int totalContractTimeAsMonth = contract.getTotalMonths();
+        String region = RegionDAO.getInstance().selectAll().get(0).getRegion();
 
-            // Calculating Electric Price.
-            if (electricConsumed != 0) {
+        int electricConsumed = STI(data.get("newElectricNumber")) - STI(data.get("formerElectricNumber"));
+        int waterConsumed = (STI(data.get("newWaterNumber")) - STI(data.get("formerWaterNumber"))) / numberOfPeople;
 
-                // Case (1) or (2.1)
-                if (isFamily == 1 || (totalContractTimeAsMonth >= 12 && isRegisteredPerAddress == 1)) {
+        // Calculating Electric Price.
+        if (electricConsumed != 0) {
+
+            // Case (1) or (2.1)
+            if (isFamily == 1 || (totalContractTimeAsMonth >= 12 && isRegisteredPerAddress == 1)) {
+                for (ElectricRangeModel e : electricRanges) {
+                    if (e.getMaxRangeValue() <= electricConsumed)
+                        total += (e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice();
+                    else
+                        total += (electricConsumed - e.getMinRangeValue() + 1) * e.getPrice();
+                }
+            } else {
+                // Case (2.2.1)
+                if (numberOfPeople == -1) {
+                    // Add Electric Consumption Price into Total with Range "3".
+                    total += STI(data.get("newElectricNumber")) * electricRanges.get(2).getPrice()
+                            - STI(data.get("formerElectricNumber")) * electricRanges.get(2).getPrice();
+                }
+                // Case (2.2.2)
+                else {
+                    int electricPrice = 0;
                     for (ElectricRangeModel e : electricRanges) {
                         if (e.getMaxRangeValue() <= electricConsumed)
-                            total += (e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice();
+                            electricPrice += (e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice();
                         else
-                            total += (electricConsumed - e.getMinRangeValue() + 1) * e.getPrice();
+                            electricPrice += (electricConsumed - e.getMinRangeValue() + 1) * e.getPrice();
                     }
-                } else {
-                    // Case (2.2.1)
-                    if (numberOfPeople == -1) {
-                        ArrayList<RoomModel> rooms = RoomDAO.getInstance().selectByCondition("WHERE quantity > 0");
-                        numberOfPeople = rooms.stream()
-                                .mapToInt(RoomModel::getQuantity)
-                                .sum() / rooms.size();
-                        if (numberOfPeople == 0) { numberOfPeople = 1; }
-
-                        // Add Electric Consumption Price into Total with Range "3".
-                        total += STI(data.get("newElectricNumber")) * electricRanges.get(2).getPrice()
-                                - STI(data.get("formerElectricNumber")) * electricRanges.get(2).getPrice();
-                    }
-                    // Case (2.2.2)
-                    else {
-                        int electricPrice = 0;
-                        for (ElectricRangeModel e : electricRanges) {
-                            if (e.getMaxRangeValue() <= electricConsumed)
-                                electricPrice += (e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice();
-                            else
-                                electricPrice += (electricConsumed - e.getMinRangeValue() + 1) * e.getPrice();
-                        }
-                        electricPrice = electricPrice * numberOfPeople / 4;
-                        total += electricPrice;
-                    }
+                    electricPrice = electricPrice * numberOfPeople / 4;
+                    total += electricPrice;
                 }
             }
-
-            // Calculating Water Price
-            numberOfPeople = numberOfPeople == -1 ? 1 : numberOfPeople;
-            if (waterConsumed != 0) {
-                // Case (1)
-                if (region.contains("Ho Chi Minh")) {
-                    double totalWaterConsumed = 0;
-                    double averageWaterConsumed = (double) waterConsumed / numberOfPeople;
-
-                    for (WaterRangeModel w: waterRanges) {
-                        if (w.getMaxRangeValue() <= averageWaterConsumed)
-                            totalWaterConsumed += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
-                        else
-                            totalWaterConsumed += (averageWaterConsumed - w.getMinRangeValue()) * w.getPrice();
-                    }
-                    total += (int) (totalWaterConsumed * numberOfPeople);
-                }
-                // Case (2)
-                else {
-                    for (WaterRangeModel w: waterRanges) {
-                        if (w.getMaxRangeValue() <= waterConsumed)
-                            total += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
-                        else
-                            total += (waterConsumed - w.getMinRangeValue()) * w.getPrice();
-                    }
-                }
-            }
-
-            String invoiceId = "I" + Configs.generateIdTail();
-            LocalDateTime d = LocalDateTime.now();
-            int result = InvoiceDAO.getInstance().insert(new String[] {
-                    invoiceId,
-                    data.get("roomId"),
-                    data.get("defaultRoomPrice"),
-                    d.getDayOfMonth() + "/" + d.getMonthValue() + "/" + d.getYear(),
-                    data.get("paymentYear"),
-                    data.get("paymentMonth"),
-                    data.get("formerElectricNumber"),
-                    data.get("newElectricNumber"),
-                    data.get("formerWaterNumber"),
-                    data.get("newWaterNumber"),
-                    data.get("garbage"),
-                    data.get("wifi"),
-                    data.get("vehicle"),
-                    Integer.toString(total),
-                    "0"
-            });
-            if (result != 0)    return total;
-            else    return 0;
-        } else {
-            return -1;
         }
+
+        // Calculating Water Price
+        numberOfPeople = numberOfPeople == -1 ? 1 : numberOfPeople;
+        if (waterConsumed != 0) {
+            // Case (1)
+            if (region.contains("Ho Chi Minh")) {
+                double totalWaterConsumed = 0;
+                double averageWaterConsumed = (double) waterConsumed / numberOfPeople;
+
+                for (WaterRangeModel w : waterRanges) {
+                    if (w.getMaxRangeValue() <= averageWaterConsumed)
+                        totalWaterConsumed += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
+                    else
+                        totalWaterConsumed += (averageWaterConsumed - w.getMinRangeValue()) * w.getPrice();
+                }
+                total += (int) (totalWaterConsumed * numberOfPeople);
+            }
+            // Case (2)
+            else {
+                for (WaterRangeModel w : waterRanges) {
+                    if (w.getMaxRangeValue() <= waterConsumed)
+                        total += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
+                    else
+                        total += (waterConsumed - w.getMinRangeValue()) * w.getPrice();
+                }
+            }
+        }
+
+        String invoiceId = "I" + Configs.generateIdTail();
+        LocalDateTime d = LocalDateTime.now();
+        int addResult = InvoiceDAO.getInstance().insert(new String[]{
+                invoiceId,
+                data.get("roomId"),
+                data.get("defaultRoomPrice"),
+                d.getDayOfMonth() + "/" + d.getMonthValue() + "/" + d.getYear(),
+                data.get("paymentYear"),
+                data.get("paymentMonth"),
+                data.get("formerElectricNumber"),
+                data.get("newElectricNumber"),
+                data.get("formerWaterNumber"),
+                data.get("newWaterNumber"),
+                data.get("garbage"),
+                data.get("wifi"),
+                data.get("vehicle"),
+                Integer.toString(total),
+                "0"
+        });
+        if (addResult != 0) {
+            result.put("result", "1");
+            result.put("message", "Successfully Create Invoice of Room " + data.get("roomId") + ", Total is: " + total + "VNĐ");
+        } else {
+            result.put("result", "0");
+            result.put("message", "Something went wrong with your Database");
+        }
+        return result;
     }
 
     public static String[][] getAllInvoicesWithTableFormat() {
