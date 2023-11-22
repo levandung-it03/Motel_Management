@@ -45,13 +45,13 @@ public class Controller_Invoices {
                 --> Both cases follow Water Ranges Table.
          */
 
-        ArrayList<WaterRangeModel> waterRanges = WaterRangeDAO.getInstance().selectByCondition("ORDER BY maxRangeValue DESC");
-        ArrayList<ElectricRangeModel> electricRanges = ElectricRangeDAO.getInstance().selectByCondition("ORDER BY maxRangeValue DESC");
+        ArrayList<WaterRangeModel> waterRanges = WaterRangeDAO.getInstance().selectByCondition("ORDER BY maxRangeValue ASC");
+        ArrayList<ElectricRangeModel> electricRanges = ElectricRangeDAO.getInstance().selectByCondition("ORDER BY maxRangeValue ASC");
 
         // Check if data at Water Range, Electric Range is missing.
         if (waterRanges.size() == 0 || electricRanges.size() < 3
-        || waterRanges.get(0).getMaxRangeValue() < Integer.MAX_VALUE
-        || electricRanges.get(0).getMaxRangeValue() < Integer.MAX_VALUE) {
+        || waterRanges.get(waterRanges.size() - 1).getMaxRangeValue() < Integer.MAX_VALUE
+        || electricRanges.get(electricRanges.size() - 1).getMaxRangeValue() < Integer.MAX_VALUE) {
             result.put("result", "0");
             result.put("message", "It's Not Enough Data To Calculate Water and  Electric Price, please check Electric-Water");
             return result;
@@ -76,7 +76,7 @@ public class Controller_Invoices {
         String region = RegionDAO.getInstance().selectAll().get(0).getRegion();
 
         int electricConsumed = STI(data.get("newElectricNumber")) - STI(data.get("formerElectricNumber"));
-        int waterConsumed = (STI(data.get("newWaterNumber")) - STI(data.get("formerWaterNumber"))) / numberOfPeople;
+        int waterConsumed = STI(data.get("newWaterNumber")) - STI(data.get("formerWaterNumber"));
 
         int electricPrice = 0;
         double totalWaterConsumed = 0;
@@ -113,25 +113,25 @@ public class Controller_Invoices {
             }
         }
         // 15% tax.
-        total += (int) (electricPrice * electricTax / 100);
+        total += (int) (electricPrice * (100 + electricTax) / 100);
 
         // Calculating Water Price
-        numberOfPeople = numberOfPeople == -1 ? 1 : numberOfPeople;
+        numberOfPeople = (numberOfPeople == -1) ? 1 : numberOfPeople;
         if (waterConsumed != 0) {
             // Case (1)
             if (region.contains("Ho Chi Minh")) {
                 double averageWaterConsumed = (double) waterConsumed / numberOfPeople;
-
                 for (WaterRangeModel w : waterRanges) {
                     if (w.getMaxRangeValue() <= averageWaterConsumed)
                         totalWaterConsumed += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
                     else
                         totalWaterConsumed += (averageWaterConsumed - w.getMinRangeValue()) * w.getPrice();
                 }
-                total += (int) (totalWaterConsumed * numberOfPeople);
+                totalWaterConsumed *= numberOfPeople;
             }
             // Case (2)
             else {
+                System.out.println("2");
                 for (WaterRangeModel w : waterRanges) {
                     if (w.getMaxRangeValue() <= waterConsumed)
                         totalWaterConsumed += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
@@ -140,10 +140,10 @@ public class Controller_Invoices {
                 }
             }
         }
+
         // 150.000VNĐ Environmental Fee if Water Price >= 1.000.000VNĐ
         if (totalWaterConsumed >= 1000000)
             totalWaterConsumed += environmentalFee;
-
         total += totalWaterConsumed;
 
         String invoiceId = "I" + Configs.generateIdTail();
