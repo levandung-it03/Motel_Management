@@ -1,12 +1,11 @@
 package com.motel_management.Views.MainApplication.Graphics;
 import com.motel_management.Views.Configs;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_NewRoom.NewRoomPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_CheckOut.CheckOutPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesMainPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.RepresentativesPage;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.StatisticPage;
 
 import javax.swing.*;
@@ -40,7 +39,6 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Electricity-Water"));
         labels.add(generateTabLabel("Invoices"));
         labels.add(generateTabLabel("Check-out"));
-        labels.add(generateTabLabel("NewRoomPage"));
 
         pages.add(new StatisticPage());
         pages.add(new RoomPage());
@@ -49,7 +47,6 @@ public class CentralPanel extends JPanel {
         pages.add(new Electricity_WaterPage());
         pages.add(new InvoicesMainPage());
         pages.add(new CheckOutPage());
-        pages.add(new NewRoomPage());
 
         for (int i = 0; i < pages.size(); i++) {
             pages.get(i).setPreferredSize(
@@ -88,7 +85,6 @@ public class CentralPanel extends JPanel {
                     case 4 -> category.setComponentAt(4, new Electricity_WaterPage());
                     case 5 -> category.setComponentAt(5, new InvoicesMainPage());
                     case 6 -> category.setComponentAt(6, new CheckOutPage());
-                    case 7 -> category.setComponentAt(7, new NewRoomPage());
                 }
             }
         });

@@ -1,12 +1,37 @@
 package com.motel_management.Controllers;
 
+import com.motel_management.DataAccessObject.ContractDAO;
+import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.DataAccessObject.RoomDAO;
+import com.motel_management.Models.ContractModel;
+import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
 
 import java.util.ArrayList;
 
 public class Controller_Room {
-    public Controller_Room() { super(); }
+    public Controller_Room() {
+        super();
+    }
+
+    public static String[][] getRoomInfo() {
+        ArrayList<RoomModel> result = RoomDAO.getInstance().selectAll();
+        String[][] rooms = new String[result.size()][5];
+        for (int i = 0; i < result.size(); i++) {
+            rooms[i][0] = result.get(i).getRoomId();
+            ArrayList<ContractModel> contractResult = ContractDAO.getInstance().selectByCondition("WHERE roomId=\"" + result.get(i).getRoomId() + "\"");
+            if (contractResult.isEmpty()) {
+                rooms[i][1] = "Unknown";
+            } else {
+                PersonModel personResult = PersonDAO.getInstance().selectById(contractResult.get(0).getIdentifier());
+                rooms[i][1] = personResult.getLastName() + " " + personResult.getFirstName();
+            }
+            rooms[i][2] = Integer.toString(result.get(i).getQuantity());
+            rooms[i][3] = Integer.toString(result.get(i).getMaxQuantity());
+            rooms[i][4] = Integer.toString(result.get(i).getDefaultRoomPrice());
+        }
+        return rooms;
+    }
 
     public static String addNewRoom(String[] data) {
         int res = RoomDAO.getInstance().insert(data);
@@ -49,16 +74,4 @@ public class Controller_Room {
         return RoomDAO.getInstance().delete(id);
     }
 
-    public static String[][] getAllRoomWithTableFormat() {
-        ArrayList<RoomModel> result = RoomDAO.getInstance().selectAll();
-        String[][] rooms = new String[result.size()][5];
-        for (int i = 0; i < result.size(); i++) {
-            rooms[i][0] = result.get(i).getRoomId();
-            rooms[i][1] = Integer.toString(result.get(i).getQuantity());
-            rooms[i][2] = Integer.toString(result.get(i).getMaxQuantity());
-            rooms[i][3] = Integer.toString(result.get(i).getDefaultRoomPrice());
-            rooms[i][4] = "Delete";
-        }
-        return rooms;
-    }
 }
