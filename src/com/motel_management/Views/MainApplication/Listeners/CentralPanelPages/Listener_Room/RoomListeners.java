@@ -59,7 +59,7 @@ public class RoomListeners {
                     JOptionPane.showMessageDialog(new JPanel(), "Invalid Information", "Notice", JOptionPane.PLAIN_MESSAGE);
                 }
                 //create onsite listener
-                CentralPanel.category.setComponentAt(7, new RoomPage());
+                CentralPanel.category.setComponentAt(1, new RoomPage());
             }
         };
     }
@@ -72,7 +72,7 @@ public class RoomListeners {
                 if(isValid){
                     if (Controller_Room.updateRoom(data) != 0) {
                         JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
-                        CentralPanel.category.setComponentAt(7, new RoomPage());
+                        CentralPanel.category.setComponentAt(1, new RoomPage());
                         frame.dispose();
                     }else
                         JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
@@ -123,7 +123,7 @@ public class RoomListeners {
                         JOptionPane.YES_NO_OPTION) == 0) {
                     if (Controller_Room.deleteById(roomId)!=0) {
                         JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
-                        CentralPanel.category.setComponentAt(7, new RoomPage());
+                        CentralPanel.category.setComponentAt(1, new RoomPage());
                     } else {
                         JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
                     }
