@@ -2,6 +2,7 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 
 import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Views.Configs;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Invoices.InvoicesOfRoomDialogListeners;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,28 +12,28 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 public class InvoicePanelItem extends JPanel {
-    private JPanel monthLabel;
-    private JPanel mainInvoicePanel;
-    private JButton updateStatusBtn = new JButton("Pay");
-    private JButton deleteBtn = new JButton("Delete");
-    private JButton detailBtn = new JButton("Detail");
+    private final JButton updateStatusBtn = new JButton("Pay");
+    private final JButton deleteBtn = new JButton("Delete");
+    private final JButton detailBtn = new JButton("Detail");
+    private final JDialog parentDialog;
 
-    private final int panelHeight = 115;
-    private final int panelWidth = 270;
-
-    public InvoicePanelItem(InvoiceModel invoice) {
+    public InvoicePanelItem(InvoiceModel invoice, JDialog parentDialog) {
         super(new FlowLayout());
         this.createInvoicePanel(invoice);
-        this.createOnsiteListener();
+        this.parentDialog = parentDialog;
+        this.createListeners(invoice);
     }
 
     public void createInvoicePanel(InvoiceModel invoice) {
+        int panelHeight = 115;
+        int panelWidth = 270;
+
         setPreferredSize(new Dimension(panelWidth, panelHeight + 70));
         setBorder(new LineBorder(Configs.greenTextColor, 1, true));
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-        this.monthLabel = new JPanel();
+        JPanel monthLabel = new JPanel();
         JLabel title = new JLabel(invoice.getPaymentMonth() + "/" + invoice.getPaymentYear());
         title.setFont(Configs.labelFont);
         title.setFont(title.getFont().deriveFont(Font.BOLD, 20.0f));
@@ -41,8 +42,8 @@ public class InvoicePanelItem extends JPanel {
         monthLabel.setBorder(new LineBorder(Color.BLACK, 1, true));
         monthLabel.add(title);
 
-        this.mainInvoicePanel = new JPanel(new BorderLayout());
-        this.mainInvoicePanel.setBackground(Configs.normalGreen);
+        JPanel mainInvoicePanel = new JPanel(new BorderLayout());
+        mainInvoicePanel.setBackground(Configs.normalGreen);
         mainInvoicePanel.setPreferredSize(new Dimension(panelWidth, panelHeight));
 
         JPanel leftColumn = new JPanel(new GridLayout(4, 0));
@@ -66,6 +67,7 @@ public class InvoicePanelItem extends JPanel {
         title.setForeground(Configs.greenTextColor);
         labels.forEach((key, label) -> {
             label.setFont(Configs.labelFont);
+            label.setFont(label.getFont().deriveFont(Font.BOLD));
             label.setForeground(Configs.greenTextColor);
             leftColumn.add(label);
         });
@@ -96,7 +98,7 @@ public class InvoicePanelItem extends JPanel {
                 ? new Color(184, 207, 229)
                 : new Color(229, 184, 184);
 
-        this.monthLabel.setBackground(mainColor);
+        monthLabel.setBackground(mainColor);
         leftColumn.setBackground(mainColor);
         rightColumn.setBackground(mainColor);
         buttonsPanel.setBackground(mainColor);
@@ -107,14 +109,15 @@ public class InvoicePanelItem extends JPanel {
         rightColumn.setBorder(new EmptyBorder(3, 0, 4, 0));
         centralPanel.add(leftColumn, BorderLayout.WEST);
         centralPanel.add(rightColumn, BorderLayout.EAST);
-        this.mainInvoicePanel.add(centralPanel, BorderLayout.CENTER);
-        this.mainInvoicePanel.add(buttonsPanel, BorderLayout.SOUTH);
+        mainInvoicePanel.add(centralPanel, BorderLayout.CENTER);
+        mainInvoicePanel.add(buttonsPanel, BorderLayout.SOUTH);
 
-        add(this.monthLabel);
-        add(this.mainInvoicePanel);
+        add(monthLabel);
+        add(mainInvoicePanel);
     }
 
-    public void createOnsiteListener() {
+    public void createListeners(InvoiceModel invoice) {
+        this.detailBtn.addActionListener(InvoicesOfRoomDialogListeners.viewDetailInvoice(invoice, parentDialog));
 //        updateStatusBtn
 //                deleteBtn
     }

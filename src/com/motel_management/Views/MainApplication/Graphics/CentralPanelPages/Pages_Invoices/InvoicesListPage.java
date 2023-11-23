@@ -11,11 +11,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class InvoicesListPage extends JPanel {
+    private final JFrame mainFrameApp;
     public JTable table;
     public JScrollPane invoiceScrollPane;
     public DefaultTableModel defaultModel;
     public Object[][] tableData;
-    private JFrame mainFrameApp;
 
     // Constructor
     public InvoicesListPage(JFrame mainFrameApp) {
