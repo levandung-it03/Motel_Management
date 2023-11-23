@@ -5,7 +5,6 @@ import com.motel_management.Models.*;
 import com.motel_management.Views.Configs;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,9 +23,9 @@ public class Controller_Invoices {
         HashMap<String, String> lastInvoice = Controller_Invoices.getLastInvoice(data.get("roomId"));
 
         if (lastInvoice != null) {
-            if (Integer.parseInt(lastInvoice.get("paymentYear")) > LocalDateTime.now().getYear()
-                    || (Integer.parseInt(lastInvoice.get("paymentYear")) == LocalDateTime.now().getYear()
-                    && Integer.parseInt(lastInvoice.get("paymentMonth")) > LocalDateTime.now().getMonthValue())) {
+            if (STI(lastInvoice.get("paymentYear")) > LocalDateTime.now().getYear()
+                    || (STI(lastInvoice.get("paymentYear")) == LocalDateTime.now().getYear()
+                    && STI(lastInvoice.get("paymentMonth")) > LocalDateTime.now().getMonthValue())) {
                 result.put("result", "0");
                 result.put("message", "This room had an invoice on " + lastInvoice.get("paymentMonth") + "/" + lastInvoice.get("paymentYear"));
                 return result;
@@ -72,8 +71,8 @@ public class Controller_Invoices {
                 .selectByCondition("WHERE roomId = \"" + data.get("roomId") + "\"")
                 .get(0);
 
-        int isFamily = Integer.parseInt(contract.getIsFamily());
-        int isRegisteredPerAddress = Integer.parseInt(contract.getIsRegisteredPerAddress());
+        int isFamily = STI(contract.getIsFamily());
+        int isRegisteredPerAddress = STI(contract.getIsRegisteredPerAddress());
         int totalContractTimeAsMonth = contract.getTotalMonths();
         String region = RegionDAO.getInstance().selectAll().get(0).getRegion();
 
@@ -180,24 +179,46 @@ public class Controller_Invoices {
     public static String[][] getAllInvoicesWithTableFormat() {
         ArrayList<String> rooms = RoomDAO.getInstance().selectAllOccupiedRoomId();
         String[][] result = new String[rooms.size()][9];
-        ArrayList<InvoiceModel> invoices = InvoiceDAO.getInstance()
-                .selectByCondition("ORDER BY roomId ASC, paymentYear DESC, paymentMonth DESC LIMIT " + rooms.size());
-
-        if (invoices.isEmpty()) return new String[][] {};
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         for (int i = 0; i < rooms.size(); i++) {
-            result[i][0] = invoices.get(i).getRoomId();
+            ArrayList<InvoiceModel>  invoice= InvoiceDAO.getInstance()
+                    .selectByCondition("WHERE roomId=\"" + rooms.get(i) + "\" ORDER BY paymentYear DESC, paymentMonth DESC LIMIT 1");
+            if (invoice.isEmpty()) continue;
+            result[i][0] = invoice.get(0).getRoomId();
             result[i][1] = "View All";
-            result[i][2] = invoices.get(i).getInvoiceId();
-            result[i][3] = invoices.get(i).getMonthPayment();
-            result[i][4] = invoices.get(i).getYearPayment();
-            result[i][5] = sdf.format(invoices.get(i).getDateCreated());
-            result[i][6] = Configs.convertStringToVNDCurrency(Integer.toString(invoices.get(i).getTotal()));
-            result[i][7] = invoices.get(i).getWasPaid().equals("0") ? "NO" : "YES";
+            result[i][2] = invoice.get(0).getInvoiceId();
+            result[i][3] = invoice.get(0).getPaymentMonth();
+            result[i][4] = invoice.get(0).getPaymentYear();
+            result[i][5] = sdf.format(invoice.get(0).getDateCreated());
+            result[i][6] = Configs.convertStringToVNDCurrency(Integer.toString(invoice.get(0).getTotal()));
+            result[i][7] = invoice.get(0).getWasPaid().equals("0") ? "NO" : "YES";
             result[i][8] = "Pay Invoice";
         }
         return result;
+    }
+
+    public static HashMap<String, String> updateInvoiceStatus(String invoiceId) {
+        HashMap<String, String> result = new HashMap<>();
+        InvoiceModel invoice = InvoiceDAO.getInstance().selectById(invoiceId);
+        invoice.setWasPaid(invoice.getWasPaid().equals("1") ? "0" : "1");
+        if (InvoiceDAO.getInstance().update(invoice) == 1) {
+            result.put("result", "1");
+            result.put("message", "Change Invoice Payment Status Successfully!");
+        } else {
+            result.put("result", "0");
+            result.put("message", "Change Invoice Payment Status Failed!");
+        }
+        return result;
+    }
+
+    public static ArrayList<InvoiceModel> getInvoicesByRoomId(String roomId) {
+        return InvoiceDAO.getInstance()
+                .selectByCondition(
+                        "WHERE roomId=\"" + roomId + "\" " +
+                        "ORDER BY paymentYear DESC, paymentMonth DESC " +
+                        "LIMIT 12"
+                );
     }
 
     public static int STI(String num) {

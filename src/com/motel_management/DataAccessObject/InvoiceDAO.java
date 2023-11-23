@@ -26,8 +26,8 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setString(2, obj.getRoomId());
             ps.setInt(3, obj.getDefaultRoomPrice());
             ps.setDate(4, obj.getDateCreated());
-            ps.setString(5, obj.getYearPayment());
-            ps.setString(6, obj.getMonthPayment());
+            ps.setString(5, obj.getPaymentYear());
+            ps.setString(6, obj.getPaymentMonth());
             ps.setInt(7, obj.getFormerElectricNumber());
             ps.setInt(8, obj.getNewElectricNumber());
             ps.setInt(9, obj.getFormerWaterNumber());
@@ -103,8 +103,8 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setString(1, obj.getRoomId());
             ps.setInt(2, obj.getDefaultRoomPrice());
             ps.setDate(3, obj.getDateCreated());
-            ps.setString(4, obj.getYearPayment());
-            ps.setString(5, obj.getMonthPayment());
+            ps.setString(4, obj.getPaymentYear());
+            ps.setString(5, obj.getPaymentMonth());
             ps.setInt(6, obj.getFormerElectricNumber());
             ps.setInt(7, obj.getNewElectricNumber());
             ps.setInt(8, obj.getFormerWaterNumber());

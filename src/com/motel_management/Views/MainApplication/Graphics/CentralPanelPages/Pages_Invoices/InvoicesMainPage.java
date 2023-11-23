@@ -6,13 +6,13 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class InvoicesPage extends JPanel {
+public class InvoicesMainPage extends JPanel {
     public static JTabbedPane mainPage;
     private JPanel invoicesListPanel;
     private JPanel addInvoicePanel;
 
     // Constructor
-    public InvoicesPage() {
+    public InvoicesMainPage() {
         // Set Layout Here
         super();
         this.createInvoicesPanel();

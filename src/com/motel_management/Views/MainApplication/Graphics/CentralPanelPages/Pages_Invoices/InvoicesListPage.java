@@ -3,10 +3,10 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 import com.motel_management.Controllers.Controller_Invoices;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Invoices.InvoicesListListeners;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
@@ -55,7 +55,7 @@ public class InvoicesListPage extends JPanel {
         // Resize several Columns.
         this.table.getColumnModel().getColumn(0).setPreferredWidth(33);
         this.table.getColumnModel().getColumn(1).setPreferredWidth(100);
-        this.table.getColumnModel().getColumn(2).setPreferredWidth(65);
+        this.table.getColumnModel().getColumn(2).setPreferredWidth(60);
         this.table.getColumnModel().getColumn(5).setPreferredWidth(63);
         this.table.getColumnModel().getColumn(6).setPreferredWidth(63);
         this.table.getColumnModel().getColumn(7).setPreferredWidth(38);
@@ -65,7 +65,11 @@ public class InvoicesListPage extends JPanel {
         add(invoiceScrollPane, BorderLayout.CENTER);
     }
 
-    public void createListeners() {  }
+    public void createListeners() {
+        // Add Clicking View, Update Button Action.
+        table.addMouseListener(InvoicesListListeners.getMouseListener(this.defaultModel, this.table, this));
+
+    }
 
     public void saveCurrentTableData() {
         // Copy Data from Table.

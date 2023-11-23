@@ -47,10 +47,6 @@ public class InvoiceModel {
 
     public Date getDateCreated () {return dateCreated;}
 
-    public String getYearPayment () {return paymentYear;}
-
-    public String getMonthPayment () {return paymentMonth;}
-
     public int getFormerElectricNumber() {return formerElectricNumber;}
 
     public int getNewElectricNumber() {return newElectricNumber;}
@@ -77,15 +73,23 @@ public class InvoiceModel {
         this.roomId = roomId;
     }
 
+    public String getPaymentMonth() {
+        return paymentMonth;
+    }
+
+    public String getPaymentYear() {
+        return paymentYear;
+    }
+
     public void setDefaultRoomPrice (int defaultRoomPrice) {
         this.defaultRoomPrice = defaultRoomPrice;
     }
 
     public void setDateCreated (Date dateCreated) {this.dateCreated = dateCreated;}
 
-    public void setYearPayment (String paymentYear) {this.paymentYear = paymentYear;}
+    public void setPaymentYear (String paymentYear) {this.paymentYear = paymentYear;}
 
-    public void setMonthPayment (String paymentMonth) {this.paymentMonth = paymentMonth;}
+    public void setPaymentMonth (String paymentMonth) {this.paymentMonth = paymentMonth;}
 
     public void setFormerElectricNumber(int formerElectricNumber) {this.formerElectricNumber = formerElectricNumber;}
 

@@ -4,7 +4,7 @@ import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pag
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_CheckOut.CheckOutPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractPage;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesMainPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.RepresentativesPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.StatisticPage;
@@ -47,7 +47,7 @@ public class CentralPanel extends JPanel {
         pages.add(new ContractPage());
         pages.add(new RepresentativesPage());
         pages.add(new Electricity_WaterPage());
-        pages.add(new InvoicesPage());
+        pages.add(new InvoicesMainPage());
         pages.add(new CheckOutPage());
         pages.add(new NewRoomPage());
 
@@ -86,7 +86,7 @@ public class CentralPanel extends JPanel {
                     case 2 -> category.setComponentAt(2, new ContractPage());
                     case 3 -> category.setComponentAt(3, new RepresentativesPage());
                     case 4 -> category.setComponentAt(4, new Electricity_WaterPage());
-                    case 5 -> category.setComponentAt(5, new InvoicesPage());
+                    case 5 -> category.setComponentAt(5, new InvoicesMainPage());
                     case 6 -> category.setComponentAt(6, new CheckOutPage());
                     case 7 -> category.setComponentAt(7, new NewRoomPage());
                 }
