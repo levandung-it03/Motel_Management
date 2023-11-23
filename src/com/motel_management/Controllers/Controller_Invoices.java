@@ -4,11 +4,11 @@ import com.motel_management.DataAccessObject.*;
 import com.motel_management.Models.*;
 import com.motel_management.Views.Configs;
 
-import javax.swing.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class Controller_Invoices {
     public Controller_Invoices() {
@@ -47,8 +47,8 @@ public class Controller_Invoices {
                 --> Both cases follow Water Ranges Table.
          */
 
-        ArrayList<WaterRangeModel> waterRanges = WaterRangeDAO.getInstance().selectAll();
-        ArrayList<ElectricRangeModel> electricRanges = ElectricRangeDAO.getInstance().selectAll();
+        ArrayList<WaterRangeModel> waterRanges = WaterRangeDAO.getInstance().selectByCondition("ORDER BY maxRangeValue ASC");
+        ArrayList<ElectricRangeModel> electricRanges = ElectricRangeDAO.getInstance().selectByCondition("ORDER BY maxRangeValue ASC");
 
         // Check if data at Water Range, Electric Range is missing.
         if (waterRanges.size() == 0 || electricRanges.size() < 3
@@ -78,29 +78,32 @@ public class Controller_Invoices {
         String region = RegionDAO.getInstance().selectAll().get(0).getRegion();
 
         int electricConsumed = STI(data.get("newElectricNumber")) - STI(data.get("formerElectricNumber"));
-        int waterConsumed = (STI(data.get("newWaterNumber")) - STI(data.get("formerWaterNumber"))) / numberOfPeople;
+        int waterConsumed = STI(data.get("newWaterNumber")) - STI(data.get("formerWaterNumber"));
+
+        int electricPrice = 0;
+        double totalWaterConsumed = 0;
+        int environmentalFee = 150000;
+        double electricTax = 8d;
 
         // Calculating Electric Price.
         if (electricConsumed != 0) {
-
             // Case (1) or (2.1)
             if (isFamily == 1 || (totalContractTimeAsMonth >= 12 && isRegisteredPerAddress == 1)) {
                 for (ElectricRangeModel e : electricRanges) {
                     if (e.getMaxRangeValue() <= electricConsumed)
-                        total += (e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice();
+                        electricPrice += (e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice();
                     else
-                        total += (electricConsumed - e.getMinRangeValue() + 1) * e.getPrice();
+                        electricPrice += (electricConsumed - e.getMinRangeValue() + 1) * e.getPrice();
                 }
             } else {
                 // Case (2.2.1)
                 if (numberOfPeople == -1) {
                     // Add Electric Consumption Price into Total with Range "3".
-                    total += STI(data.get("newElectricNumber")) * electricRanges.get(2).getPrice()
+                    electricPrice += STI(data.get("newElectricNumber")) * electricRanges.get(2).getPrice()
                             - STI(data.get("formerElectricNumber")) * electricRanges.get(2).getPrice();
                 }
                 // Case (2.2.2)
                 else {
-                    int electricPrice = 0;
                     for (ElectricRangeModel e : electricRanges) {
                         if (e.getMaxRangeValue() <= electricConsumed)
                             electricPrice += (e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice();
@@ -108,37 +111,42 @@ public class Controller_Invoices {
                             electricPrice += (electricConsumed - e.getMinRangeValue() + 1) * e.getPrice();
                     }
                     electricPrice = electricPrice * numberOfPeople / 4;
-                    total += electricPrice;
                 }
             }
         }
+        // 15% tax.
+        total += (int) (electricPrice * (100 + electricTax) / 100);
 
         // Calculating Water Price
-        numberOfPeople = numberOfPeople == -1 ? 1 : numberOfPeople;
+        numberOfPeople = (numberOfPeople == -1) ? 1 : numberOfPeople;
         if (waterConsumed != 0) {
             // Case (1)
             if (region.contains("Ho Chi Minh")) {
-                double totalWaterConsumed = 0;
                 double averageWaterConsumed = (double) waterConsumed / numberOfPeople;
-
                 for (WaterRangeModel w : waterRanges) {
                     if (w.getMaxRangeValue() <= averageWaterConsumed)
                         totalWaterConsumed += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
                     else
                         totalWaterConsumed += (averageWaterConsumed - w.getMinRangeValue()) * w.getPrice();
                 }
-                total += (int) (totalWaterConsumed * numberOfPeople);
+                totalWaterConsumed *= numberOfPeople;
             }
             // Case (2)
             else {
+                System.out.println("2");
                 for (WaterRangeModel w : waterRanges) {
                     if (w.getMaxRangeValue() <= waterConsumed)
-                        total += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
+                        totalWaterConsumed += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
                     else
-                        total += (waterConsumed - w.getMinRangeValue()) * w.getPrice();
+                        totalWaterConsumed += (waterConsumed - w.getMinRangeValue()) * w.getPrice();
                 }
             }
         }
+
+        // 150.000VNĐ Environmental Fee if Water Price >= 1.000.000VNĐ
+        if (totalWaterConsumed >= 1000000)
+            totalWaterConsumed += environmentalFee;
+        total += totalWaterConsumed;
 
         String invoiceId = "I" + Configs.generateIdTail();
         LocalDateTime d = LocalDateTime.now();
@@ -164,22 +172,30 @@ public class Controller_Invoices {
             result.put("message", "Successfully Create Invoice of Room " + data.get("roomId") + ", Total is: " + total + "VNĐ");
         } else {
             result.put("result", "0");
-            result.put("message", "Something went wrong with your Database");
+            result.put("message", "This Room Already had invoice on" + data.get("paymentYear") + "/" + data.get("paymentMonth"));
         }
         return result;
     }
 
     public static String[][] getAllInvoicesWithTableFormat() {
-        ArrayList<RoomModel> result = RoomDAO.getInstance().selectAll();
-        String[][] rooms = new String[result.size()][5];
-//        for (int i = 0; i < result.size(); i++) {
-//            rooms[i][0] = result.get(i).getRoomId();
-//            rooms[i][1] = Integer.toString(result.get(i).getQuantity());
-//            rooms[i][2] = Integer.toString(result.get(i).getMaxQuantity());
-//            rooms[i][3] = Integer.toString(result.get(i).getDefaultRoomPrice());
-//            rooms[i][4] = "Delete";
-//        }
-        return rooms;
+        ArrayList<String> rooms = RoomDAO.getInstance().selectAllOccupiedRoomId();
+        String[][] result = new String[rooms.size()][9];
+        ArrayList<InvoiceModel> invoices = InvoiceDAO.getInstance()
+                .selectByCondition("ORDER BY roomId ASC, paymentYear DESC, paymentMonth DESC LIMIT " + rooms.size());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        for (int i = 0; i < rooms.size(); i++) {
+            result[i][0] = invoices.get(i).getInvoiceId();
+            result[i][1] = invoices.get(i).getRoomId();
+            result[i][2] = invoices.get(i).getMonthPayment();
+            result[i][3] = invoices.get(i).getYearPayment();
+            result[i][4] = sdf.format(invoices.get(i).getDateCreated());
+            result[i][5] = Integer.toString(invoices.get(i).getTotal());
+            result[i][6] = invoices.get(i).getWasPaid().equals("0") ? "NO" : "YES";
+            result[i][7] = "Pay Invoice";
+            result[i][8] = "View";
+        }
+        return result;
     }
 
     public static int STI(String num) {

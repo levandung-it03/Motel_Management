@@ -93,7 +93,8 @@ public class Controller_Contract {
 
     public static String[][] getAllContractWithTableFormat() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        ArrayList<ContractModel> selectedContracts = ContractDAO.getInstance().selectAll();
+        ArrayList<ContractModel> selectedContracts = ContractDAO.getInstance()
+                .selectByCondition("WHERE checkedOut=\"0\" ORDER BY checkedOut ASC");
         HashMap<String, String> selectedPersons = PersonDAO.getInstance().selectAllNameById();
 
         String[][] contracts = new String[selectedContracts.size()][8];

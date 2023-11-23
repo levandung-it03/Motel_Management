@@ -1,6 +1,5 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Invoices;
 
-import com.motel_management.Controllers.Controller_Electricity_Water;
 import com.motel_management.Controllers.Controller_Invoices;
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Models.RoomModel;
@@ -93,7 +92,7 @@ public class AddInvoiceListeners {
 
                 HashMap<String, String> addRes = Controller_Invoices.addNewInvoice(data);
 
-                // Successfully Create New Invoice
+                // Show Result Message
                 JOptionPane.showMessageDialog(new JPanel(),addRes.get("message"),"Notice",JOptionPane.PLAIN_MESSAGE);
 
                 if (addRes.get("result").equals("1"))
