@@ -7,14 +7,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-public class EditRoom_Frame extends JDialog{
+public class EditRoom_Dialog extends JDialog{
     JTextField roomId;
     JTextField quantity;
     JTextField maxQuantity;
     JTextField defaultPrice;
     JButton submitBtn;
 
-    public EditRoom_Frame(String title, JTextField roomId, JTextField quantity, JTextField maxQuantity, JTextField defaultPrice) throws HeadlessException {
+    public EditRoom_Dialog(String title, JTextField roomId, JTextField quantity, JTextField maxQuantity, JTextField defaultPrice) throws HeadlessException {
         super();
         this.roomId = roomId;
         this.quantity = quantity;

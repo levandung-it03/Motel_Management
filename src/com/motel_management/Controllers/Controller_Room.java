@@ -9,8 +9,8 @@ import com.motel_management.Models.RoomModel;
 
 import java.util.ArrayList;
 
-public class Controller_NewRoom {
-    public Controller_NewRoom() {
+public class Controller_Room {
+    public Controller_Room() {
         super();
     }
 

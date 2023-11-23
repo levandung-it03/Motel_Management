@@ -11,7 +11,7 @@ import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class NewRoomPage extends JPanel {
+public class RoomPage extends JPanel {
     public JScrollPane roomScrollPane;
     JPanel addContainer;
     JPanel roomContainer;
@@ -23,7 +23,7 @@ public class NewRoomPage extends JPanel {
     JButton submitBtn;
     JPopupMenu popupMenu;
 
-    public NewRoomPage() {
+    public RoomPage() {
         super(new BorderLayout());
         this.createAddNewRoomsPanel();
         this.createNewRoomsPanel();
