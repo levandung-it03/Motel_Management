@@ -95,8 +95,8 @@ public class Representatives_ShowID {
 
         maineFramePerson.add(panelShowById);
         maineFramePerson.setVisible(true);
-        maineFramePerson.setLocationRelativeTo(null);
         maineFramePerson.setSize(1000,300);
+        maineFramePerson.setLocationRelativeTo(null);
         maineFramePerson.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
