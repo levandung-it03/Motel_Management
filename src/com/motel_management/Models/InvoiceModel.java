@@ -7,8 +7,8 @@ public class InvoiceModel {
     private String roomId;
     private int defaultRoomPrice;
     private Date dateCreated;
-    private String paymentYear;
-    private String paymentMonth;
+    private int paymentYear;
+    private int paymentMonth;
     private int formerElectricNumber;
     private int newElectricNumber;
     private int formerWaterNumber;
