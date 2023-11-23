@@ -1,15 +1,11 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water;
 
-import com.motel_management.DataAccessObject.RoomDAO;
-import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Electricity_Water.AddEWListeners;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AddElectricity_WaterPage extends JPanel{

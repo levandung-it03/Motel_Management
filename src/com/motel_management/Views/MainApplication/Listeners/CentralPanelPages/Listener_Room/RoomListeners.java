@@ -21,7 +21,7 @@ public class RoomListeners {
         return Controller_Room.getLastId();
     }
 
-    public static ActionListener addNewRoomListener(HashMap<String, JTextField> inpTags, RoomPage panel) {
+    public static ActionListener addNewRoomListener(HashMap<String, JTextField> inpTags) {
 
         return new ActionListener() {
             @Override
@@ -58,6 +58,17 @@ public class RoomListeners {
                 } else {
                     JOptionPane.showMessageDialog(new JPanel(), "Invalid Information", "Notice", JOptionPane.PLAIN_MESSAGE);
                 }
+                //create onsite listener
+                CentralPanel.category.setComponentAt(1, new RoomPage());
+            }
+        };
+    }
+    public static ActionListener searchRoomListener(String[][] data, JTextField searchRoomId) {
+
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+
                 //create onsite listener
                 CentralPanel.category.setComponentAt(1, new RoomPage());
             }
