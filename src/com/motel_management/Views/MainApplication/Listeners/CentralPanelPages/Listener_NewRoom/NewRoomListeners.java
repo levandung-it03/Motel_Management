@@ -73,7 +73,7 @@ public class NewRoomListeners {
                     inpTags.get("maxQuantity").getText(),inpTags.get("defaultPrice").getText()};
                 boolean isValid = GeneralListeners.validateNewRoomTableData(inpTags);
                 if(isValid){
-                    if (Controller_Room.updateRoom(data) != 0) {
+                    if (Controller_NewRoom.updateRoom(data) != 0) {
                         JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
                         CentralPanel.category.setComponentAt(7, new NewRoomPage());
                         frame.dispose();

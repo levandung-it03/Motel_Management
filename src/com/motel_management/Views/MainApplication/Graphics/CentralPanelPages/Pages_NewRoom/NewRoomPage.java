@@ -58,7 +58,7 @@ public class NewRoomPage extends JPanel {
         roomContainer.add(overviewPanel,BorderLayout.NORTH);
         roomScrollPane = new JScrollPane(roomContainer);
         roomScrollPane.setPreferredSize(new Dimension(0, 0));
-        roomScrollPane.getVerticalScrollBar().setUnitIncrement(10);
+        roomScrollPane.getVerticalScrollBar().setUnitIncrement(12);
         add(roomScrollPane, BorderLayout.CENTER);
     }
 
@@ -71,21 +71,24 @@ public class NewRoomPage extends JPanel {
             tag.setBackground(Color.gray);
         }
 
-        //Create and format panel in tag
+        //Create and format room panel in tag
+        JPanel roomCodePanel = new JPanel();
+        roomCodePanel.setBackground(new Color(0,0,0, 40));
+        roomCodePanel.setPreferredSize(new Dimension(0,30));
         JLabel roomCodeTag = new JLabel(roomCode);
         roomCodeTag.setFont(roomCodeTag.getFont().deriveFont(20.0F));
-        roomCodeTag.setHorizontalAlignment(0);
-        roomCodeTag.setBorder(new EmptyBorder(10, 0, 0, 0));
+        roomCodeTag.setHorizontalAlignment(JLabel.CENTER);
         roomCodeTag.setForeground(Color.white);
-        tag.add(roomCodeTag, BorderLayout.NORTH);
+        roomCodePanel.add(roomCodeTag);
+        tag.add(roomCodePanel, BorderLayout.NORTH);
         JPanel infoPanel = new JPanel(new GridLayout(4, 0));
-        infoPanel.setBorder(new EmptyBorder(0, 20, 0, 0));
+        infoPanel.setBorder(new EmptyBorder(0, 10, 0, 0));
 
         // Add information of each room
-        infoPanel.add(editLabel(name,18));
-        infoPanel.add(editLabel(quantity,18));
-        infoPanel.add(editLabel(maxQuantity,18));
-        infoPanel.add(editLabel(price,18));
+        infoPanel.add(editLabel(name,16,"name.png"));
+        infoPanel.add(editLabel(quantity,16,"quantity.png"));
+        infoPanel.add(editLabel(maxQuantity,16,"maxQuantity.png"));
+        infoPanel.add(editLabel(price,16,"price.png"));
         infoPanel.setOpaque(false);
         tag.add(infoPanel, BorderLayout.CENTER);
 
@@ -108,8 +111,8 @@ public class NewRoomPage extends JPanel {
 
         return tag;
     }
-    public JLabel editLabel (String text,float fontSize){
-        JLabel label = new JLabel(text);
+    public JLabel editLabel (String text,float fontSize,String img){
+        JLabel label = new JLabel(text,new ImageIcon("src/com/motel_management/Assets/img/"+img),JLabel.LEFT);
         label.setForeground(Color.white);
         label.setFont(label.getFont().deriveFont(fontSize));
         return label;
