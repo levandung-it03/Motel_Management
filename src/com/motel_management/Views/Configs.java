@@ -64,4 +64,14 @@ public class Configs {
         }
         return result.toString() + "VNĐ";
     }
+    // Overload
+    public static String convertStringToVNDCurrency(int inp) {
+        String input = Integer.toString(inp);
+        StringBuilder result = new StringBuilder();
+        for (int i = input.length() - 1, len = 0; i >= 0 ; i--, len++) {
+            if (len != 0 && len%3==0)     result.insert(0,".");
+            result.insert(0, input.charAt(i));
+        }
+        return result.toString() + "VNĐ";
+    }
 }
