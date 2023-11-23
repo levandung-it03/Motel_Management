@@ -26,8 +26,8 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setString(2, obj.getRoomId());
             ps.setInt(3, obj.getDefaultRoomPrice());
             ps.setDate(4, obj.getDateCreated());
-            ps.setString(5, obj.getPaymentYear());
-            ps.setString(6, obj.getPaymentMonth());
+            ps.setInt(5, obj.getPaymentYear());
+            ps.setInt(6, obj.getPaymentMonth());
             ps.setInt(7, obj.getFormerElectricNumber());
             ps.setInt(8, obj.getNewElectricNumber());
             ps.setInt(9, obj.getFormerWaterNumber());
@@ -55,8 +55,8 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setString(2, values[1]);
             ps.setInt(3, Integer.parseInt(values[2]));
             ps.setDate(4, Date.valueOf(Configs.stringToDate(values[3])));
-            ps.setString(5, values[4]);
-            ps.setString(6, values[5]);
+            ps.setInt(5, Integer.parseInt(values[4]));
+            ps.setInt(6, Integer.parseInt(values[5]));
             ps.setInt(7, Integer.parseInt(values[6]));
             ps.setInt(8, Integer.parseInt(values[7]));
             ps.setInt(9, Integer.parseInt(values[8]));
@@ -103,8 +103,8 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setString(1, obj.getRoomId());
             ps.setInt(2, obj.getDefaultRoomPrice());
             ps.setDate(3, obj.getDateCreated());
-            ps.setString(4, obj.getPaymentYear());
-            ps.setString(5, obj.getPaymentMonth());
+            ps.setInt(4, obj.getPaymentYear());
+            ps.setInt(5, obj.getPaymentMonth());
             ps.setInt(6, obj.getFormerElectricNumber());
             ps.setInt(7, obj.getNewElectricNumber());
             ps.setInt(8, obj.getFormerWaterNumber());
@@ -134,8 +134,8 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setString(1, values[1]);
             ps.setInt(2, Integer.parseInt(values[2]));
             ps.setDate(3, Date.valueOf(Configs.stringToDate(values[3])));
-            ps.setString(4, values[4]);
-            ps.setString(5, values[5]);
+            ps.setInt(4, Integer.parseInt(values[4]));
+            ps.setInt(5, Integer.parseInt(values[5]));
             ps.setInt(6, Integer.parseInt(values[6]));
             ps.setInt(7, Integer.parseInt(values[7]));
             ps.setInt(8, Integer.parseInt(values[8]));
@@ -165,7 +165,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             rs.next();
             return new InvoiceModel(rs.getString("invoiceId"), rs.getString("roomId"),
                     rs.getInt("defaultRoomPrice"), rs.getDate("dateCreated"),
-                    rs.getString("paymentYear"), rs.getString("paymentMonth"),
+                    rs.getInt("paymentYear"), rs.getInt("paymentMonth"),
                     rs.getInt("formerElectricNumber"), rs.getInt("newElectricNumber"),
                     rs.getInt("formerWaterNumber"), rs.getInt("newWaterNumber"),
                     rs.getInt("garbage"), rs.getInt("wifi"),
@@ -189,7 +189,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             while (rs.next()) {
                 result.add(new InvoiceModel(rs.getString("invoiceId"), rs.getString("roomId"),
                         rs.getInt("defaultRoomPrice"), rs.getDate("dateCreated"),
-                        rs.getString("paymentYear"), rs.getString("paymentMonth"),
+                        rs.getInt("paymentYear"), rs.getInt("paymentMonth"),
                         rs.getInt("formerElectricNumber"), rs.getInt("newElectricNumber"),
                         rs.getInt("formerWaterNumber"), rs.getInt("newWaterNumber"),
                         rs.getInt("garbage"), rs.getInt("wifi"),
@@ -215,7 +215,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             while (rs.next()) {
                 result.add(new InvoiceModel(rs.getString("invoiceId"), rs.getString("roomId"),
                         rs.getInt("defaultRoomPrice"), rs.getDate("dateCreated"),
-                        rs.getString("paymentYear"), rs.getString("paymentMonth"),
+                        rs.getInt("paymentYear"), rs.getInt("paymentMonth"),
                         rs.getInt("formerElectricNumber"), rs.getInt("newElectricNumber"),
                         rs.getInt("formerWaterNumber"), rs.getInt("newWaterNumber"),
                         rs.getInt("garbage"), rs.getInt("wifi"),
@@ -241,8 +241,8 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             if (rs.next()) {
                 HashMap<String, String> result = new HashMap<>();
                 result.put("roomId", rs.getString("roomId"));
-                result.put("paymentYear", rs.getString("paymentYear"));
-                result.put("paymentMonth", rs.getString("paymentMonth"));
+                result.put("paymentYear", Integer.toString(rs.getInt("paymentYear")));
+                result.put("paymentMonth", Integer.toString(rs.getInt("paymentMonth")));
                 result.put("newElectricNumber", Integer.toString(rs.getInt("newElectricNumber")));
                 result.put("newWaterNumber", Integer.toString(rs.getInt("newWaterNumber")));
                 result.put("garbage", Integer.toString(rs.getInt("garbage")));
