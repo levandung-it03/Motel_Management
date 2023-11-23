@@ -123,10 +123,10 @@ public class RoomPage extends JPanel {
         infoPanel.setBorder(new EmptyBorder(0, 10, 0, 0));
 
         // Add information of each room
-        infoPanel.add(editLabel(name,16,"name.png"));
-        infoPanel.add(editLabel(quantity,16,"quantity.png"));
-        infoPanel.add(editLabel(maxQuantity,16,"maxQuantity.png"));
-        infoPanel.add(editLabel(Configs.convertStringToVNDCurrency(price),16,"price.png"));
+        infoPanel.add(editLabel(name,18,"name.png"));
+        infoPanel.add(editLabel(quantity,18,"quantity.png"));
+        infoPanel.add(editLabel(maxQuantity,18,"maxQuantity.png"));
+        infoPanel.add(editLabel(Configs.convertStringToVNDCurrency(price),18,"price.png"));
         infoPanel.setOpaque(false);
         tag.add(infoPanel, BorderLayout.CENTER);
 
