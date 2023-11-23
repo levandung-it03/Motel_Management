@@ -33,7 +33,7 @@ public class InvoicesOfRoomDialog extends JDialog {
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         ArrayList<InvoiceModel> invoices = Controller_Invoices.getInvoicesByRoomId(roomId);
         invoices.forEach(i -> {
-            invoicePanels.put(i.getInvoiceId(), new InvoicePanelItem(i));
+            invoicePanels.put(i.getInvoiceId(), new InvoicePanelItem(i, this));
         });
         invoicePanels.forEach((key, panel) -> mainPanel.add(panel));
         for (int i = 12 - invoicePanels.size(); i > 0; i--) {
