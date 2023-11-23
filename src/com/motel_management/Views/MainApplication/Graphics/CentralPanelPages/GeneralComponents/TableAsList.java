@@ -48,15 +48,14 @@ public class TableAsList {
         for (int i = 0; i < table.getColumnCount() - 1; i++)
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
 
-
         // Create ScrollPane to Cover JTable.
         this.setScrollPane(new JScrollPane(table));
-
 
         // Get View, Delete Button Indices.
         int viewBtnInd = -1, deleteBtnInd = -1, updateBtnInd = -1;
         for (int i = 0; i < table.getColumnCount(); i++) {
             if (table.getColumnName(i).equalsIgnoreCase("update"))  updateBtnInd = i;
+            if (table.getColumnName(i).contains("Detail"))  viewBtnInd = i;
             if (table.getColumnName(i).equalsIgnoreCase("detail"))   viewBtnInd = i;
             if (table.getColumnName(i).equalsIgnoreCase("delete button")) deleteBtnInd = i;
         }
