@@ -8,24 +8,26 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
-public class InvoicesOfRoomDialog<GridLayoutManager> extends JDialog {
-    HashMap<String, InvoicePanelItem> invoicePanels = new HashMap<>();
+public class InvoicesOfRoomDialog extends JDialog {
+    LinkedHashMap<String, InvoicePanelItem> invoicePanels = new LinkedHashMap<>();
     JPanel mainPanel = new JPanel();
-    JPanel toolPanel =new JPanel(new BorderLayout());
+    JPanel toolPanel = new JPanel(new BorderLayout());
+    JFrame mainFrameApp;
+    public InvoicesOfRoomDialog(JFrame mainFrameApp, String roomId) {
+        super(mainFrameApp, "Invoices");
+        this.mainFrameApp = mainFrameApp;
 
-    private final int toolHeight = 50;
-    public InvoicesOfRoomDialog(String roomId) {
-        super();
         this.createInvoicesOfRoom(roomId);
     }
 
     public void createInvoicesOfRoom(String roomId) {
-        setSize(Configs.centralPanelWidth + 200, Configs.centralPanelHeight + toolHeight);
-        setLayout(new BorderLayout());
-        setVisible(true);
-        setLocationRelativeTo(null);
+        int toolHeight = 50;
+        this.setModal(true);
+        this.setSize(Configs.centralPanelWidth + 200, Configs.centralPanelHeight + toolHeight);
+        this.setLayout(new BorderLayout());
+        this.setLocationRelativeTo(null);
 
         mainPanel.setLayout(new GridLayout(0, 4, 10, 10));
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -33,16 +35,16 @@ public class InvoicesOfRoomDialog<GridLayoutManager> extends JDialog {
         invoices.forEach(i -> {
             invoicePanels.put(i.getInvoiceId(), new InvoicePanelItem(i));
         });
-
         invoicePanels.forEach((key, panel) -> mainPanel.add(panel));
         for (int i = 12 - invoicePanels.size(); i > 0; i--) {
             JPanel empty = new JPanel();
             empty.setPreferredSize(new Dimension(270, 100));
             mainPanel.add(empty);
         }
-
         toolPanel.setPreferredSize(new Dimension(Configs.centralPanelWidth + 200, toolHeight));
-        add(toolPanel, BorderLayout.NORTH);
-        add(mainPanel, BorderLayout.CENTER);
+
+        this.add(toolPanel, BorderLayout.NORTH);
+        this.add(mainPanel, BorderLayout.CENTER);
+        this.setVisible(true);
     }
 }

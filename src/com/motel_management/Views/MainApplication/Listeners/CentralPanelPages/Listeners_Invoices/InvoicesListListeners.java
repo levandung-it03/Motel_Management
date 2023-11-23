@@ -14,7 +14,8 @@ import java.util.HashMap;
 public class InvoicesListListeners {
     public InvoicesListListeners() { super(); }
 
-    public static MouseAdapter getMouseListener(DefaultTableModel defaultModel, JTable table, InvoicesListPage invoicesList) {
+    public static MouseAdapter getMouseListener(DefaultTableModel defaultModel, JTable table, InvoicesListPage invoicesList,
+                                                JFrame mainFrameApp) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -28,13 +29,13 @@ public class InvoicesListListeners {
 
                 // View Button Clicked
                 if (clickedColumn == 1)
-                    InvoicesListListeners.viewAllInvoice(table.getValueAt(clickedRow, 0).toString());
+                    InvoicesListListeners.viewAllInvoice(table.getValueAt(clickedRow, 0).toString(), mainFrameApp);
             }
         };
     }
 
-    public static void viewAllInvoice(String roomId) {
-        InvoicesOfRoomDialog invoicesOfRoom = new InvoicesOfRoomDialog(roomId);
+    public static void viewAllInvoice(String roomId, JFrame mainFrameApp) {
+        InvoicesOfRoomDialog invoicesOfRoom = new InvoicesOfRoomDialog(mainFrameApp, roomId);
     }
 
     public static void updatePaymentStatus(int clickedRow, JTable table) {

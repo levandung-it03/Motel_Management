@@ -16,14 +16,16 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CentralPanel extends JPanel {
+    private final JFrame mainFrameApp;
     public static JTabbedPane category;
     ArrayList<JPanel> pages = new ArrayList<JPanel>();
     ArrayList<JLabel> labels = new ArrayList<JLabel>();
 
     // Constructor
-    public CentralPanel() {
+    public CentralPanel(JFrame mainFrameApp) {
         // Add Your Layout Here
         super();
+        this.mainFrameApp = mainFrameApp;
         this.createCentralPanel();
         this.createOnsiteListeners();
     }
@@ -45,7 +47,7 @@ public class CentralPanel extends JPanel {
         pages.add(new ContractPage());
         pages.add(new RepresentativesPage());
         pages.add(new Electricity_WaterPage());
-        pages.add(new InvoicesMainPage());
+        pages.add(new InvoicesMainPage(mainFrameApp));
         pages.add(new CheckOutPage());
 
         for (int i = 0; i < pages.size(); i++) {
@@ -83,7 +85,7 @@ public class CentralPanel extends JPanel {
                     case 2 -> category.setComponentAt(2, new ContractPage());
                     case 3 -> category.setComponentAt(3, new RepresentativesPage());
                     case 4 -> category.setComponentAt(4, new Electricity_WaterPage());
-                    case 5 -> category.setComponentAt(5, new InvoicesMainPage());
+                    case 5 -> category.setComponentAt(5, new InvoicesMainPage(mainFrameApp));
                     case 6 -> category.setComponentAt(6, new CheckOutPage());
                 }
             }

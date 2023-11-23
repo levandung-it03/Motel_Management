@@ -17,7 +17,7 @@ public class InvoicePanelItem extends JPanel {
     private JButton deleteBtn = new JButton("Delete");
     private JButton detailBtn = new JButton("Detail");
 
-    private final int panelHeight = 100;
+    private final int panelHeight = 115;
     private final int panelWidth = 270;
 
     public InvoicePanelItem(InvoiceModel invoice) {
@@ -27,6 +27,9 @@ public class InvoicePanelItem extends JPanel {
     }
 
     public void createInvoicePanel(InvoiceModel invoice) {
+        setPreferredSize(new Dimension(panelWidth, panelHeight + 70));
+        setBorder(new LineBorder(Configs.greenTextColor, 1, true));
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         this.monthLabel = new JPanel();
@@ -34,9 +37,12 @@ public class InvoicePanelItem extends JPanel {
         title.setFont(Configs.labelFont);
         title.setFont(title.getFont().deriveFont(Font.BOLD, 20.0f));
         title.setHorizontalAlignment(JLabel.CENTER);
+        monthLabel.setPreferredSize(new Dimension(panelWidth, 30));
+        monthLabel.setBorder(new LineBorder(Color.BLACK, 1, true));
         monthLabel.add(title);
 
         this.mainInvoicePanel = new JPanel(new BorderLayout());
+        this.mainInvoicePanel.setBackground(Configs.normalGreen);
         mainInvoicePanel.setPreferredSize(new Dimension(panelWidth, panelHeight));
 
         JPanel leftColumn = new JPanel(new GridLayout(4, 0));
@@ -82,14 +88,9 @@ public class InvoicePanelItem extends JPanel {
         buttonsPanel.add(this.detailBtn, BorderLayout.WEST);
         buttonsPanel.add(this.updateStatusBtn, BorderLayout.CENTER);
         buttonsPanel.add(this.deleteBtn, BorderLayout.EAST);
-        buttonsPanel.setBorder(new EmptyBorder(0, 5, 0, 5));
         buttonsPanel.setPreferredSize(new Dimension(panelWidth, 30));
 
         JPanel centralPanel = new JPanel(new BorderLayout());
-        centralPanel.add(leftColumn, BorderLayout.WEST);
-        centralPanel.add(rightColumn, BorderLayout.EAST);
-        this.mainInvoicePanel.add(centralPanel, BorderLayout.CENTER);
-        this.mainInvoicePanel.add(buttonsPanel, BorderLayout.SOUTH);
 
         Color mainColor = invoice.getWasPaid().equals("1")
                 ? new Color(184, 207, 229)
@@ -99,12 +100,16 @@ public class InvoicePanelItem extends JPanel {
         leftColumn.setBackground(mainColor);
         rightColumn.setBackground(mainColor);
         buttonsPanel.setBackground(mainColor);
+        centralPanel.setBackground(mainColor);
         setBackground(mainColor);
 
-        this.mainInvoicePanel.setBackground(Configs.normalGreen);
+        leftColumn.setBorder(new EmptyBorder(3, 0, 4, 0));
+        rightColumn.setBorder(new EmptyBorder(3, 0, 4, 0));
+        centralPanel.add(leftColumn, BorderLayout.WEST);
+        centralPanel.add(rightColumn, BorderLayout.EAST);
+        this.mainInvoicePanel.add(centralPanel, BorderLayout.CENTER);
+        this.mainInvoicePanel.add(buttonsPanel, BorderLayout.SOUTH);
 
-        setPreferredSize(new Dimension(panelWidth, panelHeight + 70));
-        setBorder(new LineBorder(Configs.greenTextColor, 1, true));
         add(this.monthLabel);
         add(this.mainInvoicePanel);
     }

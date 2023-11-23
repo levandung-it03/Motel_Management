@@ -8,20 +8,22 @@ import javax.swing.event.ChangeListener;
 
 public class InvoicesMainPage extends JPanel {
     public static JTabbedPane mainPage;
+    private final JFrame mainFrameApp;
     private JPanel invoicesListPanel;
     private JPanel addInvoicePanel;
 
     // Constructor
-    public InvoicesMainPage() {
+    public InvoicesMainPage(JFrame mainFrameApp) {
         // Set Layout Here
         super();
         this.createInvoicesPanel();
         this.createOnsiteListeners();
+        this.mainFrameApp = mainFrameApp;
     }
 
     public void createInvoicesPanel() {
         mainPage = new JTabbedPane(JTabbedPane.TOP);
-        invoicesListPanel = new InvoicesListPage();
+        invoicesListPanel = new InvoicesListPage(mainFrameApp);
         addInvoicePanel = new AddInvoicePage();
 
         invoicesListPanel.setBackground(Configs.mainWhiteBackground);
@@ -38,7 +40,7 @@ public class InvoicesMainPage extends JPanel {
             @Override
             public void stateChanged(ChangeEvent e) {
                 if (mainPage.getSelectedIndex() == 0) {
-                    invoicesListPanel = new InvoicesListPage();
+                    invoicesListPanel = new InvoicesListPage(mainFrameApp);
                     mainPage.setComponentAt(0, invoicesListPanel);
                 } else {
                     addInvoicePanel = new AddInvoicePage();

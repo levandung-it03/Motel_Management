@@ -15,13 +15,15 @@ public class InvoicesListPage extends JPanel {
     public JScrollPane invoiceScrollPane;
     public DefaultTableModel defaultModel;
     public Object[][] tableData;
+    private JFrame mainFrameApp;
 
     // Constructor
-    public InvoicesListPage() {
+    public InvoicesListPage(JFrame mainFrameApp) {
         super(new BorderLayout());
         this.createInvoicesListPage();
         this.createListeners();
         this.saveCurrentTableData();
+        this.mainFrameApp = mainFrameApp;
     }
 
     public void createInvoicesListPage() {
@@ -67,7 +69,9 @@ public class InvoicesListPage extends JPanel {
 
     public void createListeners() {
         // Add Clicking View, Update Button Action.
-        table.addMouseListener(InvoicesListListeners.getMouseListener(this.defaultModel, this.table, this));
+        table.addMouseListener(
+                InvoicesListListeners.getMouseListener(this.defaultModel, this.table, this, mainFrameApp)
+        );
 
     }
 

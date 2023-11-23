@@ -69,7 +69,7 @@ public class TableAsList {
                                                                        boolean hasFocus, int row, int column) {
                             super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                             setHorizontalAlignment(JLabel.CENTER);
-                            setBackground(Color.RED);
+                            setBackground(new Color(250, 93, 93));
                             return this;
                         }
                     }
@@ -96,7 +96,7 @@ public class TableAsList {
                                                                boolean hasFocus, int row, int column) {
                     super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                     this.setHorizontalAlignment(JLabel.CENTER);
-                    this.setBackground(new Color(255, 255, 43));
+                    this.setBackground(new Color(75, 217, 72));
                     return this;
                 }
             });
