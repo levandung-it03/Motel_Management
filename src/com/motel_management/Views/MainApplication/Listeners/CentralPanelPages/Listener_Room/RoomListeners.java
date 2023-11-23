@@ -1,12 +1,9 @@
-package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_NewRoom;
+package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_Room;
 
-import com.motel_management.Controllers.Controller_NewRoom;
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanel;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractPage;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_NewRoom.EditRoom_Frame;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_NewRoom.NewRoomPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.EditRoom_Dialog;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 
 import javax.swing.*;
@@ -17,14 +14,14 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NewRoomListeners {
-    public NewRoomListeners() {}
+public class RoomListeners {
+    public RoomListeners() {}
 
     public static String getLastRoomId() {
-        return Controller_NewRoom.getLastId();
+        return Controller_Room.getLastId();
     }
 
-    public static ActionListener addNewRoomListener(HashMap<String, JTextField> inpTags, NewRoomPage panel) {
+    public static ActionListener addNewRoomListener(HashMap<String, JTextField> inpTags, RoomPage panel) {
 
         return new ActionListener() {
             @Override
@@ -42,7 +39,7 @@ public class NewRoomListeners {
 
                 if (isValid) {
                     // Call API here.
-                    String nextIdWhenSuccessfully = Controller_NewRoom.addNewRoom(new String[] {
+                    String nextIdWhenSuccessfully = Controller_Room.addNewRoom(new String[] {
                             inpTags.get("roomIdInp").getText(),
                             "0",
                             inpTags.get("maxQuantity").getText(),
@@ -62,20 +59,20 @@ public class NewRoomListeners {
                     JOptionPane.showMessageDialog(new JPanel(), "Invalid Information", "Notice", JOptionPane.PLAIN_MESSAGE);
                 }
                 //create onsite listener
-                CentralPanel.category.setComponentAt(7, new NewRoomPage());
+                CentralPanel.category.setComponentAt(1, new RoomPage());
             }
         };
     }
-    public static ActionListener editRoom(HashMap<String, JTextField> inpTags,EditRoom_Frame frame){
+    public static ActionListener editRoom(HashMap<String, JTextField> inpTags, EditRoom_Dialog frame){
         return new ActionListener(){
             public void actionPerformed(ActionEvent evt) {
                 String[] data = {inpTags.get("roomId").getText(),inpTags.get("quantity").getText(),
                     inpTags.get("maxQuantity").getText(),inpTags.get("defaultPrice").getText()};
                 boolean isValid = GeneralListeners.validateNewRoomTableData(inpTags);
                 if(isValid){
-                    if (Controller_NewRoom.updateRoom(data) != 0) {
+                    if (Controller_Room.updateRoom(data) != 0) {
                         JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
-                        CentralPanel.category.setComponentAt(7, new NewRoomPage());
+                        CentralPanel.category.setComponentAt(1, new RoomPage());
                         frame.dispose();
                     }else
                         JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
@@ -115,7 +112,7 @@ public class NewRoomListeners {
                 JTextField quantityText = new JTextField(quantity);
                 JTextField maxQuantityText = new JTextField(maxQuantity);
                 JTextField priceText = new JTextField(price);
-                new EditRoom_Frame("Update",roomIdText,quantityText,maxQuantityText,priceText);
+                new EditRoom_Dialog("Update",roomIdText,quantityText,maxQuantityText,priceText);
             }
         };
     }
@@ -124,9 +121,9 @@ public class NewRoomListeners {
             public void actionPerformed(ActionEvent e) {
                 if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this room?", "Confirm",
                         JOptionPane.YES_NO_OPTION) == 0) {
-                    if (Controller_NewRoom.deleteById(roomId)!=0) {
+                    if (Controller_Room.deleteById(roomId)!=0) {
                         JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
-                        CentralPanel.category.setComponentAt(7, new NewRoomPage());
+                        CentralPanel.category.setComponentAt(1, new RoomPage());
                     } else {
                         JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
                     }

@@ -167,7 +167,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             PreparedStatement ps = myConnection
-                    .prepareStatement("SELECT roomId FROM Room WHERE (quantity > 0 OR quantity = -1) ORDER BY roomId");
+                    .prepareStatement("SELECT roomId FROM Room WHERE (quantity > 0 OR quantity = -1) ORDER BY roomId ASC");
             ArrayList<String> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

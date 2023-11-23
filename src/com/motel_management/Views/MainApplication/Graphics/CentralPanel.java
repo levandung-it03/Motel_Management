@@ -1,12 +1,11 @@
 package com.motel_management.Views.MainApplication.Graphics;
 import com.motel_management.Views.Configs;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_NewRoom.NewRoomPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_CheckOut.CheckOutPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractPage;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesMainPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.RepresentativesPage;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.StatisticPage;
 
 import javax.swing.*;
@@ -17,14 +16,16 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CentralPanel extends JPanel {
+    private final JFrame mainFrameApp;
     public static JTabbedPane category;
     ArrayList<JPanel> pages = new ArrayList<JPanel>();
     ArrayList<JLabel> labels = new ArrayList<JLabel>();
 
     // Constructor
-    public CentralPanel() {
+    public CentralPanel(JFrame mainFrameApp) {
         // Add Your Layout Here
         super();
+        this.mainFrameApp = mainFrameApp;
         this.createCentralPanel();
         this.createOnsiteListeners();
     }
@@ -40,16 +41,14 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Electricity-Water"));
         labels.add(generateTabLabel("Invoices"));
         labels.add(generateTabLabel("Check-out"));
-        labels.add(generateTabLabel("NewRoomPage"));
 
         pages.add(new StatisticPage());
         pages.add(new RoomPage());
         pages.add(new ContractPage());
         pages.add(new RepresentativesPage());
         pages.add(new Electricity_WaterPage());
-        pages.add(new InvoicesPage());
+        pages.add(new InvoicesMainPage(mainFrameApp));
         pages.add(new CheckOutPage());
-        pages.add(new NewRoomPage());
 
         for (int i = 0; i < pages.size(); i++) {
             pages.get(i).setPreferredSize(
@@ -86,9 +85,8 @@ public class CentralPanel extends JPanel {
                     case 2 -> category.setComponentAt(2, new ContractPage());
                     case 3 -> category.setComponentAt(3, new RepresentativesPage());
                     case 4 -> category.setComponentAt(4, new Electricity_WaterPage());
-                    case 5 -> category.setComponentAt(5, new InvoicesPage());
+                    case 5 -> category.setComponentAt(5, new InvoicesMainPage(mainFrameApp));
                     case 6 -> category.setComponentAt(6, new CheckOutPage());
-                    case 7 -> category.setComponentAt(7, new NewRoomPage());
                 }
             }
         });

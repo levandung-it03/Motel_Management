@@ -33,7 +33,7 @@ public class Frame_MainApplication extends JFrame {
 
         mainApp.header = new Header(user);
         mainApp.footer = new Footer();
-        mainApp.centralPanel = new CentralPanel();
+        mainApp.centralPanel = new CentralPanel(this);
 
         add(mainApp.header, BorderLayout.NORTH);
         add(mainApp.centralPanel, BorderLayout.CENTER);

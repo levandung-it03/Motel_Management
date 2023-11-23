@@ -3,7 +3,7 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 import com.motel_management.Controllers.Controller_Invoices;
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Models.RoomModel;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesMainPage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -96,7 +96,7 @@ public class AddInvoiceListeners {
                 JOptionPane.showMessageDialog(new JPanel(),addRes.get("message"),"Notice",JOptionPane.PLAIN_MESSAGE);
 
                 if (addRes.get("result").equals("1"))
-                    InvoicesPage.mainPage.setSelectedIndex(0);
+                    InvoicesMainPage.mainPage.setSelectedIndex(0);
             }
         };
     }
