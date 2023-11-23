@@ -58,9 +58,9 @@ public class Configs {
 
     public static String convertStringToVNDCurrency(String inp) {
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i < inp.length(); i++) {
-            if (i%3==0)     result.append(",");
-            result.append(inp.charAt(i));
+        for (int i = inp.length() - 1, len = 0; i >= 0 ; i--, len++) {
+            if (len != 0 && len%3==0)     result.insert(0,".");
+            result.insert(0, inp.charAt(i));
         }
         return result.toString() + "VNĐ";
     }

@@ -183,17 +183,19 @@ public class Controller_Invoices {
         ArrayList<InvoiceModel> invoices = InvoiceDAO.getInstance()
                 .selectByCondition("ORDER BY roomId ASC, paymentYear DESC, paymentMonth DESC LIMIT " + rooms.size());
 
+        if (invoices.isEmpty()) return new String[][] {};
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         for (int i = 0; i < rooms.size(); i++) {
-            result[i][0] = invoices.get(i).getInvoiceId();
-            result[i][1] = invoices.get(i).getRoomId();
-            result[i][2] = invoices.get(i).getMonthPayment();
-            result[i][3] = invoices.get(i).getYearPayment();
-            result[i][4] = sdf.format(invoices.get(i).getDateCreated());
-            result[i][5] = Integer.toString(invoices.get(i).getTotal());
-            result[i][6] = invoices.get(i).getWasPaid().equals("0") ? "NO" : "YES";
-            result[i][7] = "Pay Invoice";
-            result[i][8] = "View";
+            result[i][0] = invoices.get(i).getRoomId();
+            result[i][1] = "View All";
+            result[i][2] = invoices.get(i).getInvoiceId();
+            result[i][3] = invoices.get(i).getMonthPayment();
+            result[i][4] = invoices.get(i).getYearPayment();
+            result[i][5] = sdf.format(invoices.get(i).getDateCreated());
+            result[i][6] = Configs.convertStringToVNDCurrency(Integer.toString(invoices.get(i).getTotal()));
+            result[i][7] = invoices.get(i).getWasPaid().equals("0") ? "NO" : "YES";
+            result[i][8] = "Pay Invoice";
         }
         return result;
     }

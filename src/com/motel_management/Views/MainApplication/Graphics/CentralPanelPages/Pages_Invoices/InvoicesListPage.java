@@ -36,8 +36,8 @@ public class InvoicesListPage extends JPanel {
 
         // Prepare Date to generate Table.
         String[][] invoices = Controller_Invoices.getAllInvoicesWithTableFormat();
-        String[] columns = {"Invoice Id", "Room Id", "Month Payment", "Year Payment", "Date Created", "Total",
-                "Was Paid", "Update", "Detail"};
+        String[] columns = { "Room Id", "Invoices Detail", "Last Invoice", "Month Payment", "Year Payment", "Date Created", "Total",
+                "Was Paid", "Update"};
 
         // Generate Table.
         // Make All Value Unchangeable.
@@ -53,7 +53,13 @@ public class InvoicesListPage extends JPanel {
         this.invoiceScrollPane.setBorder(new EmptyBorder(20, 20, 0, 20));
 
         // Resize several Columns.
-        this.table.getColumnModel().getColumn(0).setPreferredWidth(80);
+        this.table.getColumnModel().getColumn(0).setPreferredWidth(33);
+        this.table.getColumnModel().getColumn(1).setPreferredWidth(100);
+        this.table.getColumnModel().getColumn(2).setPreferredWidth(65);
+        this.table.getColumnModel().getColumn(5).setPreferredWidth(63);
+        this.table.getColumnModel().getColumn(6).setPreferredWidth(63);
+        this.table.getColumnModel().getColumn(7).setPreferredWidth(38);
+        this.table.getColumnModel().getColumn(8).setPreferredWidth(53);
 
         // Add ScrollPane into CentralPanel/Invoices.
         add(invoiceScrollPane, BorderLayout.CENTER);
