@@ -1,37 +1,35 @@
-package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_NewRoom;
+package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room;
 
-import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_NewRoom.NewRoomListeners;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Room.AddRoomListeners;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_Room.RoomListeners;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-public class EditRoom_Frame extends JFrame{
-    JTextField roomId = new JTextField(20);
-    JTextField quantity = new JTextField(20);
-    JTextField maxQuantity = new JTextField(20);
-    JTextField defaultPrice = new JTextField(20);
+public class EditRoom_Frame extends JDialog{
+    JTextField roomId;
+    JTextField quantity;
+    JTextField maxQuantity;
+    JTextField defaultPrice;
     JButton submitBtn;
 
     public EditRoom_Frame(String title, JTextField roomId, JTextField quantity, JTextField maxQuantity, JTextField defaultPrice) throws HeadlessException {
-        super(title);
+        super();
         this.roomId = roomId;
         this.quantity = quantity;
         this.maxQuantity = maxQuantity;
         this.defaultPrice = defaultPrice;
-        createEditFrame();
+        setTitle(title);
+        createEditDialog();
         createListener();
     }
 
-    public void createEditFrame() {;
-        setSize(380,400);
+    public void createEditDialog() {
+        setSize(380,350);
         setVisible(true);
-        setLocationRelativeTo(null);
         setResizable(false);
+        setLocationRelativeTo(null);
         JPanel container = new JPanel(new FlowLayout());
 
         submitBtn = InputComboPanel.generateButton("Update");
@@ -48,6 +46,6 @@ public class EditRoom_Frame extends JFrame{
         inpTags.put("maxQuantity", this.maxQuantity);
         inpTags.put("defaultPrice", this.defaultPrice);
 
-        this.submitBtn.addActionListener(NewRoomListeners.editRoom(inpTags,this));
+        this.submitBtn.addActionListener(RoomListeners.editRoom(inpTags,this));
     }
 }
