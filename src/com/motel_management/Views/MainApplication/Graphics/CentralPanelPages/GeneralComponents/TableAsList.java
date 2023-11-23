@@ -41,11 +41,24 @@ public class TableAsList {
         // Set Table size.
         table.setRowHeight(30);
 
+        // Make all Columns align horizontally.
+        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
+        cellRenderer.setHorizontalAlignment(JLabel.CENTER);
+        cellRenderer.setVerticalAlignment(JLabel.CENTER);
+        for (int i = 0; i < table.getColumnCount() - 1; i++)
+            table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
+
+
+        // Create ScrollPane to Cover JTable.
+        this.setScrollPane(new JScrollPane(table));
+
+
         // Get View, Delete Button Indices.
-        int viewBtnInd = -1, deleteBtnInd = -1;
+        int viewBtnInd = -1, deleteBtnInd = -1, updateBtnInd = -1;
         for (int i = 0; i < table.getColumnCount(); i++) {
-            if (table.getColumnName(i).equalsIgnoreCase("delete button")) deleteBtnInd = i;
+            if (table.getColumnName(i).equalsIgnoreCase("update"))  updateBtnInd = i;
             if (table.getColumnName(i).equalsIgnoreCase("detail"))   viewBtnInd = i;
+            if (table.getColumnName(i).equalsIgnoreCase("delete button")) deleteBtnInd = i;
         }
 
         // Change Color of Columns.
@@ -77,17 +90,19 @@ public class TableAsList {
                     }
             );
         }
+        if (updateBtnInd != -1) {
+            table.getColumnModel().getColumn(updateBtnInd).setCellRenderer(new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                               boolean hasFocus, int row, int column) {
+                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    this.setHorizontalAlignment(JLabel.CENTER);
+                    this.setBackground(new Color(255, 255, 43));
+                    return this;
+                }
+            });
+        }
 
-
-        // Make all Columns align horizontally.
-        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
-        cellRenderer.setHorizontalAlignment(JLabel.CENTER);
-        cellRenderer.setVerticalAlignment(JLabel.CENTER);
-        for (int i = 0; i < table.getColumnCount() - 1; i++)
-            table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
-
-        // Create ScrollPane to Cover JTable.
-        this.setScrollPane(new JScrollPane(table));
     }
 
     public JTable getTable() {

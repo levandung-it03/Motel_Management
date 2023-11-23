@@ -49,19 +49,6 @@ public class InvoicesListPage extends JPanel {
         this.table = tableAsList.getTable();
         this.invoiceScrollPane = tableAsList.getScrollPane();
 
-        this.table.getColumnModel().getColumn(7).setCellRenderer(
-                new DefaultTableCellRenderer() {
-                    @Override
-                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                                   boolean hasFocus, int row, int column) {
-                        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                        setHorizontalAlignment(JLabel.CENTER);
-                        setBackground(new Color(255, 234, 0));
-                        return this;
-                    }
-                }
-        );
-
         // Margin Table.
         this.invoiceScrollPane.setBorder(new EmptyBorder(20, 20, 0, 20));
 
