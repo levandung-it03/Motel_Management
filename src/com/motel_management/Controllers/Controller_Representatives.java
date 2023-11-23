@@ -2,19 +2,16 @@ package com.motel_management.Controllers;
 
 import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.Models.PersonModel;
-import com.motel_management.Views.Configs;
-import com.mysql.cj.x.protobuf.MysqlxExpr;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Controller_Representatives {
     public Controller_Representatives(){
         super();
+    }
+
+    public static PersonModel getPersonById(String identifier) {
+        return PersonDAO.getInstance().selectById(identifier);
     }
 
     public static String[][] getAllRepresentativesWithTableFormat() {
@@ -26,7 +23,7 @@ public class Controller_Representatives {
             person[i][2] = result.get(i).getRoomId();
             person[i][3] = result.get(i).getPhone();
             person[i][4] = result.get(i).getPermanentAddress();
-            person[i][5] = "Details";
+            person[i][5] = "View";
         }
         return person;
     }

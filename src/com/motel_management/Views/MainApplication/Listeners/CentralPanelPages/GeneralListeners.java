@@ -9,6 +9,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GeneralListeners {
     public GeneralListeners() { }
@@ -83,6 +84,39 @@ public class GeneralListeners {
         } else {
             // Not Occupied Room.
             if (Integer.parseInt(fullChangedRow[1]) > 0 || Integer.parseInt(fullChangedRow[1]) == -1) {
+                JOptionPane.showMessageDialog(new JPanel(), "Room Was Not Occupied, Can Not Change Quantity!", "Notice", JOptionPane.PLAIN_MESSAGE);
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean validateNewRoomTableData(HashMap<String, JTextField> inpTags) {
+        if (!Configs.isIntegerNumeric(inpTags.get("quantity").getText())
+                || !Configs.isIntegerNumeric(inpTags.get("maxQuantity").getText())
+                || !Configs.isIntegerNumeric(inpTags.get("defaultPrice").getText())) {
+            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
+            return false;
+        }
+        if (Integer.parseInt(inpTags.get("quantity").getText()) < 0 && Integer.parseInt(inpTags.get("quantity").getText()) != -1) {
+            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
+            return false;
+        }
+        if (Integer.parseInt(inpTags.get("quantity").getText()) > Integer.parseInt(inpTags.get("maxQuantity").getText())) {
+            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
+            return false;
+        }
+        if (Integer.parseInt(inpTags.get("defaultPrice").getText()) < 0) {
+            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
+            return false;
+        }
+        if (!ContractDAO.getInstance().selectByCondition("WHERE (roomId =\"" + inpTags.get("roomId").getText() + "\" AND checkedOut=\"0\" )").isEmpty()) {
+            if (Integer.parseInt(inpTags.get("quantity").getText()) == 0) {
+                JOptionPane.showMessageDialog(new JPanel(), "Max Quantity > 0 because Contract Existed!", "Notice", JOptionPane.PLAIN_MESSAGE);
+                return false;
+            }
+        } else {
+            // Not Occupied Room.
+            if (Integer.parseInt(inpTags.get("quantity").getText()) > 0 || Integer.parseInt(inpTags.get("quantity").getText()) == -1) {
                 JOptionPane.showMessageDialog(new JPanel(), "Room Was Not Occupied, Can Not Change Quantity!", "Notice", JOptionPane.PLAIN_MESSAGE);
                 return false;
             }

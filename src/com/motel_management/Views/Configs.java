@@ -55,4 +55,13 @@ public class Configs {
         int endingYear = Integer.parseInt(end.split("/")[2]);
         return (endingYear*12 + endingMonth) - (startingYear*12 + startingMonth);
     }
+
+    public static String convertStringToVNDCurrency(String inp) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < inp.length(); i++) {
+            if (i%3==0)     result.append(",");
+            result.append(inp.charAt(i));
+        }
+        return result.toString() + "VNĐ";
+    }
 }

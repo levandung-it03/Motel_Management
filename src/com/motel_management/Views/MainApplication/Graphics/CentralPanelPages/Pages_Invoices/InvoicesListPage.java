@@ -6,6 +6,7 @@ import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Gen
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
@@ -17,32 +18,36 @@ public class InvoicesListPage extends JPanel {
 
     // Constructor
     public InvoicesListPage() {
-        super(new GridLayout());
+        super(new BorderLayout());
         this.createInvoicesListPage();
         this.createListeners();
         this.saveCurrentTableData();
     }
 
     public void createInvoicesListPage() {
+        JPanel title = new JPanel();
+        JLabel titleLabel = new JLabel("Invoices");
+        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 34.0f));
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        title.add(titleLabel);
+        add(title, BorderLayout.NORTH);
+
         setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
 
         // Prepare Date to generate Table.
         String[][] invoices = Controller_Invoices.getAllInvoicesWithTableFormat();
-        String[] columns = {"Invoice Code", "Representative Identity", "Room Code", "Quantity", "Room Deposit",
-                "Started Date", "Ended Date", "Delete Button"};
+        String[] columns = {"Invoice Id", "Room Id", "Month Payment", "Year Payment", "Date Created", "Total",
+                "Was Paid", "Update", "Detail"};
 
         // Generate Table.
         // Make All Value Unchangeable.
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(invoices, columns) {
             @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
+            public boolean isCellEditable(int row, int column) { return false; }
         });
         this.defaultModel = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
         this.invoiceScrollPane = tableAsList.getScrollPane();
-
 
         // Margin Table.
         this.invoiceScrollPane.setBorder(new EmptyBorder(20, 20, 0, 20));
@@ -51,7 +56,7 @@ public class InvoicesListPage extends JPanel {
         this.table.getColumnModel().getColumn(0).setPreferredWidth(80);
 
         // Add ScrollPane into CentralPanel/Invoices.
-        add(invoiceScrollPane);
+        add(invoiceScrollPane, BorderLayout.CENTER);
     }
 
     public void createListeners() {  }

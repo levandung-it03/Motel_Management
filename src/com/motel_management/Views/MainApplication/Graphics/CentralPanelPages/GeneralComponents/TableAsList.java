@@ -1,4 +1,5 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents;
+
 import com.motel_management.Views.Configs;
 
 import javax.swing.*;
@@ -40,20 +41,6 @@ public class TableAsList {
         // Set Table size.
         table.setRowHeight(30);
 
-        // Make last Column (Delete Button) be red.
-        table.getColumnModel().getColumn(table.getColumnCount() - 1).setCellRenderer(
-                new DefaultTableCellRenderer() {
-                    @Override
-                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                                   boolean hasFocus, int row, int column) {
-                        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                        setHorizontalAlignment(JLabel.CENTER);
-                        setBackground(Color.RED);
-                        return this;
-                    }
-                }
-        );
-
         // Make all Columns align horizontally.
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
         cellRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -61,16 +48,85 @@ public class TableAsList {
         for (int i = 0; i < table.getColumnCount() - 1; i++)
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
 
+
         // Create ScrollPane to Cover JTable.
         this.setScrollPane(new JScrollPane(table));
+
+
+        // Get View, Delete Button Indices.
+        int viewBtnInd = -1, deleteBtnInd = -1, updateBtnInd = -1;
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            if (table.getColumnName(i).equalsIgnoreCase("update"))  updateBtnInd = i;
+            if (table.getColumnName(i).equalsIgnoreCase("detail"))   viewBtnInd = i;
+            if (table.getColumnName(i).equalsIgnoreCase("delete button")) deleteBtnInd = i;
+        }
+
+        // Change Color of Columns.
+        if (deleteBtnInd != -1) {
+            table.getColumnModel().getColumn(deleteBtnInd).setCellRenderer(
+                    new DefaultTableCellRenderer() {
+                        @Override
+                        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                                       boolean hasFocus, int row, int column) {
+                            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                            setHorizontalAlignment(JLabel.CENTER);
+                            setBackground(Color.RED);
+                            return this;
+                        }
+                    }
+            );
+        }
+        if (viewBtnInd != -1) {
+            table.getColumnModel().getColumn(viewBtnInd).setCellRenderer(
+                    new DefaultTableCellRenderer() {
+                        @Override
+                        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                                       boolean hasFocus, int row, int column) {
+                            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                            setHorizontalAlignment(JLabel.CENTER);
+                            setBackground(new Color(126, 170, 255));
+                            return this;
+                        }
+                    }
+            );
+        }
+        if (updateBtnInd != -1) {
+            table.getColumnModel().getColumn(updateBtnInd).setCellRenderer(new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                               boolean hasFocus, int row, int column) {
+                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    this.setHorizontalAlignment(JLabel.CENTER);
+                    this.setBackground(new Color(255, 255, 43));
+                    return this;
+                }
+            });
+        }
+
     }
 
-    public JTable getTable() { return table; }
-    public JScrollPane getScrollPane() { return scrollPane; }
-    public DefaultTableModel getDefaultModel() { return defaultModel; }
+    public JTable getTable() {
+        return table;
+    }
 
-    public void setTable(JTable table) { this.table = table; }
-    public void setScrollPane(JScrollPane scrollPane) { this.scrollPane = scrollPane; }
-    public void setDefaultModel(DefaultTableModel defaultModel) { this.defaultModel = defaultModel; }
+    public JScrollPane getScrollPane() {
+        return scrollPane;
+    }
+
+    public DefaultTableModel getDefaultModel() {
+        return defaultModel;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
+    }
+
+    public void setScrollPane(JScrollPane scrollPane) {
+        this.scrollPane = scrollPane;
+    }
+
+    public void setDefaultModel(DefaultTableModel defaultModel) {
+        this.defaultModel = defaultModel;
+    }
 
 }

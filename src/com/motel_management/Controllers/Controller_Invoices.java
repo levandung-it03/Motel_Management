@@ -4,6 +4,8 @@ import com.motel_management.DataAccessObject.*;
 import com.motel_management.Models.*;
 import com.motel_management.Views.Configs;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -176,16 +178,24 @@ public class Controller_Invoices {
     }
 
     public static String[][] getAllInvoicesWithTableFormat() {
-        ArrayList<RoomModel> result = RoomDAO.getInstance().selectAll();
-        String[][] rooms = new String[result.size()][5];
-//        for (int i = 0; i < result.size(); i++) {
-//            rooms[i][0] = result.get(i).getRoomId();
-//            rooms[i][1] = Integer.toString(result.get(i).getQuantity());
-//            rooms[i][2] = Integer.toString(result.get(i).getMaxQuantity());
-//            rooms[i][3] = Integer.toString(result.get(i).getDefaultRoomPrice());
-//            rooms[i][4] = "Delete";
-//        }
-        return rooms;
+        ArrayList<String> rooms = RoomDAO.getInstance().selectAllOccupiedRoomId();
+        String[][] result = new String[rooms.size()][9];
+        ArrayList<InvoiceModel> invoices = InvoiceDAO.getInstance()
+                .selectByCondition("ORDER BY roomId ASC, paymentYear DESC, paymentMonth DESC LIMIT " + rooms.size());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        for (int i = 0; i < rooms.size(); i++) {
+            result[i][0] = invoices.get(i).getInvoiceId();
+            result[i][1] = invoices.get(i).getRoomId();
+            result[i][2] = invoices.get(i).getMonthPayment();
+            result[i][3] = invoices.get(i).getYearPayment();
+            result[i][4] = sdf.format(invoices.get(i).getDateCreated());
+            result[i][5] = Integer.toString(invoices.get(i).getTotal());
+            result[i][6] = invoices.get(i).getWasPaid().equals("0") ? "NO" : "YES";
+            result[i][7] = "Pay Invoice";
+            result[i][8] = "View";
+        }
+        return result;
     }
 
     public static int STI(String num) {
