@@ -14,6 +14,7 @@ import javax.swing.border.LineBorder;
 
 public class RoomPage extends JPanel {
     JScrollPane roomScrollPane;
+    JFrame mainFrameApp;
     JPanel addContainer;
     JPanel roomContainer;
     JPanel functionContainer;
@@ -28,8 +29,9 @@ public class RoomPage extends JPanel {
     JPopupMenu popupMenu;
     String[][] data;
 
-    public RoomPage() {
+    public RoomPage(JFrame mainFrameApp) {
         super(new BorderLayout());
+        this.mainFrameApp = mainFrameApp;
         this.createAddRoomsPanel();
         this.createRoomsPanel();
         this.createFunctionsPanel();
@@ -136,8 +138,8 @@ public class RoomPage extends JPanel {
         JMenuItem deleteMenu = new JMenuItem("Delete");
         contractMenu.addActionListener(RoomListeners.contractMenu());
         checkoutMenu.addActionListener(RoomListeners.checkoutMenu());
-        updateMenu.addActionListener(RoomListeners.updateMenu(roomCode,quantity,maxQuantity,price));
-        deleteMenu.addActionListener(RoomListeners.deleteMenu(roomCode));
+        updateMenu.addActionListener(RoomListeners.updateMenu(roomCode,quantity,maxQuantity,price,mainFrameApp));
+        deleteMenu.addActionListener(RoomListeners.deleteMenu(roomCode,mainFrameApp));
         popupMenu.add(contractMenu);
         popupMenu.add(checkoutMenu);
         popupMenu.add(updateMenu);
@@ -161,7 +163,7 @@ public class RoomPage extends JPanel {
         inpTags.put("maxQuantity", this.maxQuantity);
         inpTags.put("defaultPrice", this.defaultPrice);
 
-        this.submitBtn.addActionListener(RoomListeners.addNewRoomListener(inpTags));
+        this.submitBtn.addActionListener(RoomListeners.addNewRoomListener(inpTags,mainFrameApp));
     }
     public void createFunctionsListeners() {
         this.searchBtn.addActionListener(RoomListeners.searchRoomListener(data,searchRoomId));
