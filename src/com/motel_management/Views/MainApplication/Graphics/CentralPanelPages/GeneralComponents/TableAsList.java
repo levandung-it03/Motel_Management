@@ -90,9 +90,7 @@ public class TableAsList {
                     }
             );
         }
-        System.out.println(updateBtnInd);
         if (updateBtnInd != -1) {
-            System.out.println(updateBtnInd);
             table.getColumnModel().getColumn(updateBtnInd).setCellRenderer(new DefaultTableCellRenderer() {
                 @Override
                 public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
@@ -100,7 +98,6 @@ public class TableAsList {
                     super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                     this.setHorizontalAlignment(JLabel.CENTER);
                     this.setBackground(new Color(255, 255, 43));
-                    System.out.println("7");
                     return this;
                 }
             });
