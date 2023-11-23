@@ -188,8 +188,8 @@ public class Controller_Invoices {
             result[i][0] = invoice.get(0).getRoomId();
             result[i][1] = "View All";
             result[i][2] = invoice.get(0).getInvoiceId();
-            result[i][3] = invoice.get(0).getPaymentMonth();
-            result[i][4] = invoice.get(0).getPaymentYear();
+            result[i][3] = Integer.toString(invoice.get(0).getPaymentMonth());
+            result[i][4] = Integer.toString(invoice.get(0).getPaymentYear());
             result[i][5] = sdf.format(invoice.get(0).getDateCreated());
             result[i][6] = Configs.convertStringToVNDCurrency(Integer.toString(invoice.get(0).getTotal()));
             result[i][7] = invoice.get(0).getWasPaid().equals("0") ? "NO" : "YES";
@@ -214,11 +214,7 @@ public class Controller_Invoices {
 
     public static ArrayList<InvoiceModel> getInvoicesByRoomId(String roomId) {
         return InvoiceDAO.getInstance()
-                .selectByCondition(
-                        "WHERE roomId=\"" + roomId + "\" " +
-                        "ORDER BY paymentYear DESC, paymentMonth DESC " +
-                        "LIMIT 12"
-                );
+                .selectByCondition("WHERE roomId=\"" + roomId + "\" ORDER BY paymentYear DESC, paymentMonth DESC LIMIT 12");
     }
 
     public static int STI(String num) {

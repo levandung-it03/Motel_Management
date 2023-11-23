@@ -19,8 +19,8 @@ public class InvoiceModel {
     private int total;
     private String wasPaid;
 
-    public InvoiceModel(String invoiceId, String roomId, int defaultRoomPrice, Date dateCreated, String paymentYear,
-                        String paymentMonth, int formerElectricNumber, int newElectricNumber, int formerWaterNumber,
+    public InvoiceModel(String invoiceId, String roomId, int defaultRoomPrice, Date dateCreated, int paymentYear,
+                        int paymentMonth, int formerElectricNumber, int newElectricNumber, int formerWaterNumber,
                         int newWaterNumber, int garbage, int wifi, int vehicle, int total, String wasPaid) {
         this.invoiceId = invoiceId;
         this.roomId = roomId;
@@ -73,13 +73,9 @@ public class InvoiceModel {
         this.roomId = roomId;
     }
 
-    public String getPaymentMonth() {
-        return paymentMonth;
-    }
+    public int getPaymentMonth() { return paymentMonth; }
 
-    public String getPaymentYear() {
-        return paymentYear;
-    }
+    public int getPaymentYear() { return paymentYear; }
 
     public void setDefaultRoomPrice (int defaultRoomPrice) {
         this.defaultRoomPrice = defaultRoomPrice;
@@ -87,9 +83,9 @@ public class InvoiceModel {
 
     public void setDateCreated (Date dateCreated) {this.dateCreated = dateCreated;}
 
-    public void setPaymentYear (String paymentYear) {this.paymentYear = paymentYear;}
+    public void setPaymentYear (int paymentYear) {this.paymentYear = paymentYear;}
 
-    public void setPaymentMonth (String paymentMonth) {this.paymentMonth = paymentMonth;}
+    public void setPaymentMonth (int paymentMonth) {this.paymentMonth = paymentMonth;}
 
     public void setFormerElectricNumber(int formerElectricNumber) {this.formerElectricNumber = formerElectricNumber;}
 
