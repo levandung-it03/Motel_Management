@@ -2,6 +2,8 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 
 import com.motel_management.Controllers.Controller_Electricity_Water;
 import com.motel_management.Views.Configs;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.AddElectricity_WaterPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterPage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,9 +15,11 @@ import java.util.regex.Pattern;
 public class AddEWListeners {
     public AddEWListeners() {
     }
+
     public static int getLastElectricMaxRange() {
         return Controller_Electricity_Water.getLastElectricMaxRange();
     }
+
     public static int getLastWaterMaxRange() {
         return Controller_Electricity_Water.getLastWaterMaxRange();
     }
@@ -26,7 +30,7 @@ public class AddEWListeners {
             public void actionPerformed(ActionEvent evt) {
                 String electricId = "E" + Configs.generateIdTail();
                 boolean isValid = true;
-                if (inpTags.get("maxERangeValue").getText().equalsIgnoreCase("unlimited")){
+                if (inpTags.get("maxERangeValue").getText().equalsIgnoreCase("unlimited")) {
                     inpTags.get("maxERangeValue").setText(String.valueOf(Integer.MAX_VALUE));
                 }
                 try {
@@ -34,11 +38,13 @@ public class AddEWListeners {
                             && Integer.parseInt(inpTags.get("minERangeValue").getText()) >= 0
                             && Integer.parseInt(inpTags.get("maxERangeValue").getText()) > Integer.parseInt(inpTags.get("minERangeValue").getText())
                             && Integer.parseInt(inpTags.get("defaultEPrice").getText()) >= 0;
-                } catch (NumberFormatException e) { isValid = false; }
+                } catch (NumberFormatException e) {
+                    isValid = false;
+                }
 
                 if (isValid) {
                     // Call API here.
-                    String nextIdWhenSuccessfully = Controller_Electricity_Water.addNewElectric(new String[] {
+                    String nextIdWhenSuccessfully = Controller_Electricity_Water.addNewElectric(new String[]{
                             electricId,
                             inpTags.get("rangeName").getText(),
                             inpTags.get("minERangeValue").getText(),
@@ -46,14 +52,19 @@ public class AddEWListeners {
                             inpTags.get("defaultEPrice").getText()
                     });
                     if (nextIdWhenSuccessfully != null) {
-                        JOptionPane.showMessageDialog(new JPanel(), "New electricity range was added! Open \"Electricity_Water List\" to check it!",
-                                "Notice", JOptionPane.PLAIN_MESSAGE);
                         inpTags.get("rangeName").setText("");
-                        if (Integer.parseInt(inpTags.get("maxERangeValue").getText()) != Integer.MAX_VALUE){
-                            inpTags.get("minERangeValue").setText(String.valueOf(AddEWListeners.getLastElectricMaxRange()+1));
-                        }
                         inpTags.get("maxERangeValue").setText("");
                         inpTags.get("defaultEPrice").setText("");
+                        JOptionPane.showMessageDialog(new JPanel(), "New electricity range was added! Open \"Electricity_Water List\" to check it!",
+                                "Notice", JOptionPane.PLAIN_MESSAGE);
+
+                        if (AddEWListeners.getLastElectricMaxRange() != Integer.MAX_VALUE) {
+                            inpTags.get("minERangeValue").setText(String.valueOf(AddEWListeners.getLastElectricMaxRange() + 1));
+                        } else {
+                            Electricity_WaterPage.mainEWPage.setComponentAt(1, new AddElectricity_WaterPage());
+                        }
+
+                        Electricity_WaterPage.mainEWPage.setComponentAt(1, new AddElectricity_WaterPage());
                     } else {
                         JOptionPane.showMessageDialog(new JPanel(), "Electric Range Already Existed", "Notice", JOptionPane.PLAIN_MESSAGE);
                     }
@@ -63,13 +74,14 @@ public class AddEWListeners {
             }
         };
     }
+
     public static ActionListener addNewWaterListener(HashMap<String, JTextField> inpTags) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 String waterId = "W" + Configs.generateIdTail();
                 boolean isValid = true;
-                if (inpTags.get("maxWRangeValue").getText().equalsIgnoreCase("unlimited")){
+                if (inpTags.get("maxWRangeValue").getText().equalsIgnoreCase("unlimited")) {
                     inpTags.get("maxWRangeValue").setText(String.valueOf(Integer.MAX_VALUE));
                 }
                 try {
@@ -77,11 +89,13 @@ public class AddEWListeners {
                             && Integer.parseInt(inpTags.get("minWRangeValue").getText()) >= 0
                             && Integer.parseInt(inpTags.get("maxWRangeValue").getText()) > Integer.parseInt(inpTags.get("minWRangeValue").getText())
                             && Integer.parseInt(inpTags.get("defaultWPrice").getText()) >= 0;
-                } catch (NumberFormatException e) { isValid = false; }
+                } catch (NumberFormatException e) {
+                    isValid = false;
+                }
 
                 if (isValid) {
                     // Call API here.
-                    String nextIdWhenSuccessfully = Controller_Electricity_Water.addNewWater(new String[] {
+                    String nextIdWhenSuccessfully = Controller_Electricity_Water.addNewWater(new String[]{
                             waterId,
                             inpTags.get("rangeName").getText(),
                             inpTags.get("minWRangeValue").getText(),
@@ -89,14 +103,17 @@ public class AddEWListeners {
                             inpTags.get("defaultWPrice").getText()
                     });
                     if (nextIdWhenSuccessfully != null) {
-                        JOptionPane.showMessageDialog(new JPanel(), "New water range was added! Open \"Electricity_Water List\" to check it!",
-                                "Notice", JOptionPane.PLAIN_MESSAGE);
                         inpTags.get("rangeName").setText("");
-                        if (Integer.parseInt(inpTags.get("maxWRangeValue").getText()) != Integer.MAX_VALUE){
-                            inpTags.get("minWRangeValue").setText(String.valueOf(AddEWListeners.getLastWaterMaxRange()));
-                        }
                         inpTags.get("maxWRangeValue").setText("");
                         inpTags.get("defaultWPrice").setText("");
+                        JOptionPane.showMessageDialog(new JPanel(), "New water range was added! Open \"Electricity_Water List\" to check it!",
+                                "Notice", JOptionPane.PLAIN_MESSAGE);
+                        if (AddEWListeners.getLastWaterMaxRange() != Integer.MAX_VALUE) {
+                            inpTags.get("minWRangeValue").setText(String.valueOf(AddEWListeners.getLastWaterMaxRange()));
+                        } else {
+                            Electricity_WaterPage.mainEWPage.setComponentAt(1, new AddElectricity_WaterPage());
+                        }
+
                     } else {
                         JOptionPane.showMessageDialog(new JPanel(), "Water Range Already Existed", "Notice", JOptionPane.PLAIN_MESSAGE);
                     }

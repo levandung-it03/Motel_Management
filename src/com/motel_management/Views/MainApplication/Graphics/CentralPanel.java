@@ -44,7 +44,7 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Check-out"));
 
         pages.add(new StatisticPage());
-        pages.add(new RoomPage());
+        pages.add(new RoomPage(mainFrameApp,new String[] {"",""}));
         pages.add(new ContractPage());
         pages.add(new RepresentativesPage());
         pages.add(new Electricity_WaterPage());
@@ -82,7 +82,7 @@ public class CentralPanel extends JPanel {
                 int tabSelected = category.getSelectedIndex();
                 switch(tabSelected) {
                     case 0 -> category.setComponentAt(0, new StatisticPage());
-                    case 1 -> category.setComponentAt(1, new RoomPage());
+                    case 1 -> category.setComponentAt(1, new RoomPage(mainFrameApp,new String[] {"",""}));
                     case 2 -> category.setComponentAt(2, new ContractPage());
                     case 3 -> category.setComponentAt(3, new RepresentativesPage());
                     case 4 -> category.setComponentAt(4, new Electricity_WaterPage());

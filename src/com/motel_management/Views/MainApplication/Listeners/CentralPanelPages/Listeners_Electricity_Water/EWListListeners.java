@@ -3,6 +3,7 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 import com.motel_management.Controllers.Controller_Electricity_Water;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterListPage;
+
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -16,7 +17,8 @@ public class EWListListeners {
     static TableModelListener tmWaterListener;
 
     // Constructor
-    public EWListListeners() {}
+    public EWListListeners() {
+    }
 
     public static TableModelListener cellElectricValueUpdated(Electricity_WaterListPage EWList) {
         tmElectricListener = new TableModelListener() {
@@ -38,6 +40,7 @@ public class EWListListeners {
         };
         return tmElectricListener;
     }
+
     public static TableModelListener cellWaterValueUpdated(Electricity_WaterListPage EWList) {
         tmWaterListener = new TableModelListener() {
             @Override
@@ -69,17 +72,20 @@ public class EWListListeners {
 
                 // Delete Button Clicked
                 if (clickedColumn == table.getColumnCount() - 1) {
-                    if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this row?", "Confirm",
-                            JOptionPane.YES_NO_OPTION) == 0) {
-                        if (Controller_Electricity_Water.deleteElectricById(table.getValueAt(clickedRow, 0).toString()) != 0) {
-                            JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
-                            defaultModel.removeRow(clickedRow);
-                        } else {
-                            JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
+                    if (clickedRow == table.getRowCount() - 1) {
+                        if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this row?", "Confirm",
+                                JOptionPane.YES_NO_OPTION) == 0) {
+                            if (Controller_Electricity_Water.deleteElectricById(table.getValueAt(clickedRow, 0).toString()) != 0) {
+                                JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
+                                defaultModel.removeRow(clickedRow);
+                            } else {
+                                JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
+                            }
                         }
+                    }else {
+                        JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
                     }
                 }
-
             }
         };
     }
@@ -94,14 +100,18 @@ public class EWListListeners {
 
                 // Delete Button Clicked
                 if (clickedColumn == table.getColumnCount() - 1) {
-                    if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this row?", "Confirm",
-                            JOptionPane.YES_NO_OPTION) == 0) {
-                        if (Controller_Electricity_Water.deleteWaterById(table.getValueAt(clickedRow, 0).toString()) != 0) {
-                            JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
-                            defaultModel.removeRow(clickedRow);
-                        } else {
-                            JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
+                    if (clickedRow == table.getRowCount() - 1) {
+                        if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this row?", "Confirm",
+                                JOptionPane.YES_NO_OPTION) == 0) {
+                            if (Controller_Electricity_Water.deleteWaterById(table.getValueAt(clickedRow, 0).toString()) != 0) {
+                                JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
+                                defaultModel.removeRow(clickedRow);
+                            } else {
+                                JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
+                            }
                         }
+                    }else {
+                        JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
                     }
                 }
 

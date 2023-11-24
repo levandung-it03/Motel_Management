@@ -21,7 +21,7 @@ public class RoomListeners {
         return Controller_Room.getLastId();
     }
 
-    public static ActionListener addNewRoomListener(HashMap<String, JTextField> inpTags, RoomPage panel) {
+    public static ActionListener addNewRoomListener(HashMap<String, JTextField> inpTags,JFrame mainFrameApp) {
 
         return new ActionListener() {
             @Override
@@ -59,21 +59,37 @@ public class RoomListeners {
                     JOptionPane.showMessageDialog(new JPanel(), "Invalid Information", "Notice", JOptionPane.PLAIN_MESSAGE);
                 }
                 //create onsite listener
-                CentralPanel.category.setComponentAt(1, new RoomPage());
+                CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,new String[] {"",""}));
             }
         };
     }
-    public static ActionListener editRoom(HashMap<String, JTextField> inpTags, EditRoom_Dialog frame){
+    public static ActionListener searchRoomListener(JFrame mainFrameApp, JTextField searchRoomId) {
+
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                //create onsite listener
+                CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,
+                        new String[] {"WHERE roomId LIKE \"%"+searchRoomId.getText()+"%\"",
+                                "WHERE lastName LIKE \"%"+searchRoomId.getText()+"%\""+
+                                        " OR firstName LIKE \"%"+searchRoomId.getText()+"%\""}
+                        ));
+
+            }
+        };
+    }
+    public static ActionListener editRoom(HashMap<String, JTextField> inpTags, JFrame mainFrameApp,JDialog dialog){
         return new ActionListener(){
             public void actionPerformed(ActionEvent evt) {
+                System.out.println(1111);
                 String[] data = {inpTags.get("roomId").getText(),inpTags.get("quantity").getText(),
                     inpTags.get("maxQuantity").getText(),inpTags.get("defaultPrice").getText()};
                 boolean isValid = GeneralListeners.validateNewRoomTableData(inpTags);
                 if(isValid){
                     if (Controller_Room.updateRoom(data) != 0) {
                         JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
-                        CentralPanel.category.setComponentAt(1, new RoomPage());
-                        frame.dispose();
+                        CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,new String[] {"",""}));
+                        dialog.dispose();
                     }else
                         JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
                 }
@@ -104,7 +120,7 @@ public class RoomListeners {
             }
         };
     }
-    public static ActionListener updateMenu(String roomId,String quantity,String maxQuantity, String price){
+    public static ActionListener updateMenu(String roomId,String quantity,String maxQuantity, String price,JFrame mainFrameApp){
 
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -112,18 +128,18 @@ public class RoomListeners {
                 JTextField quantityText = new JTextField(quantity);
                 JTextField maxQuantityText = new JTextField(maxQuantity);
                 JTextField priceText = new JTextField(price);
-                new EditRoom_Dialog("Update",roomIdText,quantityText,maxQuantityText,priceText);
+                new EditRoom_Dialog(mainFrameApp,roomIdText,quantityText,maxQuantityText,priceText);
             }
         };
     }
-    public static ActionListener deleteMenu(String roomId){
+    public static ActionListener deleteMenu(String roomId,JFrame mainFrameApp){
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this room?", "Confirm",
                         JOptionPane.YES_NO_OPTION) == 0) {
                     if (Controller_Room.deleteById(roomId)!=0) {
                         JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
-                        CentralPanel.category.setComponentAt(1, new RoomPage());
+                        CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,new String[] {"",""}));
                     } else {
                         JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
                     }

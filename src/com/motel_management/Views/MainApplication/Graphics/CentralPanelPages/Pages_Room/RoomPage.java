@@ -10,29 +10,40 @@ import java.awt.*;
 import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 public class RoomPage extends JPanel {
-    public JScrollPane roomScrollPane;
+    JScrollPane roomScrollPane;
+    JFrame mainFrameApp;
     JPanel addContainer;
     JPanel roomContainer;
+    JPanel functionContainer;
     JPanel tag;
     JTextField roomIdInp = new JTextField(20);
     JTextField maxQuantity = new JTextField(20);
     JTextField defaultPrice = new JTextField(20);
 
     JButton submitBtn;
+    JTextField searchRoomId = new JTextField(20);
+    JButton searchBtn;
     JPopupMenu popupMenu;
+    String[][] data;
+    String[] condition;
 
-    public RoomPage() {
+    public RoomPage(JFrame mainFrameApp,String[] condition) {
         super(new BorderLayout());
-        this.createAddNewRoomsPanel();
-        this.createNewRoomsPanel();
-        this.createAddRoomListeners();
+        this.mainFrameApp = mainFrameApp;
+        this.condition = condition;
+        this.createAddRoomsPanel();
+        this.createRoomsPanel();
+        this.createFunctionsPanel();
+        this.createListeners();
     }
 
-    public void createAddNewRoomsPanel() {
+    public void createAddRoomsPanel() {
         addContainer = new JPanel(new FlowLayout());
         addContainer.setPreferredSize(new Dimension(0, 80));
+        addContainer.setBorder(new LineBorder(Color.black));
 
         this.submitBtn = InputComboPanel.generateButton("Add Room");
         addContainer.add(InputComboPanel.generateTextInputPanel("Room Code", this.roomIdInp));
@@ -43,25 +54,51 @@ public class RoomPage extends JPanel {
         add(addContainer, BorderLayout.NORTH);
     }
 
-    public void createNewRoomsPanel() {
+    public void createRoomsPanel() {
 
         // Prepare data for tag
-        String[][] rooms = Controller_Room.getRoomInfo();
+        data = Controller_Room.getRoomInfo(condition);
         roomContainer = new JPanel(new BorderLayout());
-        JPanel overviewPanel = new JPanel(new GridLayout(0, 5, 10, 10));
-        overviewPanel.setPreferredSize(new Dimension(0, 190 * Math.ceilDiv(rooms.length,5)));
-        overviewPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+//        JPanel overviewPanel = new JPanel(new GridLayout(0, 5, 10, 10));
+        JPanel overviewPanel = new JPanel(new GridLayout(0, 4, 10, 10));
+        overviewPanel.setPreferredSize(new Dimension(0, 188 * Math.ceilDiv(data.length,4)));
+        overviewPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         overviewPanel.setOpaque(false);
 
-        for (String[] room : rooms) {
+        //Create tags in UI
+        for (String[] room : data) {
             overviewPanel.add(generateTagPanel(room[0], room[1], room[2], room[3], room[4]));
         }
-
         roomContainer.add(overviewPanel,BorderLayout.NORTH);
         roomScrollPane = new JScrollPane(roomContainer);
         roomScrollPane.setPreferredSize(new Dimension(0, 0));
         roomScrollPane.getVerticalScrollBar().setUnitIncrement(12);
         add(roomScrollPane, BorderLayout.CENTER);
+
+
+    }
+    public void createFunctionsPanel(){
+        functionContainer = new JPanel(new FlowLayout());
+        functionContainer.setPreferredSize(new Dimension(200,0));
+        functionContainer.setBorder(new LineBorder(Color.black));
+
+        this.searchBtn = InputComboPanel.generateButton("Search");
+        functionContainer.add(generateFunctionInput("Search", this.searchRoomId));
+        functionContainer.add(this.searchBtn);
+
+        add(functionContainer, BorderLayout.EAST);
+    }
+    public JPanel generateFunctionInput(String strLabel, JTextField originInp){
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(new EmptyBorder(5, 5, 10, 5));
+        panel.setPreferredSize(new Dimension(180, 65));
+
+        JLabel label = new JLabel(strLabel);
+        label.setFont(label.getFont().deriveFont(14.0f));
+
+        panel.add(label, BorderLayout.NORTH);
+        panel.add(originInp, BorderLayout.CENTER);
+        return panel;
     }
 
     public JPanel generateTagPanel(String roomCode,String name, String quantity,String maxQuantity, String price) {
@@ -87,10 +124,10 @@ public class RoomPage extends JPanel {
         infoPanel.setBorder(new EmptyBorder(0, 10, 0, 0));
 
         // Add information of each room
-        infoPanel.add(editLabel(name,16,"name.png"));
-        infoPanel.add(editLabel(quantity,16,"quantity.png"));
-        infoPanel.add(editLabel(maxQuantity,16,"maxQuantity.png"));
-        infoPanel.add(editLabel(Configs.convertStringToVNDCurrency(price),16,"price.png"));
+        infoPanel.add(editLabel(name,18,"name.png"));
+        infoPanel.add(editLabel(quantity,18,"quantity.png"));
+        infoPanel.add(editLabel(maxQuantity,18,"maxQuantity.png"));
+        infoPanel.add(editLabel(Configs.convertStringToVNDCurrency(price),18,"price.png"));
         infoPanel.setOpaque(false);
         tag.add(infoPanel, BorderLayout.CENTER);
 
@@ -102,14 +139,13 @@ public class RoomPage extends JPanel {
         JMenuItem deleteMenu = new JMenuItem("Delete");
         contractMenu.addActionListener(RoomListeners.contractMenu());
         checkoutMenu.addActionListener(RoomListeners.checkoutMenu());
-        updateMenu.addActionListener(RoomListeners.updateMenu(roomCode,quantity,maxQuantity,price));
-        deleteMenu.addActionListener(RoomListeners.deleteMenu(roomCode));
+        updateMenu.addActionListener(RoomListeners.updateMenu(roomCode,quantity,maxQuantity,price,mainFrameApp));
+        deleteMenu.addActionListener(RoomListeners.deleteMenu(roomCode,mainFrameApp));
         popupMenu.add(contractMenu);
         popupMenu.add(checkoutMenu);
         popupMenu.add(updateMenu);
         popupMenu.add(deleteMenu);
         tag.setComponentPopupMenu(popupMenu);
-        createRoomTagListeners();
 
         return tag;
     }
@@ -119,18 +155,21 @@ public class RoomPage extends JPanel {
         label.setFont(label.getFont().deriveFont(fontSize));
         return label;
     }
-    public void createAddRoomListeners() {
-        roomIdInp.setText(RoomListeners.getLastRoomId());
 
+    public void createListeners(){
+        // Create add listener
+        roomIdInp.setText(RoomListeners.getLastRoomId());
         HashMap<String, JTextField> inpTags = new HashMap<>();
         inpTags.put("roomIdInp", this.roomIdInp);
         inpTags.put("maxQuantity", this.maxQuantity);
         inpTags.put("defaultPrice", this.defaultPrice);
+        submitBtn.addActionListener(RoomListeners.addNewRoomListener(inpTags,mainFrameApp));
 
-        this.submitBtn.addActionListener(RoomListeners.addNewRoomListener(inpTags,this));
-    }
-    public void createRoomTagListeners() {
+        //Create room tag listener popup menu
         tag.addMouseListener(RoomListeners.addPopupMenu(popupMenu));
+
+        //Create search listener
+        searchBtn.addActionListener(RoomListeners.searchRoomListener(mainFrameApp,searchRoomId));
     }
 
 
