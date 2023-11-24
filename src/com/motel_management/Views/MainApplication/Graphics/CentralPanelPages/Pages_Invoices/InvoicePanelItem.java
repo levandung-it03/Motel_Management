@@ -13,18 +13,20 @@ import java.util.LinkedHashMap;
 
 public class InvoicePanelItem extends JPanel {
     private final JButton updateStatusBtn = new JButton("Pay");
-    private final JButton deleteBtn = new JButton("Delete");
     private final JButton detailBtn = new JButton("Detail");
-    private final JDialog parentDialog;
+    private final InvoicesOfRoomDialog parentDialog;
+    public final InvoiceModel invoice;
 
-    public InvoicePanelItem(InvoiceModel invoice, JDialog parentDialog) {
+
+    public InvoicePanelItem(int ind, InvoiceModel invoice, InvoicesOfRoomDialog parentDialog) {
         super(new FlowLayout());
-        this.createInvoicePanel(invoice);
+        this.invoice = invoice;
+        this.createInvoicePanel();
         this.parentDialog = parentDialog;
-        this.createListeners(invoice);
+        this.createListeners();
     }
 
-    public void createInvoicePanel(InvoiceModel invoice) {
+    public void createInvoicePanel() {
         int panelHeight = 115;
         int panelWidth = 270;
 
@@ -43,7 +45,6 @@ public class InvoicePanelItem extends JPanel {
         monthLabel.add(title);
 
         JPanel mainInvoicePanel = new JPanel(new BorderLayout());
-        mainInvoicePanel.setBackground(Configs.normalGreen);
         mainInvoicePanel.setPreferredSize(new Dimension(panelWidth, panelHeight));
 
         JPanel leftColumn = new JPanel(new GridLayout(4, 0));
@@ -52,7 +53,7 @@ public class InvoicePanelItem extends JPanel {
         leftColumn.setPreferredSize(new Dimension(panelWidth / 2, panelHeight - 40));
         rightColumn.setPreferredSize(new Dimension(panelWidth / 2, panelHeight - 40));
         LinkedHashMap<String, JLabel> labels = new LinkedHashMap<>();
-        LinkedHashMap<String, JLabel> values= new LinkedHashMap<>();
+        LinkedHashMap<String, JLabel> values = new LinkedHashMap<>();
 
         labels.put("invoiceIdLabel", new JLabel("Invoice Id:"));
         labels.put("dateCreatedLabel", new JLabel("Date Created:"));
@@ -79,17 +80,16 @@ public class InvoicePanelItem extends JPanel {
         });
 
         JPanel buttonsPanel = new JPanel(new BorderLayout(5, 0));
-        this.updateStatusBtn.setPreferredSize(new Dimension(60, 30));
-        this.updateStatusBtn.setFont(Configs.labelFont);
-        this.deleteBtn.setFont(Configs.labelFont);
-        this.detailBtn.setFont(Configs.labelFont);
-        this.updateStatusBtn.setBackground(new Color(75, 217, 72));
-        this.deleteBtn.setBackground(new Color(250, 93, 93));
-        this.detailBtn.setBackground(new Color(126, 170, 255));
 
-        buttonsPanel.add(this.detailBtn, BorderLayout.WEST);
-        buttonsPanel.add(this.updateStatusBtn, BorderLayout.CENTER);
-        buttonsPanel.add(this.deleteBtn, BorderLayout.EAST);
+        updateStatusBtn.setFont(Configs.labelFont);
+        updateStatusBtn.setBackground(new Color(75, 217, 72));
+
+        detailBtn.setFont(Configs.labelFont);
+        detailBtn.setBackground(new Color(126, 170, 255));
+        detailBtn.setPreferredSize(new Dimension(120, 30));
+
+        buttonsPanel.add(detailBtn, BorderLayout.WEST);
+        buttonsPanel.add(updateStatusBtn, BorderLayout.CENTER);
         buttonsPanel.setPreferredSize(new Dimension(panelWidth, 30));
 
         JPanel centralPanel = new JPanel(new BorderLayout());
@@ -103,7 +103,7 @@ public class InvoicePanelItem extends JPanel {
         rightColumn.setBackground(mainColor);
         buttonsPanel.setBackground(mainColor);
         centralPanel.setBackground(mainColor);
-        setBackground(mainColor);
+        this.setBackground(mainColor);
 
         leftColumn.setBorder(new EmptyBorder(3, 0, 4, 0));
         rightColumn.setBorder(new EmptyBorder(3, 0, 4, 0));
@@ -116,10 +116,8 @@ public class InvoicePanelItem extends JPanel {
         add(mainInvoicePanel);
     }
 
-    public void createListeners(InvoiceModel invoice) {
+    public void createListeners() {
         this.detailBtn.addActionListener(InvoicesOfRoomDialogListeners.viewDetailInvoice(invoice, parentDialog));
-//        updateStatusBtn
-//                deleteBtn
+        this.updateStatusBtn.addActionListener(InvoicesOfRoomDialogListeners.updateInvoiceStatus(invoice, this));
     }
-
 }

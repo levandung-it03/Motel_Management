@@ -1,6 +1,7 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices;
 
 import com.motel_management.Views.Configs;
+import com.motel_management.Views.Frame_MainApplication;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -8,17 +9,17 @@ import javax.swing.event.ChangeListener;
 
 public class InvoicesMainPage extends JPanel {
     public static JTabbedPane mainPage;
-    private final JFrame mainFrameApp;
+    private final Frame_MainApplication mainFrameApp;
     private JPanel invoicesListPanel;
     private JPanel addInvoicePanel;
 
     // Constructor
-    public InvoicesMainPage(JFrame mainFrameApp) {
+    public InvoicesMainPage(Frame_MainApplication mainFrameApp) {
         // Set Layout Here
         super();
+        this.mainFrameApp = mainFrameApp;
         this.createInvoicesPanel();
         this.createOnsiteListeners();
-        this.mainFrameApp = mainFrameApp;
     }
 
     public void createInvoicesPanel() {
