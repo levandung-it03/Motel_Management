@@ -20,7 +20,7 @@ public class InvoicesListListeners {
                 int clickedRow = table.rowAtPoint(e.getPoint());
                 int clickedColumn = table.columnAtPoint(e.getPoint());
 
-                // Update Button Clicked
+                // Delete Button Clicked
                 if (clickedColumn == 8)
                     InvoicesListListeners.deleteInvoice(clickedRow, invoicesList, defaultModel);
 
@@ -43,6 +43,8 @@ public class InvoicesListListeners {
                         + " Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
 
                 invoicesList.removeAll();
+                invoicesList.createInvoicesListPage();
+                invoicesList.saveCurrentTableData();
                 invoicesList.createListeners();
                 invoicesList.revalidate();
                 invoicesList.repaint();

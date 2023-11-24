@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 public class InvoicePanelItem extends JPanel {
-    private final JButton updateStatusBtn = new JButton("Pay");
+    private final JButton updateStatusBtn = new JButton("Update Payment");
     private final JButton detailBtn = new JButton("Detail");
     private final InvoicesOfRoomDialog parentDialog;
     public final InvoiceModel invoice;
@@ -86,7 +86,7 @@ public class InvoicePanelItem extends JPanel {
 
         detailBtn.setFont(Configs.labelFont);
         detailBtn.setBackground(new Color(126, 170, 255));
-        detailBtn.setPreferredSize(new Dimension(120, 30));
+        detailBtn.setPreferredSize(new Dimension(90, 30));
 
         buttonsPanel.add(detailBtn, BorderLayout.WEST);
         buttonsPanel.add(updateStatusBtn, BorderLayout.CENTER);

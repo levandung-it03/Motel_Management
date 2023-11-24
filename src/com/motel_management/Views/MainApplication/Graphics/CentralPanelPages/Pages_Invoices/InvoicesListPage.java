@@ -31,7 +31,7 @@ public class InvoicesListPage extends JPanel {
 
     public void createInvoicesListPage() {
         JPanel title = new JPanel();
-        JLabel titleLabel = new JLabel("Invoices");
+        JLabel titleLabel = new JLabel("Current Invoices");
         titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 34.0f));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         title.add(titleLabel);
