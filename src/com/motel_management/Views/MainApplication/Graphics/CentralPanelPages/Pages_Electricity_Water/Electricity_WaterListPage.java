@@ -2,8 +2,6 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 
 
 import com.motel_management.Controllers.Controller_Electricity_Water;
-import com.motel_management.DataAccessObject.RegionDAO;
-import com.motel_management.Models.RegionModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Electricity_Water.EWListListeners;
@@ -12,7 +10,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Electricity_WaterListPage extends JPanel {
     public JTable electricTable;

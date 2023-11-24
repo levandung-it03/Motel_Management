@@ -18,6 +18,10 @@ public class Controller_Invoices {
         return InvoiceDAO.getInstance().selectLastInvoice(roomIdValue);
     }
 
+    public static InvoiceModel getInvoiceByInvoiceId(String id) {
+        return InvoiceDAO.getInstance().selectById(id);
+    }
+
     public static HashMap<String, String> addNewInvoice(HashMap<String, String> data) {
         HashMap<String, String> result = new HashMap<>();
         HashMap<String, String> lastInvoice = Controller_Invoices.getLastInvoice(data.get("roomId"));
@@ -80,7 +84,7 @@ public class Controller_Invoices {
         int waterConsumed = STI(data.get("newWaterNumber")) - STI(data.get("formerWaterNumber"));
 
         int electricPrice = 0;
-        double totalWaterConsumed = 0;
+        double waterPrice = 0;
         int environmentalFee = 150000;
         double electricTax = 8d;
 
@@ -91,8 +95,10 @@ public class Controller_Invoices {
                 for (ElectricRangeModel e : electricRanges) {
                     if (e.getMaxRangeValue() <= electricConsumed)
                         electricPrice += (e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice();
-                    else
+                    else {
                         electricPrice += (electricConsumed - e.getMinRangeValue() + 1) * e.getPrice();
+                        break;
+                    }
                 }
             } else {
                 // Case (2.2.1)
@@ -106,15 +112,18 @@ public class Controller_Invoices {
                     for (ElectricRangeModel e : electricRanges) {
                         if (e.getMaxRangeValue() <= electricConsumed)
                             electricPrice += (e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice();
-                        else
+                        else {
                             electricPrice += (electricConsumed - e.getMinRangeValue() + 1) * e.getPrice();
+                            break;
+                        }
                     }
                     electricPrice = electricPrice * numberOfPeople / 4;
                 }
             }
         }
         // 15% tax.
-        total += (int) (electricPrice * (100 + electricTax) / 100);
+        electricPrice = (int) (electricPrice * (100 + electricTax) / 100);
+        total += electricPrice;
 
         // Calculating Water Price
         numberOfPeople = (numberOfPeople == -1) ? 1 : numberOfPeople;
@@ -124,32 +133,36 @@ public class Controller_Invoices {
                 double averageWaterConsumed = (double) waterConsumed / numberOfPeople;
                 for (WaterRangeModel w : waterRanges) {
                     if (w.getMaxRangeValue() <= averageWaterConsumed)
-                        totalWaterConsumed += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
-                    else
-                        totalWaterConsumed += (averageWaterConsumed - w.getMinRangeValue()) * w.getPrice();
+                        waterPrice += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
+                    else {
+                        waterPrice += (averageWaterConsumed - w.getMinRangeValue()) * w.getPrice();
+                        break;
+                    }
                 }
-                totalWaterConsumed *= numberOfPeople;
+                waterPrice *= numberOfPeople;
             }
             // Case (2)
             else {
-                System.out.println("2");
                 for (WaterRangeModel w : waterRanges) {
                     if (w.getMaxRangeValue() <= waterConsumed)
-                        totalWaterConsumed += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
-                    else
-                        totalWaterConsumed += (waterConsumed - w.getMinRangeValue()) * w.getPrice();
+                        waterPrice += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
+                    else {
+                        waterPrice += (waterConsumed - w.getMinRangeValue()) * w.getPrice();
+                        break;
+                    }
                 }
             }
         }
+        System.out.println(waterPrice);
 
         // 150.000VNĐ Environmental Fee if Water Price >= 1.000.000VNĐ
-        if (totalWaterConsumed >= 1000000)
-            totalWaterConsumed += environmentalFee;
-        total += totalWaterConsumed;
+        if (waterPrice >= 1000000)
+            waterPrice += environmentalFee;
+        total += waterPrice;
 
         String invoiceId = "I" + Configs.generateIdTail();
         LocalDateTime d = LocalDateTime.now();
-        int addResult = InvoiceDAO.getInstance().insert(new String[]{
+        int addResult = InvoiceDAO.getInstance().insert(new String[] {
                 invoiceId,
                 data.get("roomId"),
                 data.get("defaultRoomPrice"),
@@ -160,6 +173,8 @@ public class Controller_Invoices {
                 data.get("newElectricNumber"),
                 data.get("formerWaterNumber"),
                 data.get("newWaterNumber"),
+                Integer.toString(electricPrice),
+                Integer.toString((int) waterPrice),
                 data.get("garbage"),
                 data.get("wifi"),
                 data.get("vehicle"),
@@ -171,29 +186,32 @@ public class Controller_Invoices {
             result.put("message", "Successfully Create Invoice of Room " + data.get("roomId") + ", Total is: " + total + "VNĐ");
         } else {
             result.put("result", "0");
-            result.put("message", "This Room Already had invoice on" + data.get("paymentYear") + "/" + data.get("paymentMonth"));
+            result.put("message", "This Room Already Had Invoice On " + data.get("paymentMonth") + "/" + data.get("paymentYear"));
         }
         return result;
     }
 
-    public static String[][] getAllInvoicesWithTableFormat() {
+    public static ArrayList<String[]> getAllInvoicesWithTableFormat() {
         ArrayList<String> rooms = RoomDAO.getInstance().selectAllOccupiedRoomId();
-        String[][] result = new String[rooms.size()][9];
+        ArrayList<String[]> result = new ArrayList<>();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        for (int i = 0; i < rooms.size(); i++) {
-            ArrayList<InvoiceModel>  invoice= InvoiceDAO.getInstance()
-                    .selectByCondition("WHERE roomId=\"" + rooms.get(i) + "\" ORDER BY paymentYear DESC, paymentMonth DESC LIMIT 1");
+        for (String room : rooms) {
+            ArrayList<InvoiceModel> invoice = InvoiceDAO.getInstance()
+                    .selectByCondition("WHERE roomId=\"" + room + "\" ORDER BY paymentYear DESC, paymentMonth DESC LIMIT 1");
+
             if (invoice.isEmpty()) continue;
-            result[i][0] = invoice.get(0).getRoomId();
-            result[i][1] = "View All";
-            result[i][2] = invoice.get(0).getInvoiceId();
-            result[i][3] = Integer.toString(invoice.get(0).getPaymentMonth());
-            result[i][4] = Integer.toString(invoice.get(0).getPaymentYear());
-            result[i][5] = sdf.format(invoice.get(0).getDateCreated());
-            result[i][6] = Configs.convertStringToVNDCurrency(Integer.toString(invoice.get(0).getTotal()));
-            result[i][7] = invoice.get(0).getWasPaid().equals("0") ? "NO" : "YES";
-            result[i][8] = "Pay Invoice";
+            String[] temp = new String[9];
+            temp[0] = invoice.get(0).getRoomId();
+            temp[1] = "View All";
+            temp[2] = invoice.get(0).getInvoiceId();
+            temp[3] = Integer.toString(invoice.get(0).getPaymentMonth());
+            temp[4] = Integer.toString(invoice.get(0).getPaymentYear());
+            temp[5] = sdf.format(invoice.get(0).getDateCreated());
+            temp[6] = Configs.convertStringToVNDCurrency(Integer.toString(invoice.get(0).getTotal()));
+            temp[7] = invoice.get(0).getWasPaid().equals("0") ? "NO" : "YES";
+            temp[8] = "Delete";
+            result.add(temp);
         }
         return result;
     }
@@ -219,5 +237,9 @@ public class Controller_Invoices {
 
     public static int STI(String num) {
         return Integer.parseInt(num);
+    }
+
+    public static int deleteInvoice(String invoiceId) {
+        return InvoiceDAO.getInstance().delete(invoiceId);
     }
 }

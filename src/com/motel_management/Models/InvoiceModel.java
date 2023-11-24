@@ -13,6 +13,8 @@ public class InvoiceModel {
     private int newElectricNumber;
     private int formerWaterNumber;
     private int newWaterNumber;
+    private int electricPrice;
+    private int waterPrice;
     private int garbage;
     private int wifi;
     private int vehicle;
@@ -21,7 +23,8 @@ public class InvoiceModel {
 
     public InvoiceModel(String invoiceId, String roomId, int defaultRoomPrice, Date dateCreated, int paymentYear,
                         int paymentMonth, int formerElectricNumber, int newElectricNumber, int formerWaterNumber,
-                        int newWaterNumber, int garbage, int wifi, int vehicle, int total, String wasPaid) {
+                        int newWaterNumber, int electricPrice, int waterPrice, int garbage, int wifi, int vehicle,
+                        int total, String wasPaid) {
         this.invoiceId = invoiceId;
         this.roomId = roomId;
         this.defaultRoomPrice = defaultRoomPrice;
@@ -32,6 +35,8 @@ public class InvoiceModel {
         this.newElectricNumber = newElectricNumber;
         this.formerWaterNumber = formerWaterNumber;
         this.newWaterNumber = newWaterNumber;
+        this.electricPrice = electricPrice;
+        this.waterPrice = waterPrice;
         this.garbage = garbage;
         this.wifi = wifi;
         this.vehicle = vehicle;
@@ -77,6 +82,10 @@ public class InvoiceModel {
 
     public int getPaymentYear() { return paymentYear; }
 
+    public int getElectricPrice() { return electricPrice; }
+
+    public int getWaterPrice() { return waterPrice; }
+
     public void setDefaultRoomPrice (int defaultRoomPrice) {
         this.defaultRoomPrice = defaultRoomPrice;
     }
@@ -112,4 +121,8 @@ public class InvoiceModel {
     public void setWasPaid (String wasPaid) {
         this.wasPaid = wasPaid;
     }
+
+    public void setElectricPrice(int electricPrice) { this.electricPrice = electricPrice; }
+
+    public void setWaterPrice(int waterPrice) { this.waterPrice = waterPrice; }
 }
