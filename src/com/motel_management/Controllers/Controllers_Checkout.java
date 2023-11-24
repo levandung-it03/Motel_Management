@@ -28,10 +28,6 @@ public class Controllers_Checkout {
         for (int i = 0; i < result.size(); i++) {
             checkouts[i][0] = result.get(i).getCheckOutId();
             checkouts[i][1] = result.get(i).getContractId();
-            checkouts[i][2] = Integer.toString(result.get(i).ge());
-            checkouts[i][3] = Integer.toString(result.get(i).getMaxRangeValue());
-            checkouts[i][4] = Integer.toString(result.get(i).getPrice());
-            checkouts[i][5] = "Delete";
         }
         return checkouts;
     }

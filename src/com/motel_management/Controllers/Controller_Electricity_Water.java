@@ -67,6 +67,7 @@ public class Controller_Electricity_Water {
             return electricList.get(electricList.size() - 1).getMaxRangeValue();
         }
     }
+
     public static int getLastWaterMaxRange() {
         ArrayList<WaterRangeModel> waterList = WaterRangeDAO.getInstance().selectByCondition("ORDER BY maxRangeValue ASC");
         if (waterList.isEmpty()) {
@@ -75,6 +76,7 @@ public class Controller_Electricity_Water {
             return waterList.get(waterList.size() - 1).getMaxRangeValue();
         }
     }
+
     public static String checkRegion() {
         ArrayList<RegionModel> region = RegionDAO.getInstance().selectAll();
         if (region.size() != 0) {
