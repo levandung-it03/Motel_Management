@@ -138,7 +138,7 @@ public class RoomPage extends JPanel {
         JMenuItem updateMenu = new JMenuItem("Update");
         JMenuItem deleteMenu = new JMenuItem("Delete");
         contractMenu.addActionListener(RoomListeners.contractMenu());
-        checkoutMenu.addActionListener(RoomListeners.checkoutMenu());
+        checkoutMenu.addActionListener(RoomListeners.checkoutMenu(roomCode,mainFrameApp));
         updateMenu.addActionListener(RoomListeners.updateMenu(roomCode,quantity,maxQuantity,price,mainFrameApp));
         deleteMenu.addActionListener(RoomListeners.deleteMenu(roomCode,mainFrameApp));
         popupMenu.add(contractMenu);

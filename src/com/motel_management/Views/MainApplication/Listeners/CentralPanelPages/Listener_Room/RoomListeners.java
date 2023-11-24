@@ -1,20 +1,33 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_Room;
 
 import com.motel_management.Controllers.Controller_Room;
+import com.motel_management.Controllers.Controllers_Checkout;
+import com.motel_management.DataAccessObject.ContractDAO;
+import com.motel_management.Models.ContractModel;
+import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanel;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.EditRoom_Dialog;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.AddElectricity_WaterPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.CheckOutRoom_Dialog;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.UpdateRoom_Dialog;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Electricity_Water.AddEWListeners;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RoomListeners {
+    static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     public RoomListeners() {}
 
     public static String getLastRoomId() {
@@ -78,13 +91,12 @@ public class RoomListeners {
             }
         };
     }
-    public static ActionListener editRoom(HashMap<String, JTextField> inpTags, JFrame mainFrameApp,JDialog dialog){
+    public static ActionListener updateRoom(HashMap<String, JTextField> inpTags, JFrame mainFrameApp ,JDialog dialog){
         return new ActionListener(){
             public void actionPerformed(ActionEvent evt) {
-                System.out.println(1111);
                 String[] data = {inpTags.get("roomId").getText(),inpTags.get("quantity").getText(),
                     inpTags.get("maxQuantity").getText(),inpTags.get("defaultPrice").getText()};
-                boolean isValid = GeneralListeners.validateNewRoomTableData(inpTags);
+                boolean isValid = GeneralListeners.validateRoomTableData(inpTags);
                 if(isValid){
                     if (Controller_Room.updateRoom(data) != 0) {
                         JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
@@ -92,6 +104,25 @@ public class RoomListeners {
                         dialog.dispose();
                     }else
                         JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
+                }
+            }
+        };
+    }
+    public static ActionListener checkOutRoom(String roomId,JDateChooser checkOutDate,JTextArea reason, JFrame mainFrameApp , JDialog dialog){
+        return new ActionListener(){
+            public void actionPerformed(ActionEvent evt) {
+                if(checkOutDate.getDate().after(new Date())){
+                    String checkOutId = "CK" + Configs.generateIdTail();
+                    ArrayList<ContractModel> contractId= ContractDAO.getInstance().selectByCondition("WHERE roomId = \""+roomId+"\"");
+                    String[] data = {checkOutId,contractId.get(0).getContractId(),
+                            dateFormat.format(checkOutDate.getCalendar().getTime()),reason.getText()};
+                    String nextIdWhenSuccessfully = Controllers_Checkout.addCheckOutHistory(data);
+                    if (nextIdWhenSuccessfully != null) {
+
+                    }
+                }else {
+                    JOptionPane.showConfirmDialog(new Panel(), "Check-out date must be after the current date!",
+                            "Notice", JOptionPane.DEFAULT_OPTION);
                 }
             }
         };
@@ -113,10 +144,15 @@ public class RoomListeners {
                 CentralPanel.category.setSelectedIndex(2);
             }
         };
-    }public static ActionListener checkoutMenu(){
+    }
+    public static ActionListener checkoutMenu(String roomId,JFrame mainFrameApp){
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Your code here
+                boolean isValid = Controller_Room.validateCheckOut(roomId);
+                if (isValid){
+                    new CheckOutRoom_Dialog(roomId,mainFrameApp);
+                }
             }
         };
     }
@@ -128,7 +164,7 @@ public class RoomListeners {
                 JTextField quantityText = new JTextField(quantity);
                 JTextField maxQuantityText = new JTextField(maxQuantity);
                 JTextField priceText = new JTextField(price);
-                new EditRoom_Dialog(mainFrameApp,roomIdText,quantityText,maxQuantityText,priceText);
+                new UpdateRoom_Dialog(mainFrameApp,roomIdText,quantityText,maxQuantityText,priceText);
             }
         };
     }

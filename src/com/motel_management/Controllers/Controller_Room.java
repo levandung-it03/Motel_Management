@@ -1,12 +1,16 @@
 package com.motel_management.Controllers;
 
 import com.motel_management.DataAccessObject.ContractDAO;
+import com.motel_management.DataAccessObject.InvoiceDAO;
 import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.Models.ContractModel;
+import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Controller_Room {
@@ -76,6 +80,23 @@ public class Controller_Room {
 
     public static int deleteById(String id) {
         return RoomDAO.getInstance().delete(id);
+    }
+    public static boolean validateCheckOut(String roomId) {
+        ArrayList<InvoiceModel> roomPayment = InvoiceDAO.getInstance().selectByCondition("WHERE roomId = \""+roomId+"\"");
+        if (roomPayment.isEmpty()){
+            JOptionPane.showConfirmDialog(new Panel(), "Room is not occupied!",
+                    "Notice", JOptionPane.DEFAULT_OPTION);
+            return false;
+        }
+        for (int i=0;i<roomPayment.size();i++){
+            //check if all months are paid
+            if (roomPayment.get(i).getWasPaid().equals("0")){
+                JOptionPane.showConfirmDialog(new Panel(), "Check-out failed due to unpaid payment",
+                        "Notice", JOptionPane.DEFAULT_OPTION);
+                return false;
+            }
+        }
+        return true;
     }
 
 }
