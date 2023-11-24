@@ -18,7 +18,7 @@ public class AddElectricity_WaterPage extends JPanel{
     JButton submitEBtn;
     JTextField waterId = new JTextField(20);
     JTextField waterRangeName = new JTextField(20);
-    JTextField mỉnWRangeValue = new JTextField(20);
+    JTextField minWRangeValue = new JTextField(20);
     JTextField maxWRangeValue = new JTextField(20);
     JTextField defaultWPrice = new JTextField(20);
     JButton submitWBtn;
@@ -59,7 +59,7 @@ public class AddElectricity_WaterPage extends JPanel{
 
         container.add(title);
         container.add(InputComboPanel.generateTextInputPanel("Range Name", waterRangeName));
-        container.add(InputComboPanel.generateTextInputPanel("Min Range", mỉnWRangeValue));
+        container.add(InputComboPanel.generateTextInputPanel("Min Range", minWRangeValue));
         container.add(InputComboPanel.generateTextInputPanel("Max Range (Number/Unlimited)", maxWRangeValue));
         container.add(InputComboPanel.generateTextInputPanel("Price", defaultWPrice));
         container.add(this.submitWBtn);
@@ -77,13 +77,13 @@ public class AddElectricity_WaterPage extends JPanel{
             minERangeValue.setText(String.valueOf(AddEWListeners.getLastElectricMaxRange() + 1));
         }
 
-        mỉnWRangeValue.setEditable(false);
+        minWRangeValue.setEditable(false);
         if(AddEWListeners.getLastWaterMaxRange() == Integer.MAX_VALUE){
             waterRangeName.setEditable(false);
             maxWRangeValue.setEditable(false);
             defaultWPrice.setEditable(false);
         }else {
-            mỉnWRangeValue.setText(String.valueOf(AddEWListeners.getLastWaterMaxRange()));
+            minWRangeValue.setText(String.valueOf(AddEWListeners.getLastWaterMaxRange()));
         }
 
         HashMap<String, JTextField> inpElectricTags = new HashMap<>();
@@ -96,7 +96,7 @@ public class AddElectricity_WaterPage extends JPanel{
         HashMap<String, JTextField> inpWaterTags = new HashMap<>();
         inpWaterTags.put("waterId", this.waterId);
         inpWaterTags.put("rangeName", this.waterRangeName);
-        inpWaterTags.put("minWRangeValue", this.mỉnWRangeValue);
+        inpWaterTags.put("minWRangeValue", this.minWRangeValue);
         inpWaterTags.put("maxWRangeValue", this.maxWRangeValue);
         inpWaterTags.put("defaultWPrice", this.defaultWPrice);
 
