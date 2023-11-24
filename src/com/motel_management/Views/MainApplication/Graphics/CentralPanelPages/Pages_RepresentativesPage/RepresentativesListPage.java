@@ -2,6 +2,7 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 
 import com.motel_management.Controllers.Controller_Representatives;
 import com.motel_management.Views.Configs;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Representatives.RepresentativesListeners;
 
@@ -15,24 +16,60 @@ public class RepresentativesListPage extends JPanel {
     public JTable table;
     public JScrollPane representativesScrollPane;
     public DefaultTableModel defaultTable;
+    private JPanel headerPanel = new JPanel();
+    private JPanel searchPanel = new JPanel();
+    private JButton searchButton;
+    private JTextField searchField = new JTextField(4);
 
     public RepresentativesListPage() {
         super(new BorderLayout());
-        this.createRepresentativesPanel();
+        this.createRepresentativesHeaderPanel();
+        this.createSearchingPanel();
         this.createRepresentativesListPage();
         this.createListener();
     }
 
-    public void createRepresentativesPanel(){
+    public void createRepresentativesHeaderPanel(){
+        this.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
+
+        headerPanel.setPreferredSize(new Dimension(Configs.centralPanelWidth, 160));
+        headerPanel.setLayout(new BorderLayout());
+//        headerPanel.setBorder(BorderFactory.createLineBorder(Color.black,1));
         JLabel title = new JLabel("Representatives List");
         title.setBorder(new EmptyBorder(20,0,10,0));
-        title.setFont(title.getFont().deriveFont(Font.BOLD, 34.0f));
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 36.0f));
         title.setHorizontalAlignment(JLabel.CENTER);
-        add(title,BorderLayout.NORTH);
+        headerPanel.add(title,BorderLayout.CENTER);
     }
-    public void createRepresentativesListPage() {
-        setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
 
+    public void createSearchingPanel(){
+        searchPanel.setLayout(new FlowLayout());
+        searchPanel.setBorder(BorderFactory.createLineBorder(Color.black,1));
+
+        this.searchButton = InputComboPanel.generateButton("Search");
+
+        searchPanel.add(createInputPanel("Search By Year",this.searchField));
+        searchPanel.add(searchButton);
+        headerPanel.add(searchPanel,BorderLayout.SOUTH);
+        this.add(headerPanel,BorderLayout.NORTH);
+    }
+
+    public static JPanel createInputPanel(String strLabel, JTextField originInp) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(new EmptyBorder(5, 5, 15, 5));
+        panel.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.12), 65));
+
+        JLabel label = new JLabel(strLabel);
+        label.setFont(label.getFont().deriveFont(14.0f));
+
+        panel.add(label, BorderLayout.NORTH);
+        panel.add(originInp, BorderLayout.CENTER);
+        return panel;
+    }
+
+
+
+    public void createRepresentativesListPage() {
         // Prepare Date to generate Table.
         String[][] representatives = Controller_Representatives.getAllRepresentativesWithTableFormat();
         String[] columns = {"Identifier", "First name", "Room Id", "Phone number", "Permanent Address" ,"Details Information"};
@@ -62,12 +99,14 @@ public class RepresentativesListPage extends JPanel {
 
 
         // Add ScrollPane into CentralPanel/Room.
-        add(representativesScrollPane,BorderLayout.CENTER);
+        this.add(representativesScrollPane);
     }
 
     public void createListener(){
         table.addMouseListener(RepresentativesListeners.getInformationByClick(table));
+//        searchButton.addActionListener(RepresentativesListeners);
     }
+
 
 
 }

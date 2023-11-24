@@ -16,16 +16,12 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
     public int insert(CheckOutModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO CheckOut VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO CheckOut VALUES ( ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getCheckOutId());
             ps.setString(2, obj.getContractId());
-            ps.setString(3, obj.getRoomId());
-            ps.setString(4, obj.getIdentifier());
-            ps.setString(5, obj.getLastName());
-            ps.setString(6, obj.getFirstname());
-            ps.setString(7, obj.getPhone());
-            ps.setDate(8, obj.getCheckOutDate());
+            ps.setDate(3, obj.getCheckOutDate());
+            ps.setString(4,obj.getReason());
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,16 +34,12 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
     public int insert(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO CheckOut VALUES ( ?, ?, ?, ?, ?, ?, ?, ?);";
+            String query = "INSERT INTO CheckOut VALUES ( ?, ?, ?, ?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[0]);
             ps.setString(2, values[1]);
-            ps.setString(3, values[2]);
-            ps.setString(4, values[3]);
-            ps.setString(5, values[4]);
-            ps.setString(6, values[5]);
-            ps.setString(7, values[6]);
-            ps.setDate(8, Date.valueOf(values[7]));
+            ps.setDate(3, Date.valueOf(values[2]));
+            ps.setString(4,values[3]);
 
             return ps.executeUpdate();
         } catch (SQLException e) {
@@ -78,16 +70,12 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
     public int update(CheckOutModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE CheckOut SET  contractId=?, roomId=?, identifier=?, lastName=?, firstName=?, phone=?, checkOutDate=? WHERE (checkOutId=?);";
+            String query = "UPDATE CheckOut SET  contractId=?, checkOutDate=?, reason=? WHERE (checkOutId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getContractId());
-            ps.setString(2, obj.getRoomId());
-            ps.setString(3, obj.getIdentifier());
-            ps.setString(4, obj.getLastName());
-            ps.setString(5, obj.getFirstname());
-            ps.setString(6, obj.getPhone());
-            ps.setDate(7, obj.getCheckOutDate());
-            ps.setString(8, obj.getCheckOutId());
+            ps.setDate(2, obj.getCheckOutDate());
+            ps.setString(3,obj.getReason());
+            ps.setString(4, obj.getCheckOutId());
             return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -99,16 +87,12 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE CheckOut SET  contractId=?, roomId=?, identifier=?, lastName=?, firstName=?, phone=?, checkOutDate=? WHERE (checkOutId=?);";
+            String query = "UPDATE CheckOut SET  contractId=?, checkOutDate=?, reason=? WHERE (checkOutId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[1]);
-            ps.setString(2, values[2]);
-            ps.setString(3, values[3]);
-            ps.setString(4, values[4]);
-            ps.setString(5, values[5]);
-            ps.setString(6, values[6]);
-            ps.setDate(7, Date.valueOf(Configs.stringToDate(values[7])));
-            ps.setString(8, values[0]);
+            ps.setDate(2, Date.valueOf(Configs.stringToDate(values[2])));
+            ps.setString(3,values[3]);
+            ps.setString(4, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -126,9 +110,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             ResultSet rs = ps.executeQuery();
             rs.next();
             return new CheckOutModel(rs.getString("checkOutId"), rs.getString("contractId"),
-                    rs.getString("roomId"), rs.getString("identifier"),
-                    rs.getString("lastName"), rs.getString("firstName"),
-                    rs.getString("phone"), rs.getDate("checkOutDate"));
+                     rs.getDate("checkOutDate"),rs.getString("reason"));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -146,9 +128,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new CheckOutModel(rs.getString("checkOutId"), rs.getString("contractId"),
-                        rs.getString("roomId"), rs.getString("identifier"),
-                        rs.getString("lastName"), rs.getString("firstName"),
-                        rs.getString("phone"), rs.getDate("checkOutDate")));
+                        rs.getDate("checkOutDate"),rs.getString("reason")));
             }
             return result;
         } catch (SQLException e) {
@@ -168,9 +148,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new CheckOutModel(rs.getString("checkOutId"), rs.getString("contractId"),
-                        rs.getString("roomId"), rs.getString("identifier"),
-                        rs.getString("lastName"), rs.getString("firstName"),
-                        rs.getString("phone"), rs.getDate("checkOutDate")));
+                        rs.getDate("checkOutDate"),rs.getString("reason")));
             }
             return result;
         } catch (SQLException e) {
