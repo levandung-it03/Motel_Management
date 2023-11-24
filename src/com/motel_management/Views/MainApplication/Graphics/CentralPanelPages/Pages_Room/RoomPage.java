@@ -28,15 +28,16 @@ public class RoomPage extends JPanel {
     JButton searchBtn;
     JPopupMenu popupMenu;
     String[][] data;
+    String[] condition;
 
-    public RoomPage(JFrame mainFrameApp) {
+    public RoomPage(JFrame mainFrameApp,String[] condition) {
         super(new BorderLayout());
         this.mainFrameApp = mainFrameApp;
+        this.condition = condition;
         this.createAddRoomsPanel();
         this.createRoomsPanel();
         this.createFunctionsPanel();
-        this.createAddRoomListeners();
-        this.createFunctionsListeners();
+        this.createListeners();
     }
 
     public void createAddRoomsPanel() {
@@ -56,7 +57,7 @@ public class RoomPage extends JPanel {
     public void createRoomsPanel() {
 
         // Prepare data for tag
-        data = Controller_Room.getRoomInfo();
+        data = Controller_Room.getRoomInfo(condition);
         roomContainer = new JPanel(new BorderLayout());
 //        JPanel overviewPanel = new JPanel(new GridLayout(0, 5, 10, 10));
         JPanel overviewPanel = new JPanel(new GridLayout(0, 4, 10, 10));
@@ -82,7 +83,7 @@ public class RoomPage extends JPanel {
         functionContainer.setBorder(new LineBorder(Color.black));
 
         this.searchBtn = InputComboPanel.generateButton("Search");
-        functionContainer.add(generateFunctionInput("Search Room Code", this.searchRoomId));
+        functionContainer.add(generateFunctionInput("Search", this.searchRoomId));
         functionContainer.add(this.searchBtn);
 
         add(functionContainer, BorderLayout.EAST);
@@ -145,7 +146,6 @@ public class RoomPage extends JPanel {
         popupMenu.add(updateMenu);
         popupMenu.add(deleteMenu);
         tag.setComponentPopupMenu(popupMenu);
-        createRoomTagListeners();
 
         return tag;
     }
@@ -155,21 +155,21 @@ public class RoomPage extends JPanel {
         label.setFont(label.getFont().deriveFont(fontSize));
         return label;
     }
-    public void createAddRoomListeners() {
-        roomIdInp.setText(RoomListeners.getLastRoomId());
 
+    public void createListeners(){
+        // Create add listener
+        roomIdInp.setText(RoomListeners.getLastRoomId());
         HashMap<String, JTextField> inpTags = new HashMap<>();
         inpTags.put("roomIdInp", this.roomIdInp);
         inpTags.put("maxQuantity", this.maxQuantity);
         inpTags.put("defaultPrice", this.defaultPrice);
+        submitBtn.addActionListener(RoomListeners.addNewRoomListener(inpTags,mainFrameApp));
 
-        this.submitBtn.addActionListener(RoomListeners.addNewRoomListener(inpTags,mainFrameApp));
-    }
-    public void createFunctionsListeners() {
-        this.searchBtn.addActionListener(RoomListeners.searchRoomListener(data,searchRoomId));
-    }
-    public void createRoomTagListeners() {
+        //Create room tag listener popup menu
         tag.addMouseListener(RoomListeners.addPopupMenu(popupMenu));
+
+        //Create search listener
+        searchBtn.addActionListener(RoomListeners.searchRoomListener(mainFrameApp,searchRoomId));
     }
 
 

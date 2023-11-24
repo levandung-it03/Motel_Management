@@ -59,17 +59,22 @@ public class RoomListeners {
                     JOptionPane.showMessageDialog(new JPanel(), "Invalid Information", "Notice", JOptionPane.PLAIN_MESSAGE);
                 }
                 //create onsite listener
-                CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp));
+                CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,new String[] {"",""}));
             }
         };
     }
-    public static ActionListener searchRoomListener(String[][] data, JTextField searchRoomId) {
+    public static ActionListener searchRoomListener(JFrame mainFrameApp, JTextField searchRoomId) {
 
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-
                 //create onsite listener
+                CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,
+                        new String[] {"WHERE roomId LIKE \"%"+searchRoomId.getText()+"%\"",
+                                "WHERE lastName LIKE \"%"+searchRoomId.getText()+"%\""+
+                                        " OR firstName LIKE \"%"+searchRoomId.getText()+"%\""}
+                        ));
+
             }
         };
     }
@@ -83,7 +88,7 @@ public class RoomListeners {
                 if(isValid){
                     if (Controller_Room.updateRoom(data) != 0) {
                         JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
-                        CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp));
+                        CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,new String[] {"",""}));
                         dialog.dispose();
                     }else
                         JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
@@ -134,7 +139,7 @@ public class RoomListeners {
                         JOptionPane.YES_NO_OPTION) == 0) {
                     if (Controller_Room.deleteById(roomId)!=0) {
                         JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
-                        CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp));
+                        CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,new String[] {"",""}));
                     } else {
                         JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
                     }

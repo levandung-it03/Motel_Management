@@ -35,14 +35,14 @@ public class EditRoom_Dialog extends JDialog{
         container.add(InputComboPanel.generateTextInputPanel("Default Room Price (VNĐ)", defaultPrice));
         container.add(submitBtn);
         add(container);
-        createListener();
+        createUpdateListener();
 
         setModal(true);
         setSize(380,350);
         setLocationRelativeTo(null);
         setVisible(true);
     }
-    public void createListener(){
+    public void createUpdateListener(){
         HashMap<String, JTextField> inpTags = new HashMap<>();
         inpTags.put("roomId", this.roomId);
         inpTags.put("quantity", this.quantity);
