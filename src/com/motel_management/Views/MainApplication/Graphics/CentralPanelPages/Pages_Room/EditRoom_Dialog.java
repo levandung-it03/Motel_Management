@@ -9,27 +9,24 @@ import java.util.HashMap;
 
 public class EditRoom_Dialog extends JDialog{
     JTextField roomId;
+    JFrame mainFrameApp;
     JTextField quantity;
     JTextField maxQuantity;
     JTextField defaultPrice;
     JButton submitBtn;
 
-    public EditRoom_Dialog(String title, JTextField roomId, JTextField quantity, JTextField maxQuantity, JTextField defaultPrice) throws HeadlessException {
-        super();
+    public EditRoom_Dialog(JFrame mainFrameApp, JTextField roomId, JTextField quantity, JTextField maxQuantity, JTextField defaultPrice) throws HeadlessException {
+        super(mainFrameApp,"Update");
+        this.mainFrameApp = mainFrameApp;
         this.roomId = roomId;
         this.quantity = quantity;
         this.maxQuantity = maxQuantity;
         this.defaultPrice = defaultPrice;
-        setTitle(title);
         createEditDialog();
-        createListener();
+
     }
 
     public void createEditDialog() {
-        setSize(380,350);
-        setVisible(true);
-        setResizable(false);
-        setLocationRelativeTo(null);
         JPanel container = new JPanel(new FlowLayout());
 
         submitBtn = InputComboPanel.generateButton("Update");
@@ -38,14 +35,20 @@ public class EditRoom_Dialog extends JDialog{
         container.add(InputComboPanel.generateTextInputPanel("Default Room Price (VNĐ)", defaultPrice));
         container.add(submitBtn);
         add(container);
+        createUpdateListener();
+
+        setModal(true);
+        setSize(380,350);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
-    public void createListener(){
+    public void createUpdateListener(){
         HashMap<String, JTextField> inpTags = new HashMap<>();
         inpTags.put("roomId", this.roomId);
         inpTags.put("quantity", this.quantity);
         inpTags.put("maxQuantity", this.maxQuantity);
         inpTags.put("defaultPrice", this.defaultPrice);
 
-        this.submitBtn.addActionListener(RoomListeners.editRoom(inpTags,this));
+        this.submitBtn.addActionListener(RoomListeners.editRoom(inpTags,mainFrameApp,this));
     }
 }
