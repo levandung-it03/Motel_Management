@@ -1,6 +1,7 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_CheckOut;
 
 import com.motel_management.Controllers.Controller_Electricity_Water;
+import com.motel_management.Controllers.Controllers_Checkout;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 
 import javax.swing.*;
@@ -25,8 +26,8 @@ public class CheckOutPage extends JPanel {
 
         // Prepare Data to generate Table.
 
-        String[][] electrics = Controller_Electricity_Water.getElectricList();
-        String[] columns = {"Check-out ID", "Contract ID", "Check-out Date", "Reason", "Price(VND/kWh)", "Delete Button"};
+        String[][] electrics = Controllers_Checkout.getCheckOutHistory();
+        String[] columns = {"Check-out ID", "Contract ID", "Check-out Date", "Reason"};
 
         // Generate Table.
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(electrics, columns) {

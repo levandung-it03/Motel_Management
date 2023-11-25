@@ -21,7 +21,9 @@ public class Controller_Room {
     public static String[][] getRoomInfo(String[] condition) {
         ArrayList<RoomModel> result = RoomDAO.getInstance().selectByCondition(condition[0]);
         if (result.isEmpty()){
-            ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition(condition[1] +" AND isOccupied = 1");
+            ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition(condition[1] +
+                    " AND isOccupied = 1 AND");
+
             result = RoomDAO.getInstance().selectByCondition("WHERE roomId = \""+personResult.get(0).getRoomId()+"\"");
         }
         String[][] rooms = new String[result.size()][5];

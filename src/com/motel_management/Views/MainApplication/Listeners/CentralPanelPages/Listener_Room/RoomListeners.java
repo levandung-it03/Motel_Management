@@ -1,5 +1,6 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_Room;
 
+import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Controllers.Controllers_Checkout;
 import com.motel_management.DataAccessObject.ContractDAO;
@@ -111,18 +112,21 @@ public class RoomListeners {
     public static ActionListener checkOutRoom(String roomId,JDateChooser checkOutDate,JTextArea reason, JFrame mainFrameApp , JDialog dialog){
         return new ActionListener(){
             public void actionPerformed(ActionEvent evt) {
-                if(checkOutDate.getDate().after(new Date())){
+                Date currentDate = new Date();
+                if(checkOutDate.getDate().equals(currentDate) && checkOutDate.getDate().before(currentDate)){
+                    JOptionPane.showConfirmDialog(new Panel(), "Check-out date must be after the current date!",
+                            "Notice", JOptionPane.DEFAULT_OPTION);
+                }else {
                     String checkOutId = "CK" + Configs.generateIdTail();
                     ArrayList<ContractModel> contractId= ContractDAO.getInstance().selectByCondition("WHERE roomId = \""+roomId+"\"");
                     String[] data = {checkOutId,contractId.get(0).getContractId(),
                             dateFormat.format(checkOutDate.getCalendar().getTime()),reason.getText()};
                     String nextIdWhenSuccessfully = Controllers_Checkout.addCheckOutHistory(data);
                     if (nextIdWhenSuccessfully != null) {
-
+                        JOptionPane.showConfirmDialog(new Panel(), "Successful Check-out",
+                                "Notice", JOptionPane.DEFAULT_OPTION);
+                        Controller_Contract.updateContractStatus(new String[]{"1",contractId.get(0).getContractId()});
                     }
-                }else {
-                    JOptionPane.showConfirmDialog(new Panel(), "Check-out date must be after the current date!",
-                            "Notice", JOptionPane.DEFAULT_OPTION);
                 }
             }
         };
