@@ -117,6 +117,21 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             DB_connection.closeMMDBConnection(myConnection);
         }
     }
+    public int updateContractStatus(String[] values) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            String query = "UPDATE Contract SET checkedOut=? WHERE (contractId=?);";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+
+            ps.setString(1,values[0]);
+            ps.setString(2, values[1]);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+    }
 
     @Override
     public int delete (String id) {

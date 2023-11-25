@@ -38,7 +38,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[0]);
             ps.setString(2, values[1]);
-            ps.setDate(3, Date.valueOf(values[2]));
+            ps.setDate(3, Date.valueOf(Configs.stringToDate(values[2])));
             ps.setString(4,values[3]);
 
             return ps.executeUpdate();

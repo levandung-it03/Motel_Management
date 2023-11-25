@@ -7,15 +7,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-public class EditRoom_Dialog extends JDialog{
+public class UpdateRoom_Dialog extends JDialog{
     JTextField roomId;
     JFrame mainFrameApp;
     JTextField quantity;
     JTextField maxQuantity;
     JTextField defaultPrice;
-    JButton submitBtn;
+    JButton updateBtn;
 
-    public EditRoom_Dialog(JFrame mainFrameApp, JTextField roomId, JTextField quantity, JTextField maxQuantity, JTextField defaultPrice) throws HeadlessException {
+    public UpdateRoom_Dialog(JFrame mainFrameApp, JTextField roomId, JTextField quantity, JTextField maxQuantity, JTextField defaultPrice) throws HeadlessException {
         super(mainFrameApp,"Update");
         this.mainFrameApp = mainFrameApp;
         this.roomId = roomId;
@@ -29,11 +29,11 @@ public class EditRoom_Dialog extends JDialog{
     public void createEditDialog() {
         JPanel container = new JPanel(new FlowLayout());
 
-        submitBtn = InputComboPanel.generateButton("Update");
-        container.add(InputComboPanel.generateTextInputPanel("Quantity (Unknown = -1)",quantity));
+        updateBtn = InputComboPanel.generateButton("Update");
+        container.add(InputComboPanel.generateTextInputPanel("Quantity (Unknomn = -1)",quantity));
         container.add(InputComboPanel.generateTextInputPanel("Maximum Quantity", maxQuantity));
         container.add(InputComboPanel.generateTextInputPanel("Default Room Price (VNĐ)", defaultPrice));
-        container.add(submitBtn);
+        container.add(updateBtn);
         add(container);
         createUpdateListener();
 
@@ -49,6 +49,6 @@ public class EditRoom_Dialog extends JDialog{
         inpTags.put("maxQuantity", this.maxQuantity);
         inpTags.put("defaultPrice", this.defaultPrice);
 
-        this.submitBtn.addActionListener(RoomListeners.editRoom(inpTags,mainFrameApp,this));
+        this.updateBtn.addActionListener(RoomListeners.updateRoom(inpTags,mainFrameApp,this));
     }
 }
