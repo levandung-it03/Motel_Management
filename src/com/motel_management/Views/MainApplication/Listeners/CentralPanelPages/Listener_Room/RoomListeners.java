@@ -113,13 +113,13 @@ public class RoomListeners {
     public static ActionListener checkOutRoom(String roomId,JDateChooser checkOutDate,JTextArea reason, JFrame mainFrameApp , JDialog dialog){
         return new ActionListener(){
             public void actionPerformed(ActionEvent evt) {
-                Date currentDate = new Date();
-                if(checkOutDate.getDate().equals(currentDate) && checkOutDate.getDate().before(currentDate)){
-                    JOptionPane.showConfirmDialog(new Panel(), "Check-out date must be after the current date!",
+                ArrayList<ContractModel> contractId= ContractDAO.getInstance().selectByCondition("WHERE roomId = \""+roomId+"\" AND checkedOut = 0");
+                if( checkOutDate.getDate().before(contractId.get(0).getStartingDate()) ||
+                        checkOutDate.getDate().equals(contractId.get(0).getStartingDate())){
+                    JOptionPane.showConfirmDialog(new Panel(), "Check-out date must be after the starting date!",
                             "Notice", JOptionPane.DEFAULT_OPTION);
                 }else {
                     String checkOutId = "CK" + Configs.generateIdTail();
-                    ArrayList<ContractModel> contractId= ContractDAO.getInstance().selectByCondition("WHERE roomId = \""+roomId+"\"");
                     String[] data = {checkOutId,contractId.get(0).getContractId(),
                             dateFormat.format(checkOutDate.getCalendar().getTime()),reason.getText()};
                     String nextIdWhenSuccessfully = Controllers_Checkout.addCheckOutHistory(data);
