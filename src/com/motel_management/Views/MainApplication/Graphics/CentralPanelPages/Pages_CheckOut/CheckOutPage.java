@@ -26,14 +26,14 @@ public class CheckOutPage extends JPanel {
 
         // Prepare Data to generate Table.
 
-        String[][] electrics = Controllers_Checkout.getCheckOutHistory();
+        String[][] checkout = Controllers_Checkout.getCheckOutHistory();
         String[] columns = {"Check-out ID", "Contract ID", "Check-out Date", "Reason"};
 
         // Generate Table.
-        TableAsList tableAsList = new TableAsList(new DefaultTableModel(electrics, columns) {
+        TableAsList tableAsList = new TableAsList(new DefaultTableModel(checkout, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column != 0 && column != 2 && column != 3 && column != 5;
+                return false;
             }
         });
         this.defaultCheckoutTable = tableAsList.getDefaultModel();
@@ -44,10 +44,7 @@ public class CheckOutPage extends JPanel {
         this.checkOutScrollPane.setBorder(new EmptyBorder(20, 50, 0, 50));
 
         // Resize several Columns.
-        this.checkOutTable.getColumnModel().getColumn(0).setPreferredWidth(30);
-        this.checkOutTable.getColumnModel().getColumn(1).setPreferredWidth(40);
-        this.checkOutTable.getColumnModel().getColumn(2).setPreferredWidth(40);
-        this.checkOutTable.getColumnModel().getColumn(3).setPreferredWidth(40);
+        this.checkOutTable.getColumnModel().getColumn(3).setPreferredWidth(400);
 
 
         add(checkOutScrollPane);
