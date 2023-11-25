@@ -115,6 +115,7 @@ public class Controller_Invoices {
         }
         // 15% tax.
         total += (int) (electricPrice * (100 + electricTax) / 100);
+        System.out.println("EP: " + (int) (electricPrice * (100 + electricTax) / 100));
 
         // Calculating Water Price
         numberOfPeople = (numberOfPeople == -1) ? 1 : numberOfPeople;
@@ -122,13 +123,20 @@ public class Controller_Invoices {
             // Case (1)
             if (region.contains("Ho Chi Minh")) {
                 double averageWaterConsumed = (double) waterConsumed / numberOfPeople;
+                System.out.println("AWC: " + averageWaterConsumed);
                 for (WaterRangeModel w : waterRanges) {
-                    if (w.getMaxRangeValue() <= averageWaterConsumed)
+                    if (w.getMaxRangeValue() <= averageWaterConsumed) {
                         totalWaterConsumed += (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice();
-                    else
+                        System.out.println(w.getMaxRangeValue() + " | " + w.getMinRangeValue() + " | " +
+                                w.getPrice() + " | " + (w.getMaxRangeValue() - w.getMinRangeValue()) * w.getPrice());}
+                    else {
                         totalWaterConsumed += (averageWaterConsumed - w.getMinRangeValue()) * w.getPrice();
+                        System.out.println(averageWaterConsumed + " | " + w.getMinRangeValue() + " | " +
+                                w.getPrice() + " | " + (averageWaterConsumed - w.getMinRangeValue()) * w.getPrice());}
                 }
+                System.out.println(totalWaterConsumed);
                 totalWaterConsumed *= numberOfPeople;
+                System.out.println(totalWaterConsumed + " | " + numberOfPeople);
             }
             // Case (2)
             else {
@@ -142,10 +150,12 @@ public class Controller_Invoices {
             }
         }
 
+        System.out.println(totalWaterConsumed);
         // 150.000VNĐ Environmental Fee if Water Price >= 1.000.000VNĐ
         if (totalWaterConsumed >= 1000000)
             totalWaterConsumed += environmentalFee;
         total += totalWaterConsumed;
+        System.out.println(totalWaterConsumed);
 
         String invoiceId = "I" + Configs.generateIdTail();
         LocalDateTime d = LocalDateTime.now();
