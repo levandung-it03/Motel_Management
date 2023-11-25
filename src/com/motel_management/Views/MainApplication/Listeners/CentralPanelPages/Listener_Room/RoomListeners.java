@@ -1,6 +1,7 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_Room;
 
 import com.motel_management.Controllers.Controller_Contract;
+import com.motel_management.Controllers.Controller_Representatives;
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Controllers.Controllers_Checkout;
 import com.motel_management.DataAccessObject.ContractDAO;
@@ -126,6 +127,10 @@ public class RoomListeners {
                         JOptionPane.showConfirmDialog(new Panel(), "Successful Check-out",
                                 "Notice", JOptionPane.DEFAULT_OPTION);
                         Controller_Contract.updateContractStatus(new String[]{"1",contractId.get(0).getContractId()});
+                        Controller_Representatives.updatePersonStatus(new String[]{"0",contractId.get(0).getIdentifier()});
+                        Controller_Room.resetRoomStatus(new String[]{"0",roomId});
+                        CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,new String[] {"",""}));
+                        dialog.dispose();
                     }
                 }
             }

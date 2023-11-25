@@ -1,5 +1,6 @@
 package com.motel_management.Controllers;
 
+import com.motel_management.DataAccessObject.ContractDAO;
 import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.Models.PersonModel;
 
@@ -12,6 +13,9 @@ public class Controller_Representatives {
 
     public static PersonModel getPersonById(String identifier) {
         return PersonDAO.getInstance().selectById(identifier);
+    }
+    public static void updatePersonStatus (String[] data) {
+        PersonDAO.getInstance().updatePersonStatus(data);
     }
 
     public static String[][] getAllRepresentativesWithTableFormat() {
