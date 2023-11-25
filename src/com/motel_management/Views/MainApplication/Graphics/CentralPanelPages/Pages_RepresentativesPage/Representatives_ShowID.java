@@ -8,31 +8,25 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Objects;
 
-public class Representatives_ShowID {
+public class Representatives_ShowID extends JDialog{
     public Representatives_ShowID(PersonModel person){
+        this.setTitle("Details Information");
         showInformationById(person);
     }
     public void showInformationById(PersonModel person){
+        JPanel marginPanel = new JPanel(new GridLayout(1,3));
+        JPanel subPanel0 = new JPanel();
         JPanel subPanel1 = new JPanel();
         JPanel subPanel2 = new JPanel();
-        JPanel subPanel3 = new JPanel();
-        JPanel subPanel4 = new JPanel();
-        JPanel subPanel5 = new JPanel();
-        JPanel subPanel6 = new JPanel();
-        JPanel subPanel7 = new JPanel();
-        JPanel subPanel8 = new JPanel();
-        JPanel subPanel9 = new JPanel();
-        JPanel subPanel10 = new JPanel();
-        JPanel subPanel11 = new JPanel();
-        JPanel subPanel12 = new JPanel();
 
+        ImageIcon icon = new ImageIcon("E:\\Motel_Management\\Motel_Management\\src\\com\\motel_management\\Assets\\img\\Representative.png");
+        JLabel labelForIcon = new JLabel(icon);
+        labelForIcon.setBorder(new EmptyBorder(30,0,5,0));
+        labelForIcon.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JFrame maineFramePerson = new JFrame();
-        JPanel panelShowById = new JPanel();
         JLabel identifier = new JLabel("Identifier: " + person.getIdentifier());
         JLabel roomId = new JLabel("Room Id: " + person.getRoomId());
-        JLabel lastname = new JLabel("Last name: " + person.getLastName());
-        JLabel firstname = new JLabel("First name: "+ person.getFirstName());
+        JLabel fullname = new JLabel("Full name: " + person.getLastName() +" "+ person.getFirstName());
         JLabel birthday = new JLabel("Birth day: "+ person.getBirthday());
         JLabel phone = new JLabel("Phone: "+ person.getPhone());
         JLabel jobTitle = new JLabel("JobTitle: "+ person.getJobTitle());
@@ -46,62 +40,48 @@ public class Representatives_ShowID {
         {tempGender = "Nam";} else {tempGender =  "Nu";}
         JLabel gender = new JLabel("Gender: "+ tempGender);
 
-        setBorderForJLabel(identifier);
-        setBorderForJLabel(roomId);
-        setBorderForJLabel(lastname);
-        setBorderForJLabel(firstname);
-        setBorderForJLabel(birthday);
-        setBorderForJLabel(phone);
-        setBorderForJLabel(gender);
-        setBorderForJLabel(jobTitle);
-        setBorderForJLabel(permanentAddress);
-        setBorderForJLabel(email);
-        setBorderForJLabel(bankAccountNumber);
-        setBorderForJLabel(bank);
+
+        this.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
+        subPanel0.setLayout(new BorderLayout(0,10));
+        subPanel0.setBorder(new EmptyBorder(5,20,20,0));
+
+        subPanel1.setLayout(new GridLayout(5,1));
+        subPanel1.setBorder(new EmptyBorder(10,0,10,5));
+
+        subPanel2.setLayout(new GridLayout(5,1));
+        subPanel2.setBorder(new EmptyBorder(10,5,10,0));
 
 
-        panelShowById.setLayout(new GridLayout(4,3,3,3));
-        panelShowById.setBackground(Color.black);
-        panelShowById.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
-        panelShowById.setBorder(new EmptyBorder(5, 5, 5, 5));
+        subPanel0.add(labelForIcon,BorderLayout.CENTER);
+        subPanel0.add(setFontLabel(identifier),BorderLayout.SOUTH);
 
+        subPanel1.add(setFontLabel(fullname));
+        subPanel1.add(setFontLabel(gender));
+        subPanel1.add(setFontLabel(birthday));
+        subPanel1.add(setFontLabel(bank));
+        subPanel1.add(setFontLabel(bankAccountNumber));
 
-        subPanel1.add(identifier);
-        subPanel2.add(roomId);
-        subPanel3.add(phone);
-        subPanel4.add(lastname);
-        subPanel5.add(firstname);
-        subPanel6.add(birthday);
-        subPanel7.add(gender);
-        subPanel8.add(jobTitle);
-        subPanel9.add(permanentAddress);
-        subPanel10.add(email);
-        subPanel11.add(bankAccountNumber);
-        subPanel12.add(bank);
+        subPanel2.add(setFontLabel(roomId));
+        subPanel2.add(setFontLabel(phone));
+        subPanel2.add(setFontLabel(jobTitle));
+        subPanel2.add(setFontLabel(permanentAddress));
+        subPanel2.add(setFontLabel(email));
 
-        panelShowById.add(subPanel1);
-        panelShowById.add(subPanel2);
-        panelShowById.add(subPanel3);
-        panelShowById.add(subPanel4);
-        panelShowById.add(subPanel5);
-        panelShowById.add(subPanel6);
-        panelShowById.add(subPanel7);
-        panelShowById.add(subPanel8);
-        panelShowById.add(subPanel9);
-        panelShowById.add(subPanel10);
-        panelShowById.add(subPanel11);
-        panelShowById.add(subPanel12);
+        marginPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        marginPanel.add(subPanel0);
+        marginPanel.add(subPanel1);
+        marginPanel.add(subPanel2);
+        this.add(marginPanel);
 
-
-        maineFramePerson.add(panelShowById);
-        maineFramePerson.setVisible(true);
-        JOptionPane.showMessageDialog(new JPanel(), "msss", "ttt", JOptionPane.PLAIN_MESSAGE);
-        maineFramePerson.setLocationRelativeTo(null);
-        maineFramePerson.setSize(1000,300);
-        maineFramePerson.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setVisible(true);
+        this.setSize(1050,250);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
-    void setBorderForJLabel(JLabel component){
-        component.setBorder(new EmptyBorder(20,5,5,5));
+    public JLabel setFontLabel(JLabel label){
+        label.setFont(Configs.labelFont);
+        label.setFont(label.getFont().deriveFont(18.0f));
+        return label;
     }
 }

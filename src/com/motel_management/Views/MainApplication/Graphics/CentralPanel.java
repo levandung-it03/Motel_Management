@@ -1,5 +1,6 @@
 package com.motel_management.Views.MainApplication.Graphics;
 import com.motel_management.Views.Configs;
+import com.motel_management.Views.Frame_MainApplication;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_CheckOut.CheckOutPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterPage;
@@ -16,13 +17,13 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CentralPanel extends JPanel {
-    private final JFrame mainFrameApp;
+    private final Frame_MainApplication mainFrameApp;
     public static JTabbedPane category;
     ArrayList<JPanel> pages = new ArrayList<JPanel>();
     ArrayList<JLabel> labels = new ArrayList<JLabel>();
 
     // Constructor
-    public CentralPanel(JFrame mainFrameApp) {
+    public CentralPanel(Frame_MainApplication mainFrameApp) {
         // Add Your Layout Here
         super();
         this.mainFrameApp = mainFrameApp;

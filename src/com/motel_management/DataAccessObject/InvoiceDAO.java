@@ -20,7 +20,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
     public int insert(InvoiceModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Invoice VALUES (?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,?, ?, ?)";
+            String query = "INSERT INTO Invoice VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getInvoiceId());
             ps.setString(2, obj.getRoomId());
@@ -32,11 +32,13 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setInt(8, obj.getNewElectricNumber());
             ps.setInt(9, obj.getFormerWaterNumber());
             ps.setInt(10, obj.getNewWaterNumber());
-            ps.setInt(11, obj.getGarbage());
-            ps.setInt(12, obj.getWifi());
-            ps.setInt(13, obj.getVehicle());
-            ps.setInt(14, obj.getTotal());
-            ps.setString(15, obj.getWasPaid());
+            ps.setInt(11, obj.getElectricPrice());
+            ps.setInt(12, obj.getWaterPrice());
+            ps.setInt(13, obj.getGarbage());
+            ps.setInt(14, obj.getWifi());
+            ps.setInt(15, obj.getVehicle());
+            ps.setInt(16, obj.getTotal());
+            ps.setString(17, obj.getWasPaid());
             return ps.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -49,7 +51,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
     public int insert(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Invoice VALUES (?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,?, ?, ?)";
+            String query = "INSERT INTO Invoice VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[0]);
             ps.setString(2, values[1]);
@@ -65,8 +67,9 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setInt(12, Integer.parseInt(values[11]));
             ps.setInt(13, Integer.parseInt(values[12]));
             ps.setInt(14, Integer.parseInt(values[13]));
-            ps.setString(15, values[14]);
-
+            ps.setInt(15, Integer.parseInt(values[14]));
+            ps.setInt(16, Integer.parseInt(values[15]));
+            ps.setString(17, values[16]);
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -98,7 +101,8 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
         try {
             String query = "UPDATE Invoice SET  roomId=?, defaultRoomPrice=?," +
                     "dateCreated=?, paymentYear=?, paymentMonth=?, formerElectricNumber=?, newElectricNumber=?," +
-                    "formerWaterNumber=?, newWaterNumber=?, garbage=?, wifi=?, vehicle=?, total=?, wasPaid=? WHERE (invoiceId=?);";
+                    "formerWaterNumber=?, newWaterNumber=?, electricPrice=?, waterPrice=?, garbage=?, wifi=?, vehicle=?," +
+                    "total=?, wasPaid=? WHERE (invoiceId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getRoomId());
             ps.setInt(2, obj.getDefaultRoomPrice());
@@ -109,12 +113,14 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setInt(7, obj.getNewElectricNumber());
             ps.setInt(8, obj.getFormerWaterNumber());
             ps.setInt(9, obj.getNewWaterNumber());
-            ps.setInt(10, obj.getGarbage());
-            ps.setInt(11, obj.getWifi());
-            ps.setInt(12, obj.getVehicle());
-            ps.setInt(13, obj.getTotal());
-            ps.setString(14, obj.getWasPaid());
-            ps.setString(15, obj.getInvoiceId());
+            ps.setInt(10, obj.getElectricPrice());
+            ps.setInt(11, obj.getWaterPrice());
+            ps.setInt(12, obj.getGarbage());
+            ps.setInt(13, obj.getWifi());
+            ps.setInt(14, obj.getVehicle());
+            ps.setInt(15, obj.getTotal());
+            ps.setString(16, obj.getWasPaid());
+            ps.setString(17, obj.getInvoiceId());
             return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -129,7 +135,8 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
         try {
             String query = "UPDATE Invoice SET  roomId=?, defaultRoomPrice=?," +
                     "dateCreated=?, paymentYear=?, paymentMonth=?, formerElectricNumber=?, newElectricNumber=?," +
-                    "formerWaterNumber=?, newWaterNumber=?, garbage=?, wifi=?, vehicle=?, total=?, wasPaid=? WHERE (invoiceId=?);";
+                    "formerWaterNumber=?, newWaterNumber=?, electricPrice=?, waterPrice=?, garbage=?, wifi=?, vehicle=?," +
+                    "total=?, wasPaid=? WHERE (invoiceId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[1]);
             ps.setInt(2, Integer.parseInt(values[2]));
@@ -144,8 +151,10 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setInt(11, Integer.parseInt(values[11]));
             ps.setInt(12, Integer.parseInt(values[12]));
             ps.setInt(13, Integer.parseInt(values[13]));
-            ps.setString(14, values[14]);
-            ps.setString(15, values[0]);
+            ps.setInt(14, Integer.parseInt(values[14]));
+            ps.setInt(15, Integer.parseInt(values[15]));
+            ps.setString(16, values[16]);
+            ps.setString(17, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -168,9 +177,9 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
                     rs.getInt("paymentYear"), rs.getInt("paymentMonth"),
                     rs.getInt("formerElectricNumber"), rs.getInt("newElectricNumber"),
                     rs.getInt("formerWaterNumber"), rs.getInt("newWaterNumber"),
-                    rs.getInt("garbage"), rs.getInt("wifi"),
-                    rs.getInt("vehicle"), rs.getInt("total"),
-                    rs.getString("wasPaid"));
+                    rs.getInt("electricPrice"), rs.getInt("waterPrice"),
+                    rs.getInt("garbage"), rs.getInt("wifi"), rs.getInt("vehicle"),
+                    rs.getInt("total"), rs.getString("wasPaid"));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -192,9 +201,9 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
                         rs.getInt("paymentYear"), rs.getInt("paymentMonth"),
                         rs.getInt("formerElectricNumber"), rs.getInt("newElectricNumber"),
                         rs.getInt("formerWaterNumber"), rs.getInt("newWaterNumber"),
-                        rs.getInt("garbage"), rs.getInt("wifi"),
-                        rs.getInt("vehicle"), rs.getInt("total"),
-                        rs.getString("wasPaid")));
+                        rs.getInt("electricPrice"), rs.getInt("waterPrice"),
+                        rs.getInt("garbage"), rs.getInt("wifi"), rs.getInt("vehicle"),
+                        rs.getInt("total"), rs.getString("wasPaid")));
             }
             return result;
         } catch (SQLException e) {
@@ -218,9 +227,9 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
                         rs.getInt("paymentYear"), rs.getInt("paymentMonth"),
                         rs.getInt("formerElectricNumber"), rs.getInt("newElectricNumber"),
                         rs.getInt("formerWaterNumber"), rs.getInt("newWaterNumber"),
-                        rs.getInt("garbage"), rs.getInt("wifi"),
-                        rs.getInt("vehicle"), rs.getInt("total"),
-                        rs.getString("wasPaid")));
+                        rs.getInt("electricPrice"), rs.getInt("waterPrice"),
+                        rs.getInt("garbage"), rs.getInt("wifi"), rs.getInt("vehicle"),
+                        rs.getInt("total"), rs.getString("wasPaid")));
             }
             return result;
         } catch (SQLException e) {

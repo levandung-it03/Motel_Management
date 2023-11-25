@@ -94,6 +94,8 @@ CREATE TABLE Invoice(
     newElectricNumber INT DEFAULT 0,
     formerWaterNumber INT DEFAULT 0,
     newWaterNumber INT DEFAULT 0,
+    electricPrice INT DEFAULT 0,
+    waterPrice INT DEFAULT 0,
     garbage INT DEFAULT 0,
     wifi INT DEFAULT 0,
     vehicle	INT DEFAULT 0,

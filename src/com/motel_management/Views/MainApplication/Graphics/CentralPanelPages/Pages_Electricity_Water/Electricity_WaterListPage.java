@@ -2,8 +2,6 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 
 
 import com.motel_management.Controllers.Controller_Electricity_Water;
-import com.motel_management.DataAccessObject.RegionDAO;
-import com.motel_management.Models.RegionModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Electricity_Water.EWListListeners;
@@ -12,7 +10,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Electricity_WaterListPage extends JPanel {
     public JTable electricTable;
@@ -54,7 +51,7 @@ public class Electricity_WaterListPage extends JPanel {
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(electrics, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column != 0 && column != 2 && column != 3;
+                return column != 0 && column != 2 && column != 3 && column != 5;
             }
         });
         this.defaultElectricTable = tableAsList.getDefaultModel();
@@ -92,7 +89,7 @@ public class Electricity_WaterListPage extends JPanel {
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(waters, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column != 0 && column != 2 && column != 3;
+                return column != 0 && column != 2 && column != 3 && column != 5;
             }
         });
         this.defaultWaterTable = tableAsList.getDefaultModel();

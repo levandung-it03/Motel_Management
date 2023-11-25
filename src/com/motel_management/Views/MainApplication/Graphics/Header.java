@@ -27,13 +27,13 @@ public class Header extends JPanel {
 
         JLabel headerLabel = new JLabel("Motel Management - Welcome " + user);
         headerLabel.setFont(headerLabel.getFont().deriveFont(24.0f));
-        headerLabel.setBorder(new EmptyBorder(6, headerWidth/3, 0, 0));
         headerLabel.setForeground(Configs.blackTextColor);
+        headerLabel.setHorizontalAlignment(JLabel.CENTER);
 
         // headerTools: logout,...
         headerTools.setBackground(Configs.lightGreen);
 
-        add(headerLabel, BorderLayout.WEST);
+        add(headerLabel, BorderLayout.CENTER);
         add(headerTools, BorderLayout.EAST);
     }
 }
