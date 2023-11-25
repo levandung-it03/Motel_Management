@@ -235,6 +235,15 @@ public class Controller_Invoices {
                 .selectByCondition("WHERE roomId=\"" + roomId + "\" ORDER BY paymentYear DESC, paymentMonth DESC LIMIT 12");
     }
 
+    public static ArrayList<InvoiceModel> getInvoicesByRoomIdWithPage(int currentPage, String roomId) {
+        return InvoiceDAO.getInstance()
+                .selectByCondition(
+                        "WHERE roomId=\"" + roomId + "\" " +
+                        "ORDER BY paymentYear DESC, paymentMonth DESC " +
+                        "LIMIT " + (12*currentPage) + ", 12"
+                );
+    }
+
     public static int STI(String num) {
         return Integer.parseInt(num);
     }
@@ -242,4 +251,6 @@ public class Controller_Invoices {
     public static int deleteInvoice(String invoiceId) {
         return InvoiceDAO.getInstance().delete(invoiceId);
     }
+
+
 }

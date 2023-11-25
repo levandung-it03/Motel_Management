@@ -11,10 +11,10 @@ import java.util.Objects;
 public class Representatives_ShowID extends JDialog{
     public Representatives_ShowID(PersonModel person){
         this.setTitle("Details Information");
-        this.setLayout(new GridLayout(1,3));
         showInformationById(person);
     }
     public void showInformationById(PersonModel person){
+        JPanel marginPanel = new JPanel(new GridLayout(1,3));
         JPanel subPanel0 = new JPanel();
         JPanel subPanel1 = new JPanel();
         JPanel subPanel2 = new JPanel();
@@ -67,20 +67,21 @@ public class Representatives_ShowID extends JDialog{
         subPanel2.add(setFontLabel(permanentAddress));
         subPanel2.add(setFontLabel(email));
 
-
-        this.add(subPanel0);
-        this.add(subPanel1);
-        this.add(subPanel2);
-
+        marginPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        marginPanel.add(subPanel0);
+        marginPanel.add(subPanel1);
+        marginPanel.add(subPanel2);
+        this.add(marginPanel);
 
         this.setVisible(true);
-        this.setSize(950,200);
+        this.setSize(1050,250);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     public JLabel setFontLabel(JLabel label){
-        label.setFont(label.getFont().deriveFont(Font.BOLD,17));
+        label.setFont(Configs.labelFont);
+        label.setFont(label.getFont().deriveFont(18.0f));
         return label;
     }
 }
