@@ -104,10 +104,14 @@ public class RoomPage extends JPanel {
     public JPanel generateTagPanel(String roomCode,String name, String quantity,String maxQuantity, String price) {
         // Set color for tag
         tag = new JPanel(new BorderLayout());
-        if (Integer.parseInt(quantity) > 0 || Integer.parseInt(quantity) == -1) {
-            tag.setBackground(Configs.normalGreen);
-        } else {
+        if (Controller_Room.getRoomStatus(roomCode)==0){
+            // Room is not occupied
             tag.setBackground(Color.gray);
+        } else if (Controller_Room.getRoomStatus(roomCode)==1) {
+            //Check-out failed due to unpaid payment
+            tag.setBackground(new Color(220, 0, 0));
+        }else {
+            tag.setBackground(Configs.normalGreen);
         }
 
         //Create and format room panel in tag
