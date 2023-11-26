@@ -28,7 +28,7 @@ public class Controller_Statistic {
     }
     public static int getTotalRevenue() {
         ArrayList<InvoiceModel> result = InvoiceDAO.getInstance().selectByCondition("WHERE paymentYear = \""+
-                LocalDate.now().getYear() +"\"");
+                LocalDate.now().getYear() +"\" AND wasPaid = 1");
         int totalYearRevenue =0;
         for (InvoiceModel invoiceModel : result) {
             totalYearRevenue += invoiceModel.getTotal();
@@ -51,7 +51,7 @@ public class Controller_Statistic {
     public static Object[][] getRevenue() {
         Object[][] revenue = new Object[12][2];
         for (int i = 0; i < 12; i++) {
-            ArrayList<InvoiceModel> result = InvoiceDAO.getInstance().selectByCondition("WHERE paymentMonth = \""+(i+1)+"\"");
+            ArrayList<InvoiceModel> result = InvoiceDAO.getInstance().selectByCondition("WHERE paymentMonth = \""+(i+1)+"\" AND wasPaid = 1");
             int total=0;
             for (InvoiceModel invoiceModel : result) {
                 total += invoiceModel.getTotal();
