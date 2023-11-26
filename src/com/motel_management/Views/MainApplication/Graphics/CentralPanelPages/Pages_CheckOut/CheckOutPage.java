@@ -7,6 +7,7 @@ import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Gen
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 
 public class CheckOutPage extends JPanel {
@@ -26,7 +27,7 @@ public class CheckOutPage extends JPanel {
 
         // Prepare Data to generate Table.
 
-        String[][] checkout = Controllers_Checkout.getCheckOutHistory();
+        Object[][] checkout = Controllers_Checkout.getCheckOutHistory();
         String[] columns = {"Check-out ID", "Contract ID", "Check-out Date", "Reason"};
 
         // Generate Table.
@@ -35,9 +36,14 @@ public class CheckOutPage extends JPanel {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return getValueAt(0, columnIndex).getClass();
+            }
         });
         this.defaultCheckoutTable = tableAsList.getDefaultModel();
         this.checkOutTable = tableAsList.getTable();
+        this.checkOutTable.setRowSorter(new TableRowSorter<>(defaultCheckoutTable));
         this.checkOutScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.

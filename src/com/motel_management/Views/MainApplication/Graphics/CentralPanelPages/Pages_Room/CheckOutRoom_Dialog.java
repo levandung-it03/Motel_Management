@@ -32,7 +32,7 @@ public class CheckOutRoom_Dialog extends JDialog {
         JPanel reasonPanel = new JPanel(new BorderLayout());
         reasonPanel.setBorder(new EmptyBorder(5, 5, 10, 5));
         reasonPanel.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.22), 120));
-        JLabel label = new JLabel("Reason (<255 )");
+        JLabel label = new JLabel("Reason (<255 characters)");
         label.setFont(label.getFont().deriveFont(14.0f));
         reason = new JTextArea();
         reason.setLineWrap(true);

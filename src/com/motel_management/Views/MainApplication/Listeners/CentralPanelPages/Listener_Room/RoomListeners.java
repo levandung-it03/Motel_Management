@@ -21,22 +21,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RoomListeners {
     static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    public RoomListeners() {}
+
+    public RoomListeners() {
+    }
 
     public static String getLastRoomId() {
         return Controller_Room.getLastId();
     }
 
-    public static ActionListener addNewRoomListener(HashMap<String, JTextField> inpTags,JFrame mainFrameApp) {
+    public static ActionListener addNewRoomListener(HashMap<String, JTextField> inpTags, JFrame mainFrameApp) {
 
         return new ActionListener() {
             @Override
@@ -50,11 +49,13 @@ public class RoomListeners {
                             && !Objects.equals(inpTags.get("roomIdInp").getText(), "P999")
                             && Integer.parseInt(inpTags.get("maxQuantity").getText()) > 0
                             && Integer.parseInt(inpTags.get("defaultPrice").getText()) >= 0;
-                } catch (NumberFormatException e) { isValid = false; }
+                } catch (NumberFormatException e) {
+                    isValid = false;
+                }
 
                 if (isValid) {
                     // Call API here.
-                    String nextIdWhenSuccessfully = Controller_Room.addNewRoom(new String[] {
+                    String nextIdWhenSuccessfully = Controller_Room.addNewRoom(new String[]{
                             inpTags.get("roomIdInp").getText(),
                             "0",
                             inpTags.get("maxQuantity").getText(),
@@ -74,10 +75,11 @@ public class RoomListeners {
                     JOptionPane.showMessageDialog(new JPanel(), "Invalid Information", "Notice", JOptionPane.PLAIN_MESSAGE);
                 }
                 //create onsite listener
-                CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,new String[] {"",""}));
+                CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp, new String[]{"", ""}));
             }
         };
     }
+
     public static ActionListener searchRoomListener(JFrame mainFrameApp, JTextField searchRoomId) {
 
         return new ActionListener() {
@@ -85,58 +87,67 @@ public class RoomListeners {
             public void actionPerformed(ActionEvent evt) {
                 //create onsite listener
                 CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,
-                        new String[] {"WHERE roomId LIKE \"%"+searchRoomId.getText()+"%\"",
-                                "WHERE lastName LIKE \"%"+searchRoomId.getText()+"%\""+
-                                        " OR firstName LIKE \"%"+searchRoomId.getText()+"%\""}
-                        ));
+                        new String[]{"WHERE roomId LIKE \"%" + searchRoomId.getText() + "%\"",
+                                "WHERE lastName LIKE \"%" + searchRoomId.getText() + "%\"" +
+                                        " OR firstName LIKE \"%" + searchRoomId.getText() + "%\""}
+                ));
 
             }
         };
     }
-    public static ActionListener updateRoom(HashMap<String, JTextField> inpTags, JFrame mainFrameApp ,JDialog dialog){
-        return new ActionListener(){
+
+    public static ActionListener updateRoom(HashMap<String, JTextField> inpTags, JFrame mainFrameApp, JDialog dialog) {
+        return new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                String[] data = {inpTags.get("roomId").getText(),inpTags.get("quantity").getText(),
-                    inpTags.get("maxQuantity").getText(),inpTags.get("defaultPrice").getText()};
+                String[] data = {inpTags.get("roomId").getText(), inpTags.get("quantity").getText(),
+                        inpTags.get("maxQuantity").getText(), inpTags.get("defaultPrice").getText()};
                 boolean isValid = GeneralListeners.validateRoomTableData(inpTags);
-                if(isValid){
+                if (isValid) {
                     if (Controller_Room.updateRoom(data) != 0) {
                         JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
-                        CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,new String[] {"",""}));
+                        CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp, new String[]{"", ""}));
                         dialog.dispose();
-                    }else
+                    } else
                         JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
                 }
             }
         };
     }
-    public static ActionListener checkOutRoom(String roomId,JDateChooser checkOutDate,JTextArea reason, JFrame mainFrameApp , JDialog dialog){
-        return new ActionListener(){
+
+    public static ActionListener checkOutRoom(String roomId, JDateChooser checkOutDate, JTextArea reason, JFrame mainFrameApp, JDialog dialog) {
+        return new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                ArrayList<ContractModel> contractId= ContractDAO.getInstance().selectByCondition("WHERE roomId = \""+roomId+"\" AND checkedOut = 0");
-                if( checkOutDate.getDate().before(contractId.get(0).getStartingDate()) ||
-                        checkOutDate.getDate().equals(contractId.get(0).getStartingDate())){
-                    JOptionPane.showConfirmDialog(new Panel(), "Check-out date must be after the starting date!",
-                            "Notice", JOptionPane.DEFAULT_OPTION);
-                }else {
-                    String checkOutId = "CK" + Configs.generateIdTail();
-                    String[] data = {checkOutId,contractId.get(0).getContractId(),
-                            dateFormat.format(checkOutDate.getCalendar().getTime()),reason.getText()};
-                    String nextIdWhenSuccessfully = Controllers_Checkout.addCheckOutHistory(data);
-                    if (nextIdWhenSuccessfully != null) {
-                        JOptionPane.showConfirmDialog(new Panel(), "Successful Check-out",
+                ArrayList<ContractModel> contractId = ContractDAO.getInstance().selectByCondition("WHERE roomId = \"" + roomId + "\" AND checkedOut = 0");
+                try {
+                    if (checkOutDate.getDate().before(contractId.get(0).getStartingDate()) ||
+                            checkOutDate.getDate().equals(contractId.get(0).getStartingDate())) {
+                        JOptionPane.showConfirmDialog(new Panel(), "Check-out date must be after the starting date!",
                                 "Notice", JOptionPane.DEFAULT_OPTION);
-                        Controller_Contract.updateContractStatus(new String[]{"1",contractId.get(0).getContractId()});
-                        Controller_Representatives.updatePersonStatus(new String[]{"0",contractId.get(0).getIdentifier()});
-                        Controller_Room.resetRoomStatus(new String[]{"0",roomId});
-                        CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,new String[] {"",""}));
-                        dialog.dispose();
+                    } else {
+                        String checkOutId = "CK" + Configs.generateIdTail();
+                        String[] data = {checkOutId, contractId.get(0).getContractId(),
+                                dateFormat.format(checkOutDate.getCalendar().getTime()), reason.getText()};
+                        String nextIdWhenSuccessfully = Controllers_Checkout.addCheckOutHistory(data);
+                        if (nextIdWhenSuccessfully != null) {
+                            JOptionPane.showConfirmDialog(new Panel(), "Successful Check-out",
+                                    "Notice", JOptionPane.DEFAULT_OPTION);
+                            Controller_Contract.updateContractStatus(new String[]{"1", contractId.get(0).getContractId()});
+                            Controller_Representatives.updatePersonStatus(new String[]{"0", contractId.get(0).getIdentifier()});
+                            Controller_Room.resetRoomStatus(new String[]{"0", roomId});
+                            CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp, new String[]{"", ""}));
+                            dialog.dispose();
+                        }
                     }
+                }catch (NullPointerException e){
+                    JOptionPane.showMessageDialog(new JPanel(),
+                            "Invalid at Check-out Date", "Notice", JOptionPane.PLAIN_MESSAGE
+                    );
                 }
             }
         };
     }
-    public static MouseListener addPopupMenu(JPopupMenu popupMenu){
+
+    public static MouseListener addPopupMenu(JPopupMenu popupMenu) {
         return new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (e.isPopupTrigger()) {
@@ -147,25 +158,28 @@ public class RoomListeners {
             }
         };
     }
-    public static ActionListener contractMenu(){
+
+    public static ActionListener contractMenu() {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 CentralPanel.category.setSelectedIndex(2);
             }
         };
     }
-    public static ActionListener checkoutMenu(String roomId,JFrame mainFrameApp){
+
+    public static ActionListener checkoutMenu(String roomId, JFrame mainFrameApp) {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Your code here
                 boolean isValid = Controller_Room.validateCheckOut(roomId);
-                if (isValid){
-                    new CheckOutRoom_Dialog(roomId,mainFrameApp);
+                if (isValid) {
+                    new CheckOutRoom_Dialog(roomId, mainFrameApp);
                 }
             }
         };
     }
-    public static ActionListener updateMenu(String roomId,String quantity,String maxQuantity, String price,JFrame mainFrameApp){
+
+    public static ActionListener updateMenu(String roomId, String quantity, String maxQuantity, String price, JFrame mainFrameApp) {
 
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -173,18 +187,19 @@ public class RoomListeners {
                 JTextField quantityText = new JTextField(quantity);
                 JTextField maxQuantityText = new JTextField(maxQuantity);
                 JTextField priceText = new JTextField(price);
-                new UpdateRoom_Dialog(mainFrameApp,roomIdText,quantityText,maxQuantityText,priceText);
+                new UpdateRoom_Dialog(mainFrameApp, roomIdText, quantityText, maxQuantityText, priceText);
             }
         };
     }
-    public static ActionListener deleteMenu(String roomId,JFrame mainFrameApp){
+
+    public static ActionListener deleteMenu(String roomId, JFrame mainFrameApp) {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this room?", "Confirm",
                         JOptionPane.YES_NO_OPTION) == 0) {
-                    if (Controller_Room.deleteById(roomId)!=0) {
+                    if (Controller_Room.deleteById(roomId) != 0) {
                         JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
-                        CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,new String[] {"",""}));
+                        CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp, new String[]{"", ""}));
                     } else {
                         JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
                     }
