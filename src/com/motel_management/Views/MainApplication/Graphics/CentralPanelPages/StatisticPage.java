@@ -29,8 +29,13 @@ public class StatisticPage extends JPanel {
     public JPanel generateTagPanel(String name, int quantity) {
         JPanel tag = new JPanel(new BorderLayout());
 
-        JPanel infoPanel = new JPanel(new GridLayout(2, 0));
+        JPanel infoPanel = new JPanel(new GridLayout(0, 1));
         JLabel quantityTag = new JLabel(String.valueOf(quantity));
+        if(name.equalsIgnoreCase("revenue")){
+            quantityTag = new JLabel("<html>"+
+                    Configs.convertStringToVNDCurrency(String.valueOf(quantity)).replace("VNĐ","")+
+                    "<br>VND</html>");
+        }
         JLabel nameTag = new JLabel(name);
 
         quantityTag.setFont(quantityTag.getFont().deriveFont(Font.BOLD, 26.0f));
@@ -69,7 +74,7 @@ public class StatisticPage extends JPanel {
         tags.add(generateTagPanel("Person", Controller_Statistic.getTotalPerson()));
         tags.add(generateTagPanel("Room", Controller_Statistic.getTotalRoom()));
         tags.add(generateTagPanel("Account", Controller_Statistic.getTotalAccount()));
-        tags.add(generateTagPanel("Revenue", 100000000));
+    tags.add(generateTagPanel("Revenue", 100000000));
 
         colors.add(new Color(0, 190, 237));
         colors.add(new Color(255, 133, 26));

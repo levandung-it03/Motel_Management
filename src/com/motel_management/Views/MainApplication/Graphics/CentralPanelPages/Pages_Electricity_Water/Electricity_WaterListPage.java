@@ -9,6 +9,7 @@ import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Li
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 
 public class Electricity_WaterListPage extends JPanel {
@@ -44,7 +45,7 @@ public class Electricity_WaterListPage extends JPanel {
 
         // Prepare Data to generate Table.
 
-        String[][] electrics = Controller_Electricity_Water.getElectricList();
+        Object[][] electrics = Controller_Electricity_Water.getElectricList();
         String[] columns = {"Electric ID", "Range Name", "Min Value", "Max Value", "Price(VND/kWh)", "Delete Button"};
 
         // Generate Table.
@@ -53,9 +54,14 @@ public class Electricity_WaterListPage extends JPanel {
             public boolean isCellEditable(int row, int column) {
                 return column != 0 && column != 2 && column != 3 && column != 5;
             }
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return getValueAt(0, columnIndex).getClass();
+            }
         });
         this.defaultElectricTable = tableAsList.getDefaultModel();
         this.electricTable = tableAsList.getTable();
+        this.electricTable.setRowSorter(new TableRowSorter<>(defaultElectricTable));
         this.roomScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.
@@ -81,7 +87,7 @@ public class Electricity_WaterListPage extends JPanel {
         ElectricPanel.add(title, BorderLayout.NORTH);
 
         // Prepare Date to generate Table.
-        String[][] waters = Controller_Electricity_Water.getWaterList();
+        Object[][] waters = Controller_Electricity_Water.getWaterList();
         String[] columns = {"Water ID", "Range Name", "Min Value", "Max Value",
                 Controller_Electricity_Water.checkRegion(), "Delete Button"};
 
@@ -91,9 +97,14 @@ public class Electricity_WaterListPage extends JPanel {
             public boolean isCellEditable(int row, int column) {
                 return column != 0 && column != 2 && column != 3 && column != 5;
             }
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return getValueAt(0, columnIndex).getClass();
+            }
         });
         this.defaultWaterTable = tableAsList.getDefaultModel();
         this.waterTable = tableAsList.getTable();
+        this.waterTable.setRowSorter(new TableRowSorter<>(defaultWaterTable));
         this.roomScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.

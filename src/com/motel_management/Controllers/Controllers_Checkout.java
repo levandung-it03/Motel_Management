@@ -19,14 +19,14 @@ public class Controllers_Checkout {
             return "CK" + Configs.generateIdTail();
         }
     }
-    public static String[][] getCheckOutHistory() {
+    public static Object[][] getCheckOutHistory() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         ArrayList<CheckOutModel> result = CheckOutDAO.getInstance().selectAll();
-        String[][] checkouts = new String[result.size()][6];
+        Object[][] checkouts = new Object[result.size()][6];
         for (int i = 0; i < result.size(); i++) {
             checkouts[i][0] = result.get(i).getCheckOutId();
             checkouts[i][1] = result.get(i).getContractId();
-            checkouts[i][2] = dateFormat.format(result.get(i).getCheckOutDate());
+            checkouts[i][2] = result.get(i).getCheckOutDate();
             checkouts[i][3] = result.get(i).getReason();
         }
         return checkouts;
