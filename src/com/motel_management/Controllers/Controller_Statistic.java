@@ -1,14 +1,10 @@
 package com.motel_management.Controllers;
 
-import com.motel_management.DataAccessObject.AccountDAO;
-import com.motel_management.DataAccessObject.ContractDAO;
-import com.motel_management.DataAccessObject.PersonDAO;
-import com.motel_management.DataAccessObject.RoomDAO;
-import com.motel_management.Models.AccountModel;
-import com.motel_management.Models.ContractModel;
-import com.motel_management.Models.PersonModel;
-import com.motel_management.Models.RoomModel;
+import com.motel_management.DataAccessObject.*;
+import com.motel_management.Models.*;
+import com.motel_management.Views.Configs;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Controller_Statistic {
@@ -19,16 +15,25 @@ public class Controller_Statistic {
         return result.size();
     }
     public static int getTotalPerson() {
-        ArrayList<RoomModel> result = RoomDAO.getInstance().selectAll();
+        ArrayList<RoomModel> result = RoomDAO.getInstance().selectByCondition("WHERE quantity > 0");
         int totalPerson=0;
-        for (int i=0;i< result.size();i++){
-            totalPerson+= result.get(i).getQuantity();
+        for (RoomModel roomModel : result) {
+            totalPerson += roomModel.getQuantity();
         }
         return totalPerson;
     }
     public static int getTotalAccount() {
         ArrayList<AccountModel> result = AccountDAO.getInstance().selectAll();
         return result.size();
+    }
+    public static int getTotalRevenue() {
+        ArrayList<InvoiceModel> result = InvoiceDAO.getInstance().selectByCondition("WHERE paymentYear = \""+
+                LocalDate.now().getYear() +"\" AND wasPaid = 1");
+        int totalYearRevenue =0;
+        for (InvoiceModel invoiceModel : result) {
+            totalYearRevenue += invoiceModel.getTotal();
+        }
+        return totalYearRevenue;
     }
 
     public static String[][] getRoomList() {
@@ -42,5 +47,18 @@ public class Controller_Statistic {
             rooms[i][3] = Integer.toString(roomResult.getDefaultRoomPrice());
         }
         return rooms;
+    }
+    public static Object[][] getRevenue() {
+        Object[][] revenue = new Object[12][2];
+        for (int i = 0; i < 12; i++) {
+            ArrayList<InvoiceModel> result = InvoiceDAO.getInstance().selectByCondition("WHERE paymentMonth = \""+(i+1)+"\" AND wasPaid = 1");
+            int total=0;
+            for (InvoiceModel invoiceModel : result) {
+                total += invoiceModel.getTotal();
+            }
+            revenue[i][0] = i+1;
+            revenue[i][1] = Configs.convertStringToVNDCurrency(String.valueOf(total));
+        }
+        return revenue;
     }
 }

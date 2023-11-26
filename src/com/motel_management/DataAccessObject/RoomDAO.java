@@ -103,6 +103,20 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             DB_connection.closeMMDBConnection(myConnection);
         }
     }
+    public int resetRoomStatus(String[] values) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            String query = "UPDATE Room SET quantity=? WHERE (roomId=?);";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setInt(1, Integer.parseInt(values[0]));
+            ps.setString(2, values[1]);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+    }
 
     @Override
     public RoomModel selectById(String id) {

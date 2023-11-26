@@ -22,38 +22,29 @@ public class Controller_Electricity_Water {
         return WaterRangeDAO.getInstance().delete(id);
     }
 
-    public static String[][] getElectricList() {
+    public static Object[][] getElectricList() {
         ArrayList<ElectricRangeModel> result = ElectricRangeDAO.getInstance().selectByCondition("ORDER by minRangeValue");
-        String[][] electrics = new String[result.size()][6];
+        Object[][] electrics = new Object[result.size()][6];
         for (int i = 0; i < result.size(); i++) {
             electrics[i][0] = result.get(i).getRangeId();
             electrics[i][1] = result.get(i).getRangeName();
-            electrics[i][2] = Integer.toString(result.get(i).getMinRangeValue());
-            electrics[i][3] = Integer.toString(result.get(i).getMaxRangeValue());
-            if(result.get(i).getMaxRangeValue() == Integer.MAX_VALUE){
-                electrics[i][3] = "Unlimited";
-            }else{
-                electrics[i][3] = Integer.toString(result.get(i).getMaxRangeValue());
-            }
-            electrics[i][4] = Integer.toString(result.get(i).getPrice());
+            electrics[i][2] = result.get(i).getMinRangeValue();
+            electrics[i][3] = result.get(i).getMaxRangeValue();
+            electrics[i][4] = result.get(i).getPrice();
             electrics[i][5] = "Delete";
         }
         return electrics;
     }
 
-    public static String[][] getWaterList() {
+    public static Object[][] getWaterList() {
         ArrayList<WaterRangeModel> result = WaterRangeDAO.getInstance().selectByCondition("ORDER by minRangeValue");
-        String[][] waters = new String[result.size()][6];
+        Object[][] waters = new Object[result.size()][6];
         for (int i = 0; i < result.size(); i++) {
             waters[i][0] = result.get(i).getRangeId();
             waters[i][1] = result.get(i).getRangeName();
-            waters[i][2] = Integer.toString(result.get(i).getMinRangeValue());
-            if(result.get(i).getMaxRangeValue() == Integer.MAX_VALUE){
-                waters[i][3] = "Unlimited";
-            }else{
-                waters[i][3] = Integer.toString(result.get(i).getMaxRangeValue());
-            }
-            waters[i][4] = Integer.toString(result.get(i).getPrice());
+            waters[i][2] = result.get(i).getMinRangeValue();
+            waters[i][3] = result.get(i).getMaxRangeValue();
+            waters[i][4] = result.get(i).getPrice();
             waters[i][5] = "Delete";
         }
         return waters;

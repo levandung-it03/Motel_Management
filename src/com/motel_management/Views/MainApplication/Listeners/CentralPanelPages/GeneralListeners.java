@@ -89,7 +89,7 @@ public class GeneralListeners {
         }
         return true;
     }
-    public static boolean validateNewRoomTableData(HashMap<String, JTextField> inpTags) {
+    public static boolean validateRoomTableData(HashMap<String, JTextField> inpTags) {
         if (!Configs.isIntegerNumeric(inpTags.get("quantity").getText())
                 || !Configs.isIntegerNumeric(inpTags.get("maxQuantity").getText())
                 || !Configs.isIntegerNumeric(inpTags.get("defaultPrice").getText())) {
