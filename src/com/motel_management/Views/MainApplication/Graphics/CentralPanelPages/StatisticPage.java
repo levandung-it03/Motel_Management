@@ -29,25 +29,26 @@ public class StatisticPage extends JPanel {
     public JPanel generateTagPanel(String name, int quantity) {
         JPanel tag = new JPanel(new BorderLayout());
 
-        JPanel infoPanel = new JPanel(new GridLayout(0, 1));
+        JPanel infoPanel = new JPanel(new BorderLayout());
         JLabel quantityTag = new JLabel(String.valueOf(quantity));
-        if(name.equalsIgnoreCase("revenue")){
-            quantityTag = new JLabel("<html>"+
-                    Configs.convertStringToVNDCurrency(String.valueOf(quantity)).replace("VNĐ","")+
-                    "<br>VND</html>");
-        }
         JLabel nameTag = new JLabel(name);
 
+        quantityTag.setBorder(new EmptyBorder(30, 10, 0, 10));
+        if(name.equalsIgnoreCase("revenue")){
+            quantityTag = new JLabel("<html>"+
+                    Configs.convertStringToVNDCurrency(String.valueOf(quantity)).replace("VNĐ","<br>VNĐ</html>")
+            );
+            quantityTag.setBorder(new EmptyBorder(10, 10, 0, 10));
+        }
         quantityTag.setFont(quantityTag.getFont().deriveFont(Font.BOLD, 26.0f));
         quantityTag.setForeground(Color.white);
-        quantityTag.setBorder(new EmptyBorder(30, 10, 0, 10));
 
         nameTag.setFont(nameTag.getFont().deriveFont(Font.BOLD, 24.0f));
         nameTag.setForeground(Color.white);
         nameTag.setBorder(new EmptyBorder(0, 10, 0, 10));
 
-        infoPanel.add(quantityTag);
-        infoPanel.add(nameTag);
+        infoPanel.add(quantityTag,BorderLayout.NORTH);
+        infoPanel.add(nameTag,BorderLayout.CENTER);
         infoPanel.setOpaque(false);
 
         JPanel timePanel = new JPanel();
@@ -74,7 +75,7 @@ public class StatisticPage extends JPanel {
         tags.add(generateTagPanel("Person", Controller_Statistic.getTotalPerson()));
         tags.add(generateTagPanel("Room", Controller_Statistic.getTotalRoom()));
         tags.add(generateTagPanel("Account", Controller_Statistic.getTotalAccount()));
-    tags.add(generateTagPanel("Revenue", 100000000));
+    tags.add(generateTagPanel("Revenue", Controller_Statistic.getTotalRevenue()));
 
         colors.add(new Color(0, 190, 237));
         colors.add(new Color(255, 133, 26));
@@ -105,7 +106,7 @@ public class StatisticPage extends JPanel {
         secondPanel.add(createRoomListPanel());
         secondPanel.add(createRevenuePanel());
 
-        overviewPanel.setBorder(new EmptyBorder(10, 10, 30, 10));
+        overviewPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         add(overviewPanel, BorderLayout.NORTH);
         add(secondPanel, BorderLayout.CENTER);
@@ -114,7 +115,7 @@ public class StatisticPage extends JPanel {
     public JPanel createRoomListPanel() {
         JPanel roomListPanel = new JPanel(new BorderLayout());
         JLabel title = new JLabel("Occupied Room");
-        title.setFont(title.getFont().deriveFont(Font.BOLD,34.0f));
+        title.setFont(title.getFont().deriveFont(Font.BOLD,29));
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setBorder(new EmptyBorder(10, 10, 0, 10));
         roomListPanel.add(title, BorderLayout.NORTH);
@@ -138,20 +139,20 @@ public class StatisticPage extends JPanel {
 
     public JPanel createRevenuePanel() {
         JPanel revenuePanel = new JPanel(new BorderLayout());
-        JLabel title = new JLabel("Revenue Of Year");
-        title.setFont(title.getFont().deriveFont(Font.BOLD,34.0f));
+        JLabel title = new JLabel("Monthly Revenue");
+        title.setFont(title.getFont().deriveFont(Font.BOLD,29));
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setBorder(new EmptyBorder(10, 10, 0, 10));
         revenuePanel.add(title, BorderLayout.NORTH);
 
         // Prepare Data to generate Table.
-        String[][] rooms = Controller_Statistic.getRoomList();
-        String[] columns = {"Room Code", "Representative","Quantity", "Room Price"};
+        Object[][] revenue = Controller_Statistic.getRevenue();
+        String[] columns = {"Month", "Revenue"};
         HashMap<Integer,Integer> resizeColumnList = new HashMap<>();
         //resizeColumnList.put();
 
         // Generate Table.
-        JScrollPane roomScrollPane = this.createTableAsList(rooms, columns, resizeColumnList);
+        JScrollPane roomScrollPane = this.createTableAsList(revenue, columns, resizeColumnList);
 
         // Margin Table.
         roomScrollPane.setBorder(new EmptyBorder(0, 20, 20,20));
@@ -159,8 +160,7 @@ public class StatisticPage extends JPanel {
         return revenuePanel;
     }
 
-    public JScrollPane createTableAsList(String[][] rows, String[] columns,HashMap<Integer,Integer> resizeColumnList) {
-
+    public JScrollPane createTableAsList(Object[][] rows, String[] columns,HashMap<Integer,Integer> resizeColumnList) {
 
         // Create a Table Model (with all Unchangeable).
         DefaultTableModel defaultModel = new DefaultTableModel(rows, columns) {
@@ -190,9 +190,7 @@ public class StatisticPage extends JPanel {
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
 
         // Resize several Columns.
-        resizeColumnList.forEach((k,v)->{
-            table.getColumnModel().getColumn(k).setPreferredWidth(v);
-        });
+        resizeColumnList.forEach((k,v)-> table.getColumnModel().getColumn(k).setPreferredWidth(v));
 
 
         // Create ScrollPane to Cover JTable.
