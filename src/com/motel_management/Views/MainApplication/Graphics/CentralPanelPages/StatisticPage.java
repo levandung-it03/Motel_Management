@@ -75,7 +75,7 @@ public class StatisticPage extends JPanel {
         tags.add(generateTagPanel("Person", Controller_Statistic.getTotalPerson()));
         tags.add(generateTagPanel("Room", Controller_Statistic.getTotalRoom()));
         tags.add(generateTagPanel("Account", Controller_Statistic.getTotalAccount()));
-    tags.add(generateTagPanel("Revenue", 100000000));
+    tags.add(generateTagPanel("Revenue", Controller_Statistic.getTotalRevenue()));
 
         colors.add(new Color(0, 190, 237));
         colors.add(new Color(255, 133, 26));
