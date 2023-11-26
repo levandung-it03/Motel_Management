@@ -24,7 +24,7 @@ public class StatisticListeners {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (year>LocalDate.now().getYear()){
+                if (year>=LocalDate.now().getYear()){
                     JOptionPane.showMessageDialog(new JPanel(), "This is the current year!");
                 }else {
                     CentralPanel.category.setComponentAt(0,new StatisticPage(year+1));

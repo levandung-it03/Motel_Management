@@ -9,19 +9,23 @@ import java.awt.*;
 import java.util.Objects;
 
 public class Representatives_ShowID extends JDialog{
-    public Representatives_ShowID(PersonModel person){
+    JFrame mainAppFrame;
+    JPanel subPanel0 = new JPanel();
+    JPanel subPanel1 = new JPanel();
+    JPanel subPanel2 = new JPanel();
+
+    public Representatives_ShowID(JFrame mainAppFrame, PersonModel person){
+        super(mainAppFrame);
+        this.mainAppFrame = mainAppFrame;
         this.setTitle("Details Information");
         showInformationById(person);
     }
     public void showInformationById(PersonModel person){
         JPanel marginPanel = new JPanel(new GridLayout(1,3));
-        JPanel subPanel0 = new JPanel();
-        JPanel subPanel1 = new JPanel();
-        JPanel subPanel2 = new JPanel();
 
-        ImageIcon icon = new ImageIcon("E:\\Motel_Management\\Motel_Management\\src\\com\\motel_management\\Assets\\img\\Representative.png");
+        ImageIcon icon = new ImageIcon("src/com/motel_management/Assets/img/Representative.png");
         JLabel labelForIcon = new JLabel(icon);
-        labelForIcon.setBorder(new EmptyBorder(30,0,5,0));
+        labelForIcon.setBorder(new EmptyBorder(30,0,5,30));
         labelForIcon.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel identifier = new JLabel("Identifier: " + person.getIdentifier());
@@ -30,10 +34,11 @@ public class Representatives_ShowID extends JDialog{
         JLabel birthday = new JLabel("Birth day: "+ person.getBirthday());
         JLabel phone = new JLabel("Phone: "+ person.getPhone());
         JLabel jobTitle = new JLabel("JobTitle: "+ person.getJobTitle());
-        JLabel permanentAddress = new JLabel("Address: "+ person.getPermanentAddress());
         JLabel email = new JLabel("Email: "+ person.getEmail());
-        JLabel bankAccountNumber = new JLabel("Bank Account Number: "+ person.getBankAccountNumber());
+        JLabel bankAccountNumber = new JLabel("Account Number: "+ person.getBankAccountNumber());
         JLabel bank = new JLabel("Bank: "+ person.getBank());
+
+        JLabel permanentAddress = new JLabel("Address: "+ person.getPermanentAddress());
 
         String tempGender; //Set Gender
         if (Objects.equals(person.getGender() , "0"))
@@ -59,12 +64,13 @@ public class Representatives_ShowID extends JDialog{
         subPanel1.add(setFontLabel(gender));
         subPanel1.add(setFontLabel(birthday));
         subPanel1.add(setFontLabel(bank));
-        subPanel1.add(setFontLabel(bankAccountNumber));
+        subPanel1.add(setFontLabel(permanentAddress));
+
 
         subPanel2.add(setFontLabel(roomId));
         subPanel2.add(setFontLabel(phone));
         subPanel2.add(setFontLabel(jobTitle));
-        subPanel2.add(setFontLabel(permanentAddress));
+        subPanel2.add(setFontLabel(bankAccountNumber));
         subPanel2.add(setFontLabel(email));
 
         marginPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -73,9 +79,10 @@ public class Representatives_ShowID extends JDialog{
         marginPanel.add(subPanel2);
         this.add(marginPanel);
 
-        this.setVisible(true);
+        this.setModal(true);
         this.setSize(1050,250);
         this.setLocationRelativeTo(null);
+        this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 

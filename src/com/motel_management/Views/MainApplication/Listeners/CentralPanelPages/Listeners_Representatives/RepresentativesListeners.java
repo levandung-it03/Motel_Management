@@ -9,7 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class RepresentativesListeners {
-    public static MouseAdapter getInformationByClick(JTable table) {
+    public static MouseAdapter getInformationByClick(JFrame mainAppFrame, JTable table) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -21,7 +21,7 @@ public class RepresentativesListeners {
                 if (clickedColumn == table.getColumnCount() - 1) {
                     PersonModel res =
                             Controller_Representatives.getPersonById(String.valueOf(table.getValueAt(clickedRow,0)));
-                    new Representatives_ShowID(res);
+                    new Representatives_ShowID(mainAppFrame, res);
                 }
             }
         };

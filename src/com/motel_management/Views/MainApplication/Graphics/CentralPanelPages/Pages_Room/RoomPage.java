@@ -109,7 +109,7 @@ public class RoomPage extends JPanel {
             tag.setBackground(Color.gray);
         } else if (Controller_Room.getRoomStatus(roomCode)==1) {
             //Check-out failed due to unpaid payment
-            tag.setBackground(new Color(220, 0, 0));
+            tag.setBackground(new Color(220, 20, 0));
         }else {
             tag.setBackground(Configs.normalGreen);
         }

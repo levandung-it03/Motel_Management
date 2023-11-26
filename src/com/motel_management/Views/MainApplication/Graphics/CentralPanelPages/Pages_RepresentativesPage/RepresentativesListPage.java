@@ -13,6 +13,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class RepresentativesListPage extends JPanel {
+    JFrame mainAppFrame;
+
     public JTable table;
     public JScrollPane representativesScrollPane;
     public DefaultTableModel defaultTable;
@@ -21,8 +23,9 @@ public class RepresentativesListPage extends JPanel {
     private JButton searchButton;
     private JTextField searchField = new JTextField(4);
 
-    public RepresentativesListPage() {
+    public RepresentativesListPage(JFrame mainAppFrame) {
         super(new BorderLayout());
+        this.mainAppFrame = mainAppFrame;
         this.createRepresentativesHeaderPanel();
         this.createSearchingPanel();
         this.createRepresentativesListPage();
@@ -103,7 +106,7 @@ public class RepresentativesListPage extends JPanel {
     }
 
     public void createListener(){
-        table.addMouseListener(RepresentativesListeners.getInformationByClick(table));
+        table.addMouseListener(RepresentativesListeners.getInformationByClick(mainAppFrame, table));
 //        searchButton.addActionListener(RepresentativesListeners);
     }
 
