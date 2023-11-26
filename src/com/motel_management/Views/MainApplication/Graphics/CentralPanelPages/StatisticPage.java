@@ -33,22 +33,22 @@ public class StatisticPage extends JPanel {
         JLabel quantityTag = new JLabel(String.valueOf(quantity));
         JLabel nameTag = new JLabel(name);
 
-        quantityTag.setBorder(new EmptyBorder(30, 10, 0, 10));
+        quantityTag.setBorder(new EmptyBorder(40, 10, 0, 10));
         if(name.equalsIgnoreCase("revenue")){
             quantityTag = new JLabel("<html>"+
                     Configs.convertStringToVNDCurrency(String.valueOf(quantity)).replace("VNĐ","<br>VNĐ</html>")
             );
-            quantityTag.setBorder(new EmptyBorder(10, 10, 0, 10));
+            quantityTag.setBorder(new EmptyBorder(30, 10, 0, 10));
         }
         quantityTag.setFont(quantityTag.getFont().deriveFont(Font.BOLD, 26.0f));
         quantityTag.setForeground(Color.white);
 
-        nameTag.setFont(nameTag.getFont().deriveFont(Font.BOLD, 24.0f));
+        nameTag.setFont(nameTag.getFont().deriveFont(Font.BOLD, 26.0f));
         nameTag.setForeground(Color.white);
-        nameTag.setBorder(new EmptyBorder(0, 10, 0, 10));
+        nameTag.setBorder(new EmptyBorder(0, 10, 20, 10));
 
         infoPanel.add(quantityTag,BorderLayout.NORTH);
-        infoPanel.add(nameTag,BorderLayout.CENTER);
+        infoPanel.add(nameTag,BorderLayout.SOUTH);
         infoPanel.setOpaque(false);
 
         JPanel timePanel = new JPanel();
@@ -75,7 +75,7 @@ public class StatisticPage extends JPanel {
         tags.add(generateTagPanel("Person", Controller_Statistic.getTotalPerson()));
         tags.add(generateTagPanel("Room", Controller_Statistic.getTotalRoom()));
         tags.add(generateTagPanel("Account", Controller_Statistic.getTotalAccount()));
-    tags.add(generateTagPanel("Revenue", Controller_Statistic.getTotalRevenue()));
+    tags.add(generateTagPanel("Revenue", 100000000));
 
         colors.add(new Color(0, 190, 237));
         colors.add(new Color(255, 133, 26));
