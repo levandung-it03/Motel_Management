@@ -23,7 +23,12 @@ public class Controller_Room {
         if (result.isEmpty()){
             ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition(condition[1]+
                     "AND isOccupied = 1");
-            result = RoomDAO.getInstance().selectByCondition("WHERE roomId = \""+personResult.get(0).getRoomId()+"\"");
+            if(personResult.isEmpty()){
+                JOptionPane.showConfirmDialog(new Panel(), "No rooms found matching the information", "Notice", JOptionPane.DEFAULT_OPTION);
+                result = RoomDAO.getInstance().selectAll();
+            }else {
+                result = RoomDAO.getInstance().selectByCondition("WHERE roomId = \""+personResult.get(0).getRoomId()+"\"");
+            }
         }
         String[][] rooms = new String[result.size()][5];
         for (int i = 0; i < result.size(); i++) {
