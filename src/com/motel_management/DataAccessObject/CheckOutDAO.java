@@ -3,6 +3,7 @@ import com.motel_management.Models.CheckOutModel;
 import com.motel_management.DB_interaction.DB_connection;
 import com.motel_management.Views.Configs;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -43,6 +44,11 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
 
             return ps.executeUpdate();
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(new JPanel(),
+                    "The reason is too long ",
+                    "Notice",
+                    JOptionPane.PLAIN_MESSAGE
+            );
             e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);

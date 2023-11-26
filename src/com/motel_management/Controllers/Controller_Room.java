@@ -27,7 +27,9 @@ public class Controller_Room {
                 JOptionPane.showConfirmDialog(new Panel(), "No rooms found matching the information", "Notice", JOptionPane.DEFAULT_OPTION);
                 result = RoomDAO.getInstance().selectAll();
             }else {
-                result = RoomDAO.getInstance().selectByCondition("WHERE roomId = \""+personResult.get(0).getRoomId()+"\"");
+                for (PersonModel personModel : personResult) {
+                    result.add(RoomDAO.getInstance().selectById(personModel.getRoomId()));
+                }
             }
         }
         String[][] rooms = new String[result.size()][5];
