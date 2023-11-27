@@ -8,6 +8,7 @@ import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Li
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,10 +51,19 @@ public class Header extends JPanel {
         add(headerTools, BorderLayout.EAST);
     }
     public void createMenuOptions(){
+        ImageIcon iconOptions = new ImageIcon("src/com/motel_management/Assets/img/options.png");
+        ImageIcon iconLogOut = new ImageIcon("src/com/motel_management/Assets/img/logout.png");
+        ImageIcon iconReset = new ImageIcon("src/com/motel_management/Assets/img/reset.png");
+
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu(" OPTIONS ");
+
         JMenuItem reSetItem = new JMenuItem("RESET");
         JMenuItem logOutItem = new JMenuItem("LOG OUT");
+
+        menu.setIcon(iconOptions);
+        logOutItem.setIcon(iconLogOut);
+        reSetItem.setIcon(iconReset);
 
         logOutItem.addActionListener(Listener_LogOut_Reset.logOutAction(mainFrameApp));
         reSetItem.addActionListener(Listener_LogOut_Reset.reSetAction(mainFrameApp,currentRegion));
@@ -62,7 +72,6 @@ public class Header extends JPanel {
         menu.add(reSetItem);
         menu.add(logOutItem);
         menuBar.add(menu);
-        menuBar.setBorder(new EmptyBorder(5,5,5,5));
         add(menuBar,BorderLayout.EAST);
     }
 }
