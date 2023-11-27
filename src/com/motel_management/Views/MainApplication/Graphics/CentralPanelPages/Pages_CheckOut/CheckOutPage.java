@@ -36,11 +36,19 @@ public class CheckOutPage extends JPanel {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-            @Override
-            public Class<?> getColumnClass(int columnIndex) {
-                return getValueAt(0, columnIndex).getClass();
-            }
         });
+        if(checkout.length !=0){
+            tableAsList = new TableAsList(new DefaultTableModel(checkout, columns) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+                @Override
+                public Class<?> getColumnClass(int columnIndex) {
+                    return getValueAt(0, columnIndex).getClass();
+                }
+            });
+        }
         this.defaultCheckoutTable = tableAsList.getDefaultModel();
         this.checkOutTable = tableAsList.getTable();
         this.checkOutTable.setRowSorter(new TableRowSorter<>(defaultCheckoutTable));

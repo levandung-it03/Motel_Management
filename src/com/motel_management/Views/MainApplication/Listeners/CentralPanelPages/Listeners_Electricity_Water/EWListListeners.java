@@ -35,7 +35,6 @@ public class EWListListeners {
                             JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
                     }
                 }
-                EWList.saveNewElectricTableData(EWList.electricTable);
             }
         };
         return tmElectricListener;
@@ -56,7 +55,6 @@ public class EWListListeners {
                             JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
                     }
                 }
-                EWList.saveNewWaterTableData(EWList.waterTable);
             }
         };
         return tmWaterListener;

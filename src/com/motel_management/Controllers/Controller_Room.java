@@ -20,6 +20,15 @@ public class Controller_Room {
 
     public static String[][] getRoomInfo(String[] condition) {
         ArrayList<RoomModel> result = RoomDAO.getInstance().selectByCondition(condition[0]);
+        ArrayList<RoomModel> temp =result;
+        if (condition[0].equalsIgnoreCase("WHERE 1")){
+            result = RoomDAO.getInstance().selectByCondition("WHERE 0");
+            for (int i=0;i<temp.size();i++){
+                if (getRoomStatus(temp.get(i).getRoomId()) == 1){
+                    result.add(RoomDAO.getInstance().selectById(temp.get(i).getRoomId()));
+                }
+            }
+        }
         if (result.isEmpty()){
             ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition(condition[1]+
                     "AND isOccupied = 1");

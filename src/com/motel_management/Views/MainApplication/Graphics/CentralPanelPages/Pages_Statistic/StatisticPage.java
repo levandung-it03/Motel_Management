@@ -1,33 +1,36 @@
 
-package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages;
+package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Statistic;
 import com.motel_management.Controllers.Controller_Statistic;
 import com.motel_management.Views.Configs;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_Statistic.StatisticListeners;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Invoices.InvoicesListListeners;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class StatisticPage extends JPanel {
     ArrayList<JPanel> tags = new ArrayList<>();
     ArrayList<Color> colors = new ArrayList<>();
     ArrayList<JLabel> icons = new ArrayList<>();
-    JLabel previousBtn;
-    JLabel nextBtn;
-    int year;
+    JFrame mainFrameApp;
+    DefaultTableModel defaultRoomTable;
+    JTable roomTable;
+    JScrollPane roomScrollPane;
+    DefaultTableModel defaultStatisticTable;
+    JTable statisticTable;
+    JScrollPane statisticScrollPane;
 
     // Constructor
-    public StatisticPage(int year) {
+    public StatisticPage(JFrame mainFrameApp) {
         // Set Layout Here
         super(new BorderLayout());
-        this.year=year;
+        this.mainFrameApp=mainFrameApp;
         this.createStatisticPanel();
         this.createListener();
     }
@@ -88,16 +91,22 @@ public class StatisticPage extends JPanel {
 
         // Prepare Data to generate Table.
         Object[][] rooms = Controller_Statistic.getRoomList();
-        String[] columns = {"Room Code", "Representative","Quantity", "Room Price"};
-        HashMap<Integer,Integer> resizeColumnList = new HashMap<>();
-        resizeColumnList.put(0,30);
-        resizeColumnList.put(2,30);
+        String[] columns = {"Room Code", "Representative","Quantity","Price"};
+        TableAsList tableAsList = new TableAsList(new DefaultTableModel(rooms, columns) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+        this.defaultRoomTable = tableAsList.getDefaultModel();
+        this.roomTable = tableAsList.getTable();
+        this.roomScrollPane = tableAsList.getScrollPane();
 
+        // Resize several Columns.
+        this.roomTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+        this.roomTable.getColumnModel().getColumn(2).setPreferredWidth(20);
+        this.roomTable.getColumnModel().getColumn(3).setPreferredWidth(40);
 
-        // Generate Table.
-        JScrollPane roomScrollPane = this.createTableAsList(rooms, columns, resizeColumnList);
-
-        // Margin Table.
         roomScrollPane.setBorder(new EmptyBorder(0, 20, 20,20));
         roomListPanel.add(roomScrollPane);
         return roomListPanel;
@@ -105,32 +114,31 @@ public class StatisticPage extends JPanel {
 
     public JPanel createRevenuePanel() {
         JPanel revenuePanel = new JPanel(new BorderLayout());
-        JPanel titlePanel = new JPanel(new BorderLayout());
-        JLabel title = new JLabel("Monthly Revenue("+year+")");
+        JLabel title = new JLabel("Statistic");
         title.setFont(title.getFont().deriveFont(Font.BOLD,29));
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setBorder(new EmptyBorder(10, 10, 0, 10));
-        previousBtn = new JLabel("<<Previous");
-        nextBtn = new JLabel("Next>>");
 
-        titlePanel.setBorder(new EmptyBorder(0,20,0,20));
-        titlePanel.add(previousBtn,BorderLayout.WEST);
-        titlePanel.add(nextBtn,BorderLayout.EAST);
-        titlePanel.add(title,BorderLayout.CENTER);
-        revenuePanel.add(titlePanel, BorderLayout.NORTH);
+        revenuePanel.add(title, BorderLayout.NORTH);
 
         // Prepare Data to generate Table.
-        Object[][] revenue = Controller_Statistic.getRevenue(year);
-        String[] columns = {"Month", "Revenue"};
-        HashMap<Integer,Integer> resizeColumnList = new HashMap<>();
-        //resizeColumnList.put();
+        Object[][] revenue = Controller_Statistic.getRevenue();
+        String[] columns = {"Year","Revenue","Profit","Detail"};
+        TableAsList tableAsList = new TableAsList(new DefaultTableModel(revenue, columns) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+        this.defaultStatisticTable = tableAsList.getDefaultModel();
+        this.statisticTable = tableAsList.getTable();
+        this.statisticScrollPane = tableAsList.getScrollPane();
 
-        // Generate Table.
-        JScrollPane roomScrollPane = this.createTableAsList(revenue, columns, resizeColumnList);
+        // Resize several Columns.
+        this.statisticTable.getColumnModel().getColumn(0).setPreferredWidth(20);
 
-        // Margin Table.
-        roomScrollPane.setBorder(new EmptyBorder(0, 20, 0,20));
-        revenuePanel.add(roomScrollPane);
+        statisticScrollPane.setBorder(new EmptyBorder(0, 20, 20,20));
+        revenuePanel.add(statisticScrollPane);
         return revenuePanel;
     }
     public JPanel generateTagPanel(String name, int quantity) {
@@ -173,44 +181,10 @@ public class StatisticPage extends JPanel {
         return tag;
     }
 
-    public JScrollPane createTableAsList(Object[][] rows, String[] columns,HashMap<Integer,Integer> resizeColumnList) {
 
-        // Create a Table Model (with all Unchangeable).
-        DefaultTableModel defaultModel = new DefaultTableModel(rows, columns) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-
-        // Create Table
-        JTable table = new JTable(defaultModel);
-        table.setBorder(new LineBorder(Configs.blackTextColor, 1, true));
-
-        // Set Header (Column Name) Font.
-        JTableHeader header = table.getTableHeader();
-        header.setFont(Configs.labelFont);
-        table.setFont(Configs.labelFont);
-
-        // Set Table size.
-        table.setRowHeight(30);
-
-        // Make all Columns align horizontally.
-        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
-        cellRenderer.setHorizontalAlignment(JLabel.CENTER);
-        cellRenderer.setVerticalAlignment(JLabel.CENTER);
-        for (int i = 0; i < table.getColumnCount(); i++)
-            table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
-
-        // Resize several Columns.
-        resizeColumnList.forEach((k,v)-> table.getColumnModel().getColumn(k).setPreferredWidth(v));
-
-
-        // Create ScrollPane to Cover JTable.
-        return new JScrollPane(table);
-    }
     public void createListener(){
-        previousBtn.addMouseListener(StatisticListeners.getPreviousYear(year));
-        nextBtn.addMouseListener(StatisticListeners.getNextYear(year));
+        statisticTable.addMouseListener(
+                StatisticListeners.getDetailProfit(mainFrameApp)
+        );
     }
 }

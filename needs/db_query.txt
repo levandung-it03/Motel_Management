@@ -28,7 +28,7 @@ CREATE TABLE ElectricRange(
 );
 CREATE TABLE WaterRange(
     rangeId VARCHAR(20) UNIQUE NOT NULL,
-    rangeName VARCHAR(20) NOT NULL,
+    rangeName VARCHAR(20) UNIQUE NOT NULL,
     minRangeValue INT DEFAULT 0,
     maxRangeValue INT DEFAULT 0,
     price INT DEFAULT 0,
