@@ -1,14 +1,13 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages;
 
 import com.motel_management.DataAccessObject.ContractDAO;
-import com.motel_management.Models.ContractModel;
 import com.motel_management.Views.Configs;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import java.util.ArrayList;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 public class GeneralListeners {
@@ -90,7 +89,7 @@ public class GeneralListeners {
         }
         return true;
     }
-    public static boolean validateNewRoomTableData(HashMap<String, JTextField> inpTags) {
+    public static boolean validateRoomTableData(HashMap<String, JTextField> inpTags) {
         if (!Configs.isIntegerNumeric(inpTags.get("quantity").getText())
                 || !Configs.isIntegerNumeric(inpTags.get("maxQuantity").getText())
                 || !Configs.isIntegerNumeric(inpTags.get("defaultPrice").getText())) {

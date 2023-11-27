@@ -42,7 +42,15 @@ public class TableAsList {
         table.setRowHeight(30);
 
         // Make all Columns align horizontally.
-        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer(){
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                if (value.equals(Integer.MAX_VALUE)) {
+                    value = "Unlimited";
+                }
+                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            }
+        };
         cellRenderer.setHorizontalAlignment(JLabel.CENTER);
         cellRenderer.setVerticalAlignment(JLabel.CENTER);
         for (int i = 0; i < table.getColumnCount() - 1; i++)

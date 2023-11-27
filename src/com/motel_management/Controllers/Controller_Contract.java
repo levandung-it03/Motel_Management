@@ -77,8 +77,8 @@ public class Controller_Contract {
         return result;
     }
 
-    public static int updateContract(String[] data) {
-        return RoomDAO.getInstance().update(data);
+    public static void updateContractStatus (String[] data) {
+        ContractDAO.getInstance().updateContractStatus(data);
     }
 
     public static int deleteById(String roomId, String identifier) {

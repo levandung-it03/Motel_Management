@@ -2,6 +2,7 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages;
 import com.motel_management.Controllers.Controller_Statistic;
 import com.motel_management.Views.Configs;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_Statistic.StatisticListeners;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -18,58 +19,29 @@ public class StatisticPage extends JPanel {
     ArrayList<JPanel> tags = new ArrayList<>();
     ArrayList<Color> colors = new ArrayList<>();
     ArrayList<JLabel> icons = new ArrayList<>();
+    JLabel previousBtn;
+    JLabel nextBtn;
+    int year;
 
     // Constructor
-    public StatisticPage() {
+    public StatisticPage(int year) {
         // Set Layout Here
         super(new BorderLayout());
+        this.year=year;
         this.createStatisticPanel();
-    }
-
-    public JPanel generateTagPanel(String name, int quantity) {
-        JPanel tag = new JPanel(new BorderLayout());
-
-        JPanel infoPanel = new JPanel(new GridLayout(2, 0));
-        JLabel quantityTag = new JLabel(String.valueOf(quantity));
-        JLabel nameTag = new JLabel(name);
-
-        quantityTag.setFont(quantityTag.getFont().deriveFont(Font.BOLD, 26.0f));
-        quantityTag.setForeground(Color.white);
-        quantityTag.setBorder(new EmptyBorder(30, 10, 0, 10));
-
-        nameTag.setFont(nameTag.getFont().deriveFont(Font.BOLD, 24.0f));
-        nameTag.setForeground(Color.white);
-        nameTag.setBorder(new EmptyBorder(0, 10, 0, 10));
-
-        infoPanel.add(quantityTag);
-        infoPanel.add(nameTag);
-        infoPanel.setOpaque(false);
-
-        JPanel timePanel = new JPanel();
-        LocalDate time = LocalDate.now();
-        JLabel currentTime = new JLabel(time.getDayOfMonth()+"/"+time.getMonthValue()+"/"+time.getYear());
-        currentTime.setFont(currentTime.getFont().deriveFont(Font.BOLD, 18.0f));
-        currentTime.setForeground(Color.white);
-        currentTime.setHorizontalAlignment(JLabel.CENTER);
-        timePanel.add(currentTime);
-        timePanel.setBackground(new Color(0,0,0, 40));
-        timePanel.setPreferredSize(new Dimension(0,30));
-
-        tag.add(infoPanel, BorderLayout.WEST);
-        tag.add(timePanel,BorderLayout.SOUTH);
-        return tag;
+        this.createListener();
     }
 
     public void createStatisticPanel() {
         setBackground(new Color(228, 230, 236));
         JPanel overviewPanel = new JPanel(new GridLayout(0, 4, 10, 10));
-        overviewPanel.setPreferredSize(new Dimension(0, 200));
+        overviewPanel.setPreferredSize(new Dimension(0, 180));
         overviewPanel.setOpaque(false);
 
         tags.add(generateTagPanel("Person", Controller_Statistic.getTotalPerson()));
         tags.add(generateTagPanel("Room", Controller_Statistic.getTotalRoom()));
         tags.add(generateTagPanel("Account", Controller_Statistic.getTotalAccount()));
-        tags.add(generateTagPanel("Revenue", 100000000));
+    tags.add(generateTagPanel("Revenue", Controller_Statistic.getTotalRevenue()));
 
         colors.add(new Color(0, 190, 237));
         colors.add(new Color(255, 133, 26));
@@ -100,7 +72,7 @@ public class StatisticPage extends JPanel {
         secondPanel.add(createRoomListPanel());
         secondPanel.add(createRevenuePanel());
 
-        overviewPanel.setBorder(new EmptyBorder(10, 10, 30, 10));
+        overviewPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         add(overviewPanel, BorderLayout.NORTH);
         add(secondPanel, BorderLayout.CENTER);
@@ -109,13 +81,13 @@ public class StatisticPage extends JPanel {
     public JPanel createRoomListPanel() {
         JPanel roomListPanel = new JPanel(new BorderLayout());
         JLabel title = new JLabel("Occupied Room");
-        title.setFont(title.getFont().deriveFont(Font.BOLD,34.0f));
+        title.setFont(title.getFont().deriveFont(Font.BOLD,29));
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setBorder(new EmptyBorder(10, 10, 0, 10));
         roomListPanel.add(title, BorderLayout.NORTH);
 
         // Prepare Data to generate Table.
-        String[][] rooms = Controller_Statistic.getRoomList();
+        Object[][] rooms = Controller_Statistic.getRoomList();
         String[] columns = {"Room Code", "Representative","Quantity", "Room Price"};
         HashMap<Integer,Integer> resizeColumnList = new HashMap<>();
         resizeColumnList.put(0,30);
@@ -133,29 +105,75 @@ public class StatisticPage extends JPanel {
 
     public JPanel createRevenuePanel() {
         JPanel revenuePanel = new JPanel(new BorderLayout());
-        JLabel title = new JLabel("Revenue Of Year");
-        title.setFont(title.getFont().deriveFont(Font.BOLD,34.0f));
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        JLabel title = new JLabel("Monthly Revenue("+year+")");
+        title.setFont(title.getFont().deriveFont(Font.BOLD,29));
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setBorder(new EmptyBorder(10, 10, 0, 10));
-        revenuePanel.add(title, BorderLayout.NORTH);
+        previousBtn = new JLabel("<<Previous");
+        nextBtn = new JLabel("Next>>");
+
+        titlePanel.setBorder(new EmptyBorder(0,20,0,20));
+        titlePanel.add(previousBtn,BorderLayout.WEST);
+        titlePanel.add(nextBtn,BorderLayout.EAST);
+        titlePanel.add(title,BorderLayout.CENTER);
+        revenuePanel.add(titlePanel, BorderLayout.NORTH);
 
         // Prepare Data to generate Table.
-        String[][] rooms = Controller_Statistic.getRoomList();
-        String[] columns = {"Room Code", "Representative","Quantity", "Room Price"};
+        Object[][] revenue = Controller_Statistic.getRevenue(year);
+        String[] columns = {"Month", "Revenue"};
         HashMap<Integer,Integer> resizeColumnList = new HashMap<>();
         //resizeColumnList.put();
 
         // Generate Table.
-        JScrollPane roomScrollPane = this.createTableAsList(rooms, columns, resizeColumnList);
+        JScrollPane roomScrollPane = this.createTableAsList(revenue, columns, resizeColumnList);
 
         // Margin Table.
-        roomScrollPane.setBorder(new EmptyBorder(0, 20, 20,20));
+        roomScrollPane.setBorder(new EmptyBorder(0, 20, 0,20));
         revenuePanel.add(roomScrollPane);
         return revenuePanel;
     }
+    public JPanel generateTagPanel(String name, int quantity) {
+        JPanel tag = new JPanel(new BorderLayout());
 
-    public JScrollPane createTableAsList(String[][] rows, String[] columns,HashMap<Integer,Integer> resizeColumnList) {
+        JPanel infoPanel = new JPanel(new BorderLayout());
+        JLabel quantityTag = new JLabel(String.valueOf(quantity));
+        JLabel nameTag = new JLabel(name);
 
+        quantityTag.setBorder(new EmptyBorder(30, 10, 0, 10));
+        if(name.equalsIgnoreCase("revenue")){
+            quantityTag = new JLabel("<html>"+
+                    Configs.convertStringToVNDCurrency(String.valueOf(quantity)).replace("VNĐ","<br>VNĐ</html>")
+            );
+            quantityTag.setBorder(new EmptyBorder(20, 10, 0, 10));
+        }
+        quantityTag.setFont(quantityTag.getFont().deriveFont(Font.BOLD, 26.0f));
+        quantityTag.setForeground(Color.white);
+
+        nameTag.setFont(nameTag.getFont().deriveFont(Font.BOLD, 26.0f));
+        nameTag.setForeground(Color.white);
+        nameTag.setBorder(new EmptyBorder(0, 10, 10, 10));
+
+        infoPanel.add(quantityTag,BorderLayout.NORTH);
+        infoPanel.add(nameTag,BorderLayout.SOUTH);
+        infoPanel.setOpaque(false);
+
+        JPanel timePanel = new JPanel();
+        LocalDate time = LocalDate.now();
+        JLabel currentTime = new JLabel(time.getDayOfMonth()+"/"+time.getMonthValue()+"/"+time.getYear());
+        currentTime.setFont(currentTime.getFont().deriveFont(Font.BOLD, 18.0f));
+        currentTime.setForeground(Color.white);
+        currentTime.setHorizontalAlignment(JLabel.CENTER);
+        timePanel.add(currentTime);
+        timePanel.setBackground(new Color(0,0,0, 40));
+        timePanel.setPreferredSize(new Dimension(0,30));
+
+        tag.add(infoPanel, BorderLayout.WEST);
+        tag.add(timePanel,BorderLayout.SOUTH);
+        return tag;
+    }
+
+    public JScrollPane createTableAsList(Object[][] rows, String[] columns,HashMap<Integer,Integer> resizeColumnList) {
 
         // Create a Table Model (with all Unchangeable).
         DefaultTableModel defaultModel = new DefaultTableModel(rows, columns) {
@@ -185,12 +203,14 @@ public class StatisticPage extends JPanel {
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
 
         // Resize several Columns.
-        resizeColumnList.forEach((k,v)->{
-            table.getColumnModel().getColumn(k).setPreferredWidth(v);
-        });
+        resizeColumnList.forEach((k,v)-> table.getColumnModel().getColumn(k).setPreferredWidth(v));
 
 
         // Create ScrollPane to Cover JTable.
         return new JScrollPane(table);
+    }
+    public void createListener(){
+        previousBtn.addMouseListener(StatisticListeners.getPreviousYear(year));
+        nextBtn.addMouseListener(StatisticListeners.getNextYear(year));
     }
 }
