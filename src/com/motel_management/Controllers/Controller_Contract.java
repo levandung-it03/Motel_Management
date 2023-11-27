@@ -91,10 +91,36 @@ public class Controller_Contract {
         return deleteContractRes * deletePersonRes * updateRoomRes;
     }
 
-    public static String[][] getAllContractWithTableFormat() {
+    public static String[][] getAllValidContractWithTableFormat() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         ArrayList<ContractModel> selectedContracts = ContractDAO.getInstance()
-                .selectByCondition("WHERE checkedOut=\"0\" ORDER BY checkedOut ASC");
+                .selectByCondition("WHERE checkedOut=\"0\" ORDER BY roomId ASC, checkedOut ASC");
+        HashMap<String, String> selectedPersons = PersonDAO.getInstance().selectAllNameById();
+
+        String[][] contracts = new String[selectedContracts.size()][8];
+        for (int i = 0; i < selectedContracts.size(); i++) {
+            contracts[i][0] = selectedContracts.get(i).getRoomId();
+            contracts[i][1] = selectedContracts.get(i).getIdentifier();
+            contracts[i][2] = selectedPersons.get(selectedContracts.get(i).getIdentifier());
+            contracts[i][3] = Integer.toString(selectedContracts.get(i).getRoomDeposit());
+            contracts[i][4] = selectedContracts.get(i).getIsRegisteredPerAddress().equals("1") ? "YES" : "NO";
+            contracts[i][5] = dateFormat.format(selectedContracts.get(i).getStartingDate());
+            contracts[i][6] = dateFormat.format(selectedContracts.get(i).getEndingDate());
+            contracts[i][7] = "Delete";
+        }
+        return contracts;
+    }
+
+    public static String[][] getAllContractByYearWithTableFormat(String year) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String query = (
+                year.equals("0")
+                ? "WHERE checkedOut=\"0\""
+                : "WHERE YEAR(startingDate)=\"" + year + "\""
+        ) + "ORDER BY roomId ASC, checkedOut ASC";
+
+        ArrayList<ContractModel> selectedContracts = ContractDAO.getInstance()
+                .selectByCondition(query);
         HashMap<String, String> selectedPersons = PersonDAO.getInstance().selectAllNameById();
 
         String[][] contracts = new String[selectedContracts.size()][8];
