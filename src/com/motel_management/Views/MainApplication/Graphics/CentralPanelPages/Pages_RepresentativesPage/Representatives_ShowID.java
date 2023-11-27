@@ -38,7 +38,7 @@ public class Representatives_ShowID extends JDialog{
         JLabel bankAccountNumber = new JLabel("Account Number: "+ person.getBankAccountNumber());
         JLabel bank = new JLabel("Bank: "+ person.getBank());
 
-        JLabel permanentAddress = new JLabel("Address: "+ person.getPermanentAddress());
+        JLabel permanentAddress = new JLabel(multiLineAddress(person.getPermanentAddress()));
 
         String tempGender; //Set Gender
         if (Objects.equals(person.getGender() , "0"))
@@ -50,11 +50,11 @@ public class Representatives_ShowID extends JDialog{
         subPanel0.setLayout(new BorderLayout(0,10));
         subPanel0.setBorder(new EmptyBorder(5,20,20,0));
 
-        subPanel1.setLayout(new GridLayout(5,1));
-        subPanel1.setBorder(new EmptyBorder(10,0,10,5));
+        subPanel1.setLayout(new GridLayout(6,1));
+        subPanel1.setBorder(new EmptyBorder(5,0,10,5));
 
-        subPanel2.setLayout(new GridLayout(5,1));
-        subPanel2.setBorder(new EmptyBorder(10,5,10,0));
+        subPanel2.setLayout(new GridLayout(4,1));
+        subPanel2.setBorder(new EmptyBorder(5,5,0,0));
 
 
         subPanel0.add(labelForIcon,BorderLayout.CENTER);
@@ -64,23 +64,23 @@ public class Representatives_ShowID extends JDialog{
         subPanel1.add(setFontLabel(gender));
         subPanel1.add(setFontLabel(birthday));
         subPanel1.add(setFontLabel(bank));
-        subPanel1.add(setFontLabel(permanentAddress));
+        subPanel1.add(setFontLabel(email));
+        subPanel1.add(setFontLabel(phone));
 
 
         subPanel2.add(setFontLabel(roomId));
-        subPanel2.add(setFontLabel(phone));
         subPanel2.add(setFontLabel(jobTitle));
         subPanel2.add(setFontLabel(bankAccountNumber));
-        subPanel2.add(setFontLabel(email));
+        subPanel2.add(setFontLabel(permanentAddress));
 
-        marginPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        marginPanel.setBorder(new EmptyBorder(15, 20, 20, 20));
         marginPanel.add(subPanel0);
         marginPanel.add(subPanel1);
         marginPanel.add(subPanel2);
         this.add(marginPanel);
 
         this.setModal(true);
-        this.setSize(1050,250);
+        this.setSize(1100,300);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -90,5 +90,11 @@ public class Representatives_ShowID extends JDialog{
         label.setFont(Configs.labelFont);
         label.setFont(label.getFont().deriveFont(18.0f));
         return label;
+    }
+
+    public String multiLineAddress(String address){
+        String res = "<html> Address : ";
+        res = res.concat(address + "</html>");
+        return res;
     }
 }
