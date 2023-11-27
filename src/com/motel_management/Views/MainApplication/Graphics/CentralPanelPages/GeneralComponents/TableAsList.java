@@ -109,7 +109,6 @@ public class TableAsList {
                 }
             });
         }
-
     }
 
     public JTable getTable() {

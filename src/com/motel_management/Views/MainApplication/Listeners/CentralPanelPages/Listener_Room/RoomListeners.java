@@ -3,18 +3,15 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Controllers.Controller_Representatives;
 import com.motel_management.Controllers.Controller_Room;
-import com.motel_management.Controllers.Controllers_Checkout;
+import com.motel_management.Controllers.Controller_Checkout;
 import com.motel_management.DataAccessObject.ContractDAO;
 import com.motel_management.Models.ContractModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanel;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.AddElectricity_WaterPage;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.CheckOutRoom_Dialog;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.UpdateRoom_Dialog;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Electricity_Water.AddEWListeners;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -127,7 +124,7 @@ public class RoomListeners {
                         String checkOutId = "CK" + Configs.generateIdTail();
                         String[] data = {checkOutId, contractId.get(0).getContractId(),
                                 dateFormat.format(checkOutDate.getCalendar().getTime()), reason.getText()};
-                        String nextIdWhenSuccessfully = Controllers_Checkout.addCheckOutHistory(data);
+                        String nextIdWhenSuccessfully = Controller_Checkout.addCheckOutHistory(data);
                         if (nextIdWhenSuccessfully != null) {
                             JOptionPane.showConfirmDialog(new Panel(), "Successful Check-out",
                                     "Notice", JOptionPane.DEFAULT_OPTION);

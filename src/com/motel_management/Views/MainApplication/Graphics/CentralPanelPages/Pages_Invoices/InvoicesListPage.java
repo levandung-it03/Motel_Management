@@ -3,6 +3,7 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 import com.motel_management.Controllers.Controller_Invoices;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.Frame_MainApplication;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Invoices.InvoicesListListeners;
 
@@ -20,24 +21,55 @@ public class InvoicesListPage extends JPanel {
     public DefaultTableModel defaultModel;
     public Object[][] tableData;
 
+    public JTextField searchingTextField = new JTextField();
+    public JComboBox<String> searchingComboBox;
+
     // Constructor
     public InvoicesListPage(Frame_MainApplication mainFrameApp) {
         super(new BorderLayout());
         this.mainFrameApp = mainFrameApp;
         this.createInvoicesListPage();
-        this.createListeners();
         this.saveCurrentTableData();
+        this.createListeners();
     }
 
     public void createInvoicesListPage() {
+        setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
+
+        // Tools
+        JPanel tools = new JPanel(new BorderLayout());
+        tools.setPreferredSize(new Dimension(Configs.centralPanelWidth, 85));
+        tools.setBorder(new EmptyBorder(15, 15, 5, 15));
+
+        // Search
+        this.searchingComboBox = new JComboBox<String>(new String[] {
+                "Room Id",
+                "Last Invoice",
+                "Month Payment",
+                "Year Payment",
+                "Date Created",
+                "Total-VNĐ",
+                "Was Paid"
+        });
+        JPanel searchingComboBoxContainer =
+                InputComboPanel.generateComboBoxInputPanel("Choose Searched Field", this.searchingComboBox);
+
+        JPanel searchingContainer = new JPanel(new BorderLayout());
+        JPanel searchingTextFieldPanel =
+                InputComboPanel.generateTextInputPanel("Searching", this.searchingTextField);
+
+        searchingContainer.add(searchingTextFieldPanel, BorderLayout.WEST);
+        searchingContainer.add(searchingComboBoxContainer, BorderLayout.EAST);
+        tools.add(searchingContainer, BorderLayout.EAST);
+
+        // Title
         JPanel title = new JPanel();
-        JLabel titleLabel = new JLabel("Current Invoices");
+        JLabel titleLabel = new JLabel("Most Recent Invoices");
         titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 34.0f));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        title.setBorder(new EmptyBorder(15, 0, 0, 0));
         title.add(titleLabel);
-        add(title, BorderLayout.NORTH);
-
-        setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
+        tools.add(title, BorderLayout.WEST);
 
         // Prepare Date to generate Table.
         ArrayList<String[]> result = Controller_Invoices.getAllInvoicesWithTableFormat();
@@ -82,15 +114,18 @@ public class InvoicesListPage extends JPanel {
         this.table.getColumnModel().getColumn(8).setPreferredWidth(73);
 
         // Add ScrollPane into CentralPanel/Invoices.
+        add(tools, BorderLayout.NORTH);
         add(invoiceScrollPane, BorderLayout.CENTER);
     }
 
     public void createListeners() {
-        InvoicesListPage _this = this;
         // Add Clicking View, Update Button Action.
         table.addMouseListener(
                 InvoicesListListeners.getAllInvoicesByMouseListener(this.defaultModel, this.table, this, mainFrameApp)
         );
+
+        // Searching
+        this.searchingTextField.addKeyListener(InvoicesListListeners.searchTableToGetObjects(this));
     }
 
     public void saveCurrentTableData() {
