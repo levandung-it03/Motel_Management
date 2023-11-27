@@ -36,29 +36,34 @@ public class Controller_Statistic {
         return totalYearRevenue;
     }
 
-    public static String[][] getRoomList() {
+    public static Object[][] getRoomList() {
         ArrayList<PersonModel> result = PersonDAO.getInstance().selectAll();
-        String[][] rooms = new String[result.size()][4];
+        Object[][] rooms = new Object[result.size()][4];
         for (int i = 0; i < result.size(); i++) {
             RoomModel roomResult = RoomDAO.getInstance().selectById(result.get(i).getRoomId());
             rooms[i][0] = result.get(i).getRoomId();
             rooms[i][1] = result.get(i).getLastName()+ " " +result.get(i).getFirstName();
-            rooms[i][2] = Integer.toString(roomResult.getQuantity());
-            rooms[i][3] = Integer.toString(roomResult.getDefaultRoomPrice());
+            rooms[i][2] = roomResult.getQuantity();
+            rooms[i][3] = Configs.convertStringToVNDCurrency(roomResult.getDefaultRoomPrice());
         }
         return rooms;
     }
-    public static Object[][] getRevenue() {
-        Object[][] revenue = new Object[12][2];
+    public static Object[][] getRevenue(int year) {
+        Object[][] revenue = new Object[13][2];
+        int totalYear =0;
         for (int i = 0; i < 12; i++) {
-            ArrayList<InvoiceModel> result = InvoiceDAO.getInstance().selectByCondition("WHERE paymentMonth = \""+(i+1)+"\" AND wasPaid = 1");
-            int total=0;
+            ArrayList<InvoiceModel> result = InvoiceDAO.getInstance().selectByCondition("WHERE paymentMonth = \""+
+                    (i+1)+"\" AND paymentYear = \""+year+"\" AND wasPaid = 1");
+            int totalMonth=0;
             for (InvoiceModel invoiceModel : result) {
-                total += invoiceModel.getTotal();
+                totalMonth += invoiceModel.getTotal();
             }
             revenue[i][0] = i+1;
-            revenue[i][1] = Configs.convertStringToVNDCurrency(String.valueOf(total));
+            revenue[i][1] = Configs.convertStringToVNDCurrency(String.valueOf(totalMonth));
+            totalYear+=totalMonth;
         }
+        revenue[12][0] = "Total";
+        revenue[12][1] = Configs.convertStringToVNDCurrency(String.valueOf(totalYear));
         return revenue;
     }
 }

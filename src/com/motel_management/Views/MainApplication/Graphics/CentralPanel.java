@@ -15,8 +15,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -47,7 +46,7 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Invoices"));
         labels.add(generateTabLabel("Check-out"));
 
-        pages.add(new StatisticPage());
+        pages.add(new StatisticPage(LocalDate.now().getYear()));
         pages.add(new RoomPage(mainFrameApp,new String[] {"",""}));
         pages.add(new ContractPage());
         pages.add(new RepresentativesPage());
@@ -87,7 +86,7 @@ public class CentralPanel extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 int tabSelected = category.getSelectedIndex();
                 switch(tabSelected) {
-                    case 0 -> category.setComponentAt(0, new StatisticPage());
+                    case 0 -> category.setComponentAt(0, new StatisticPage(LocalDate.now().getYear()));
                     case 1 -> category.setComponentAt(1, new RoomPage(mainFrameApp,new String[] {"",""}));
                     case 2 -> category.setComponentAt(2, new ContractPage());
                     case 3 -> category.setComponentAt(3, new RepresentativesPage());
