@@ -111,5 +111,19 @@ public class Controller_Room {
         }
         return true;
     }
+    public static int getRoomStatus(String roomId) {
+        ArrayList<InvoiceModel> roomPayment = InvoiceDAO.getInstance().selectByCondition("WHERE roomId = \""+roomId+"\"");
+        RoomModel room = RoomDAO.getInstance().selectById(roomId);
+        if (room.getQuantity() == 0){
+            return 0;
+        }
+        for (int i=0;i<roomPayment.size();i++){
+            //check if all months are paid
+            if (roomPayment.get(i).getWasPaid().equals("0")){
+                return 1;
+            }
+        }
+        return 2;
+    }
 
 }

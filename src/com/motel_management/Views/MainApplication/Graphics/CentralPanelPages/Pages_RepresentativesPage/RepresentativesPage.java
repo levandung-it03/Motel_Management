@@ -4,13 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RepresentativesPage extends JPanel{
+    JFrame mainAppFrame;
     private JPanel personListPage;
     public RepresentativesPage() {
         super(new BorderLayout());
+        this.mainAppFrame = mainAppFrame;
         this.CreateRepresentativesPanel();
     }
     public void CreateRepresentativesPanel(){
-        personListPage = new RepresentativesListPage();
+        personListPage = new RepresentativesListPage(mainAppFrame);
         add(personListPage);
     }
 }
