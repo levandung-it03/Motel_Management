@@ -115,7 +115,6 @@ public class ContractListPage extends JPanel {
         table.addMouseListener(ContractListListeners.getDeleteCellByMouseListener(this.defaultModel, this.table, this));
 
         // Searching Action
-//        this.searchingTextField.addActionListener(ContractListListeners.searchContract(this));
         this.searchingTextField.addKeyListener(ContractListListeners.searchContract(this));
 
         // Get Contracts By Year
