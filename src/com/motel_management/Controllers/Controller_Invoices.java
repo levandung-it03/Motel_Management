@@ -230,11 +230,6 @@ public class Controller_Invoices {
         return result;
     }
 
-    public static ArrayList<InvoiceModel> getInvoicesByRoomId(String roomId) {
-        return InvoiceDAO.getInstance()
-                .selectByCondition("WHERE roomId=\"" + roomId + "\" ORDER BY paymentYear DESC, paymentMonth DESC LIMIT 12");
-    }
-
     public static ArrayList<InvoiceModel> getInvoicesByRoomIdWithPage(int currentPage, String roomId) {
         return InvoiceDAO.getInstance()
                 .selectByCondition(
@@ -251,6 +246,5 @@ public class Controller_Invoices {
     public static int deleteInvoice(String invoiceId) {
         return InvoiceDAO.getInstance().delete(invoiceId);
     }
-
 
 }

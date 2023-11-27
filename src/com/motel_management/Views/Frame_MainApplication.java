@@ -40,7 +40,7 @@ public class Frame_MainApplication extends JFrame {
         add(mainApp.footer, BorderLayout.SOUTH);
 
         setVisible(true);
-        setResizable(true);
+        setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
