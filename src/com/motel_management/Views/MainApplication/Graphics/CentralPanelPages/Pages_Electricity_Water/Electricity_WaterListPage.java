@@ -66,7 +66,6 @@ public class Electricity_WaterListPage extends JPanel {
                     return switch (columnIndex) {
                         case 2 -> Integer.class;
                         case 3 -> Integer.class;
-                        case 4 -> Integer.class;
                         default -> String.class;
                     };
                 }
@@ -116,7 +115,6 @@ public class Electricity_WaterListPage extends JPanel {
                 return switch (columnIndex) {
                     case 2 -> Integer.class;
                     case 3 -> Integer.class;
-                    case 4 -> Integer.class;
                     default -> String.class;
                 };
             }

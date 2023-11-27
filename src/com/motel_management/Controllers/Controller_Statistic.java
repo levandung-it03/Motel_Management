@@ -73,4 +73,21 @@ public class Controller_Statistic {
         revenue[5][2] = Configs.convertStringToVNDCurrency(String.valueOf(totalProfit));
         return revenue;
     }
+    public static Object[][] getMonthStatistic(int year) {
+        Object[][] revenue = new Object[12][3];
+        for (int i = 0; i < 12; i++) {
+            ArrayList<InvoiceModel> result = InvoiceDAO.getInstance().selectByCondition("WHERE paymentMonth = \""+
+                    (i+1)+"\" AND paymentYear = \""+year+"\" AND wasPaid = 1");
+            int totalRevenue=0;
+            int totalProfit=0;
+            for (InvoiceModel invoiceModel : result) {
+                totalRevenue += invoiceModel.getTotal();
+                totalProfit += invoiceModel.getDefaultRoomPrice();
+            }
+            revenue[i][0] = i+1;
+            revenue[i][1] = Configs.convertStringToVNDCurrency(String.valueOf(totalRevenue));
+            revenue[i][2] = Configs.convertStringToVNDCurrency(String.valueOf(totalProfit));
+        }
+        return revenue;
+    }
 }

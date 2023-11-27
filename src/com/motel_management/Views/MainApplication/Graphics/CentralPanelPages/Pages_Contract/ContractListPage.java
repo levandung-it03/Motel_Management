@@ -10,13 +10,9 @@ import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Li
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class ContractListPage extends JPanel {
     public JTable table;
@@ -32,8 +28,8 @@ public class ContractListPage extends JPanel {
     public ContractListPage() {
         super(new BorderLayout());
         this.createContractListPage();
-        this.createListeners();
         this.saveCurrentTableData();
+        this.createListeners();
     }
 
     public void createContractListPage() {
@@ -43,6 +39,27 @@ public class ContractListPage extends JPanel {
         JPanel tools = new JPanel(new BorderLayout());
         tools.setPreferredSize(new Dimension(Configs.centralPanelWidth, 95));
         tools.setBorder(new EmptyBorder(30, 15, 0, 15));
+
+        // Search
+        this.searchingComboBox = new JComboBox<String>(new String[] {
+                "Room",
+                "Representative Card",
+                "Name",
+                "Room Deposit-VNĐ",
+                "Registered Temp Residence",
+                "Started Date",
+                "Ended Date"
+        });
+        JPanel searchingComboBoxContainer =
+                InputComboPanel.generateComboBoxInputPanel("Choose Searched Field", this.searchingComboBox);
+
+        JPanel searchingContainer = new JPanel(new BorderLayout());
+        JPanel searchingTextFieldPanel = InputComboPanel.generateTextInputPanel("Searching (Allow dd/, /MM/ or yyyy)", this.searchingTextField);
+        searchingTextFieldPanel.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.27), 65));
+
+        searchingContainer.add(searchingComboBoxContainer, BorderLayout.WEST);
+        searchingContainer.add(searchingTextFieldPanel, BorderLayout.EAST);
+        tools.add(searchingContainer, BorderLayout.WEST);
 
         // Filter
         int currentYear = LocalDateTime.now().getYear();
@@ -58,30 +75,10 @@ public class ContractListPage extends JPanel {
                 InputComboPanel.generateComboBoxInputPanel("Filter With Starting Year", this.filterComboBox);
         tools.add(filterComboBoxContainer, BorderLayout.EAST);
 
-        // Search
-        this.searchingComboBox = new JComboBox<String>(new String[] {
-                "Room",
-                "Representative Card",
-                "Name",
-                "Room Deposit",
-                "Registered Temp Residence",
-                "Started Date",
-                "Ended Date"
-        });
-        JPanel searchingComboBoxContainer = InputComboPanel.generateComboBoxInputPanel("Choose Searched Field", this.searchingComboBox);
-
-        JPanel searchingContainer = new JPanel(new BorderLayout());
-        JPanel searchingTextField = InputComboPanel.generateTextInputPanel("Searching (Allow dd/, /MM/ or yyyy)", this.searchingTextField);
-        searchingTextField.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.27), 65));
-
-        searchingContainer.add(searchingComboBoxContainer, BorderLayout.WEST);
-        searchingContainer.add(searchingTextField, BorderLayout.EAST);
-        tools.add(searchingContainer, BorderLayout.WEST);
-
         // Prepare Date to generate Table.
         String[] columns = {"Room", "Representative Card", "Name", "Room Deposit", "Registered Temp Residence",
                 "Started Date", "Ended Date", "Delete Button"};
-        String[][] contracts = Controller_Contract.getAllValidContractWithTableFormat();
+        String[][] contracts = Controller_Contract.getAllContractByYearWithTableFormat("0");
 
         // Create Table
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(contracts, columns) {
@@ -92,6 +89,7 @@ public class ContractListPage extends JPanel {
         });
         this.defaultModel = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
+        this.table.setRowSorter(new TableRowSorter<>(defaultModel));
         this.contractScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.
@@ -115,10 +113,10 @@ public class ContractListPage extends JPanel {
         table.addMouseListener(ContractListListeners.getDeleteCellByMouseListener(this.defaultModel, this.table, this));
 
         // Searching Action
-        this.searchingTextField.addKeyListener(ContractListListeners.searchContract(this));
+        this.searchingTextField.addKeyListener(ContractListListeners.searchTableToGetObjects(this));
 
         // Get Contracts By Year
-        this.filterComboBox.addActionListener(ContractListListeners.getContractsByYear(this));
+        this.filterComboBox.addItemListener(ContractListListeners.getObjectsByYear(this));
     }
 
     public void saveCurrentTableData() {

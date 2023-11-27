@@ -31,7 +31,7 @@ public class Frame_MainApplication extends JFrame {
         setSize(Configs.fullWidth, Configs.fullHeight);
         setLayout(new BorderLayout());
 
-        mainApp.header = new Header(user,this);
+        mainApp.header = new Header(currentRegion,user,this);
         mainApp.footer = new Footer();
         mainApp.centralPanel = new CentralPanel(this);
 
@@ -40,7 +40,7 @@ public class Frame_MainApplication extends JFrame {
         add(mainApp.footer, BorderLayout.SOUTH);
 
         setVisible(true);
-        setResizable(true);
+        setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }

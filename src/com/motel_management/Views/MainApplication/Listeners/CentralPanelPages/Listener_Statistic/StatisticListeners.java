@@ -11,12 +11,12 @@ import java.awt.event.MouseListener;
 public class StatisticListeners {
     public StatisticListeners() {
     }
-    public static MouseListener getDetailProfit(JFrame mainFrameApp){
+    public static MouseListener getDetailProfit(JFrame mainFrameApp,JTable table){
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                new DetailStatistic_Dialog(mainFrameApp);
+                new DetailStatistic_Dialog(mainFrameApp,Integer.parseInt(table.getValueAt(table.rowAtPoint(e.getPoint()),0).toString()));
             }
         };
     }

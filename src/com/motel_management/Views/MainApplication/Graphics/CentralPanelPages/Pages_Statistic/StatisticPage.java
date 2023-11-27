@@ -136,6 +136,7 @@ public class StatisticPage extends JPanel {
 
         // Resize several Columns.
         this.statisticTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        this.statisticTable.getColumnModel().getColumn(3).setPreferredWidth(30);
 
         statisticScrollPane.setBorder(new EmptyBorder(0, 20, 20,20));
         revenuePanel.add(statisticScrollPane);
@@ -184,7 +185,7 @@ public class StatisticPage extends JPanel {
 
     public void createListener(){
         statisticTable.addMouseListener(
-                StatisticListeners.getDetailProfit(mainFrameApp)
+                StatisticListeners.getDetailProfit(mainFrameApp,statisticTable)
         );
     }
 }
