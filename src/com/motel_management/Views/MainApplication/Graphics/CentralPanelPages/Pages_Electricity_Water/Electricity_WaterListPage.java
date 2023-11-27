@@ -63,7 +63,12 @@ public class Electricity_WaterListPage extends JPanel {
                 }
                 @Override
                 public Class<?> getColumnClass(int columnIndex) {
-                    return getValueAt(0, columnIndex).getClass();
+                    return switch (columnIndex) {
+                        case 2 -> Integer.class;
+                        case 3 -> Integer.class;
+                        case 4 -> Integer.class;
+                        default -> String.class;
+                    };
                 }
             });
         }
@@ -106,19 +111,16 @@ public class Electricity_WaterListPage extends JPanel {
             public boolean isCellEditable(int row, int column) {
                 return column != 0 && column != 2 && column != 3 && column != 5;
             }
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return switch (columnIndex) {
+                    case 2 -> Integer.class;
+                    case 3 -> Integer.class;
+                    case 4 -> Integer.class;
+                    default -> String.class;
+                };
+            }
         });
-        if(waters.length !=0){
-            tableAsList = new TableAsList(new DefaultTableModel(waters, columns) {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return column != 0 && column != 2 && column != 3 && column != 5;
-                }
-                @Override
-                public Class<?> getColumnClass(int columnIndex) {
-                    return getValueAt(0, columnIndex).getClass();
-                }
-            });
-        }
         this.defaultWaterTable = tableAsList.getDefaultModel();
         this.waterTable = tableAsList.getTable();
         this.waterTable.setRowSorter(new TableRowSorter<>(defaultWaterTable));

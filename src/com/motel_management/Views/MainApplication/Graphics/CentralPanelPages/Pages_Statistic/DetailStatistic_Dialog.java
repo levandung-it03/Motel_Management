@@ -10,11 +10,11 @@ public class DetailStatistic_Dialog extends JDialog {
     }
     public void createDetailDialog(){
         this.setModal(true);
-        this.setSize(1000, 600);
+        this.setSize(400, 400);
         this.setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-
+        JFreeChart
 
 
         this.setVisible(true);
