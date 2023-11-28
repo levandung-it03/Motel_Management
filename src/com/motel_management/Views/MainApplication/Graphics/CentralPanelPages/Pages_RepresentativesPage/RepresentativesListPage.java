@@ -11,6 +11,7 @@ import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Li
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.time.LocalDateTime;
 
@@ -99,6 +100,7 @@ public class RepresentativesListPage extends JPanel {
         });
         this.defaultModel = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
+        this.table.setRowSorter(new TableRowSorter<>(defaultModel));
         this.representativesScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.
