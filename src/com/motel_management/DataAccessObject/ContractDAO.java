@@ -231,4 +231,22 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         }
         return null;
     }
+
+    public ArrayList<String> selectContractWithRepresentativeByYear(String condition) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            PreparedStatement ps = myConnection.prepareStatement("SELECT identifier FROM Contract " + condition);
+            ArrayList<String> result = new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getString("identifier"));
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return null;
+    }
 }
