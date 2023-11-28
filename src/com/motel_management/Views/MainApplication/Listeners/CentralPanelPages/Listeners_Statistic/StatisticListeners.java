@@ -1,4 +1,4 @@
-package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_Statistic;
+package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Statistic;
 
 import com.motel_management.Views.MainApplication.Graphics.CentralPanel;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.StatisticPage;

@@ -5,6 +5,7 @@ import com.motel_management.Views.Configs;
 
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -153,7 +154,6 @@ public class PersonDAO implements DAOInterface<PersonModel>{
         return 0;
     }
 
-
     @Override
     public PersonModel selectById(String id) {
         Connection myConnection = DB_connection.getMMDBConnection();
@@ -238,6 +238,34 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             HashMap<String, String> result = new HashMap<>();
             while (rs.next()) {
                 result.put(rs.getString("identifier"), rs.getString("firstName"));
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return null;
+    }
+
+    public ArrayList<String[]> selectByInnerJoinContract(String condition) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            PreparedStatement ps = myConnection.prepareStatement(
+                    "SELECT roomId, Person.identifier, lastName, firstName, startingDate, endingDate, phone " +
+                    "FROM Person INNER JOIN (" +
+                            "SELECT identifier, startingDate, endingDate FROM Contract " + condition +
+                    ") AS SimpleContract WHERE Person.identifier = SimpleContract.identifier"
+            );
+            ArrayList<String[]> result = new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                result.add(new String[] {rs.getString("roomId"), rs.getString("identifier"),
+                        rs.getString("lastName"),rs.getString("firstName"),
+                        rs.getString("phone"), sdf.format(rs.getDate("startingDate")),
+                        sdf.format(rs.getDate("endingDate"))});
             }
             return result;
         } catch (SQLException e) {

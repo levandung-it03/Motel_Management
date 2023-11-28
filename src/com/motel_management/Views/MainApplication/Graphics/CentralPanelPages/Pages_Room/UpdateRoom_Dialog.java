@@ -1,7 +1,7 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room;
 
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_Room.RoomListeners;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Room.RoomListeners;
 
 import javax.swing.*;
 import java.awt.*;

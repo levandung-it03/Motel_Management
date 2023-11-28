@@ -1,4 +1,4 @@
-package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_CheckOut;
+package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_CheckOut;
 
 import com.motel_management.Controllers.Controller_Checkout;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_CheckOut.CheckOutPage;

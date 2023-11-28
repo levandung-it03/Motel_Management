@@ -2,7 +2,7 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages;
 import com.motel_management.Controllers.Controller_Statistic;
 import com.motel_management.Views.Configs;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_Statistic.StatisticListeners;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Statistic.StatisticListeners;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

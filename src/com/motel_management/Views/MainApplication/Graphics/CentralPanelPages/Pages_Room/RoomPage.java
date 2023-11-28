@@ -4,7 +4,7 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_Room.RoomListeners;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Room.RoomListeners;
 
 import java.awt.*;
 import java.util.HashMap;

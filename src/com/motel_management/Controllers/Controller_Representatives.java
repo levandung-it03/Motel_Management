@@ -1,6 +1,5 @@
 package com.motel_management.Controllers;
 
-import com.motel_management.DataAccessObject.ContractDAO;
 import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.Models.PersonModel;
 
@@ -21,42 +20,25 @@ public class Controller_Representatives {
 
     public static String[][] getAllRepresentativesWithTableFormat(String year) {
         String[][] result;
+        String condition;
 
-        // Occupying Persons.
-        if (year.equals("0")) {
-            ArrayList<PersonModel> persons = PersonDAO.getInstance().selectByCondition("WHERE isOccupied=\"1\"");
-            result = new String[persons.size()][8];
-            for (int i = 0; i < persons.size(); i++) {
-                result[i][0] = persons.get(i).getRoomId();
-                result[i][1] = persons.get(i).getIdentifier();
-                result[i][2] = persons.get(i).getLastName();
-                result[i][3] = persons.get(i).getFirstName();
-                result[i][4] = persons.get(i).getGender().equals("0") ? "NAM" : "NU";
-                result[i][5] = persons.get(i).getJobTitle();
-                result[i][6] = persons.get(i).getPhone();
-                result[i][7] = "View";
-            }
+        if (year.equals("0"))   condition = "WHERE checkedOut=\"0\"";
+        else    condition = "WHERE YEAR(startingDate)=\"" + year +"\"";
+
+        ArrayList<String[]> persons = PersonDAO.getInstance().selectByInnerJoinContract(condition);
+        result = new String[persons.size()][8];
+
+        for (int i = 0; i < persons.size(); i++) {
+            result[i][0] = persons.get(i)[0];
+            result[i][1] = persons.get(i)[1];
+            result[i][2] = persons.get(i)[2];
+            result[i][3] = persons.get(i)[3];
+            result[i][4] = persons.get(i)[4];
+            result[i][5] = persons.get(i)[5];
+            result[i][6] = persons.get(i)[6];
+            result[i][7] = "View";
         }
-        // Persons Check-in In Year.
-        else {
-            ArrayList<String> simpleContracts = ContractDAO.getInstance()
-                    .selectContractWithRepresentativeByYear("WHERE YEAR(startingDate)=\"" + year + "\"");
-            result = new String[simpleContracts.size()][8];
-            for (int i = 0; i < simpleContracts.size(); i++) {
-                PersonModel person = PersonDAO.getInstance()
-                        .selectByCondition("WHERE identifier=\"" + simpleContracts.get(i) + "\"").get(0);
-                if (person != null) {
-                    result[i][0] = person.getRoomId();
-                    result[i][1] = person.getIdentifier();
-                    result[i][2] = person.getLastName();
-                    result[i][3] = person.getFirstName();
-                    result[i][4] = person.getGender().equals("0") ? "NAM" : "NU";
-                    result[i][5] = person.getJobTitle();
-                    result[i][6] = person.getPhone();
-                    result[i][7] = "View";
-                }
-            }
-        }
+
         return result;
     }
 }

@@ -4,7 +4,6 @@ import com.motel_management.Controllers.Controller_Representatives;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Contract.ContractListListeners;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Representatives.RepresentativesListeners;
 
 
@@ -51,15 +50,9 @@ public class RepresentativesListPage extends JPanel {
 
         // Search
         JPanel searchingContainer = new JPanel(new BorderLayout());
-        this.searchingComboBox = new JComboBox<String>(new String[] {
-                "Room Id",
-                "Identifier",
-                "First Name",
-                "Last Name",
-                "Gender",
-                "Job Titles",
-                "Phone Number"
-        });
+        this.searchingComboBox = new JComboBox<String>(new String[] {"Room Id", "Identifier", "First Name", "Last Name",
+                "Phone", "Starting Date", "Ending Date"});
+
         JPanel searchingComboBoxContainer =
                 InputComboPanel.generateComboBoxInputPanel("Choose Searched Field", this.searchingComboBox);
         searchingComboBoxContainer.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.17), 75));
@@ -88,7 +81,8 @@ public class RepresentativesListPage extends JPanel {
 
         // Prepare Date to generate Table.
         String[][] representatives = Controller_Representatives.getAllRepresentativesWithTableFormat("0");
-        String[] columns = {"Room Id", "Identifier", "First Name", "Last Name", "Gender", "Job Titles", "Phone Number", "Details"};
+        String[] columns = {"Room Id", "Identifier", "First Name", "Last Name", "Phone", "Starting Date",
+                "Ending Date", "Details"};
 
         // Generate Table.
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(representatives, columns) {

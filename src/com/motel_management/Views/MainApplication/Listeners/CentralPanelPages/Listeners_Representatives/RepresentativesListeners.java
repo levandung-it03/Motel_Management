@@ -1,6 +1,5 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Representatives;
 
-import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Controllers.Controller_Representatives;
 import com.motel_management.Models.PersonModel;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.RepresentativesListPage;
@@ -44,6 +43,7 @@ public class RepresentativesListeners {
             }
         };
     }
+
     public static ItemListener getObjectsByYear(RepresentativesListPage page) {
         return new ItemListener() {
             @Override
