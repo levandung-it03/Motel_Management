@@ -72,7 +72,7 @@ public class RoomListeners {
                     JOptionPane.showMessageDialog(new JPanel(), "Invalid Information", "Notice", JOptionPane.PLAIN_MESSAGE);
                 }
                 //create onsite listener
-                CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp, new String[]{"", ""},0));
+                CentralPanel.category.setComponentAt(1,new RoomPage(mainFrameApp));
             }
         };
     }
@@ -82,13 +82,14 @@ public class RoomListeners {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                //create onsite listener
-                CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,
-                        new String[]{"WHERE roomId LIKE \"%" + searchRoomId.getText() + "%\"",
-                                "WHERE lastName LIKE \"%" + searchRoomId.getText() + "%\"" +
-                                        " OR firstName LIKE \"%" + searchRoomId.getText() + "%\""},0
-                ));
+                String [] searchCondition = {"WHERE roomId LIKE \"%" + searchRoomId.getText() + "%\"",
+                        "WHERE lastName LIKE \"%" + searchRoomId.getText() + "%\"" +
+                                " OR firstName LIKE \"%" + searchRoomId.getText() + "%\""};
 
+                if(Controller_Room.getRoomInfo(searchCondition,mainFrameApp).length==0){
+                    CentralPanel.category.setComponentAt(1,new RoomPage((mainFrameApp)));
+                }
+                else CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,searchCondition,0));
             }
         };
     }
@@ -98,7 +99,7 @@ public class RoomListeners {
             public void actionPerformed(ActionEvent evt) {
                 //create onsite listener
                 filter.setSelected(btn.getModel(),true);
-                CentralPanel.category.setComponentAt(1,new RoomPage(mainFrameApp,new String[]{"",""},0));
+                CentralPanel.category.setComponentAt(1,new RoomPage(mainFrameApp));
 
             }
         };
@@ -109,10 +110,13 @@ public class RoomListeners {
             public void actionPerformed(ActionEvent evt) {
                 //create onsite listener
                 filter.setSelected(btn.getModel(),true);
-                CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,
-                        new String[]{"WHERE quantity = 0",""},1
-                ));
-
+                if(Controller_Room.getRoomInfo(new String[]{"WHERE quantity = 0", ""},mainFrameApp).length==0){
+                    CentralPanel.category.setComponentAt(1,new RoomPage((mainFrameApp)));
+                }else {
+                    CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,
+                            new String[]{"WHERE quantity = 0", ""}, 1
+                    ));
+                }
             }
         };
     }
@@ -122,10 +126,13 @@ public class RoomListeners {
             public void actionPerformed(ActionEvent evt) {
                 //create onsite listener
                 filter.setSelected(btn.getModel(),true);
-                CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,
-                        new String[]{"WHERE 1",""},2
-                ));
-
+                if(Controller_Room.getRoomInfo(new String[]{"WHERE 1","WHERE 0"},mainFrameApp).length==0){
+                    CentralPanel.category.setComponentAt(1,new RoomPage((mainFrameApp)));
+                }else {
+                    CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,
+                            new String[]{"WHERE 1","WHERE 0"},2
+                    ));
+                }
             }
         };
     }
@@ -139,7 +146,7 @@ public class RoomListeners {
                 if (isValid) {
                     if (Controller_Room.updateRoom(data) != 0) {
                         JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
-                        CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp, new String[]{"", ""},0));
+                        CentralPanel.category.setComponentAt(1,new RoomPage(mainFrameApp));
                         dialog.dispose();
                     } else
                         JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
@@ -168,7 +175,7 @@ public class RoomListeners {
                             Controller_Contract.updateContractStatus(new String[]{"1", contractId.get(0).getContractId()});
                             Controller_Representatives.updatePersonStatus(new String[]{"0", contractId.get(0).getIdentifier()});
                             Controller_Room.resetRoomStatus(new String[]{"0", roomId});
-                            CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp, new String[]{"", ""},0));
+                            CentralPanel.category.setComponentAt(1,new RoomPage(mainFrameApp));
                             dialog.dispose();
                         }
                     }
@@ -233,9 +240,9 @@ public class RoomListeners {
                         JOptionPane.YES_NO_OPTION) == 0) {
                     if (Controller_Room.deleteById(roomId) != 0) {
                         JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
-                        CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp, new String[]{"", ""},0));
+                        CentralPanel.category.setComponentAt(1,new RoomPage(mainFrameApp));
                     } else {
-                        JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
+                        JOptionPane.showConfirmDialog(new Panel(), "Delete failed because the room still has contract data", "Notice", JOptionPane.DEFAULT_OPTION);
                     }
                 }
             }
