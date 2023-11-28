@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class DetailStatistic_Dialog extends JDialog {
-    DefaultTableModel defaultStatisticTable;
+    DefaultTableModel defaultStatisticModel;
     JTable statisticTable;
     JScrollPane statisticScrollPane;
     int year;
@@ -41,7 +41,7 @@ public class DetailStatistic_Dialog extends JDialog {
                 return false;
             }
         });
-        this.defaultStatisticTable = tableAsList.getDefaultModel();
+        this.defaultStatisticModel = tableAsList.getDefaultModel();
         this.statisticTable = tableAsList.getTable();
         this.statisticScrollPane = tableAsList.getScrollPane();
 
