@@ -54,23 +54,16 @@ public class Electricity_WaterListPage extends JPanel {
             public boolean isCellEditable(int row, int column) {
                 return column != 0 && column != 2 && column != 3 && column != 5;
             }
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return switch (columnIndex) {
+                    case 2 -> Integer.class;
+                    case 3 -> Integer.class;
+                    case 4 -> Integer.class;
+                    default -> String.class;
+                };
+            }
         });
-        if(electrics.length !=0){
-            tableAsList = new TableAsList(new DefaultTableModel(electrics, columns) {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return column != 0 && column != 2 && column != 3 && column != 5;
-                }
-                @Override
-                public Class<?> getColumnClass(int columnIndex) {
-                    return switch (columnIndex) {
-                        case 2 -> Integer.class;
-                        case 3 -> Integer.class;
-                        default -> String.class;
-                    };
-                }
-            });
-        }
 
         this.defaultElectricTable = tableAsList.getDefaultModel();
         this.electricTable = tableAsList.getTable();
@@ -115,6 +108,7 @@ public class Electricity_WaterListPage extends JPanel {
                 return switch (columnIndex) {
                     case 2 -> Integer.class;
                     case 3 -> Integer.class;
+                    case 4 -> Integer.class;
                     default -> String.class;
                 };
             }
