@@ -2,18 +2,12 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Statistic;
 import com.motel_management.Controllers.Controller_Statistic;
 import com.motel_management.Views.Configs;
-<<<<<<< HEAD:src/com/motel_management/Views/MainApplication/Graphics/CentralPanelPages/StatisticPage.java
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Statistic.StatisticListeners;
-=======
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_Statistic.StatisticListeners;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Invoices.InvoicesListListeners;
->>>>>>> b5c27f948b85728b22440dcd44dbb6c052de7843:src/com/motel_management/Views/MainApplication/Graphics/CentralPanelPages/Pages_Statistic/StatisticPage.java
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
