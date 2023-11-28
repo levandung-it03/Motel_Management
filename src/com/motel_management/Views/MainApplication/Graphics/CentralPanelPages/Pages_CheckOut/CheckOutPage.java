@@ -31,16 +31,35 @@ public class CheckOutPage extends JPanel {
         this.createListeners();
     }
     public void createCheckOutHistoryPanel() {
-        JLabel title = new JLabel("Check-Out History");
-        title.setFont(title.getFont().deriveFont(Font.BOLD, 34.0f));
-        title.setHorizontalAlignment(JLabel.CENTER);
-        title.setBorder(new EmptyBorder(10, 10, 0, 10));
-        add(title, BorderLayout.NORTH);
 
         // Tools
         JPanel tools = new JPanel(new BorderLayout());
-        tools.setPreferredSize(new Dimension(Configs.centralPanelWidth, 95));
-        tools.setBorder(new EmptyBorder(30, 15, 0, 15));
+        tools.setPreferredSize(new Dimension(Configs.centralPanelWidth, 143));
+        tools.setBorder(new EmptyBorder(10, 25, 5, 25));
+
+        // Title
+        JLabel title = new JLabel("Check-Out History");
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 36.0f));
+        title.setHorizontalAlignment(JLabel.CENTER);
+        title.setBorder(new EmptyBorder(0,0,20,0));
+        tools.add(title, BorderLayout.NORTH);
+
+        // Search
+        this.searchingComboBox = new JComboBox<String>(new String[] {
+                "Check-out ID",
+                "Contract ID",
+                "Check-out Date"
+        });
+        JPanel searchingComboBoxContainer = InputComboPanel.generateComboBoxInputPanel("Choose Searched Field", this.searchingComboBox);
+        searchingComboBoxContainer.setPreferredSize(new Dimension((int)(Configs.centralPanelWidth*0.17), 75));
+
+        JPanel searchingContainer = new JPanel(new BorderLayout());
+        JPanel searchingTextFieldPanel = InputComboPanel.generateTextInputPanel("Searching", this.searchingTextField);
+        searchingTextFieldPanel.setPreferredSize(new Dimension((int)(Configs.centralPanelWidth*0.16), 75));
+        searchingContainer.add(searchingComboBoxContainer, BorderLayout.WEST);
+        searchingContainer.add(searchingTextFieldPanel, BorderLayout.EAST);
+
+        tools.add(searchingContainer, BorderLayout.WEST);
 
         // Filter
         int currentYear = LocalDateTime.now().getYear();
@@ -55,22 +74,6 @@ public class CheckOutPage extends JPanel {
                 InputComboPanel.generateComboBoxInputPanel("Filter With Check-out Year", this.filterComboBox);
         tools.add(filterComboBoxContainer, BorderLayout.EAST);
 
-        // Search
-        this.searchingComboBox = new JComboBox<String>(new String[] {
-                "Check-out ID",
-                "Contract ID",
-                "Check-out Date"
-        });
-        JPanel searchingComboBoxContainer = InputComboPanel.generateComboBoxInputPanel("Choose Searched Field", this.searchingComboBox);
-
-        JPanel searchingContainer = new JPanel(new BorderLayout());
-        JPanel searchingTextFieldPanel = InputComboPanel.generateTextInputPanel("Searching", this.searchingTextField);
-
-        searchingContainer.add(searchingComboBoxContainer, BorderLayout.WEST);
-        searchingContainer.add(searchingTextFieldPanel, BorderLayout.EAST);
-        tools.add(searchingContainer, BorderLayout.WEST);
-
-        add(tools, BorderLayout.NORTH);
 
         // Prepare Data to generate Table.
         Object[][] checkout =
@@ -91,10 +94,10 @@ public class CheckOutPage extends JPanel {
         this.checkOutScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.
-        this.checkOutScrollPane.setBorder(new EmptyBorder(20, 50, 0, 50));
+        this.checkOutScrollPane.setBorder(new EmptyBorder(20, 25, 0, 25));
 
         // Resize several Columns.
-        this.table.getColumnModel().getColumn(3).setPreferredWidth(400);
+        this.table.getColumnModel().getColumn(3).setPreferredWidth(550);
 
         add(tools, BorderLayout.NORTH);
         add(checkOutScrollPane, BorderLayout.CENTER);

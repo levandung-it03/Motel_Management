@@ -107,7 +107,7 @@ public class Controller_Contract {
             contracts[i][0] = selectedContracts.get(i).getRoomId();
             contracts[i][1] = selectedContracts.get(i).getIdentifier();
             contracts[i][2] = selectedPersons.get(selectedContracts.get(i).getIdentifier());
-            contracts[i][3] = Configs.convertStringToVNDCurrency(selectedContracts.get(i).getRoomDeposit());
+            contracts[i][3] = selectedContracts.get(i).getCheckedOut().equals("1") ? "YES" : "NO";
             contracts[i][4] = selectedContracts.get(i).getIsRegisteredPerAddress().equals("1") ? "YES" : "NO";
             contracts[i][5] = dateFormat.format(selectedContracts.get(i).getStartingDate());
             contracts[i][6] = dateFormat.format(selectedContracts.get(i).getEndingDate());

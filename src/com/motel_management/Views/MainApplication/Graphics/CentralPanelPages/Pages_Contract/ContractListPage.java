@@ -34,18 +34,25 @@ public class ContractListPage extends JPanel {
 
     public void createContractListPage() {
         setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
-        // Create Year ComboBox
+
         // Tools
         JPanel tools = new JPanel(new BorderLayout());
-        tools.setPreferredSize(new Dimension(Configs.centralPanelWidth, 95));
-        tools.setBorder(new EmptyBorder(30, 15, 0, 15));
+        tools.setPreferredSize(new Dimension(Configs.centralPanelWidth, 143));
+        tools.setBorder(new EmptyBorder(10, 25, 5, 25));
+
+        // Title
+        JLabel title = new JLabel("Contracts List");
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 36.0f));
+        title.setHorizontalAlignment(JLabel.CENTER);
+        title.setBorder(new EmptyBorder(0,0,20,0));
+        tools.add(title, BorderLayout.NORTH);
 
         // Search
         this.searchingComboBox = new JComboBox<String>(new String[] {
                 "Room",
                 "Representative Card",
                 "Name",
-                "Room Deposit-VNĐ",
+                "Checked Out",
                 "Registered Temp Residence",
                 "Started Date",
                 "Ended Date"
@@ -76,7 +83,7 @@ public class ContractListPage extends JPanel {
         tools.add(filterComboBoxContainer, BorderLayout.EAST);
 
         // Prepare Date to generate Table.
-        String[] columns = {"Room", "Representative Card", "Name", "Room Deposit", "Registered Temp Residence",
+        String[] columns = {"Room", "Representative Card", "Name", "Checked Out", "Registered Temp Residence",
                 "Started Date", "Ended Date", "Delete Button"};
         String[][] contracts = Controller_Contract.getAllContractByYearWithTableFormat("0");
 

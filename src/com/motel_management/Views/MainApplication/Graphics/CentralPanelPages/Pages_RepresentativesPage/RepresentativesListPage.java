@@ -37,7 +37,7 @@ public class RepresentativesListPage extends JPanel {
     public void createRepresentativesListPage() {
         // Tools
         JPanel tools = new JPanel(new BorderLayout());
-        tools.setPreferredSize(new Dimension(Configs.centralPanelWidth, 145));
+        tools.setPreferredSize(new Dimension(Configs.centralPanelWidth, 143));
         tools.setBorder(new EmptyBorder(10, 25, 5, 25));
 
         // Title
@@ -48,23 +48,6 @@ public class RepresentativesListPage extends JPanel {
         title.setHorizontalAlignment(JLabel.CENTER);
         headerPanel.add(title,BorderLayout.CENTER);
         tools.add(headerPanel, BorderLayout.NORTH);
-
-        // Search
-        JPanel searchingContainer = new JPanel(new BorderLayout());
-        this.searchingComboBox = new JComboBox<String>(new String[] {"Room Id", "Identifier", "First Name", "Last Name",
-                "Phone", "Starting Date", "Ending Date"});
-
-        JPanel searchingComboBoxContainer =
-                InputComboPanel.generateComboBoxInputPanel("Choose Searched Field", this.searchingComboBox);
-        searchingComboBoxContainer.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.17), 75));
-
-        JPanel searchingTextFieldPanel =
-                InputComboPanel.generateTextInputPanel("Searching", this.searchingTextField);
-        searchingTextFieldPanel.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.16), 75));
-
-        searchingContainer.add(searchingTextFieldPanel, BorderLayout.WEST);
-        searchingContainer.add(searchingComboBoxContainer, BorderLayout.EAST);
-        tools.add(searchingContainer, BorderLayout.WEST);
 
         // Filter
         int currentYear = LocalDateTime.now().getYear();
@@ -79,6 +62,24 @@ public class RepresentativesListPage extends JPanel {
         JPanel filterComboBoxContainer =
                 InputComboPanel.generateComboBoxInputPanel("Filter With Starting Year", this.filterComboBox);
         tools.add(filterComboBoxContainer, BorderLayout.EAST);
+
+        // Search
+        JPanel searchingContainer = new JPanel(new BorderLayout());
+        this.searchingComboBox = new JComboBox<String>(new String[] {"Room Id", "Identifier", "First Name", "Last Name",
+                "Phone", "Starting Date", "Ending Date"});
+
+        JPanel searchingComboBoxContainer =
+                InputComboPanel.generateComboBoxInputPanel("Choose Searched Field", this.searchingComboBox);
+        searchingComboBoxContainer.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.17), 75));
+
+        JPanel searchingTextFieldPanel =
+                InputComboPanel.generateTextInputPanel("Searching", this.searchingTextField);
+        searchingTextFieldPanel.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.16), 75));
+
+        searchingContainer.add(searchingComboBoxContainer, BorderLayout.WEST);
+        searchingContainer.add(searchingTextFieldPanel, BorderLayout.EAST);
+        tools.add(searchingContainer, BorderLayout.WEST);
+
 
         // Prepare Date to generate Table.
         String[][] representatives = Controller_Representatives.getAllRepresentativesWithTableFormat("0");
