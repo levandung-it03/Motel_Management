@@ -26,7 +26,7 @@ public class EWListListeners {
             public void tableChanged(TableModelEvent evt) {
                 if (evt.getType() == TableModelEvent.UPDATE) {
                     String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmElectricListener, EWList.electricTable,
-                            EWList.electricTableData, "Electric");
+                            EWList.electricTableData);
 
                     if (changedRow != null) {
                         if (Controller_Electricity_Water.updateElectric(changedRow) != 0)
@@ -35,7 +35,6 @@ public class EWListListeners {
                             JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
                     }
                 }
-                EWList.saveNewElectricTableData(EWList.electricTable);
             }
         };
         return tmElectricListener;
@@ -47,7 +46,7 @@ public class EWListListeners {
             public void tableChanged(TableModelEvent evt) {
                 if (evt.getType() == TableModelEvent.UPDATE) {
                     String[] changedRow = GeneralListeners.getChangedTableRow(evt, tmWaterListener, EWList.waterTable,
-                            EWList.waterTableData, "Water");
+                            EWList.waterTableData);
 
                     if (changedRow != null) {
                         if (Controller_Electricity_Water.updateWater(changedRow) != 0)
@@ -56,7 +55,6 @@ public class EWListListeners {
                             JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
                     }
                 }
-                EWList.saveNewWaterTableData(EWList.waterTable);
             }
         };
         return tmWaterListener;

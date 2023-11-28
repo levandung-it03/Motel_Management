@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -84,9 +85,18 @@ public class InvoicesListPage extends JPanel {
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(invoices, columns) {
             @Override
             public boolean isCellEditable(int row, int column) { return false; }
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return switch (columnIndex) {
+                    case 3 -> Integer.class;
+                    case 4 -> Integer.class;
+                    default -> String.class;
+                };
+            }
         });
         this.defaultModel = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
+        this.table.setRowSorter(new TableRowSorter<>(defaultModel));
         this.invoiceScrollPane = tableAsList.getScrollPane();
 
         this.table.getColumnModel().getColumn(7).setCellRenderer(new DefaultTableCellRenderer() {

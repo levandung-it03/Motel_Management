@@ -85,10 +85,6 @@ public class RoomDAO implements DAOInterface<RoomModel> {
     // OverLOAD
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
-        System.out.println(values[0]);
-        System.out.println(values[1]);
-        System.out.println(values[2]);
-        System.out.println(values[3]);
         try {
             String query = "UPDATE Room SET  quantity=?, maxQuantity=?, defaultRoomPrice=? WHERE (roomId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);

@@ -16,8 +16,8 @@ public class Electricity_WaterListPage extends JPanel {
     public JTable electricTable;
     public JTable waterTable;
     public JScrollPane roomScrollPane;
-    public DefaultTableModel defaultElectricTable;
-    public DefaultTableModel defaultWaterTable;
+    public DefaultTableModel defaultElectricModel;
+    public DefaultTableModel defaultWaterModel;
     public Object[][] electricTableData;
     public Object[][] waterTableData;
 
@@ -56,12 +56,18 @@ public class Electricity_WaterListPage extends JPanel {
             }
             @Override
             public Class<?> getColumnClass(int columnIndex) {
-                return getValueAt(0, columnIndex).getClass();
+                return switch (columnIndex) {
+                    case 2 -> Integer.class;
+                    case 3 -> Integer.class;
+                    case 4 -> Integer.class;
+                    default -> String.class;
+                };
             }
         });
-        this.defaultElectricTable = tableAsList.getDefaultModel();
+
+        this.defaultElectricModel = tableAsList.getDefaultModel();
         this.electricTable = tableAsList.getTable();
-        this.electricTable.setRowSorter(new TableRowSorter<>(defaultElectricTable));
+        this.electricTable.setRowSorter(new TableRowSorter<>(defaultElectricModel));
         this.roomScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.
@@ -99,12 +105,17 @@ public class Electricity_WaterListPage extends JPanel {
             }
             @Override
             public Class<?> getColumnClass(int columnIndex) {
-                return getValueAt(0, columnIndex).getClass();
+                return switch (columnIndex) {
+                    case 2 -> Integer.class;
+                    case 3 -> Integer.class;
+                    case 4 -> Integer.class;
+                    default -> String.class;
+                };
             }
         });
-        this.defaultWaterTable = tableAsList.getDefaultModel();
+        this.defaultWaterModel = tableAsList.getDefaultModel();
         this.waterTable = tableAsList.getTable();
-        this.waterTable.setRowSorter(new TableRowSorter<>(defaultWaterTable));
+        this.waterTable.setRowSorter(new TableRowSorter<>(defaultWaterModel));
         this.roomScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.
@@ -127,8 +138,8 @@ public class Electricity_WaterListPage extends JPanel {
 
         // Tách table ra rồi nhét vô đi
         // Add Clicking Delete Electric Button Action.
-        electricTable.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfElectric(this.defaultElectricTable, this.electricTable));
-        waterTable.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfWater(this.defaultWaterTable, this.waterTable));
+        electricTable.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfElectric(this.defaultElectricModel, this.electricTable));
+        waterTable.addMouseListener(EWListListeners.getDeleteCellByMouseListenerOfWater(this.defaultWaterModel, this.waterTable));
     }
 
     public void saveNewElectricTableData(JTable table) {

@@ -53,7 +53,7 @@ public class TableAsList {
         };
         cellRenderer.setHorizontalAlignment(JLabel.CENTER);
         cellRenderer.setVerticalAlignment(JLabel.CENTER);
-        for (int i = 0; i < table.getColumnCount() - 1; i++)
+        for (int i = 0; i < table.getColumnCount(); i++)
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
 
         // Create ScrollPane to Cover JTable.

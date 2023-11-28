@@ -83,11 +83,8 @@ public class CheckOutPage extends JPanel {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-            @Override
-            public Class<?> getColumnClass(int columnIndex) {
-                return getValueAt(0, columnIndex).getClass();
-            }
         });
+
         this.defaultModel = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
         this.table.setRowSorter(new TableRowSorter<>(defaultModel));

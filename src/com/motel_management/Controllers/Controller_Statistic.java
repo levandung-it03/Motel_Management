@@ -48,22 +48,46 @@ public class Controller_Statistic {
         }
         return rooms;
     }
-    public static Object[][] getRevenue(int year) {
-        Object[][] revenue = new Object[13][2];
-        int totalYear =0;
+    public static Object[][] getRevenue() {
+        Object[][] revenue = new Object[6][4];
+        int totalRevenue =0;
+        int totalProfit =0;
+        for (int i = 0; i < 5; i++) {
+            ArrayList<InvoiceModel> result = InvoiceDAO.getInstance().selectByCondition("WHERE paymentYear = \""+
+                    (LocalDate.now().getYear()-4+i)+"\" AND wasPaid = 1");
+            int totalRevenueYear =0;
+            int totalProfitYear =0;
+            for (InvoiceModel invoiceModel : result) {
+                totalRevenueYear += invoiceModel.getTotal();
+                totalProfitYear += invoiceModel.getDefaultRoomPrice();
+            }
+            revenue[i][0] = LocalDate.now().getYear()-4+i;
+            revenue[i][1] = Configs.convertStringToVNDCurrency(String.valueOf(totalRevenueYear));
+            revenue[i][2] = Configs.convertStringToVNDCurrency(String.valueOf(totalProfitYear));
+            revenue[i][3] = "View";
+            totalRevenue+=totalRevenueYear;
+            totalProfit+=totalProfitYear;
+        }
+        revenue[5][0] = "Total";
+        revenue[5][1] = Configs.convertStringToVNDCurrency(String.valueOf(totalRevenue));
+        revenue[5][2] = Configs.convertStringToVNDCurrency(String.valueOf(totalProfit));
+        return revenue;
+    }
+    public static Object[][] getMonthStatistic(int year) {
+        Object[][] revenue = new Object[12][3];
         for (int i = 0; i < 12; i++) {
             ArrayList<InvoiceModel> result = InvoiceDAO.getInstance().selectByCondition("WHERE paymentMonth = \""+
                     (i+1)+"\" AND paymentYear = \""+year+"\" AND wasPaid = 1");
-            int totalMonth=0;
+            int totalRevenue=0;
+            int totalProfit=0;
             for (InvoiceModel invoiceModel : result) {
-                totalMonth += invoiceModel.getTotal();
+                totalRevenue += invoiceModel.getTotal();
+                totalProfit += invoiceModel.getDefaultRoomPrice();
             }
             revenue[i][0] = i+1;
-            revenue[i][1] = Configs.convertStringToVNDCurrency(String.valueOf(totalMonth));
-            totalYear+=totalMonth;
+            revenue[i][1] = Configs.convertStringToVNDCurrency(String.valueOf(totalRevenue));
+            revenue[i][2] = Configs.convertStringToVNDCurrency(String.valueOf(totalProfit));
         }
-        revenue[12][0] = "Total";
-        revenue[12][1] = Configs.convertStringToVNDCurrency(String.valueOf(totalYear));
         return revenue;
     }
 }
