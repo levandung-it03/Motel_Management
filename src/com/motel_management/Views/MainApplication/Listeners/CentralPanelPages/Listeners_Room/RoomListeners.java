@@ -110,10 +110,13 @@ public class RoomListeners {
             public void actionPerformed(ActionEvent evt) {
                 //create onsite listener
                 filter.setSelected(btn.getModel(),true);
-                CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,
-                        new String[]{"WHERE quantity = 0",""},1
-                ));
-
+                if(Controller_Room.getRoomInfo(new String[]{"WHERE quantity = 0", ""},mainFrameApp).length==0){
+                    CentralPanel.category.setComponentAt(1,new RoomPage((mainFrameApp)));
+                }else {
+                    CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,
+                            new String[]{"WHERE quantity = 0", ""}, 1
+                    ));
+                }
             }
         };
     }

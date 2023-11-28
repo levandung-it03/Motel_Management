@@ -20,7 +20,7 @@ public class Controller_Room {
         super();
     }
 
-    public static String[][] getRoomInfo(String[] condition,JFrame mainFrameApp) {
+    public static String[][] getRoomInfo(String[] condition, JFrame mainFrameApp) {
 
         // Filter unpaid room
         ArrayList<RoomModel> result = RoomDAO.getInstance().selectByCondition(condition[0]);
@@ -33,21 +33,25 @@ public class Controller_Room {
                 }
             }
         }
-        if (!condition[0].isEmpty()) {
-            // Search room
-            if (result.isEmpty()) {
-                ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition(condition[1] +
-                        " AND isOccupied = 1");
-                if (personResult.isEmpty()) {
-                    JOptionPane.showConfirmDialog(new Panel(), "No rooms found matching the information", "Notice", JOptionPane.DEFAULT_OPTION);
-                    result = RoomDAO.getInstance().selectByCondition("WHERE 0");
-                } else {
-                    for (PersonModel personModel : personResult) {
-                        result.add(RoomDAO.getInstance().selectById(personModel.getRoomId()));
-                    }
+        // Filter empty room
+        if (condition[0].equalsIgnoreCase("WHERE quantity = 0") && result.isEmpty()) {
+            JOptionPane.showConfirmDialog(new Panel(), "No rooms found matching the information", "Notice", JOptionPane.DEFAULT_OPTION);
+            return new String[result.size()][5];
+        }
+        // Search room
+        if (result.isEmpty()) {
+            ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition(condition[1] +
+                    " AND isOccupied = 1");
+            if (personResult.isEmpty()) {
+                JOptionPane.showConfirmDialog(new Panel(), "No rooms found matching the information", "Notice", JOptionPane.DEFAULT_OPTION);
+                result = RoomDAO.getInstance().selectByCondition("WHERE 0");
+            } else {
+                for (PersonModel personModel : personResult) {
+                    result.add(RoomDAO.getInstance().selectById(personModel.getRoomId()));
                 }
             }
         }
+
         String[][] rooms = new String[result.size()][5];
         for (int i = 0; i < result.size(); i++) {
             rooms[i][0] = result.get(i).getRoomId();
