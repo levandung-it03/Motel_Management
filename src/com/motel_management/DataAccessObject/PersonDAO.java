@@ -256,7 +256,7 @@ public class PersonDAO implements DAOInterface<PersonModel>{
                     "SELECT roomId, Person.identifier, lastName, firstName, startingDate, endingDate, phone " +
                     "FROM Person INNER JOIN (" +
                             "SELECT identifier, startingDate, endingDate FROM Contract " + condition +
-                    ") AS SimpleContract WHERE Person.identifier = SimpleContract.identifier"
+                    ") AS SimpleContract ON Person.identifier = SimpleContract.identifier"
             );
             ArrayList<String[]> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
