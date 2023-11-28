@@ -45,6 +45,17 @@ public class RoomPage extends JPanel {
         this.createListeners();
     }
 
+    public RoomPage(JFrame mainFrameApp) {
+        super(new BorderLayout());
+        this.mainFrameApp = mainFrameApp;
+        this.condition = new String[]{"",""};
+        this.roomStatus = 0;
+        this.createAddRoomsPanel();
+        this.createRoomsPanel();
+        this.createFunctionsPanel();
+        this.createListeners();
+    }
+
     public void createAddRoomsPanel() {
         addContainer = new JPanel(new FlowLayout());
         addContainer.setPreferredSize(new Dimension(0, 80));
@@ -191,7 +202,9 @@ public class RoomPage extends JPanel {
         submitBtn.addActionListener(RoomListeners.addNewRoomListener(inpTags,mainFrameApp));
 
         //Create room tag listener popup menu
-        tag.addMouseListener(RoomListeners.addPopupMenu(popupMenu));
+        if (tag != null){
+            tag.addMouseListener(RoomListeners.addPopupMenu(popupMenu));
+        }
 
         //Create filter listener
         if (roomStatus == 0){
