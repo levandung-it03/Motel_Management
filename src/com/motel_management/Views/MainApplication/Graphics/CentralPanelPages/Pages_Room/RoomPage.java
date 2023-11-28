@@ -73,7 +73,7 @@ public class RoomPage extends JPanel {
     public void createRoomsPanel() {
 
         // Prepare data for tag
-        data = Controller_Room.getRoomInfo(condition);
+        data = Controller_Room.getRoomInfo(condition,mainFrameApp);
         roomContainer = new JPanel(new BorderLayout());
         JPanel overviewPanel = new JPanel(new GridLayout(0, 4, 10, 10));
         overviewPanel.setPreferredSize(new Dimension(0, 188 * Math.ceilDiv(data.length,4)));

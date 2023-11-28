@@ -82,13 +82,14 @@ public class RoomListeners {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                //create onsite listener
-                CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,
-                        new String[]{"WHERE roomId LIKE \"%" + searchRoomId.getText() + "%\"",
-                                "WHERE lastName LIKE \"%" + searchRoomId.getText() + "%\"" +
-                                        " OR firstName LIKE \"%" + searchRoomId.getText() + "%\""},0
-                ));
+                String [] searchCondition = {"WHERE roomId LIKE \"%" + searchRoomId.getText() + "%\"",
+                        "WHERE lastName LIKE \"%" + searchRoomId.getText() + "%\"" +
+                                " OR firstName LIKE \"%" + searchRoomId.getText() + "%\""};
 
+                if(Controller_Room.getRoomInfo(searchCondition,mainFrameApp).length==0){
+                    CentralPanel.category.setComponentAt(1,new RoomPage((mainFrameApp)));
+                }
+                else CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,searchCondition,0));
             }
         };
     }
@@ -122,10 +123,13 @@ public class RoomListeners {
             public void actionPerformed(ActionEvent evt) {
                 //create onsite listener
                 filter.setSelected(btn.getModel(),true);
-                CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,
-                        new String[]{"WHERE 1","WHERE 0"},2
-                ));
-
+                if(Controller_Room.getRoomInfo(new String[]{"WHERE 1","WHERE 0"},mainFrameApp).length==0){
+                    CentralPanel.category.setComponentAt(1,new RoomPage((mainFrameApp)));
+                }else {
+                    CentralPanel.category.setComponentAt(1, new RoomPage(mainFrameApp,
+                            new String[]{"WHERE 1","WHERE 0"},2
+                    ));
+                }
             }
         };
     }
@@ -235,7 +239,7 @@ public class RoomListeners {
                         JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
                         CentralPanel.category.setComponentAt(1,new RoomPage(mainFrameApp));
                     } else {
-                        JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
+                        JOptionPane.showConfirmDialog(new Panel(), "Delete failed because the room still has contract data", "Notice", JOptionPane.DEFAULT_OPTION);
                     }
                 }
             }

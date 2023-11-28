@@ -8,6 +8,8 @@ import com.motel_management.Models.ContractModel;
 import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanel;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +20,7 @@ public class Controller_Room {
         super();
     }
 
-    public static String[][] getRoomInfo(String[] condition) {
+    public static String[][] getRoomInfo(String[] condition,JFrame mainFrameApp) {
 
         // Filter unpaid room
         ArrayList<RoomModel> result = RoomDAO.getInstance().selectByCondition(condition[0]);
@@ -38,7 +40,7 @@ public class Controller_Room {
                         " AND isOccupied = 1");
                 if (personResult.isEmpty()) {
                     JOptionPane.showConfirmDialog(new Panel(), "No rooms found matching the information", "Notice", JOptionPane.DEFAULT_OPTION);
-                    result = RoomDAO.getInstance().selectAll();
+                    result = RoomDAO.getInstance().selectByCondition("WHERE 0");
                 } else {
                     for (PersonModel personModel : personResult) {
                         result.add(RoomDAO.getInstance().selectById(personModel.getRoomId()));
