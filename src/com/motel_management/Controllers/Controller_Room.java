@@ -21,36 +21,6 @@ public class Controller_Room {
     }
 
     public static String[][] getRoomInfo(String[] condition) {
-
-//        // Filter unpaid room
-//        ArrayList<RoomModel> result = RoomDAO.getInstance().selectByCondition(condition[0]);
-//        ArrayList<RoomModel> temp = result;
-//        if (condition[0].equalsIgnoreCase("WHERE 1")) {
-//            result = RoomDAO.getInstance().selectByCondition("WHERE 0");
-//            for (int i = 0; i < temp.size(); i++) {
-//                if (getRoomStatus(temp.get(i).getRoomId()) == 1) {
-//                    result.add(RoomDAO.getInstance().selectById(temp.get(i).getRoomId()));
-//                }
-//            }
-//        }
-//        // Filter empty room
-//        if (condition[0].equalsIgnoreCase("WHERE quantity = 0") && result.isEmpty()) {
-//            JOptionPane.showConfirmDialog(new Panel(), "No rooms found matching the information", "Notice", JOptionPane.DEFAULT_OPTION);
-//            return new String[result.size()][5];
-//        }
-//        // Search room
-//        if (result.isEmpty()) {
-//            ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition(condition[1] +
-//                    " AND isOccupied = 1");
-//            if (personResult.isEmpty()) {
-//                JOptionPane.showConfirmDialog(new Panel(), "No rooms found matching the information", "Notice", JOptionPane.DEFAULT_OPTION);
-//                result = RoomDAO.getInstance().selectByCondition("WHERE 0");
-//            } else {
-//                for (PersonModel personModel : personResult) {
-//                    result.add(RoomDAO.getInstance().selectById(personModel.getRoomId()));
-//                }
-//            }
-//        }
         // Default
         ArrayList<RoomModel> result = RoomDAO.getInstance().selectAll();
 
