@@ -43,6 +43,10 @@ public class InvoicesListPage extends JPanel {
         tools.setBorder(new EmptyBorder(15, 15, 5, 15));
 
         // Search
+        JPanel searchingContainer = new JPanel(new BorderLayout());
+        JPanel searchingTextFieldPanel =
+                InputComboPanel.generateTextInputPanel("Searching", this.searchingTextField);
+
         this.searchingComboBox = new JComboBox<String>(new String[] {
                 "Room Id",
                 "Last Invoice",
@@ -54,10 +58,6 @@ public class InvoicesListPage extends JPanel {
         });
         JPanel searchingComboBoxContainer =
                 InputComboPanel.generateComboBoxInputPanel("Choose Searched Field", this.searchingComboBox);
-
-        JPanel searchingContainer = new JPanel(new BorderLayout());
-        JPanel searchingTextFieldPanel =
-                InputComboPanel.generateTextInputPanel("Searching", this.searchingTextField);
 
         searchingContainer.add(searchingTextFieldPanel, BorderLayout.WEST);
         searchingContainer.add(searchingComboBoxContainer, BorderLayout.EAST);
@@ -72,7 +72,7 @@ public class InvoicesListPage extends JPanel {
         title.add(titleLabel);
         tools.add(title, BorderLayout.WEST);
 
-        // Prepare Date to generate Table.
+        // Prepare Data to generate Table.
         ArrayList<String[]> result = Controller_Invoices.getAllInvoicesWithTableFormat();
         String[][] invoices = new String[result.size()][9];
         for (int i = 0; i < result.size(); i++)
