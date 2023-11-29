@@ -15,7 +15,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public int insert (ContractModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Contract VALUES (?, ?, ? ,? ,? ,?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Contract VALUES (?, ?, ? ,? ,? ,?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getContractId());
             ps.setString(2,obj.getIdentifier());

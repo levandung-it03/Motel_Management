@@ -4,24 +4,22 @@ import com.motel_management.Controllers.Controller_ChooseRegion;
 import com.motel_management.Controllers.Controller_Login;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
 
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 
 public class Frame_Login extends JFrame {
-    int fullWith = 500, fullHeight = 350;
-    private final JPanel centralPanel = new JPanel();
-    private final JPanel usernamePanel = new JPanel(new BorderLayout());
-    private final JPanel passwordPanel = new JPanel(new BorderLayout());
-    private final JPanel buttonsPanel = new JPanel(new BorderLayout());
+    int fullWith = 400, fullHeight = 370;
 
+    private final JPanel centralPanel = new JPanel();
     private final JTextField usernameField = new JTextField();
     private final JPasswordField passwordField = new JPasswordField();
 
-    private final JButton loginBtn = InputComboPanel.generateButton("Login");
-    private final JButton resetBtn = InputComboPanel.generateButton("Reset");
+    private final JButton loginBtn = InputComboPanel.generateButton("Login Now");
+    private final JButton changeStatusPasswordBtn = InputComboPanel.generateButton("Show Password");
+    private final JButton changePasswordBtn = InputComboPanel.generateButton("<html><u>Change Password</u></html>");
 
     public Frame_Login() {
         super("Motel Management - Login");
@@ -37,48 +35,62 @@ public class Frame_Login extends JFrame {
         UIManager.put("Label.font", Configs.labelFont);
         UIManager.put("Label.foreground", Configs.blackTextColor);
 
-        JLabel title = new JLabel("MOTEL");
-        JLabel usernameLabel = new JLabel("Username");
-        JLabel passwordLabel = new JLabel("Password");
-
         setLayout(new BorderLayout());
         setSize(fullWith, fullHeight);
+        centralPanel.setPreferredSize(new Dimension(fullWith*9/10, fullHeight));
 
-        // -------------Central Panel-------------
-        centralPanel.setPreferredSize(new Dimension(fullWith*3/5, fullHeight));
-
-        add(centralPanel, BorderLayout.CENTER);
-        // -------------Title-------------
+        // -------------Title Label-------------
+        JLabel title = new JLabel("MOTEL");
         title.setFont(title.getFont().deriveFont(Font.BOLD, 42.0f));
-        title.setBorder(new EmptyBorder(30, 30, 10, 40));
+        title.setBorder(new EmptyBorder(25, 40, 3, 40));
 
         // -------------Username (usernamePanel)-------------
-        usernameField.setPreferredSize(new Dimension(fullWith*3/5, Configs.inputTagHeight));
-        usernameLabel.setFont(usernameLabel.getFont().deriveFont(14.0f));
+        JPanel usernamePanel = new JPanel(new BorderLayout());
+        usernamePanel.setBorder(new EmptyBorder(10, 0, 15, 0));
+
+        JLabel usernameLabel = new JLabel("Username");
+        usernameField.setPreferredSize(new Dimension(Configs.loginTagsWidth, Configs.loginTagsHeight));
+        usernameField.setBorder(new LineBorder(Configs.blackTextColor, 1, true));
+        usernameField.setFont(Configs.labelFont);
+        usernameLabel.setFont(Configs.labelFont);
+        usernameLabel.setForeground(Configs.greyTextColor);
+
         usernamePanel.add(usernameLabel, BorderLayout.NORTH);
         usernamePanel.add(usernameField, BorderLayout.CENTER);
 
         // -------------Password (passwordPanel)-------------
-        passwordField.setPreferredSize(new Dimension(fullWith*3/5, Configs.inputTagHeight));
-        passwordLabel.setFont(passwordLabel.getFont().deriveFont(14.0f));
-        passwordPanel.add(passwordLabel, BorderLayout.NORTH);
-        passwordPanel.add(passwordField, BorderLayout.CENTER);
+        JPanel passwordPanel = InputComboPanel.generatePasswordInputPanel("Password", this.passwordField,
+                Configs.mainWhiteBackground);
 
         // -------------Buttons (buttonsPanel)-------------
-        buttonsPanel.add(loginBtn, BorderLayout.WEST);
-        buttonsPanel.add(resetBtn, BorderLayout.EAST);
-        buttonsPanel.setBorder(new EmptyBorder(15, 0, 0, 0));
-        buttonsPanel.setPreferredSize(new Dimension(fullWith/2, 50));
+        JPanel buttonsPanel = new JPanel(new BorderLayout(10, 0));
 
-        usernamePanel.setBackground(Configs.normalGreen);
-        passwordPanel.setBackground(Configs.normalGreen);
-        buttonsPanel.setBackground(Configs.normalGreen);
-        centralPanel.setBackground(Configs.normalGreen);
+        loginBtn.setBorder(new LineBorder(Color.BLACK, 0, true));
+        loginBtn.setPreferredSize(new Dimension(Configs.loginTagsWidth/2 - 10, Configs.loginTagsHeight));
+        loginBtn.setFont(Configs.labelFont);
+        loginBtn.setForeground(Configs.mainWhiteBackground);
+        loginBtn.setBackground(Configs.blackTextColor);
+
+        changePasswordBtn.setBorder(new LineBorder(Color.BLACK, 0, true));
+        changePasswordBtn.setPreferredSize(new Dimension(Configs.loginTagsWidth/2 - 10, Configs.loginTagsHeight));
+        changePasswordBtn.setFont(Configs.labelFont);
+        changePasswordBtn.setForeground(Configs.greyTextColor);
+        changePasswordBtn.setBackground(Configs.mainWhiteBackground);
+
+        buttonsPanel.add(loginBtn, BorderLayout.WEST);
+        buttonsPanel.add(changePasswordBtn, BorderLayout.EAST);
+
+        usernamePanel.setBackground(Configs.mainWhiteBackground);
+        buttonsPanel.setBackground(Configs.mainWhiteBackground);
+        centralPanel.setBackground(Configs.mainWhiteBackground);
+        setBackground(Configs.mainWhiteBackground);
 
         centralPanel.add(title);
         centralPanel.add(usernamePanel);
         centralPanel.add(passwordPanel);
         centralPanel.add(buttonsPanel);
+
+        add(centralPanel, BorderLayout.CENTER);
 
         setVisible(true);
         setResizable(false);
@@ -87,6 +99,7 @@ public class Frame_Login extends JFrame {
     }
 
     public void createOnsiteListeners() {
+        Frame_Login _this = this;
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -107,12 +120,26 @@ public class Frame_Login extends JFrame {
             }
         });
 
-        resetBtn.addActionListener(new ActionListener() {
+        changeStatusPasswordBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                usernameField.setText("");
-                passwordField.setText("");
+                if (passwordField.getEchoChar() != (char) 0) {
+                    changeStatusPasswordBtn.setText("Hide Password");
+                    passwordField.setEchoChar((char) 0);
+                } else {
+                    changeStatusPasswordBtn.setText("Show Password");
+                    passwordField.setEchoChar('*');
+                }
             }
         });
+
+        changePasswordBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Frame_ChangePassword.startLoginFrame(_this);
+                _this.setVisible(false);
+            }
+        });
+
     }
 }

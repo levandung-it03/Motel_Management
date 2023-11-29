@@ -8,7 +8,7 @@ CREATE TABLE Account (
     userId VARCHAR(20) UNIQUE NOT NULL,
     name VARCHAR(20) NOT NULL,
 	username VARCHAR(10) UNIQUE NOT NULL,
-	password VARCHAR(20) NOT NULL,
+	password VARCHAR(255) NOT NULL,
     CONSTRAINT PK_Account PRIMARY KEY (userId)
 );
 CREATE TABLE Room (
@@ -107,7 +107,8 @@ CREATE TABLE Invoice(
     CONSTRAINT UK_Invoice UNIQUE (roomId, paymentMonth, paymentYear)
 );
 
-INSERT INTO Account VALUES ("admin000", "Root", "root", "123456"), ("admin001", "Dung", "levandung", "123456");
+INSERT INTO Account VALUES ("admin000", "Root", "root", "$2a$10$j2WJzi7wT1BazuUsnKa8vOmbanLacmKc042wJLWWUxMK5eM3zPXjS")
+// MK: root#123
 INSERT INTO Room VALUES ("P001", 0, 9, 3000000), ("P002", 0, 9, 3000000), ("P003", 0, 9, 3000000), ("P004", 0, 9, 3000000), ("P005", 0, 9, 3000000),
 ("P006", 0, 9, 3000000);
 

@@ -26,26 +26,29 @@ public class Frame_ChooseRegion extends JFrame {
         UIManager.put("Label.font", Configs.labelFont);
         UIManager.put("Label.foreground", Configs.blackTextColor);
 
-        setSize(500, 300);
+        setSize(400, 270);
         setLayout(new BorderLayout());
 
         JPanel margin = new JPanel();
-        margin.setBackground(Configs.normalGreen);
-        margin.setBorder(new EmptyBorder(50, 0, 0, 0));
+        margin.setBackground(Configs.mainWhiteBackground);
+        margin.setBorder(new EmptyBorder(30, 0, 0, 0));
 
         JPanel mainContainerPanel = new JPanel(new BorderLayout(0, 15));
-        mainContainerPanel.setBackground(Configs.normalGreen);
+        mainContainerPanel.setBackground(Configs.mainWhiteBackground);
         mainContainerPanel.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.22), 140));
 
         JLabel label = new JLabel("Choose Region");
-        label.setFont(label.getFont().deriveFont(Font.BOLD, 30.0f));
-        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setFont(Configs.labelFont);
+        label.setFont(label.getFont().deriveFont(Font.BOLD, 32.2f));
 
         region = new JComboBox<>(new String[] {"Tp.Ho Chi Minh", "Another Province"});
         region.setFont(Configs.labelFont);
 
         submitBtn.setPreferredSize(Configs.buttonDimension);
         submitBtn.setFont(Configs.labelFont);
+        submitBtn.setBorder(new EmptyBorder(0, 0, 0, 0));
+        submitBtn.setBackground(Configs.blackTextColor);
+        submitBtn.setForeground(Configs.mainWhiteBackground);
 
         mainContainerPanel.add(label, BorderLayout.NORTH);
         mainContainerPanel.add(region, BorderLayout.CENTER);

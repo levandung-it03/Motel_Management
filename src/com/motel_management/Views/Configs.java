@@ -11,10 +11,12 @@ public class Configs {
     public static final int fullHeight = 768;
     public static final int centralPanelWidth = 1082;
     public static final int centralPanelHeight = 610;
-    public static final int inputTagHeight = 35;
+    public static final int loginTagsWidth = 300;
+    public static final int loginTagsHeight = 40;
     public static final Dimension buttonDimension = new Dimension(120, 35);
 
-    public static final Color blackTextColor = new Color(33, 33, 33);
+    public static final Color greyTextColor = new Color(129, 141, 154);
+    public static final Color blackTextColor = new Color(14, 23, 31);
     public static final Color greenTextColor = new Color(9, 65, 0);
     public static final Color normalGreen = new Color(79, 187, 70);
     public static final Color lightGreen = new Color(93, 138, 90);
