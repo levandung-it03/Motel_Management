@@ -13,7 +13,6 @@ public class Controller_Login {
     public static String validate(String username, String password) {
         ArrayList<AccountModel> account = AccountDAO.getInstance().selectByCondition("WHERE (username=\"" + username + "\")");
 
-
 //        String bcryptHashString = BCrypt.withDefaults().hashToString(10, password.toCharArray());
         BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), account.get(0).getPassword());
         if (!account.isEmpty() && result.verified)
