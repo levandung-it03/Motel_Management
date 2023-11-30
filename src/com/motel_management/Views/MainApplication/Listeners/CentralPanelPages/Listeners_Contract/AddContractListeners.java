@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -161,7 +162,8 @@ public class AddContractListeners {
         } catch (NumberFormatException ignored) { return "Deposit"; }
 
         try {
-            if (dateTags.get("startingDate").getCalendar().before(dateTags.get("birthday").getCalendar()))
+            if (dateTags.get("startingDate").getCalendar().before(dateTags.get("birthday").getCalendar())
+            || dateTags.get("startingDate").getCalendar().before((Object) Calendar.getInstance()))
                 return "Started Date";
         } catch (NullPointerException ignored) { return "Empty Started Date"; }
 
