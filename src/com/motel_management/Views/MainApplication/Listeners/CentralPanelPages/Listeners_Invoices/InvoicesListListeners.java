@@ -1,18 +1,13 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Invoices;
 
 import com.motel_management.Controllers.Controller_Invoices;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractListPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesListPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesOfRoomDialog;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.awt.event.*;
 
 public class InvoicesListListeners {
     public InvoicesListListeners() { super(); }
@@ -59,6 +54,21 @@ public class InvoicesListListeners {
                         + " Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
             }
         }
+    }
+
+    public static KeyListener searchTableToGetObjects(InvoicesListPage page) {
+        return new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {
+                // Make page.tableData Update Continuous.
+                GeneralListeners.searchTableToGetObjects(page.searchingTextField, page.searchingComboBox, page.table,
+                        page.tableData, page.defaultModel);
+            }
+        };
     }
 
 }

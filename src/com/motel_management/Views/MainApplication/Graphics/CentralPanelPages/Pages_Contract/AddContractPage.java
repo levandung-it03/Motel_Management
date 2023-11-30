@@ -37,11 +37,11 @@ public class AddContractPage extends JPanel {
     // Constructor
     public AddContractPage() {
         super(new FlowLayout());
-        this.createAddRoomPage();
+        this.createAddContractPage();
         this.createListeners();
     }
 
-    public void createAddRoomPage() {
+    public void createAddContractPage() {
         container = new JPanel(new FlowLayout());
         container.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
         container.setBorder(new EmptyBorder(20, 40, 0, 40));

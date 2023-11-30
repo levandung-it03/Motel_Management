@@ -1,35 +1,16 @@
-package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Representatives;
+package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_CheckOut;
 
-import com.motel_management.Controllers.Controller_Representatives;
-import com.motel_management.Models.PersonModel;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.RepresentativesListPage;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.Representatives_ShowID;
+import com.motel_management.Controllers.Controller_Checkout;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_CheckOut.CheckOutPage;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 
-import javax.swing.*;
 import java.awt.event.*;
 import java.util.Objects;
 
-public class RepresentativesListeners {
-    public static MouseAdapter getInformationByClick(JFrame mainAppFrame, JTable table) {
-        return new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                int clickedRow = table.rowAtPoint(e.getPoint());
-                int clickedColumn = table.columnAtPoint(e.getPoint());
+public class CheckOutListListener {
+    public CheckOutListListener() { super(); }
 
-                // View Button Clicked
-                if (clickedColumn == table.getColumnCount() - 1) {
-                    PersonModel res =
-                            Controller_Representatives.getPersonById(String.valueOf(table.getValueAt(clickedRow,1)));
-                    new Representatives_ShowID(mainAppFrame, res);
-                }
-            }
-        };
-    }
-
-    public static KeyListener searchTableToGetObjects(RepresentativesListPage page) {
+    public static KeyListener searchTableToGetObjects(CheckOutPage page) {
         return new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -44,7 +25,7 @@ public class RepresentativesListeners {
         };
     }
 
-    public static ItemListener getObjectsByYear(RepresentativesListPage page) {
+    public static ItemListener getObjectsByYear(CheckOutPage page) {
         return new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -54,7 +35,7 @@ public class RepresentativesListeners {
                 catch (NumberFormatException exc) { selectedYear = "0"; }
 
                 // Call API To Get Table Data.
-                Object[][] result = Controller_Representatives.getAllRepresentativesWithTableFormat(selectedYear);
+                Object[][] result = Controller_Checkout.getAllCheckOutByYearWithTableFormat(selectedYear);
 
                 // Clear Current Table Data.
                 page.defaultModel.setRowCount(0);

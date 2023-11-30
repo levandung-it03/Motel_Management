@@ -10,73 +10,81 @@ import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Li
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.time.LocalDateTime;
 
 public class RepresentativesListPage extends JPanel {
     JFrame mainAppFrame;
-
     public JTable table;
     public JScrollPane representativesScrollPane;
-    public DefaultTableModel defaultTable;
-    private JPanel headerPanel = new JPanel();
-    private JPanel searchPanel = new JPanel();
-    private JButton searchButton;
-    private JTextField searchField = new JTextField(4);
+    public DefaultTableModel defaultModel;
+
+    public JComboBox<String> filterComboBox;
+    public JTextField searchingTextField = new JTextField();
+    public JComboBox<String> searchingComboBox;
+
+    public Object[][] tableData;
 
     public RepresentativesListPage(JFrame mainAppFrame) {
         super(new BorderLayout());
         this.mainAppFrame = mainAppFrame;
-        this.createRepresentativesHeaderPanel();
-        this.createSearchingPanel();
         this.createRepresentativesListPage();
+        this.saveCurrentTableData();
         this.createListener();
     }
 
-    public void createRepresentativesHeaderPanel(){
-        this.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
+    public void createRepresentativesListPage() {
+        // Tools
+        JPanel tools = new JPanel(new BorderLayout());
+        tools.setPreferredSize(new Dimension(Configs.centralPanelWidth, 143));
+        tools.setBorder(new EmptyBorder(10, 25, 5, 25));
 
-        headerPanel.setPreferredSize(new Dimension(Configs.centralPanelWidth, 160));
-        headerPanel.setLayout(new BorderLayout());
-//        headerPanel.setBorder(BorderFactory.createLineBorder(Color.black,1));
-        JLabel title = new JLabel("Representatives List");
-        title.setBorder(new EmptyBorder(20,0,10,0));
+        // Title
+        JPanel headerPanel = new JPanel();
+        JLabel title = new JLabel("Representatives");
+        title.setBorder(new EmptyBorder(0,0,10,0));
         title.setFont(title.getFont().deriveFont(Font.BOLD, 36.0f));
         title.setHorizontalAlignment(JLabel.CENTER);
         headerPanel.add(title,BorderLayout.CENTER);
-    }
+        tools.add(headerPanel, BorderLayout.NORTH);
 
-    public void createSearchingPanel(){
-        searchPanel.setLayout(new FlowLayout());
-        searchPanel.setBorder(BorderFactory.createLineBorder(Color.black,1));
+        // Filter
+        int currentYear = LocalDateTime.now().getYear();
+        this.filterComboBox = new JComboBox<String>(new String[] {
+                "Now Is Occupying",
+                Integer.toString(currentYear),
+                Integer.toString(currentYear - 1),
+                Integer.toString(currentYear - 2),
+                Integer.toString(currentYear - 3),
+                Integer.toString(currentYear - 4),
+        });
+        JPanel filterComboBoxContainer =
+                InputComboPanel.generateComboBoxInputPanel("Filter With Starting Year", this.filterComboBox);
+        tools.add(filterComboBoxContainer, BorderLayout.EAST);
 
-        this.searchButton = InputComboPanel.generateButton("Search");
+        // Search
+        JPanel searchingContainer = new JPanel(new BorderLayout());
+        this.searchingComboBox = new JComboBox<String>(new String[] {"Room Id", "Identifier", "First Name", "Last Name",
+                "Phone", "Starting Date", "Ending Date"});
 
-        searchPanel.add(createInputPanel("Search By Year",this.searchField));
-        searchPanel.add(searchButton);
-        headerPanel.add(searchPanel,BorderLayout.SOUTH);
-        this.add(headerPanel,BorderLayout.NORTH);
-    }
+        JPanel searchingComboBoxContainer =
+                InputComboPanel.generateComboBoxInputPanel("Choose Searched Field", this.searchingComboBox);
+        searchingComboBoxContainer.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.17), 75));
 
-    public static JPanel createInputPanel(String strLabel, JTextField originInp) {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(new EmptyBorder(5, 5, 15, 5));
-        panel.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.12), 65));
+        JPanel searchingTextFieldPanel =
+                InputComboPanel.generateTextInputPanel("Searching", this.searchingTextField);
+        searchingTextFieldPanel.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.16), 75));
 
-        JLabel label = new JLabel(strLabel);
-        label.setFont(label.getFont().deriveFont(14.0f));
-
-        panel.add(label, BorderLayout.NORTH);
-        panel.add(originInp, BorderLayout.CENTER);
-        return panel;
-    }
+        searchingContainer.add(searchingComboBoxContainer, BorderLayout.WEST);
+        searchingContainer.add(searchingTextFieldPanel, BorderLayout.EAST);
+        tools.add(searchingContainer, BorderLayout.WEST);
 
 
-
-    public void createRepresentativesListPage() {
         // Prepare Date to generate Table.
-        String[][] representatives = Controller_Representatives.getAllRepresentativesWithTableFormat();
-        String[] columns = {"Identifier", "First name", "Room Id", "Phone number", "Permanent Address" ,"Details Information"};
-
+        String[][] representatives = Controller_Representatives.getAllRepresentativesWithTableFormat("0");
+        String[] columns = {"Room Id", "Identifier", "First Name", "Last Name", "Phone", "Starting Date",
+                "Ending Date", "Details"};
 
         // Generate Table.
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(representatives, columns) {
@@ -85,31 +93,43 @@ public class RepresentativesListPage extends JPanel {
                 return false;
             }
         });
-        this.defaultTable = tableAsList.getDefaultModel();
+        this.defaultModel = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
+        this.table.setRowSorter(new TableRowSorter<>(defaultModel));
         this.representativesScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.
-        this.representativesScrollPane.setBorder(new EmptyBorder(20, 10, 0, 10));
+        this.representativesScrollPane.setBorder(new EmptyBorder(20, 30, 0, 30));
 
         // Resize several Columns.
-        this.table.getColumnModel().getColumn(0).setPreferredWidth(40);
-        this.table.getColumnModel().getColumn(1).setPreferredWidth(40);
-        this.table.getColumnModel().getColumn(2).setPreferredWidth(40);
-        this.table.getColumnModel().getColumn(3).setPreferredWidth(40);
-        this.table.getColumnModel().getColumn(4).setPreferredWidth(80);
-        this.table.getColumnModel().getColumn(5).setPreferredWidth(80);
-
+        this.table.getColumnModel().getColumn(0).setPreferredWidth(10);
+        this.table.getColumnModel().getColumn(1).setPreferredWidth(70);
+        this.table.getColumnModel().getColumn(3).setPreferredWidth(30);
+        this.table.getColumnModel().getColumn(4).setPreferredWidth(15);
+        this.table.getColumnModel().getColumn(5).setPreferredWidth(40);
+        this.table.getColumnModel().getColumn(6).setPreferredWidth(40);
 
         // Add ScrollPane into CentralPanel/Room.
-        this.add(representativesScrollPane);
+        this.add(tools, BorderLayout.NORTH);
+        this.add(representativesScrollPane, BorderLayout.CENTER);
     }
 
     public void createListener(){
+        // View Detail Action
         table.addMouseListener(RepresentativesListeners.getInformationByClick(mainAppFrame, table));
-//        searchButton.addActionListener(RepresentativesListeners);
+
+        // Searching Action
+        this.searchingTextField.addKeyListener(RepresentativesListeners.searchTableToGetObjects(this));
+
+        // Get Representatives By Year
+        this.filterComboBox.addItemListener(RepresentativesListeners.getObjectsByYear(this));
     }
 
-
-
+    public void saveCurrentTableData() {
+        // Copy Data from Table.
+        tableData = new Object[this.table.getRowCount()][this.table.getColumnCount()];
+        for (int row = 0; row < this.table.getRowCount(); row++)
+            for (int col = 0; col < this.table.getColumnCount(); col++)
+                tableData[row][col] = this.table.getValueAt(row, col).toString();
+    }
 }

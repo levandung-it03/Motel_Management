@@ -33,11 +33,11 @@ public class AddInvoicePage extends JPanel {
     // Constructor
     public AddInvoicePage() {
         super(new FlowLayout());
-        this.createAddRoomPage();
+        this.createAddInvoicePage();
         this.createListeners();
     }
 
-    public void createAddRoomPage() {
+    public void createAddInvoicePage() {
         container = new JPanel(new FlowLayout());
         container.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
         container.setBorder(new EmptyBorder(20, 40, 0, 40));

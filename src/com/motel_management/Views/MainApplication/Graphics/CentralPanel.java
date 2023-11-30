@@ -1,6 +1,5 @@
 package com.motel_management.Views.MainApplication.Graphics;
 import com.motel_management.Views.Configs;
-import com.motel_management.Views.Frame_Login;
 import com.motel_management.Views.Frame_MainApplication;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_CheckOut.CheckOutPage;
@@ -8,14 +7,13 @@ import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pag
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesMainPage;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.RepresentativesPage;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.StatisticPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Statistic.StatisticPage;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -46,8 +44,8 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Invoices"));
         labels.add(generateTabLabel("Check-out"));
 
-        pages.add(new StatisticPage(LocalDate.now().getYear()));
-        pages.add(new RoomPage(mainFrameApp,new String[] {"",""}));
+        pages.add(new StatisticPage(mainFrameApp));
+        pages.add(new RoomPage(mainFrameApp));
         pages.add(new ContractPage());
         pages.add(new RepresentativesPage());
         pages.add(new Electricity_WaterPage());
@@ -86,8 +84,8 @@ public class CentralPanel extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 int tabSelected = category.getSelectedIndex();
                 switch(tabSelected) {
-                    case 0 -> category.setComponentAt(0, new StatisticPage(LocalDate.now().getYear()));
-                    case 1 -> category.setComponentAt(1, new RoomPage(mainFrameApp,new String[] {"",""}));
+                    case 0 -> category.setComponentAt(0, new StatisticPage(mainFrameApp));
+                    case 1 -> category.setComponentAt(1, new RoomPage(mainFrameApp));
                     case 2 -> category.setComponentAt(2, new ContractPage());
                     case 3 -> category.setComponentAt(3, new RepresentativesPage());
                     case 4 -> category.setComponentAt(4, new Electricity_WaterPage());

@@ -4,7 +4,6 @@ import com.motel_management.Views.Configs;
 
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.event.*;
 import javax.swing.table.*;
 import java.awt.*;
 
@@ -53,7 +52,7 @@ public class TableAsList {
         };
         cellRenderer.setHorizontalAlignment(JLabel.CENTER);
         cellRenderer.setVerticalAlignment(JLabel.CENTER);
-        for (int i = 0; i < table.getColumnCount() - 1; i++)
+        for (int i = 0; i < table.getColumnCount(); i++)
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
 
         // Create ScrollPane to Cover JTable.
@@ -109,7 +108,6 @@ public class TableAsList {
                 }
             });
         }
-
     }
 
     public JTable getTable() {

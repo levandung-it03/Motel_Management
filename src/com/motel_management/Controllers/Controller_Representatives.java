@@ -1,34 +1,44 @@
 package com.motel_management.Controllers;
 
-import com.motel_management.DataAccessObject.ContractDAO;
 import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.Models.PersonModel;
 
 import java.util.ArrayList;
 
 public class Controller_Representatives {
-    public Controller_Representatives(){
+    public Controller_Representatives() {
         super();
     }
 
     public static PersonModel getPersonById(String identifier) {
         return PersonDAO.getInstance().selectById(identifier);
     }
-    public static void updatePersonStatus (String[] data) {
+
+    public static void updatePersonStatus(String[] data) {
         PersonDAO.getInstance().updatePersonStatus(data);
     }
 
-    public static String[][] getAllRepresentativesWithTableFormat() {
-        ArrayList<PersonModel> result = PersonDAO.getInstance().selectByCondition("Where isOccupied='1'");
-        String[][] person = new String[result.size()][6];
-        for (int i = 0; i < result.size(); i++) {
-            person[i][0] = result.get(i).getIdentifier();
-            person[i][1] = result.get(i).getFirstName();
-            person[i][2] = result.get(i).getRoomId();
-            person[i][3] = result.get(i).getPhone();
-            person[i][4] = result.get(i).getPermanentAddress();
-            person[i][5] = "View";
+    public static String[][] getAllRepresentativesWithTableFormat(String year) {
+        String[][] result;
+        String condition;
+
+        if (year.equals("0"))   condition = "WHERE checkedOut=\"0\"";
+        else    condition = "WHERE YEAR(startingDate)=\"" + year +"\"";
+
+        ArrayList<String[]> persons = PersonDAO.getInstance().selectByInnerJoinContract(condition);
+        result = new String[persons.size()][8];
+
+        for (int i = 0; i < persons.size(); i++) {
+            result[i][0] = persons.get(i)[0];
+            result[i][1] = persons.get(i)[1];
+            result[i][2] = persons.get(i)[2];
+            result[i][3] = persons.get(i)[3];
+            result[i][4] = persons.get(i)[4];
+            result[i][5] = persons.get(i)[5];
+            result[i][6] = persons.get(i)[6];
+            result[i][7] = "View";
         }
-        return person;
+
+        return result;
     }
 }

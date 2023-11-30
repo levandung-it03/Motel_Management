@@ -1,31 +1,38 @@
 package com.motel_management.Views.MainApplication.Graphics;
+import com.motel_management.DataAccessObject.RegionDAO;
+import com.motel_management.Models.RegionModel;
 import com.motel_management.Views.Configs;
+import com.motel_management.Views.Frame_ChooseRegion;
 import com.motel_management.Views.Frame_Login;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_LogOut_Reset;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Header extends JPanel {
     private final String user;
+    String currentRegion;
     private final int headerWidth;
     private final int headerHeight;
     private final JPanel headerTools = new JPanel(new FlowLayout());
     JFrame mainFrameApp;
 
     // Constructor
-    public Header(String user,JFrame mainFrameApp) {
+    public Header(String currentRegion, String user,JFrame mainFrameApp) {
         // Add Your Layout Here
         super(new BorderLayout());
         this.headerWidth = Configs.fullWidth;
         this.headerHeight = (int) (Configs.fullHeight / 22);
         this.user = user;
+        this.currentRegion = currentRegion;
         this.mainFrameApp = mainFrameApp;
         this.createHeader();
-        createLogOutButton();
-        createReloadButton();
+        createMenuOptions();
     }
 
     public void createHeader() {
@@ -43,38 +50,28 @@ public class Header extends JPanel {
         add(headerLabel, BorderLayout.CENTER);
         add(headerTools, BorderLayout.EAST);
     }
-    public void createLogOutButton(){
-        JPanel logOutPanel = new JPanel();
-        logOutPanel.setOpaque(false);
-        JButton logOutButton = new JButton("LOG OUT");
+    public void createMenuOptions(){
+        ImageIcon iconOptions = new ImageIcon("src/com/motel_management/Assets/img/options.png");
+        ImageIcon iconLogOut = new ImageIcon("src/com/motel_management/Assets/img/logout.png");
+        ImageIcon iconReset = new ImageIcon("src/com/motel_management/Assets/img/reset.png");
 
-        logOutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed (ActionEvent e) {
-                int choice = JOptionPane.showConfirmDialog(new JPanel(),"Are you sure ?",
-                        "Show Confirm Dialog ", JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE);
-                if (choice==0) {
-                    mainFrameApp.dispose();
-                    Frame_Login.startLoginFrame();
-                }
-            }
-        });
-        logOutPanel.add(logOutButton);
-        add(logOutPanel,BorderLayout.EAST);
-    }
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu(" OPTIONS ");
 
-    public void createReloadButton(){
-        JPanel reLoadPanel = new JPanel();
-        reLoadPanel.setOpaque(false);
-        JButton reLoadButt = new JButton("RELOAD PAGE");
-        reLoadButt.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                SwingUtilities.updateComponentTreeUI(mainFrameApp);
-            }
-        });
+        JMenuItem reSetItem = new JMenuItem("RESET");
+        JMenuItem logOutItem = new JMenuItem("LOG OUT");
 
-        reLoadPanel.add(reLoadButt);
-        this.add(reLoadPanel,BorderLayout.WEST);
+        menu.setIcon(iconOptions);
+        logOutItem.setIcon(iconLogOut);
+        reSetItem.setIcon(iconReset);
+
+        logOutItem.addActionListener(Listener_LogOut_Reset.logOutAction(mainFrameApp));
+        reSetItem.addActionListener(Listener_LogOut_Reset.reSetAction(mainFrameApp,currentRegion));
+
+
+        menu.add(reSetItem);
+        menu.add(logOutItem);
+        menuBar.add(menu);
+        add(menuBar,BorderLayout.EAST);
     }
 }

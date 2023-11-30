@@ -7,14 +7,16 @@ import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
-public class GeneralListeners {
+public class GeneralListeners<T> {
     public GeneralListeners() { }
 
     public static String[] getChangedTableRow(TableModelEvent e, TableModelListener listener, JTable table,
-                                              Object[][] oldData, String tableName) {
+                                              Object[][] oldData) {
         int changedRowIndex = e.getFirstRow();
         int changedColumnIndex = e.getColumn();
         Object oldCellData = oldData[changedRowIndex][changedColumnIndex];
@@ -28,15 +30,7 @@ public class GeneralListeners {
             for (int i = 0; i < fullChangedRow.length; i++)
                 fullChangedRow[i] = model.getValueAt(changedRowIndex, i).toString();
 
-            boolean isValid = false;
-
-            if (tableName.equals("Room")) {
-                isValid = GeneralListeners.validateRoomTableData(oldCellData, changedValue, fullChangedRow);
-            }else if (tableName.equals("Electric")) {
-                isValid = GeneralListeners.validateEWTableData(oldCellData, changedValue, fullChangedRow);
-            }else if (tableName.equals("Water")) {
-                isValid = GeneralListeners.validateEWTableData(oldCellData, changedValue, fullChangedRow);
-            }
+            boolean isValid = GeneralListeners.validateEWTableData(oldCellData, changedValue, fullChangedRow);
 
             if (isValid) {
                 return fullChangedRow;
@@ -56,39 +50,6 @@ public class GeneralListeners {
         return null;
     }
 
-    public static boolean validateRoomTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
-        if (Configs.isIntegerNumeric(oldCellData.toString()) && !Configs.isIntegerNumeric(changedValue)) {
-            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
-            return false;
-        }
-        if (Integer.parseInt(fullChangedRow[1]) < 0 && Integer.parseInt(fullChangedRow[1]) != -1) {
-            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
-            return false;
-        }
-        if (Integer.parseInt(fullChangedRow[1]) > Integer.parseInt(fullChangedRow[2])) {
-            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
-            return false;
-        }
-        if (Integer.parseInt(fullChangedRow[3]) < 0) {
-            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
-            return false;
-        }
-
-        // Occupied Room Being Changed.
-        if (ContractDAO.getInstance().selectByCondition("WHERE (roomId =\"" + fullChangedRow[0] + "\" AND checkedOut=\"0\" )").size() > 0) {
-            if (Integer.parseInt(fullChangedRow[1]) == 0) {
-                JOptionPane.showMessageDialog(new JPanel(), "Max Quantity > 0 because Contract Existed!", "Notice", JOptionPane.PLAIN_MESSAGE);
-                return false;
-            }
-        } else {
-            // Not Occupied Room.
-            if (Integer.parseInt(fullChangedRow[1]) > 0 || Integer.parseInt(fullChangedRow[1]) == -1) {
-                JOptionPane.showMessageDialog(new JPanel(), "Room Was Not Occupied, Can Not Change Quantity!", "Notice", JOptionPane.PLAIN_MESSAGE);
-                return false;
-            }
-        }
-        return true;
-    }
     public static boolean validateRoomTableData(HashMap<String, JTextField> inpTags) {
         if (!Configs.isIntegerNumeric(inpTags.get("quantity").getText())
                 || !Configs.isIntegerNumeric(inpTags.get("maxQuantity").getText())
@@ -142,13 +103,48 @@ public class GeneralListeners {
         return true;
     }
 
-//    public static boolean validateTableData(Object oldCellData, String changedValue, String[] fullChangedRow) {
-//        boolean isValid = false;
-//        if (!isValid)
-//            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
-//
-//        return isValid;
-//    }
+    public static void searchTableToGetObjects(JTextField searchingTextField, JComboBox<String> searchingComboBox,
+                                                      JTable table, Object[][] tableData, DefaultTableModel defaultModel) {
 
+        String textValue = searchingTextField.getText().toUpperCase();
+        String[] selectedField = Objects.requireNonNull(searchingComboBox.getSelectedItem()).toString().split("-");
+        int columnInd = table.getColumn(selectedField[0]).getModelIndex();
 
+        // Clear All Table Data
+        defaultModel.setRowCount(0);
+
+        // With Empty Value, Print Out All Data.
+        if (textValue.trim().isEmpty()) {
+            for (Object[] objects : tableData)
+                defaultModel.addRow(objects);
+        }
+        // With Specified Value.
+        else {
+            ArrayList<Object[]> resultRows = new ArrayList<>();
+            // Searching With Currency Values
+            if (selectedField.length >= 2 && selectedField[1].contains("VNĐ")) {
+                for (Object[] tableDatum : tableData) {
+                    String simpleCurrency = Arrays.stream(
+                            tableDatum[columnInd].toString().toUpperCase().split("\\.")
+                    ).reduce("", (subtotal, element) -> subtotal + element);
+
+                    if (tableDatum[columnInd].toString().toUpperCase().contains(textValue)
+                            || simpleCurrency.contains(textValue))
+                        resultRows.add(tableDatum);
+                }
+            }
+            // Searching With Regular Values.
+            else {
+                for (Object[] tableDatum : tableData)
+                    if (tableDatum[columnInd].toString().toUpperCase().contains(textValue))
+                        resultRows.add(tableDatum);
+            }
+            for (Object[] objects : resultRows)
+                defaultModel.addRow(objects);
+        }
+        // Notice To Application That There Are Changes In Our Table.
+        defaultModel.fireTableDataChanged();
+
+        return;
+    }
 }

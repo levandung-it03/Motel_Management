@@ -4,7 +4,7 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
-import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listener_Room.RoomListeners;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Room.RoomListeners;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -22,18 +22,34 @@ public class RoomPage extends JPanel {
     JTextField roomIdInp = new JTextField(20);
     JTextField maxQuantity = new JTextField(20);
     JTextField defaultPrice = new JTextField(20);
-
+    JRadioButton allRoom;
+    JRadioButton emptyRoom;
+    JRadioButton unpaidRoom;
+    ButtonGroup filter;
     JButton submitBtn;
     JTextField searchRoomId = new JTextField(20);
     JButton searchBtn;
     JPopupMenu popupMenu;
     String[][] data;
     String[] condition;
+    int roomStatus;
 
-    public RoomPage(JFrame mainFrameApp,String[] condition) {
+    public RoomPage(JFrame mainFrameApp,String[] condition,int roomStatus) {
         super(new BorderLayout());
         this.mainFrameApp = mainFrameApp;
         this.condition = condition;
+        this.roomStatus =roomStatus;
+        this.createAddRoomsPanel();
+        this.createRoomsPanel();
+        this.createFunctionsPanel();
+        this.createListeners();
+    }
+
+    public RoomPage(JFrame mainFrameApp) {
+        super(new BorderLayout());
+        this.mainFrameApp = mainFrameApp;
+        this.condition = new String[]{"",""};
+        this.roomStatus = 0;
         this.createAddRoomsPanel();
         this.createRoomsPanel();
         this.createFunctionsPanel();
@@ -59,7 +75,6 @@ public class RoomPage extends JPanel {
         // Prepare data for tag
         data = Controller_Room.getRoomInfo(condition);
         roomContainer = new JPanel(new BorderLayout());
-//        JPanel overviewPanel = new JPanel(new GridLayout(0, 5, 10, 10));
         JPanel overviewPanel = new JPanel(new GridLayout(0, 4, 10, 10));
         overviewPanel.setPreferredSize(new Dimension(0, 188 * Math.ceilDiv(data.length,4)));
         overviewPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -79,13 +94,30 @@ public class RoomPage extends JPanel {
     }
     public void createFunctionsPanel(){
         functionContainer = new JPanel(new FlowLayout());
-        functionContainer.setPreferredSize(new Dimension(200,0));
+        functionContainer.setPreferredSize(new Dimension(190,0));
         functionContainer.setBorder(new LineBorder(Color.black));
 
+        allRoom = new JRadioButton("All Room");
+        emptyRoom = new JRadioButton("Empty Room");
+        unpaidRoom = new JRadioButton("Unpaid Room");
+        allRoom.setFont(Configs.labelFont);
+        emptyRoom.setFont(Configs.labelFont);
+        unpaidRoom.setFont(Configs.labelFont);
+        filter = new ButtonGroup();
+        filter.add(allRoom);
+        filter.add(emptyRoom);
+        filter.add(unpaidRoom);
+        JPanel filterPanel = new JPanel(new GridLayout(3,0));
+        filterPanel.setPreferredSize(new Dimension(180,100));
+        filterPanel.add(allRoom);
+        filterPanel.add(emptyRoom);
+        filterPanel.add(unpaidRoom);
+        functionContainer.add(filterPanel);
+
+        //Search Function
         this.searchBtn = InputComboPanel.generateButton("Search");
         functionContainer.add(generateFunctionInput("Search", this.searchRoomId));
         functionContainer.add(this.searchBtn);
-
         add(functionContainer, BorderLayout.EAST);
     }
     public JPanel generateFunctionInput(String strLabel, JTextField originInp){
@@ -170,7 +202,21 @@ public class RoomPage extends JPanel {
         submitBtn.addActionListener(RoomListeners.addNewRoomListener(inpTags,mainFrameApp));
 
         //Create room tag listener popup menu
-        tag.addMouseListener(RoomListeners.addPopupMenu(popupMenu));
+        if (tag != null){
+            tag.addMouseListener(RoomListeners.addPopupMenu(popupMenu));
+        }
+
+        //Create filter listener
+        if (roomStatus == 0){
+            filter.setSelected(allRoom.getModel(),true);
+        } else if (roomStatus == 1) {
+            filter.setSelected(emptyRoom.getModel(),true);
+        }else {
+            filter.setSelected(unpaidRoom.getModel(),true);
+        }
+        allRoom.addActionListener(RoomListeners.showAllRoomListener(mainFrameApp,filter,allRoom));
+        emptyRoom.addActionListener(RoomListeners.showEmptyRoomListener(mainFrameApp,filter,emptyRoom));
+        unpaidRoom.addActionListener(RoomListeners.showUnpaidRoomListener(mainFrameApp,filter,unpaidRoom));
 
         //Create search listener
         searchBtn.addActionListener(RoomListeners.searchRoomListener(mainFrameApp,searchRoomId));
