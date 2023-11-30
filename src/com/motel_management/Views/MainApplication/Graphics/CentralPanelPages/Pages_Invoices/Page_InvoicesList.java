@@ -15,7 +15,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class InvoicesListPage extends JPanel {
+public class Page_InvoicesList extends JPanel {
     private final Frame_MainApplication mainFrameApp;
     public JTable table;
     public JScrollPane invoiceScrollPane;
@@ -26,7 +26,7 @@ public class InvoicesListPage extends JPanel {
     public JComboBox<String> searchingComboBox;
 
     // Constructor
-    public InvoicesListPage(Frame_MainApplication mainFrameApp) {
+    public Page_InvoicesList(Frame_MainApplication mainFrameApp) {
         super(new BorderLayout());
         this.mainFrameApp = mainFrameApp;
         this.createInvoicesListPage();

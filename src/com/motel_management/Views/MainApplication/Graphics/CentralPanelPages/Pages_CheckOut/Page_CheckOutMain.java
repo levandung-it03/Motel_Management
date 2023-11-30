@@ -13,26 +13,24 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.time.LocalDateTime;
 
-public class CheckOutPage extends JPanel {
-    public JTable table;
-    public JScrollPane checkOutScrollPane;
-    public DefaultTableModel defaultModel;
-
-    public JComboBox<String> filterComboBox;
-    public JTextField searchingTextField = new JTextField();
-    public JComboBox<String> searchingComboBox;
+public class Page_CheckOutMain extends JPanel {
+    private JTable table;
+    private DefaultTableModel defaultModel;
+    private final JTextField searchingTextField = new JTextField();
+    private JComboBox<String> filterComboBox;
+    private JComboBox<String> searchingComboBox;
 
     public Object[][] tableData;
 
-    public CheckOutPage() {
+    public Page_CheckOutMain() {
         super(new BorderLayout());
         this.createCheckOutHistoryPanel();
         this.saveCurrentTableData();
         this.createListeners();
     }
-    public void createCheckOutHistoryPanel() {
 
-        // Tools
+    public void createCheckOutHistoryPanel() {
+        // Tools (Title - Search - Filter)
         JPanel tools = new JPanel(new BorderLayout());
         tools.setPreferredSize(new Dimension(Configs.centralPanelWidth, 143));
         tools.setBorder(new EmptyBorder(10, 25, 5, 25));
@@ -74,7 +72,6 @@ public class CheckOutPage extends JPanel {
                 InputComboPanel.generateComboBoxInputPanel("Filter With Check-out Year", this.filterComboBox);
         tools.add(filterComboBoxContainer, BorderLayout.EAST);
 
-
         // Prepare Data to generate Table.
         Object[][] checkout =
                 Controller_Checkout.getAllCheckOutByYearWithTableFormat(Integer.toString(LocalDateTime.now().getYear()));
@@ -87,14 +84,13 @@ public class CheckOutPage extends JPanel {
                 return false;
             }
         });
-
         this.defaultModel = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
         this.table.setRowSorter(new TableRowSorter<>(defaultModel));
-        this.checkOutScrollPane = tableAsList.getScrollPane();
+        JScrollPane checkOutScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.
-        this.checkOutScrollPane.setBorder(new EmptyBorder(20, 25, 0, 25));
+        checkOutScrollPane.setBorder(new EmptyBorder(20, 25, 0, 25));
 
         // Resize several Columns.
         this.table.getColumnModel().getColumn(3).setPreferredWidth(550);
@@ -118,4 +114,12 @@ public class CheckOutPage extends JPanel {
             for (int col = 0; col < this.table.getColumnCount(); col++)
                 tableData[row][col] = this.table.getValueAt(row, col).toString();
     }
+
+    // Getters
+    public DefaultTableModel getDefaultModel() { return defaultModel; }
+    public JComboBox<String> getFilterComboBox() { return filterComboBox; }
+    public JComboBox<String> getSearchingComboBox() { return searchingComboBox; }
+    public JTable getTable() { return table; }
+    public JTextField getSearchingTextField() { return searchingTextField; }
+    public Object[][] getTableData() { return tableData; }
 }

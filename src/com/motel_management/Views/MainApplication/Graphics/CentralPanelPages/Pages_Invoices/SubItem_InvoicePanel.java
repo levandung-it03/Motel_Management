@@ -11,14 +11,14 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
-public class InvoicePanelItem extends JPanel {
+public class SubItem_InvoicePanel extends JPanel {
     private final JButton updateStatusBtn = new JButton("Update Payment");
     private final JButton detailBtn = new JButton("Detail");
-    private final InvoicesOfRoomDialog parentDialog;
+    private final Dialog_InvoicesOfRoom parentDialog;
     public final InvoiceModel invoice;
 
 
-    public InvoicePanelItem(int ind, InvoiceModel invoice, InvoicesOfRoomDialog parentDialog) {
+    public SubItem_InvoicePanel(int ind, InvoiceModel invoice, Dialog_InvoicesOfRoom parentDialog) {
         super(new FlowLayout());
         this.invoice = invoice;
         this.createInvoicePanel();

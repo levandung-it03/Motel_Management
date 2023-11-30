@@ -12,49 +12,49 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-public class AddContractPage extends JPanel {
-    JPanel container;
-    JTextField identifier = new JTextField(20);
-    JTextField lastName = new JTextField(20);
-    JTextField firstname = new JTextField(20);
-    JDateChooser birthday = new JDateChooser();
-    JComboBox<Object> gender;
-    JTextField phone = new JTextField(20);
-    JTextField jobTitle = new JTextField(20);
-    JTextField permanentAddress = new JTextField(20);
-    JTextField email = new JTextField(20);
-    JTextField bankAccountNumber = new JTextField(20);
-    JComboBox<Object> bank = new JComboBox<>();
-    JComboBox<Object> roomId;
-    JTextField quantity = new JTextField(20);
-    JTextField roomDeposit = new JTextField(20);
-    JDateChooser startingDate = new JDateChooser(Date.valueOf(LocalDate.now()));
-    JDateChooser endingDate = new JDateChooser(Date.valueOf(LocalDate.now()));
-    JComboBox<Object> isFamily = new JComboBox<Object>(new String[] {"NO", "YES"});
-    JComboBox<Object> isRegisteredPerAddress = new JComboBox<Object>(new String[] {"NO", "YES"});
-    JButton submitBtn;
+public class Page_AddContract extends JPanel {
+    private final Page_ContractMain mainTabbedPane;
+
+    private final JTextField identifier = new JTextField(20);
+    private final JTextField lastName = new JTextField(20);
+    private final JTextField firstname = new JTextField(20);
+    private final JTextField phone = new JTextField(20);
+    private final JTextField jobTitle = new JTextField(20);
+    private final JTextField permanentAddress = new JTextField(20);
+    private final JTextField email = new JTextField(20);
+    private final JTextField bankAccountNumber = new JTextField(20);
+    private final JTextField quantity = new JTextField(20);
+    private final JTextField roomDeposit = new JTextField(20);
+
+    private final JDateChooser birthday = new JDateChooser();
+    private final JDateChooser endingDate = new JDateChooser(Date.valueOf(LocalDate.now()));
+    private final JDateChooser startingDate = new JDateChooser(Date.valueOf(LocalDate.now()));
+
+    private final JComboBox<Object> bank = new JComboBox<>(
+            new String[] {"", "ABB", "ACB", "AGRIBANK", "BACABANK", "BID", "CTG", "EIB", "HDBANK", "KLB", "LIENVIET", "MBB",
+            "MSB", "NAMA", "NCB", "OCB", "PGBANK", "PVCOMBANK", "SCB", "SEABANK", "SGB", "SHB", "STB", "TCB", "TPB",
+            "VCB", "VIB", "VIETABANK", "VIETCAPITALBANK", "VPB", "VIETBANK"}
+    );
+    private final JComboBox<Object> gender = new JComboBox<Object>(new String[] {"Men", "Women"});
+    private final JComboBox<Object> isFamily = new JComboBox<Object>(new String[] {"NO", "YES"});
+    private final JComboBox<Object> isRegisteredPerAddress = new JComboBox<Object>(new String[] {"NO", "YES"});
+    private final JComboBox<Object> roomId = AddContractListeners.createRoomIdComboBox();;
+
+    private final JButton submitBtn = InputComboPanel.generateButton("Submit");
 
     // Constructor
-    public AddContractPage() {
+    public Page_AddContract(Page_ContractMain mainTabbedPane) {
         super(new FlowLayout());
+        this.mainTabbedPane = mainTabbedPane;
         this.createAddContractPage();
         this.createListeners();
     }
 
     public void createAddContractPage() {
-        container = new JPanel(new FlowLayout());
+        JPanel container = new JPanel(new FlowLayout());
         container.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
         container.setBorder(new EmptyBorder(20, 40, 0, 40));
 
-        String[] genders = {"Men", "Women"};
-        this.gender = new JComboBox<Object>(genders);
-
-        String[] banks = {"", "ABB", "ACB", "AGRIBANK", "BACABANK", "BID", "CTG", "EIB", "HDBANK", "KLB", "LIENVIET", "MBB",
-                "MSB", "NAMA", "NCB", "OCB", "PGBANK", "PVCOMBANK", "SCB", "SEABANK", "SGB", "SHB", "STB", "TCB", "TPB",
-                "VCB", "VIB", "VIETABANK", "VIETCAPITALBANK", "VPB", "VIETBANK"};
-        this.bank = new JComboBox<>(banks);
-
-        this.roomId = AddContractListeners.createRoomIdComboBox();
         container.add(InputComboPanel.generateTextInputPanel("Identity Card (*)", identifier));
         container.add(InputComboPanel.generateTextInputPanel("Last Name (*)", lastName));
         container.add(InputComboPanel.generateTextInputPanel("First Name (*)", firstname));
@@ -74,7 +74,6 @@ public class AddContractPage extends JPanel {
         container.add(InputComboPanel.generateComboBoxInputPanel("Is A Family?", isFamily));
         container.add(InputComboPanel.generateComboBoxInputPanel("Register Temp Household?", isRegisteredPerAddress));
 
-        this.submitBtn = InputComboPanel.generateButton("Submit");
         JPanel submitBtnContainer = new JPanel();
         submitBtnContainer.add(this.submitBtn);
         submitBtnContainer.setBorder(new EmptyBorder(10, 100, 0, 55));
@@ -117,6 +116,6 @@ public class AddContractPage extends JPanel {
         comboTags.put("isFamily", isFamily);
         comboTags.put("isRegisteredPerAddress", isRegisteredPerAddress);
 
-        this.submitBtn.addActionListener(AddContractListeners.addNewContractListener(inpTags, dateTags, comboTags));
+        this.submitBtn.addActionListener(AddContractListeners.addNewContractListener(inpTags, dateTags, comboTags, this.mainTabbedPane));
     }
 }

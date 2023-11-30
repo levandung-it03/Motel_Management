@@ -1,23 +1,20 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Contract;
 
 import com.motel_management.Controllers.Controller_Contract;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractListPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.Page_ContractList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 
 import javax.swing.*;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
 
 public class ContractListListeners {
-    static TableModelListener tmListener;
-
     // Constructor
-    public ContractListListeners() {}
+    public ContractListListeners() { super(); }
 
-    public static MouseAdapter getDeleteCellByMouseListener(DefaultTableModel defaultModel, JTable table, ContractListPage contractList) {
+    public static MouseAdapter getDeleteCellByMouseListener(DefaultTableModel defaultModel, JTable table, Page_ContractList contractList) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -46,7 +43,7 @@ public class ContractListListeners {
         };
     }
 
-    public static KeyListener searchTableToGetObjects(ContractListPage page) {
+    public static KeyListener searchTableToGetObjects(Page_ContractList page) {
         return new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -55,18 +52,23 @@ public class ContractListListeners {
             @Override
             public void keyReleased(KeyEvent e) {
                 // Make page.tableData Update Continuous.
-                GeneralListeners.searchTableToGetObjects(page.searchingTextField, page.searchingComboBox, page.table,
-                        page.tableData, page.defaultModel);
+                GeneralListeners.searchTableToGetObjects(
+                        page.getSearchingTextField(),
+                        page.getSearchingComboBox(),
+                        page.getTable(),
+                        page.getTableData(),
+                        page.getDefaultModel()
+                );
             }
         };
     }
 
-    public static ItemListener getObjectsByYear(ContractListPage page) {
+    public static ItemListener getObjectsByYear(Page_ContractList page) {
         return new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 // Get Year Input (default =0 with Specified Condition).
-                String selectedYear = Objects.requireNonNull(page.filterComboBox.getSelectedItem()).toString();
+                String selectedYear = Objects.requireNonNull(page.getFilterComboBox().getSelectedItem()).toString();
                 try { Integer.parseInt(selectedYear);}
                 catch (NumberFormatException exc) { selectedYear = "0"; }
 
@@ -74,14 +76,14 @@ public class ContractListListeners {
                 Object[][] result = Controller_Contract.getAllContractByYearWithTableFormat(selectedYear);
 
                 // Clear Current Table Data.
-                page.defaultModel.setRowCount(0);
+                page.getDefaultModel().setRowCount(0);
 
                 // Add Row By Row result[][] Into Default Table Model.
                 for (Object[] row : result)
-                    page.defaultModel.addRow(row);
+                    page.getDefaultModel().addRow(row);
 
                 // Notice To Application That There Are Changes In Our Table.
-                page.defaultModel.fireTableDataChanged();
+                page.getDefaultModel().fireTableDataChanged();
 
                 // Save Current Data For Updating, Searching,...
                 page.saveCurrentTableData();

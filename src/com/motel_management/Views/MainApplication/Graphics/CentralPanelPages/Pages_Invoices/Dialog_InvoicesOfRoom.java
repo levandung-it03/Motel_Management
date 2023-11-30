@@ -10,12 +10,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class InvoicesOfRoomDialog extends JDialog {
+public class Dialog_InvoicesOfRoom extends JDialog {
     JFrame mainFrameApp;
-    InvoicesListPage invoicesList;
+    Page_InvoicesList invoicesList;
     private final String roomId;
 
-    public ArrayList<InvoicePanelItem> invoicePanels = new ArrayList<>();
+    public ArrayList<SubItem_InvoicePanel> invoicePanels = new ArrayList<>();
     JPanel mainPanel = new JPanel();
     JPanel toolPanel = new JPanel(new BorderLayout());
 
@@ -24,7 +24,7 @@ public class InvoicesOfRoomDialog extends JDialog {
     private final JButton newInvoicesBtn = new JButton("<< New");
     private final JButton oldInvoicesBtn = new JButton("Old >>");
 
-    public InvoicesOfRoomDialog(JFrame mainFrameApp, String roomId, InvoicesListPage invoicesList) {
+    public Dialog_InvoicesOfRoom(JFrame mainFrameApp, String roomId, Page_InvoicesList invoicesList) {
         super(mainFrameApp, "Invoices");
         this.mainFrameApp = mainFrameApp;
         this.invoicesList = invoicesList;
@@ -90,7 +90,7 @@ public class InvoicesOfRoomDialog extends JDialog {
 
         this.invoices = Controller_Invoices.getInvoicesByRoomIdWithPage(this.currentPage, roomId);
         for (int i = 0; i < invoices.size(); i++)
-            invoicePanels.add(new InvoicePanelItem(i, invoices.get(i), this));
+            invoicePanels.add(new SubItem_InvoicePanel(i, invoices.get(i), this));
 
         invoicePanels.forEach(panel -> mainPanel.add(panel));
         for (int i = 12 - invoicePanels.size(); i > 0; i--) {

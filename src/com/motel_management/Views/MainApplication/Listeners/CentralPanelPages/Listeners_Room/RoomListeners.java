@@ -25,8 +25,7 @@ import java.util.regex.Pattern;
 public class RoomListeners {
     static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-    public RoomListeners() {
-    }
+    public RoomListeners() { super(); }
 
     public static String getLastRoomId() {
         return Controller_Room.getLastId();

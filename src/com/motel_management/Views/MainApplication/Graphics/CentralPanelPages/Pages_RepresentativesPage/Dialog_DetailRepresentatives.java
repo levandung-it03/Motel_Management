@@ -8,15 +8,13 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Objects;
 
-public class Representatives_ShowID extends JDialog{
-    JFrame mainAppFrame;
-    JPanel subPanel0 = new JPanel();
-    JPanel subPanel1 = new JPanel();
-    JPanel subPanel2 = new JPanel();
+public class Dialog_DetailRepresentatives extends JDialog{
+    private final JPanel subPanel0 = new JPanel();
+    private final JPanel subPanel1 = new JPanel();
+    private final JPanel subPanel2 = new JPanel();
 
-    public Representatives_ShowID(JFrame mainAppFrame, PersonModel person){
+    public Dialog_DetailRepresentatives(JFrame mainAppFrame, PersonModel person){
         super(mainAppFrame);
-        this.mainAppFrame = mainAppFrame;
         this.setTitle("Details Information");
         showInformationById(person);
     }
@@ -30,7 +28,7 @@ public class Representatives_ShowID extends JDialog{
 
         JLabel identifier = new JLabel("Identifier: " + person.getIdentifier());
         JLabel roomId = new JLabel("Room Id: " + person.getRoomId());
-        JLabel fullname = new JLabel("Full name: " + person.getLastName() +" "+ person.getFirstName());
+        JLabel fullName = new JLabel("Full name: " + person.getLastName() +" "+ person.getFirstName());
         JLabel birthday = new JLabel("Birth day: "+ person.getBirthday());
         JLabel phone = new JLabel("Phone: "+ person.getPhone());
         JLabel jobTitle = new JLabel("JobTitle: "+ person.getJobTitle());
@@ -40,10 +38,8 @@ public class Representatives_ShowID extends JDialog{
 
         JLabel permanentAddress = new JLabel(multiLineAddress(person.getPermanentAddress()));
 
-        String tempGender; //Set Gender
-        if (Objects.equals(person.getGender() , "0"))
-        {tempGender = "Nam";} else {tempGender =  "Nu";}
-        JLabel gender = new JLabel("Gender: "+ tempGender);
+        //Set Gender
+        JLabel gender = new JLabel("Gender: " + (person.getGender().equals("0") ? "NAM" : "NU"));
 
 
         this.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
@@ -60,7 +56,7 @@ public class Representatives_ShowID extends JDialog{
         subPanel0.add(labelForIcon,BorderLayout.CENTER);
         subPanel0.add(setFontLabel(identifier),BorderLayout.SOUTH);
 
-        subPanel1.add(setFontLabel(fullname));
+        subPanel1.add(setFontLabel(fullName));
         subPanel1.add(setFontLabel(gender));
         subPanel1.add(setFontLabel(birthday));
         subPanel1.add(setFontLabel(bank));

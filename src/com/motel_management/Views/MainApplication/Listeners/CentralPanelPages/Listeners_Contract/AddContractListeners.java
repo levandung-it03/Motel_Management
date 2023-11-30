@@ -4,7 +4,7 @@ import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.ContractPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.Page_ContractMain;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -18,8 +18,8 @@ public class AddContractListeners {
     static HashMap<String, Integer> maxQuantityList = new HashMap<>();
     static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-    public AddContractListeners() {
-    }
+
+    public AddContractListeners() { super(); }
 
     public static JComboBox<Object> createRoomIdComboBox() {
         ArrayList<RoomModel> roomList = Controller_Room.getAllRoomWithCondition("WHERE (quantity = 0) ORDER BY roomId ASC");
@@ -31,7 +31,8 @@ public class AddContractListeners {
 
     public static ActionListener addNewContractListener(HashMap<String, JTextField> inpTags,
                                                         HashMap<String, JDateChooser> dateTags,
-                                                        HashMap<String, JComboBox<Object>> comboTags) {
+                                                        HashMap<String, JComboBox<Object>> comboTags,
+                                                        Page_ContractMain parentTabbedPane) {
 
         return new ActionListener() {
             @Override
@@ -89,7 +90,7 @@ public class AddContractListeners {
                         "Notice", JOptionPane.PLAIN_MESSAGE);
 
                 if (newContractUpdated.get("result").equals("1"))
-                    ContractPage.mainPage.setSelectedIndex(0);
+                    parentTabbedPane.getMainTabbedPane().setSelectedIndex(0);
             }
         };
     }
@@ -108,9 +109,7 @@ public class AddContractListeners {
         try {
             if (dateTags.get("birthday").getCalendar().after((Object) Calendar.getInstance()))
                 return "Birthday";
-        } catch (NullPointerException e) {
-            return "empty Birthday";
-        }
+        } catch (NullPointerException ignored) { return "empty Birthday"; }
 
         if (!Pattern.compile("\\d{10}").matcher(inpTags.get("phone").getText()).matches())
             return "Phone";
@@ -138,51 +137,38 @@ public class AddContractListeners {
             }
         }
 
-        if (!Objects.requireNonNull(comboTags.get("bank").getSelectedItem()).toString().equals("")) {
-            if (inpTags.get("bankAccountNumber").getText().equals("")) {
+        if (!Objects.requireNonNull(comboTags.get("bank").getSelectedItem()).toString().equals(""))
+            if (inpTags.get("bankAccountNumber").getText().equals(""))
                 return "empty Bank Account Number";
-            }
-        }
 
         try {
             Object temp = Objects.requireNonNull(comboTags.get("roomId").getSelectedItem());
-        } catch (NullPointerException e) {
-            return "Room Code";
-        }
+        } catch (NullPointerException ignored) { return "empty Room Code"; }
 
         try {
             Integer max = maxQuantityList.get(Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString());
             int quantity = Integer.parseInt(inpTags.get("quantity").getText());
-            if (quantity != -1) {
-                if (!(quantity > 0 && quantity <= max.intValue())) {
+            if (quantity != -1)
+                if (!(quantity > 0 && quantity <= max))
                     return "Number Of People";
-                }
-            }
-        } catch (NumberFormatException e) {
-            return "Number Of People";
-        }
+
+        } catch (NumberFormatException ignored) { return "Number Of People"; }
 
         try {
             if (!Pattern.compile("^[0-9]{1,9}$").matcher(inpTags.get("roomDeposit").getText()).matches()) {
                 return "Deposit";
             }
-        } catch (NumberFormatException e) {
-            return "Deposit";
-        }
+        } catch (NumberFormatException ignored) { return "Deposit"; }
 
         try {
             if (dateTags.get("startingDate").getCalendar().before(dateTags.get("birthday").getCalendar()))
                 return "Started Date";
-        } catch (NullPointerException e) {
-            return "Empty Started Date";
-        }
+        } catch (NullPointerException ignored) { return "Empty Started Date"; }
 
         try {
             if (dateTags.get("endingDate").getCalendar().before(dateTags.get("startingDate").getCalendar()))
                 return "Ended Date";
-        } catch (NullPointerException e) {
-            return "Empty Ended Date";
-        }
+        } catch (NullPointerException ignored) { return "Empty Ended Date"; }
 
         if (Configs.calTotalMonthsBetweenStrDates(dateFormat.format(dateTags.get("startingDate").getCalendar().getTime()),
                 dateFormat.format(dateTags.get("endingDate").getCalendar().getTime())) < 12

@@ -1,6 +1,5 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Statistic;
 
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesOfRoomDialog;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Statistic.DetailStatistic_Dialog;
 
 import javax.swing.*;
