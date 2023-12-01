@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class RepresentativesListeners {
     public static MouseAdapter getInformationByClick(JFrame mainAppFrame, JTable table) {
@@ -87,29 +88,54 @@ public class RepresentativesListeners {
                         inpTags.get("Phone").getText(),
                         inpTags.get("Job-Title").getText(), inpTags.get("Bank").getText(),
                         inpTags.get("BankAccount").getText(),address.getText()};
-                boolean isValid = checkUpdatePerson(inpTags,address);
-                if (isValid) {
+                String checkConditions = checkUpdatePerson(inpTags,address);
+                System.out.println(checkConditions);
+                if (checkConditions.equals("true")) {
                     if (Controller_Representatives.updatePersonDetails(data) != 0) {
-                        JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice",
+                        JOptionPane.showMessageDialog(new JPanel() , "Update Successfully!" , "Notice" ,
                                 JOptionPane.PLAIN_MESSAGE);
                         dialog.dispose();
+                        }
                     } else
-                        JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice",
+                        JOptionPane.showMessageDialog(new JPanel(), "Update Failed! "+ checkConditions, "Notice",
                                 JOptionPane.PLAIN_MESSAGE);
                 }
-            }
         };
     }
 
-    public static boolean checkUpdatePerson(HashMap<String,JTextField> inpTags,JTextArea address){
-        if ((inpTags.get("Email").getText().isBlank())
-                || (inpTags.get("Phone").getText().isBlank())
-                || (inpTags.get("Job-Title").getText().isBlank())
-                || (address.getText().isBlank())) {
-            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
-            return false;
+    public static String checkUpdatePerson(HashMap<String,JTextField> inpTags,JTextArea address){
+        if (inpTags.get("Phone").getText().isBlank()
+            || !Pattern.compile("\\d{10}").matcher(inpTags.get("Phone").getText()).matches())
+            return "Phone";
+
+        if (!Pattern.compile("^[A-Z][a-z]+(\\s[A-Z][a-z]*)*$").matcher(inpTags.get("Job-Title").getText()).matches()
+            || inpTags.get("Job-Title").getText().isBlank())
+            return "Job Title";
+
+        if (address.getText().isBlank())
+            return "Permanent Address";
+
+        if (!inpTags.get("Email").getText().isBlank()) {
+            if (!Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$").matcher(inpTags.get("Email").getText()).matches()) {
+                return "Email";
+            }
+        } else return "Email";
+
+        if (!inpTags.get("BankAccount").getText().equals("")) {
+            if (!inpTags.get("Bank").getText().equals("")){
+                if (!Pattern.compile("^[0-9]{1,13}$").matcher(inpTags.get("BankAccount").getText()).matches()) {
+                    return "Bank Account Number";
+                }
+            } else {
+                return "empty Bank Name";
+            }
         }
 
-        return true;
+        if (!inpTags.get("Bank").getText().isBlank()) {
+            if (inpTags.get("BankAccount").getText().isBlank())
+                return "empty Bank Account Number";
+        }
+
+        return "true";
     }
 }
