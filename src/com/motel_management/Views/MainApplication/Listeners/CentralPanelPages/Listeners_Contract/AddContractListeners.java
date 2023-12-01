@@ -146,7 +146,7 @@ public class AddContractListeners {
                 return "empty Bank Account Number";
 
         try {
-            Object temp = Objects.requireNonNull(comboTags.get("roomId").getSelectedItem());
+            Objects.requireNonNull(comboTags.get("roomId").getSelectedItem());
         } catch (NullPointerException ignored) { return "empty Room Code"; }
 
         try {
