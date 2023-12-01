@@ -89,44 +89,51 @@ public class RepresentativesListeners {
                         inpTags.get("Job-Title").getText(), inpTags.get("Bank").getText(),
                         inpTags.get("BankAccount").getText(),address.getText()};
                 String checkConditions = checkUpdatePerson(inpTags,address);
+                System.out.println(checkConditions);
                 if (checkConditions.equals("true")) {
                     if (Controller_Representatives.updatePersonDetails(data) != 0) {
-                        JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice",
+                        JOptionPane.showMessageDialog(new JPanel() , "Update Successfully!" , "Notice" ,
                                 JOptionPane.PLAIN_MESSAGE);
                         dialog.dispose();
+                        }
                     } else
                         JOptionPane.showMessageDialog(new JPanel(), "Update Failed! "+ checkConditions, "Notice",
                                 JOptionPane.PLAIN_MESSAGE);
                 }
-            }
         };
     }
 
     public static String checkUpdatePerson(HashMap<String,JTextField> inpTags,JTextArea address){
-        if (!Pattern.compile("\\d{10}").matcher(inpTags.get("phone").getText()).matches())
+        if (inpTags.get("Phone").getText().isBlank()
+            || !Pattern.compile("\\d{10}").matcher(inpTags.get("Phone").getText()).matches())
             return "Phone";
 
-        if (!Pattern.compile("^[A-Z][a-z]+(\\s[A-Z][a-z]*)*$").matcher(inpTags.get("Job-Title").getText()).matches())
+        if (!Pattern.compile("^[A-Z][a-z]+(\\s[A-Z][a-z]*)*$").matcher(inpTags.get("Job-Title").getText()).matches()
+            || inpTags.get("Job-Title").getText().isBlank())
             return "Job Title";
 
         if (address.getText().isBlank())
             return "Permanent Address";
 
-        if (!inpTags.get("email").getText().isBlank()) {
-            // Checking "Email" if it's not empty!
-            if (!Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$").matcher(inpTags.get("email").getText()).matches()) {
+        if (!inpTags.get("Email").getText().isBlank()) {
+            if (!Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$").matcher(inpTags.get("Email").getText()).matches()) {
                 return "Email";
             }
-        }
+        } else return "Email";
 
-        if (!inpTags.get("bankAccountNumber").getText().equals("")) {
-            if (!Objects.requireNonNull(inpTags.get("bank").toString().equals(""))){
-                if (!Pattern.compile("^[0-9]{1,13}$").matcher(inpTags.get("bankAccountNumber").getText()).matches()) {
+        if (!inpTags.get("BankAccount").getText().equals("")) {
+            if (!inpTags.get("Bank").getText().equals("")){
+                if (!Pattern.compile("^[0-9]{1,13}$").matcher(inpTags.get("BankAccount").getText()).matches()) {
                     return "Bank Account Number";
                 }
             } else {
                 return "empty Bank Name";
             }
+        }
+
+        if (!inpTags.get("Bank").getText().isBlank()) {
+            if (inpTags.get("BankAccount").getText().isBlank())
+                return "empty Bank Account Number";
         }
 
         return "true";
