@@ -2,7 +2,6 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 
 import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Controllers.Controller_Room;
-import com.motel_management.DataAccessObject.CheckOutDAO;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.Page_ContractMain;
@@ -11,7 +10,6 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -19,7 +17,6 @@ import java.util.regex.Pattern;
 public class AddContractListeners {
     static HashMap<String, Integer> maxQuantityList = new HashMap<>();
     static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
 
     public AddContractListeners() { super(); }
 
@@ -166,37 +163,6 @@ public class AddContractListeners {
             if (dateTags.get("startingDate").getCalendar().before(dateTags.get("birthday").getCalendar()))
                 return "Started Date";
         } catch (NullPointerException ignored) { return "Empty Started Date"; }
-
-        // Check If This Room Already Had 'StartingDate' < 'CheckOutDate'.
-        try {
-            String lastCheckedOutDateStrOfRoom = CheckOutDAO.getInstance().selectLastCheckedOutDateByRoomId(
-                    Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString()
-            );
-            Date lastCheckedOutDateOfRoom = sdf.parse(lastCheckedOutDateStrOfRoom);
-            Calendar lastCheckedOutDateOfRoomAsCalendar = Calendar.getInstance();
-            lastCheckedOutDateOfRoomAsCalendar.setTime(lastCheckedOutDateOfRoom);
-
-            if (dateTags.get("startingDate").getCalendar().before(lastCheckedOutDateOfRoomAsCalendar)) {
-                return "Started Date Because The Last Check-out Date Of This Room Is: "
-                        + sdf.format(lastCheckedOutDateOfRoom);
-            }
-        } catch (NullPointerException | ParseException ignored) {}
-
-        // Check If This Person Already Occupied In Another Room, but the 'StartingDate' < 'LastCheckOutDateInAnotherRoom'
-        try {
-            String[] lastCheckedOutDateStrOfPerson =
-                    CheckOutDAO.getInstance().selectLastCheckedOutDateByIdentifier(inpTags.get("identifier").getText());
-
-            Date lastCheckedOutDateOfPerson = sdf.parse(lastCheckedOutDateStrOfPerson[1]);
-            Calendar lastCheckedOutDateOfPersonAsCalendar = Calendar.getInstance();
-            lastCheckedOutDateOfPersonAsCalendar.setTime(lastCheckedOutDateOfPerson);
-
-            if (dateTags.get("startingDate").getCalendar().before(lastCheckedOutDateOfPersonAsCalendar)) {
-                return "Started Date Because This Person Occupied In "
-                        + "Room " + lastCheckedOutDateStrOfPerson[0]
-                        + " And Checked-out In: " + sdf.format(lastCheckedOutDateOfPerson);
-            }
-        } catch(NullPointerException | ParseException ignored) {}
 
         try {
             if (dateTags.get("endingDate").getCalendar().before(dateTags.get("startingDate").getCalendar()))

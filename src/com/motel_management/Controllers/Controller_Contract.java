@@ -1,5 +1,6 @@
 package com.motel_management.Controllers;
 
+import com.motel_management.DataAccessObject.CheckOutDAO;
 import com.motel_management.DataAccessObject.ContractDAO;
 import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.DataAccessObject.RoomDAO;
@@ -7,18 +8,46 @@ import com.motel_management.Models.ContractModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 
-import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 
 public class Controller_Contract {
+    static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     public Controller_Contract() { super(); }
 
     public static HashMap<String, String> addNewContract(HashMap<String, String> data) {
         HashMap<String, String> result = new HashMap<>();
+
+
+        // Check If This Room Already Had 'StartingDate' < 'CheckOutDate'.
+        try {
+            String lastCheckedOutDateStrOfRoom =
+                    CheckOutDAO.getInstance().selectLastCheckedOutDateByRoomId(data.get("roomId"));
+            Date lastCheckedOutDateOfRoom = sdf.parse(lastCheckedOutDateStrOfRoom);
+            if (sdf.parse(data.get("startingDate")).before(lastCheckedOutDateOfRoom)) {
+                result.put("result", "0");
+                result.put("message", "Invalid Started Date Because The Last Check-out Date Of This Room Is: "
+                        + sdf.format(lastCheckedOutDateOfRoom));
+                return result;
+            }
+        } catch (NullPointerException | ParseException ignored) {}
+
+        // Check If This Person Already Occupied In Another Room, but the 'StartingDate' < 'LastCheckOutDateInAnotherRoom'
+        try {
+            String[] lastCheckedOutDateStrOfPerson =
+                    CheckOutDAO.getInstance().selectLastCheckedOutDateByIdentifier(data.get("identifier"));
+
+            Date lastCheckedOutDateOfPerson = sdf.parse(lastCheckedOutDateStrOfPerson[1]);
+            if (sdf.parse(data.get("startingDate")).before(lastCheckedOutDateOfPerson)) {
+                result.put("result", "0");
+                result.put("message", "Invalid Started Date Because This Person Occupied In"
+                        + " Room " + lastCheckedOutDateStrOfPerson[0]
+                        + " And Checked-out In: " + sdf.format(lastCheckedOutDateOfPerson));
+                return result;
+            }
+        } catch(NullPointerException | ParseException ignored) {}
+
         String contractId = "C" + Configs.generateIdTail();
         int totalMonths = Configs.calTotalMonthsBetweenStrDates(data.get("startingDate"), data.get("endingDate"));
 
@@ -94,9 +123,11 @@ public class Controller_Contract {
         roomData.setQuantity(0);
 
         int deleteContractRes = ContractDAO.getInstance().delete(contractId);
-        int deletePersonRes = PersonDAO.getInstance().delete(identifier);
+        // Ignore delete Person Result because there can be several Contracts, which has this Identifier.
+        // ==> Just Delete Contract
+        PersonDAO.getInstance().delete(identifier);
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
-        return deleteContractRes * deletePersonRes * updateRoomRes;
+        return deleteContractRes * updateRoomRes;
     }
 
     public static String[][] getAllContractByYearWithTableFormat(String year) {
