@@ -2,16 +2,31 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 
 import com.motel_management.Models.PersonModel;
 import com.motel_management.Views.Configs;
+import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Representatives.RepresentativesListeners;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.Objects;
+import java.util.HashMap;
+
 
 public class Dialog_DetailRepresentatives extends JDialog{
     private final JPanel subPanel0 = new JPanel();
     private final JPanel subPanel1 = new JPanel();
     private final JPanel subPanel2 = new JPanel();
+    private JTextField identifier;
+    private JTextField roomId;
+    private JTextField fullName;
+    private JTextField birthday;
+    private JTextField gender;
+    private JTextField phone;
+    private JTextField jobTitle;
+    private JTextField email;
+    private JTextField bankAccountNumber;
+    private JTextField bank;
+    private JTextArea permanentAddress;
+    private JButton button = new JButton("UPDATE");
+
 
     public Dialog_DetailRepresentatives(JFrame mainAppFrame, PersonModel person){
         super(mainAppFrame);
@@ -19,78 +34,147 @@ public class Dialog_DetailRepresentatives extends JDialog{
         showInformationById(person);
     }
     public void showInformationById(PersonModel person){
+        //Generate
         JPanel marginPanel = new JPanel(new GridLayout(1,3));
+
+        JPanel buttonPanel = new JPanel();
+        JPanel imagePanel = new JPanel(new FlowLayout());
+
 
         ImageIcon icon = new ImageIcon("src/com/motel_management/Assets/img/Representative.png");
         JLabel labelForIcon = new JLabel(icon);
-        labelForIcon.setBorder(new EmptyBorder(30,0,5,30));
+
+
+        identifier = new JTextField(person.getIdentifier());
+        roomId = new JTextField(person.getRoomId());
+        fullName = new JTextField(person.getLastName()+" "+person.getFirstName());
+        birthday = new JTextField("" + person.getBirthday());
+        gender = new JTextField(person.getGender());
+        phone = new JTextField(person.getPhone());
+        jobTitle = new JTextField(person.getJobTitle());
+        email = new JTextField(person.getEmail());
+        bankAccountNumber = new JTextField(person.getBankAccountNumber());
+        bank = new JTextField(person.getBank());
+        permanentAddress = new JTextArea(person.getPermanentAddress());
+
+        //Set component
+        button.setPreferredSize(new Dimension(14,14));
+        button.setFont(button.getFont().deriveFont(16.0f));
+
+        identifier.setHorizontalAlignment(SwingConstants.CENTER);
+
+        labelForIcon.setBorder(new EmptyBorder(5,0,15,30));
         labelForIcon.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JLabel identifier = new JLabel("Identifier: " + person.getIdentifier());
-        JLabel roomId = new JLabel("Room Id: " + person.getRoomId());
-        JLabel fullName = new JLabel("Full name: " + person.getLastName() +" "+ person.getFirstName());
-        JLabel birthday = new JLabel("Birth day: "+ person.getBirthday());
-        JLabel phone = new JLabel("Phone: "+ person.getPhone());
-        JLabel jobTitle = new JLabel("JobTitle: "+ person.getJobTitle());
-        JLabel email = new JLabel("Email: "+ person.getEmail());
-        JLabel bankAccountNumber = new JLabel("Account Number: "+ person.getBankAccountNumber());
-        JLabel bank = new JLabel("Bank: "+ person.getBank());
-
-        JLabel permanentAddress = new JLabel(multiLineAddress(person.getPermanentAddress()));
-
-        //Set Gender
-        JLabel gender = new JLabel("Gender: " + (person.getGender().equals("0") ? "NAM" : "NU"));
+        button.setPreferredSize(new Dimension(120,50));
+        buttonPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
 
 
-        this.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
-        subPanel0.setLayout(new BorderLayout(0,10));
-        subPanel0.setBorder(new EmptyBorder(5,20,20,0));
+        imagePanel.setBorder(new EmptyBorder(80,0,0,0));
+        imagePanel.setPreferredSize(new Dimension(120,60));
+
+        subPanel0.setLayout(new BorderLayout(0,0));
+        subPanel0.setBorder(new EmptyBorder(5,20,0,0));
 
         subPanel1.setLayout(new GridLayout(6,1));
         subPanel1.setBorder(new EmptyBorder(5,0,10,5));
 
-        subPanel2.setLayout(new GridLayout(4,1));
+        GridLayout gridLayout = new GridLayout(4,1,0,0);
+        subPanel2.setLayout(gridLayout);
         subPanel2.setBorder(new EmptyBorder(5,5,0,0));
 
+        marginPanel.setBorder(new EmptyBorder(5, 20, 30, 15));
 
-        subPanel0.add(labelForIcon,BorderLayout.CENTER);
-        subPanel0.add(setFontLabel(identifier),BorderLayout.SOUTH);
+        this.setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
 
-        subPanel1.add(setFontLabel(fullName));
-        subPanel1.add(setFontLabel(gender));
-        subPanel1.add(setFontLabel(birthday));
-        subPanel1.add(setFontLabel(bank));
-        subPanel1.add(setFontLabel(email));
-        subPanel1.add(setFontLabel(phone));
+        //Add component
+        imagePanel.add(labelForIcon);
+        imagePanel.add(setFontLabel(identifier));
+        buttonPanel.add(button);
 
+        subPanel0.add(imagePanel,BorderLayout.CENTER);
+        subPanel0.add(buttonPanel,BorderLayout.SOUTH);
 
-        subPanel2.add(setFontLabel(roomId));
-        subPanel2.add(setFontLabel(jobTitle));
-        subPanel2.add(setFontLabel(bankAccountNumber));
-        subPanel2.add(setFontLabel(permanentAddress));
+        subPanel1.add(generateTextInputPanel_reWrite("Full name (*) :",fullName,false));
+        subPanel1.add(generateTextInputPanel_reWrite("Gender (*) :",gender,false));
+        subPanel1.add(generateTextInputPanel_reWrite("Bank :",bank,true));
+        subPanel1.add(generateTextInputPanel_reWrite("Email (*) :",email,true));
+        subPanel1.add(generateTextInputPanel_reWrite("Phone (*):",phone,true));
+        subPanel1.add(generateTextInputPanel_reWrite("Job-title (*):",jobTitle, true));
 
-        marginPanel.setBorder(new EmptyBorder(15, 20, 20, 20));
+        subPanel2.add(generateTextInputPanel_reWrite("Room ID (*):",roomId,false));
+        subPanel2.add(generateTextInputPanel_reWrite("Birthday (*):",birthday,false));
+        subPanel2.add(generateTextInputPanel_reWrite("Bank Account :",bankAccountNumber,true));
+        subPanel2.add(generateTextInputPanel_reWrite("Address (*):",permanentAddress));
+
         marginPanel.add(subPanel0);
         marginPanel.add(subPanel1);
         marginPanel.add(subPanel2);
+
         this.add(marginPanel);
 
+        createPersonUpdateListener();
+
         this.setModal(true);
-        this.setSize(1100,300);
+        this.setSize(1100,480);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
-    public JLabel setFontLabel(JLabel label){
+
+    public JLabel setFontLabel(JTextField label){
+        JLabel newLabel = new JLabel("Identifier: "+ (identifier).getText());
         label.setFont(Configs.labelFont);
         label.setFont(label.getFont().deriveFont(18.0f));
-        return label;
+        return newLabel;
     }
 
-    public String multiLineAddress(String address){
-        String res = "<html> Address : ";
-        res = res.concat(address + "</html>");
-        return res;
+
+    //USE FOR TEXT-AREA
+    public JPanel generateTextInputPanel_reWrite(String strLabel, JTextArea originInp) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        panel.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.22), 45));
+
+        JLabel label = new JLabel(strLabel);
+        label.setFont(label.getFont().deriveFont(14.0f));
+        originInp.setLineWrap(true);
+        originInp.setWrapStyleWord(true);
+        originInp.setBorder(BorderFactory.createLineBorder(Color.black,1));
+        originInp.setFont(originInp.getFont().deriveFont(17.0f));
+
+        panel.add(label, BorderLayout.NORTH);
+        panel.add(originInp, BorderLayout.CENTER);
+        return panel;
+    }
+
+    //OVERLOAD
+    //USE FOR TEXT-FIELD
+    public JPanel generateTextInputPanel_reWrite(String strLabel, JTextField originInp, boolean bool) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        panel.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.22), 60));
+
+        JLabel label = new JLabel(strLabel);
+        label.setFont(label.getFont().deriveFont(14.0f));
+        originInp.setEditable(bool);
+        originInp.setFont(originInp.getFont().deriveFont(17.0f));
+
+        panel.add(label, BorderLayout.NORTH);
+        panel.add(originInp, BorderLayout.CENTER);
+        return panel;
+    }
+
+    public void createPersonUpdateListener(){
+        HashMap<String, JTextField> inpTags = new HashMap<>();
+        inpTags.put("Identifier", identifier);
+        inpTags.put("Email", email);
+        inpTags.put("Phone", phone);
+        inpTags.put("Job-Title", jobTitle);
+        inpTags.put("Bank", bank);
+        inpTags.put("BankAccount", bankAccountNumber);
+
+        this.button.addActionListener(RepresentativesListeners.updateByClick(inpTags,permanentAddress,this));
     }
 }
