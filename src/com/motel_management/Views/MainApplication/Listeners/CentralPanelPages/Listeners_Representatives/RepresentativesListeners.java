@@ -2,12 +2,14 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 
 import com.motel_management.Controllers.Controller_Representatives;
 import com.motel_management.Models.PersonModel;
+import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.Page_RepresentativesMain;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.Dialog_DetailRepresentatives;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class RepresentativesListeners {
@@ -77,5 +79,37 @@ public class RepresentativesListeners {
                 return;
             }
         };
+    }
+    public static ActionListener updateByClick(HashMap<String, JTextField> inpTags,JTextArea address, JDialog dialog) {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                String[] data = {inpTags.get("Identifier").getText(), inpTags.get("Email").getText(),
+                        inpTags.get("Phone").getText(),
+                        inpTags.get("Job-Title").getText(), inpTags.get("Bank").getText(),
+                        inpTags.get("BankAccount").getText(),address.getText()};
+                boolean isValid = checkUpdatePerson(inpTags,address);
+                if (isValid) {
+                    if (Controller_Representatives.updatePersonDetails(data) != 0) {
+                        JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice",
+                                JOptionPane.PLAIN_MESSAGE);
+                        dialog.dispose();
+                    } else
+                        JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice",
+                                JOptionPane.PLAIN_MESSAGE);
+                }
+            }
+        };
+    }
+
+    public static boolean checkUpdatePerson(HashMap<String,JTextField> inpTags,JTextArea address){
+        if ((inpTags.get("Email").getText().isBlank())
+                || (inpTags.get("Phone").getText().isBlank())
+                || (inpTags.get("Job-Title").getText().isBlank())
+                || (address.getText().isBlank())) {
+            JOptionPane.showConfirmDialog(new JPanel(), "Invalid Value", "Notice", JOptionPane.DEFAULT_OPTION);
+            return false;
+        }
+
+        return true;
     }
 }

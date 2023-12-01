@@ -18,6 +18,10 @@ public class Controller_Representatives {
         PersonDAO.getInstance().updatePersonStatus(data);
     }
 
+    public static int updatePersonDetails (String[] data) {
+        return PersonDAO.getInstance().updateDetails(data);
+    }
+
     public static String[][] getAllRepresentativesWithTableFormat(String year) {
         String[][] result;
         String condition;

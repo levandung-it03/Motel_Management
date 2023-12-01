@@ -123,6 +123,27 @@ public class PersonDAO implements DAOInterface<PersonModel>{
         }
     }
 
+    public int updateDetails(String[] values) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            String query = "UPDATE Person SET email=?, phone=?, jobTitle=?," +
+                    "bank=?, bankAccountNumber=?, permanentAddress=? WHERE (identifier=?);";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, values[1]);
+            ps.setString(2, values[2]);
+            ps.setString(3, values[3]);
+            ps.setString(4, values[4]);
+            ps.setString(5, values[5]);
+            ps.setString(6, values[6]);
+            ps.setString(7, values[0]);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+    }
+
     public void updatePersonStatus(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
