@@ -1,12 +1,14 @@
 package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract;
 
 import com.motel_management.Views.Configs;
+import com.motel_management.Views.Frame_MainApplication;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class Page_ContractMain extends JPanel {
+    private final Frame_MainApplication mainFrameApp;
     private JTabbedPane mainTabbedPane;
     private JPanel contractListPanel;
     private JPanel addContractPanel;
@@ -17,16 +19,17 @@ public class Page_ContractMain extends JPanel {
     public JTabbedPane getMainTabbedPane() { return mainTabbedPane; }
 
     // Constructor
-    public Page_ContractMain() {
+    public Page_ContractMain(Frame_MainApplication mainFrameApp) {
         // Set Layout Here
         super();
+        this.mainFrameApp = mainFrameApp;
         this.createContractPanel();
         this.createOnsiteListeners();
     }
 
     public void createContractPanel() {
         mainTabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        contractListPanel = new Page_ContractList();
+        contractListPanel = new Page_ContractList(this.mainFrameApp);
         addContractPanel = new Page_AddContract(this);
 
         contractListPanel.setBackground(Configs.mainWhiteBackground);
@@ -44,7 +47,7 @@ public class Page_ContractMain extends JPanel {
             @Override
             public void stateChanged(ChangeEvent e) {
                 if (mainTabbedPane.getSelectedIndex() == 0) {
-                    contractListPanel = new Page_ContractList();
+                    contractListPanel = new Page_ContractList(_this.mainFrameApp);
                     mainTabbedPane.setComponentAt(0, contractListPanel);
                 } else {
                     addContractPanel = new Page_AddContract(_this);

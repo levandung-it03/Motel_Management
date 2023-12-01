@@ -2,6 +2,7 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 
 import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Views.Configs;
+import com.motel_management.Views.Frame_MainApplication;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Contract.ContractListListeners;
@@ -15,6 +16,7 @@ import java.awt.*;
 import java.time.LocalDateTime;
 
 public class Page_ContractList extends JPanel {
+    private Frame_MainApplication mainFrameApp;
     private JTable table;
     private DefaultTableModel defaultModel;
     private Object[][] tableData;
@@ -24,8 +26,9 @@ public class Page_ContractList extends JPanel {
     private JComboBox<String> searchingComboBox;
 
     // Constructor
-    public Page_ContractList() {
+    public Page_ContractList(Frame_MainApplication mainFrameApp) {
         super(new BorderLayout());
+        this.mainFrameApp = mainFrameApp;
         this.createContractListPage();
         this.saveCurrentTableData();
         this.createListeners();
@@ -48,11 +51,11 @@ public class Page_ContractList extends JPanel {
 
         // Search
         this.searchingComboBox = new JComboBox<String>(new String[] {
+                "Contract Id",
                 "Room",
-                "Representative Card",
-                "Name",
+                "Identifier",
+                "Full Name",
                 "Checked Out",
-                "Registered Temp Residence",
                 "Started Date",
                 "Ended Date"
         });
@@ -82,8 +85,8 @@ public class Page_ContractList extends JPanel {
         tools.add(filterComboBoxContainer, BorderLayout.EAST);
 
         // Prepare Date to generate Table.
-        String[] columns = {"Room", "Representative Card", "Name", "Checked Out", "Registered Temp Residence",
-                "Started Date", "Ended Date", "Delete Button"};
+        String[] columns = {"Contract Id", "Room", "Identifier", "Full Name", "Checked Out", "Started Date",
+                "Ended Date", "Detail", "Delete Button"};
         String[][] contracts = Controller_Contract.getAllContractByYearWithTableFormat("0");
 
         // Create Table
@@ -102,12 +105,12 @@ public class Page_ContractList extends JPanel {
         contractScrollPane.setBorder(new EmptyBorder(20, 20, 0, 20));
 
         // Resize several Columns.
-        this.table.getColumnModel().getColumn(0).setPreferredWidth(5);
-        this.table.getColumnModel().getColumn(1).setPreferredWidth(120);
-        this.table.getColumnModel().getColumn(2).setPreferredWidth(20);
-        this.table.getColumnModel().getColumn(4).setPreferredWidth(190);
-        this.table.getColumnModel().getColumn(5).setPreferredWidth(60);
-        this.table.getColumnModel().getColumn(6).setPreferredWidth(50);
+        this.table.getColumnModel().getColumn(0).setPreferredWidth(60);
+        this.table.getColumnModel().getColumn(1).setPreferredWidth(5);
+        this.table.getColumnModel().getColumn(3).setPreferredWidth(170);
+        this.table.getColumnModel().getColumn(5).setPreferredWidth(65);
+        this.table.getColumnModel().getColumn(6).setPreferredWidth(60);
+        this.table.getColumnModel().getColumn(7).setPreferredWidth(25);
 
         // Add ScrollPane into CentralPanel/Contract.
         add(tools, BorderLayout.NORTH);
@@ -115,8 +118,9 @@ public class Page_ContractList extends JPanel {
     }
 
     public void createListeners() {
-        // Add Clicking Delete Button Action.
-        table.addMouseListener(ContractListListeners.getDeleteCellByMouseListener(this.defaultModel, this.table, this));
+        // Add Clicking Buttons Action.
+        table.addMouseListener(ContractListListeners.getCellActionByMouseListener(mainFrameApp, this,
+                this.defaultModel, this.table));
 
         // Searching Action
         this.searchingTextField.addKeyListener(ContractListListeners.searchTableToGetObjects(this));
@@ -132,7 +136,6 @@ public class Page_ContractList extends JPanel {
             for (int col = 0; col < this.table.getColumnCount(); col++)
                 tableData[row][col] = this.table.getValueAt(row, col).toString();
     }
-
 
     // Getters
     public Object[][] getTableData() { return this.tableData; }

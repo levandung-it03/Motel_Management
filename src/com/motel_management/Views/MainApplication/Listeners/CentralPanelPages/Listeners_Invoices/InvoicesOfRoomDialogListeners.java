@@ -2,7 +2,7 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 
 import com.motel_management.Controllers.Controller_Invoices;
 import com.motel_management.Models.InvoiceModel;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.Dialog_InvoiceDetail;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.Dialog_DetailInvoice;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.SubItem_InvoicePanel;
 
 import javax.swing.*;
@@ -17,8 +17,8 @@ public class InvoicesOfRoomDialogListeners {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Dialog_InvoiceDetail detailDialog =
-                        new Dialog_InvoiceDetail(Controller_Invoices.getInvoiceByInvoiceId(invoice.getInvoiceId()), parentDialog);
+                Dialog_DetailInvoice detailDialog =
+                        new Dialog_DetailInvoice(Controller_Invoices.getInvoiceByInvoiceId(invoice.getInvoiceId()), parentDialog);
             }
         };
     }

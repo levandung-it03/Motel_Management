@@ -2,6 +2,8 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 
 import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Controllers.Controller_Room;
+import com.motel_management.DataAccessObject.CheckOutDAO;
+import com.motel_management.DataAccessObject.ContractDAO;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.Page_ContractMain;
@@ -10,6 +12,7 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -162,9 +165,19 @@ public class AddContractListeners {
         } catch (NumberFormatException ignored) { return "Deposit"; }
 
         try {
-            if (dateTags.get("startingDate").getCalendar().before(dateTags.get("birthday").getCalendar())
-            || dateTags.get("startingDate").getCalendar().before((Object) Calendar.getInstance()))
+            if (dateTags.get("startingDate").getCalendar().before(dateTags.get("birthday").getCalendar()))
                 return "Started Date";
+
+            Date lastStartingDate = CheckOutDAO.getInstance().selectLastCheckedOutDateByRoomId(
+                    Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString()
+            );
+            Calendar lastStartingDateAsCalendar = Calendar.getInstance();
+            lastStartingDateAsCalendar.setTime(lastStartingDate);
+
+            if (dateTags.get("startingDate").getCalendar().before(lastStartingDateAsCalendar)) {
+                return "Started Date Because The Last Check-out Date Of This Room Is: "
+                        + new SimpleDateFormat("dd/MM/yyyy").format(lastStartingDate);
+            }
         } catch (NullPointerException ignored) { return "Empty Started Date"; }
 
         try {

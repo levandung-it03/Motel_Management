@@ -46,7 +46,7 @@ public class CentralPanel extends JPanel {
 
         pages.add(new StatisticPage(mainFrameApp));
         pages.add(new RoomPage(mainFrameApp));
-        pages.add(new Page_ContractMain());
+        pages.add(new Page_ContractMain(mainFrameApp));
         pages.add(new Page_RepresentativesMain(mainFrameApp));
         pages.add(new Electricity_WaterPage());
         pages.add(new Page_InvoicesMain(mainFrameApp));
@@ -84,7 +84,7 @@ public class CentralPanel extends JPanel {
                 switch(tabSelected) {
                     case 0 -> category.setComponentAt(0, new StatisticPage(mainFrameApp));
                     case 1 -> category.setComponentAt(1, new RoomPage(mainFrameApp));
-                    case 2 -> category.setComponentAt(2, new Page_ContractMain());
+                    case 2 -> category.setComponentAt(2, new Page_ContractMain(mainFrameApp));
                     case 3 -> category.setComponentAt(3, new Page_RepresentativesMain(mainFrameApp));
                     case 4 -> category.setComponentAt(4, new Electricity_WaterPage());
                     case 5 -> category.setComponentAt(5, new Page_InvoicesMain(mainFrameApp));

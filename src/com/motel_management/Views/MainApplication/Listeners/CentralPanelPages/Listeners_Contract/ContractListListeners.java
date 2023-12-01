@@ -1,6 +1,9 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Contract;
 
 import com.motel_management.Controllers.Controller_Contract;
+import com.motel_management.Models.ContractModel;
+import com.motel_management.Views.Frame_MainApplication;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.Dialog_DetailContract;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.Page_ContractList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 
@@ -14,7 +17,10 @@ public class ContractListListeners {
     // Constructor
     public ContractListListeners() { super(); }
 
-    public static MouseAdapter getDeleteCellByMouseListener(DefaultTableModel defaultModel, JTable table, Page_ContractList contractList) {
+    public static MouseAdapter getCellActionByMouseListener(Frame_MainApplication mainFrameApp,
+                                                            Page_ContractList contractList,
+                                                            DefaultTableModel defaultModel,
+                                                            JTable table) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -22,13 +28,26 @@ public class ContractListListeners {
                 int clickedRow = table.rowAtPoint(e.getPoint());
                 int clickedColumn = table.columnAtPoint(e.getPoint());
 
+                // View Button Clicked
+                if (clickedColumn == 7) {
+                    ContractModel selectedContract = Controller_Contract.getContractById(
+                            table.getValueAt(clickedRow, 0).toString()
+                    );
+                    Dialog_DetailContract detailContract = new Dialog_DetailContract(
+                            mainFrameApp,
+                            selectedContract,
+                            table.getValueAt(clickedRow, 3).toString()
+                    );
+                }
+
                 // Delete Button Clicked
-                if (clickedColumn == table.getColumnCount() - 1) {
+                if (clickedColumn == 8) {
                     if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this row?", "Confirm",
                             JOptionPane.YES_NO_OPTION) == 0) {
                         if (Controller_Contract.deleteById(
                                 table.getValueAt(clickedRow, 0).toString(),
-                                table.getValueAt(clickedRow, 1).toString()
+                                table.getValueAt(clickedRow, 1).toString(),
+                                table.getValueAt(clickedRow, 2).toString()
                         ) != 0) {
                             JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
                             defaultModel.removeRow(clickedRow);
@@ -38,7 +57,6 @@ public class ContractListListeners {
                         }
                     }
                 }
-
             }
         };
     }

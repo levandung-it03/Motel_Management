@@ -6,6 +6,7 @@ import com.motel_management.Views.Configs;
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class CheckOutDAO implements DAOInterface<CheckOutModel> {
     public CheckOutDAO() {}
@@ -158,6 +159,26 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             }
             return result;
         } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return null;
+    }
+
+    public Date selectLastCheckedOutDateByRoomId(String roomId) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            String query = "SELECT MAX(checkOutDate) AS lastCheckOutDate FROM CheckOut " +
+                    "INNER JOIN Contract ON Contract.contractId=CheckOut.contractId " +
+                    "WHERE roomId=?";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, roomId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+                return rs.getDate("lastCheckOutDate");
+            return null;
+        } catch(SQLException e) {
             e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
