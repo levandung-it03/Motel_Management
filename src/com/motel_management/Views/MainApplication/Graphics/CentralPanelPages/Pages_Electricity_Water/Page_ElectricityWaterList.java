@@ -52,7 +52,7 @@ public class Page_ElectricityWaterList extends JPanel {
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(electrics, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column != 0  && column != 5;
+                return column != 0 && column != 2 && column != 3 && column != 5;
             }
             @Override
             public Class<?> getColumnClass(int columnIndex) {
