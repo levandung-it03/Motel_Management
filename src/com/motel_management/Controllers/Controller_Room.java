@@ -8,12 +8,18 @@ import com.motel_management.Models.ContractModel;
 import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
+import com.motel_management.Views.Configs;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanel;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.Page_RoomsMain;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Controller_Room {
+    static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     public Controller_Room() {
         super();
     }
@@ -81,7 +87,7 @@ public class Controller_Room {
             StringBuilder idTail = new StringBuilder(Integer.toString(Integer.parseInt(lastRoomId.toString()) + 1));
             while (idTail.length() != 3)
                 idTail.insert(0, "0");
-            return "P" + idTail.toString();
+            return "P" + idTail;
         }
     }
 
@@ -123,9 +129,9 @@ public class Controller_Room {
                     "Notice", JOptionPane.DEFAULT_OPTION);
             return false;
         }
-        for (int i = 0; i < roomPayment.size(); i++) {
+        for (InvoiceModel invoiceModel : roomPayment) {
             //check if all months are paid
-            if (roomPayment.get(i).getWasPaid().equals("0")) {
+            if (invoiceModel.getWasPaid().equals("0")) {
                 JOptionPane.showConfirmDialog(new Panel(), "Check-out failed due to unpaid payment",
                         "Notice", JOptionPane.DEFAULT_OPTION);
                 return false;
@@ -140,13 +146,46 @@ public class Controller_Room {
         if (room.getQuantity() == 0) {
             return 0;
         }
-        for (int i = 0; i < roomPayment.size(); i++) {
+        for (InvoiceModel invoiceModel : roomPayment) {
             //check if all months are paid
-            if (roomPayment.get(i).getWasPaid().equals("0")) {
+            if (invoiceModel.getWasPaid().equals("0")) {
                 return 1;
             }
         }
         return 2;
     }
+
+    public static void validateCheckOutInfo(String roomId, JDateChooser checkOutDate, JTextArea reason,
+                                            JFrame mainFrameApp, JDialog dialog){
+        ArrayList<ContractModel> contractId = ContractDAO.getInstance().selectByCondition("WHERE roomId = \"" +
+                roomId + "\" AND checkedOut = 0");
+        try {
+            if (checkOutDate.getDate().before(contractId.get(0).getStartingDate()) ||
+                    checkOutDate.getDate().equals(contractId.get(0).getStartingDate())) {
+                JOptionPane.showConfirmDialog(new Panel(),
+                        "Check-out date must be after the starting date!",
+                        "Notice", JOptionPane.DEFAULT_OPTION);
+            } else {
+                String checkOutId = "CK" + Configs.generateIdTail();
+                String[] data = {checkOutId, contractId.get(0).getContractId(),
+                        dateFormat.format(checkOutDate.getCalendar().getTime()), reason.getText()};
+                String nextIdWhenSuccessfully = Controller_Checkout.addCheckOutHistory(data);
+                if (nextIdWhenSuccessfully != null) {
+                    JOptionPane.showConfirmDialog(new Panel(), "Successful Check-out",
+                            "Notice", JOptionPane.DEFAULT_OPTION);
+                    Controller_Contract.updateContractStatus(new String[]{"1", contractId.get(0).getContractId()});
+                    Controller_Representatives.updatePersonStatus(new String[]{"0", contractId.get(0).getIdentifier()});
+                    Controller_Room.resetRoomStatus(new String[]{"0", roomId});
+                    CentralPanel.category.setComponentAt(1,new Page_RoomsMain(mainFrameApp));
+                    dialog.dispose();
+                }
+            }
+        }catch (NullPointerException e){
+            JOptionPane.showMessageDialog(new JPanel(),
+                    "Invalid at Check-out Date", "Notice", JOptionPane.PLAIN_MESSAGE
+            );
+        }
+    }
+
 
 }

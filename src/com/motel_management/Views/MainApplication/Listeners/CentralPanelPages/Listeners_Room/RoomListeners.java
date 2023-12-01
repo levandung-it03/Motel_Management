@@ -1,12 +1,6 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Room;
 
-import com.motel_management.Controllers.Controller_Contract;
-import com.motel_management.Controllers.Controller_Representatives;
 import com.motel_management.Controllers.Controller_Room;
-import com.motel_management.Controllers.Controller_Checkout;
-import com.motel_management.DataAccessObject.ContractDAO;
-import com.motel_management.Models.ContractModel;
-import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanel;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.Dialog_CheckOutRoom;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.Dialog_UpdateRoom;
@@ -17,13 +11,11 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RoomListeners {
-    static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public RoomListeners() { super(); }
 
@@ -166,34 +158,7 @@ public class RoomListeners {
                                               JFrame mainFrameApp, JDialog dialog) {
         return new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                ArrayList<ContractModel> contractId = ContractDAO.getInstance().selectByCondition("WHERE roomId = \"" +
-                        roomId + "\" AND checkedOut = 0");
-                try {
-                    if (checkOutDate.getDate().before(contractId.get(0).getStartingDate()) ||
-                            checkOutDate.getDate().equals(contractId.get(0).getStartingDate())) {
-                        JOptionPane.showConfirmDialog(new Panel(),
-                                "Check-out date must be after the starting date!",
-                                "Notice", JOptionPane.DEFAULT_OPTION);
-                    } else {
-                        String checkOutId = "CK" + Configs.generateIdTail();
-                        String[] data = {checkOutId, contractId.get(0).getContractId(),
-                                dateFormat.format(checkOutDate.getCalendar().getTime()), reason.getText()};
-                        String nextIdWhenSuccessfully = Controller_Checkout.addCheckOutHistory(data);
-                        if (nextIdWhenSuccessfully != null) {
-                            JOptionPane.showConfirmDialog(new Panel(), "Successful Check-out",
-                                    "Notice", JOptionPane.DEFAULT_OPTION);
-                            Controller_Contract.updateContractStatus(new String[]{"1", contractId.get(0).getContractId()});
-                            Controller_Representatives.updatePersonStatus(new String[]{"0", contractId.get(0).getIdentifier()});
-                            Controller_Room.resetRoomStatus(new String[]{"0", roomId});
-                            CentralPanel.category.setComponentAt(1,new Page_RoomsMain(mainFrameApp));
-                            dialog.dispose();
-                        }
-                    }
-                }catch (NullPointerException e){
-                    JOptionPane.showMessageDialog(new JPanel(),
-                            "Invalid at Check-out Date", "Notice", JOptionPane.PLAIN_MESSAGE
-                    );
-                }
+                Controller_Room.validateCheckOutInfo(roomId,checkOutDate,reason,mainFrameApp,dialog);
             }
         };
     }
