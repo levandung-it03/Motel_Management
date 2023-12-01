@@ -2,15 +2,13 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 
 import com.motel_management.Controllers.Controller_Electricity_Water;
 import com.motel_management.Views.Configs;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.AddElectricity_WaterPage;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Page_AddElectricityWater;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Page_ElectricityWaterMain;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class AddEWListeners {
     public AddEWListeners() {
@@ -61,10 +59,10 @@ public class AddEWListeners {
                         if (AddEWListeners.getLastElectricMaxRange() != Integer.MAX_VALUE) {
                             inpTags.get("minERangeValue").setText(String.valueOf(AddEWListeners.getLastElectricMaxRange() + 1));
                         } else {
-                            Electricity_WaterPage.mainEWPage.setComponentAt(1, new AddElectricity_WaterPage());
+                            Page_ElectricityWaterMain.mainEWPage.setComponentAt(1, new Page_AddElectricityWater());
                         }
 
-                        Electricity_WaterPage.mainEWPage.setComponentAt(1, new AddElectricity_WaterPage());
+                        Page_ElectricityWaterMain.mainEWPage.setComponentAt(1, new Page_AddElectricityWater());
                     } else {
                         JOptionPane.showMessageDialog(new JPanel(), "Electric Range Already Existed", "Notice", JOptionPane.PLAIN_MESSAGE);
                     }
@@ -111,7 +109,7 @@ public class AddEWListeners {
                         if (AddEWListeners.getLastWaterMaxRange() != Integer.MAX_VALUE) {
                             inpTags.get("minWRangeValue").setText(String.valueOf(AddEWListeners.getLastWaterMaxRange()));
                         } else {
-                            Electricity_WaterPage.mainEWPage.setComponentAt(1, new AddElectricity_WaterPage());
+                            Page_ElectricityWaterMain.mainEWPage.setComponentAt(1, new Page_AddElectricityWater());
                         }
 
                     } else {

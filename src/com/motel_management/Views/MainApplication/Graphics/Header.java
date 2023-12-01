@@ -58,18 +58,18 @@ public class Header extends JPanel {
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu(" OPTIONS ");
 
-        JMenuItem reSetItem = new JMenuItem("RESET");
+        JMenuItem resetItem = new JMenuItem("RESET");
         JMenuItem logOutItem = new JMenuItem("LOG OUT");
 
         menu.setIcon(iconOptions);
         logOutItem.setIcon(iconLogOut);
-        reSetItem.setIcon(iconReset);
+        resetItem.setIcon(iconReset);
 
         logOutItem.addActionListener(Listener_LogOut_Reset.logOutAction(mainFrameApp));
-        reSetItem.addActionListener(Listener_LogOut_Reset.reSetAction(mainFrameApp,currentRegion));
+        resetItem.addActionListener(Listener_LogOut_Reset.reSetAction(mainFrameApp,currentRegion));
 
 
-        menu.add(reSetItem);
+        menu.add(resetItem);
         menu.add(logOutItem);
         menuBar.add(menu);
         add(menuBar,BorderLayout.EAST);

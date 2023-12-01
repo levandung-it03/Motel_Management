@@ -8,12 +8,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class DetailStatistic_Dialog extends JDialog {
+public class Dialog_DetailStatistic extends JDialog {
     DefaultTableModel defaultStatisticModel;
     JTable statisticTable;
     JScrollPane statisticScrollPane;
     int year;
-    public DetailStatistic_Dialog(Frame mainFrameApp,int year) {
+    public Dialog_DetailStatistic(Frame mainFrameApp, int year) {
         super(mainFrameApp,"Detail Statistic");
         this.year = year;
         createDetailDialog();

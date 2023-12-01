@@ -12,7 +12,7 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class StatisticPage extends JPanel {
+public class Page_StatisticMain extends JPanel {
     ArrayList<JPanel> tags = new ArrayList<>();
     ArrayList<Color> colors = new ArrayList<>();
     ArrayList<JLabel> icons = new ArrayList<>();
@@ -25,7 +25,7 @@ public class StatisticPage extends JPanel {
     JScrollPane statisticScrollPane;
 
     // Constructor
-    public StatisticPage(JFrame mainFrameApp) {
+    public Page_StatisticMain(JFrame mainFrameApp) {
         // Set Layout Here
         super(new BorderLayout());
         this.mainFrameApp=mainFrameApp;

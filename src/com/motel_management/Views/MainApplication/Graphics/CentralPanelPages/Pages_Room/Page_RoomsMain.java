@@ -12,7 +12,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-public class RoomPage extends JPanel {
+public class Page_RoomsMain extends JPanel {
     JScrollPane roomScrollPane;
     JFrame mainFrameApp;
     JPanel addContainer;
@@ -34,7 +34,7 @@ public class RoomPage extends JPanel {
     String[] condition;
     int roomStatus;
 
-    public RoomPage(JFrame mainFrameApp,String[] condition,int roomStatus) {
+    public Page_RoomsMain(JFrame mainFrameApp, String[] condition, int roomStatus) {
         super(new BorderLayout());
         this.mainFrameApp = mainFrameApp;
         this.condition = condition;
@@ -45,7 +45,7 @@ public class RoomPage extends JPanel {
         this.createListeners();
     }
 
-    public RoomPage(JFrame mainFrameApp) {
+    public Page_RoomsMain(JFrame mainFrameApp) {
         super(new BorderLayout());
         this.mainFrameApp = mainFrameApp;
         this.condition = new String[]{"",""};

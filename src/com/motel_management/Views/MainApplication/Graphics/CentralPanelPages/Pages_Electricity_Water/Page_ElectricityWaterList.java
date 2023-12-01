@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 
-public class Electricity_WaterListPage extends JPanel {
+public class Page_ElectricityWaterList extends JPanel {
     public JTable electricTable;
     public JTable waterTable;
     public JScrollPane roomScrollPane;
@@ -21,7 +21,7 @@ public class Electricity_WaterListPage extends JPanel {
     public Object[][] electricTableData;
     public Object[][] waterTableData;
 
-    public Electricity_WaterListPage() {
+    public Page_ElectricityWaterList() {
         super(new GridLayout(2,0));
         this.createEWListPage();
         this.createListeners();

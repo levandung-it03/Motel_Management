@@ -11,14 +11,14 @@ import java.awt.*;
 import java.sql.Date;
 import java.time.LocalDate;
 
-public class CheckOutRoom_Dialog extends JDialog {
+public class Dialog_CheckOutRoom extends JDialog {
     JButton checkOutBtn;
     JDateChooser checkOutDate = new JDateChooser(Date.valueOf(LocalDate.now()));
     JTextArea reason;
     JFrame mainFrameApp;
     String roomId;
 
-    public CheckOutRoom_Dialog(String roomId,JFrame mainFrameApp) {
+    public Dialog_CheckOutRoom(String roomId, JFrame mainFrameApp) {
         super(mainFrameApp,"Check Out");
         this.roomId = roomId;
         this.mainFrameApp = mainFrameApp;

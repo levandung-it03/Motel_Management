@@ -8,8 +8,6 @@ import com.motel_management.Models.ContractModel;
 import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanel;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
 
 import javax.swing.*;
 import java.awt.*;

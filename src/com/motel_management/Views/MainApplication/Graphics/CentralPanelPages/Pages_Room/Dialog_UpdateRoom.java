@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-public class UpdateRoom_Dialog extends JDialog{
+public class Dialog_UpdateRoom extends JDialog{
     JTextField roomId;
     JFrame mainFrameApp;
     JTextField quantity;
@@ -15,7 +15,7 @@ public class UpdateRoom_Dialog extends JDialog{
     JTextField defaultPrice;
     JButton updateBtn;
 
-    public UpdateRoom_Dialog(JFrame mainFrameApp, JTextField roomId, JTextField quantity, JTextField maxQuantity, JTextField defaultPrice) throws HeadlessException {
+    public Dialog_UpdateRoom(JFrame mainFrameApp, JTextField roomId, JTextField quantity, JTextField maxQuantity, JTextField defaultPrice) throws HeadlessException {
         super(mainFrameApp,"Update");
         this.mainFrameApp = mainFrameApp;
         this.roomId = roomId;
