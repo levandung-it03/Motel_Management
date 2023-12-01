@@ -3,7 +3,6 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.DataAccessObject.CheckOutDAO;
-import com.motel_management.DataAccessObject.ContractDAO;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.Page_ContractMain;
@@ -12,15 +11,14 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Pattern;
 
 public class AddContractListeners {
     static HashMap<String, Integer> maxQuantityList = new HashMap<>();
-    static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 
     public AddContractListeners() { super(); }
@@ -56,7 +54,7 @@ public class AddContractListeners {
                 data.put("identifier", inpTags.get("identifier").getText());
                 data.put("lastName", inpTags.get("lastName").getText());
                 data.put("firstname", inpTags.get("firstname").getText());
-                data.put("birthday", dateFormat.format(dateTags.get("birthday").getCalendar().getTime()));
+                data.put("birthday", sdf.format(dateTags.get("birthday").getCalendar().getTime()));
                 data.put("phone", inpTags.get("phone").getText());
                 data.put("jobTitle", inpTags.get("jobTitle").getText());
                 data.put("permanentAddress", inpTags.get("permanentAddress").getText());
@@ -66,8 +64,8 @@ public class AddContractListeners {
                 data.put("roomId", Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString());
                 data.put("quantity", inpTags.get("quantity").getText());
                 data.put("roomDeposit", inpTags.get("roomDeposit").getText());
-                data.put("startingDate", dateFormat.format(dateTags.get("startingDate").getCalendar().getTime()));
-                data.put("endingDate", dateFormat.format(dateTags.get("endingDate").getCalendar().getTime()));
+                data.put("startingDate", sdf.format(dateTags.get("startingDate").getCalendar().getTime()));
+                data.put("endingDate", sdf.format(dateTags.get("endingDate").getCalendar().getTime()));
                 data.put("gender", Objects.requireNonNull(comboTags.get("gender")
                                 .getSelectedItem())
                         .toString()
@@ -169,26 +167,44 @@ public class AddContractListeners {
                 return "Started Date";
         } catch (NullPointerException ignored) { return "Empty Started Date"; }
 
+        // Check If This Room Already Had 'StartingDate' < 'CheckOutDate'.
         try {
-            Date lastStartingDate = CheckOutDAO.getInstance().selectLastCheckedOutDateByRoomId(
+            String lastCheckedOutDateStrOfRoom = CheckOutDAO.getInstance().selectLastCheckedOutDateByRoomId(
                     Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString()
             );
-            Calendar lastStartingDateAsCalendar = Calendar.getInstance();
-            lastStartingDateAsCalendar.setTime(lastStartingDate);
+            Date lastCheckedOutDateOfRoom = sdf.parse(lastCheckedOutDateStrOfRoom);
+            Calendar lastCheckedOutDateOfRoomAsCalendar = Calendar.getInstance();
+            lastCheckedOutDateOfRoomAsCalendar.setTime(lastCheckedOutDateOfRoom);
 
-            if (dateTags.get("startingDate").getCalendar().before(lastStartingDateAsCalendar)) {
+            if (dateTags.get("startingDate").getCalendar().before(lastCheckedOutDateOfRoomAsCalendar)) {
                 return "Started Date Because The Last Check-out Date Of This Room Is: "
-                        + new SimpleDateFormat("dd/MM/yyyy").format(lastStartingDate);
+                        + sdf.format(lastCheckedOutDateOfRoom);
             }
-        } catch (NullPointerException ignored) {}
+        } catch (NullPointerException | ParseException ignored) {}
+
+        // Check If This Person Already Occupied In Another Room, but the 'StartingDate' < 'LastCheckOutDateInAnotherRoom'
+        try {
+            String[] lastCheckedOutDateStrOfPerson =
+                    CheckOutDAO.getInstance().selectLastCheckedOutDateByIdentifier(inpTags.get("identifier").getText());
+
+            Date lastCheckedOutDateOfPerson = sdf.parse(lastCheckedOutDateStrOfPerson[1]);
+            Calendar lastCheckedOutDateOfPersonAsCalendar = Calendar.getInstance();
+            lastCheckedOutDateOfPersonAsCalendar.setTime(lastCheckedOutDateOfPerson);
+
+            if (dateTags.get("startingDate").getCalendar().before(lastCheckedOutDateOfPersonAsCalendar)) {
+                return "Started Date Because This Person Occupied In "
+                        + "Room " + lastCheckedOutDateStrOfPerson[0]
+                        + " And Checked-out In: " + sdf.format(lastCheckedOutDateOfPerson);
+            }
+        } catch(NullPointerException | ParseException ignored) {}
 
         try {
             if (dateTags.get("endingDate").getCalendar().before(dateTags.get("startingDate").getCalendar()))
                 return "Ended Date";
         } catch (NullPointerException ignored) { return "Empty Ended Date"; }
 
-        if (Configs.calTotalMonthsBetweenStrDates(dateFormat.format(dateTags.get("startingDate").getCalendar().getTime()),
-                dateFormat.format(dateTags.get("endingDate").getCalendar().getTime())) < 12
+        if (Configs.calTotalMonthsBetweenStrDates(sdf.format(dateTags.get("startingDate").getCalendar().getTime()),
+                sdf.format(dateTags.get("endingDate").getCalendar().getTime())) < 12
                 && Objects.requireNonNull(comboTags.get("isRegisteredPerAddress").getSelectedItem()).toString().equals("YES"))
             return "Registering Permanent or Temporary Household with under 12 Months Total Contract Time!";
 

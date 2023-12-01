@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 public class Controller_Contract {
     public Controller_Contract() { super(); }
+
     public static HashMap<String, String> addNewContract(HashMap<String, String> data) {
         HashMap<String, String> result = new HashMap<>();
         String contractId = "C" + Configs.generateIdTail();
@@ -97,6 +98,7 @@ public class Controller_Contract {
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
         return deleteContractRes * deletePersonRes * updateRoomRes;
     }
+
     public static String[][] getAllContractByYearWithTableFormat(String year) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String query = (
