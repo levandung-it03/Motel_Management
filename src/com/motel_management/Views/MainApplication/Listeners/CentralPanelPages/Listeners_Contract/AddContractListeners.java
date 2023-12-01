@@ -167,7 +167,9 @@ public class AddContractListeners {
         try {
             if (dateTags.get("startingDate").getCalendar().before(dateTags.get("birthday").getCalendar()))
                 return "Started Date";
+        } catch (NullPointerException ignored) { return "Empty Started Date"; }
 
+        try {
             Date lastStartingDate = CheckOutDAO.getInstance().selectLastCheckedOutDateByRoomId(
                     Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString()
             );
@@ -178,7 +180,7 @@ public class AddContractListeners {
                 return "Started Date Because The Last Check-out Date Of This Room Is: "
                         + new SimpleDateFormat("dd/MM/yyyy").format(lastStartingDate);
             }
-        } catch (NullPointerException ignored) { return "Empty Started Date"; }
+        } catch (NullPointerException ignored) {}
 
         try {
             if (dateTags.get("endingDate").getCalendar().before(dateTags.get("startingDate").getCalendar()))
