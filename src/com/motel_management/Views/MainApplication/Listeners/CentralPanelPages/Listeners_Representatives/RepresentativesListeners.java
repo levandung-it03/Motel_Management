@@ -2,8 +2,8 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 
 import com.motel_management.Controllers.Controller_Representatives;
 import com.motel_management.Models.PersonModel;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.RepresentativesListPage;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.Representatives_ShowID;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.Page_RepresentativesMain;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.Dialog_DetailRepresentatives;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 
 import javax.swing.*;
@@ -23,13 +23,13 @@ public class RepresentativesListeners {
                 if (clickedColumn == table.getColumnCount() - 1) {
                     PersonModel res =
                             Controller_Representatives.getPersonById(String.valueOf(table.getValueAt(clickedRow,1)));
-                    new Representatives_ShowID(mainAppFrame, res);
+                    new Dialog_DetailRepresentatives(mainAppFrame, res);
                 }
             }
         };
     }
 
-    public static KeyListener searchTableToGetObjects(RepresentativesListPage page) {
+    public static KeyListener searchTableToGetObjects(Page_RepresentativesMain page) {
         return new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -38,18 +38,23 @@ public class RepresentativesListeners {
             @Override
             public void keyReleased(KeyEvent e) {
                 // Make page.tableData Update Continuous.
-                GeneralListeners.searchTableToGetObjects(page.searchingTextField, page.searchingComboBox, page.table,
-                        page.tableData, page.defaultModel);
+                GeneralListeners.searchTableToGetObjects(
+                        page.getSearchingTextField(),
+                        page.getSearchingComboBox(),
+                        page.getTable(),
+                        page.getTableData(),
+                        page.getDefaultModel()
+                );
             }
         };
     }
 
-    public static ItemListener getObjectsByYear(RepresentativesListPage page) {
+    public static ItemListener getObjectsByYear(Page_RepresentativesMain page) {
         return new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 // Get Year Input (default =0 with Specified Condition).
-                String selectedYear = Objects.requireNonNull(page.filterComboBox.getSelectedItem()).toString();
+                String selectedYear = Objects.requireNonNull(page.getFilterComboBox().getSelectedItem()).toString();
                 try { Integer.parseInt(selectedYear);}
                 catch (NumberFormatException exc) { selectedYear = "0"; }
 
@@ -57,14 +62,14 @@ public class RepresentativesListeners {
                 Object[][] result = Controller_Representatives.getAllRepresentativesWithTableFormat(selectedYear);
 
                 // Clear Current Table Data.
-                page.defaultModel.setRowCount(0);
+                page.getDefaultModel().setRowCount(0);
 
                 // Add Row By Row result[][] Into Default Table Model.
                 for (Object[] row : result)
-                    page.defaultModel.addRow(row);
+                    page.getDefaultModel().addRow(row);
 
                 // Notice To Application That There Are Changes In Our Table.
-                page.defaultModel.fireTableDataChanged();
+                page.getDefaultModel().fireTableDataChanged();
 
                 // Save Current Data For Updating, Searching,...
                 page.saveCurrentTableData();

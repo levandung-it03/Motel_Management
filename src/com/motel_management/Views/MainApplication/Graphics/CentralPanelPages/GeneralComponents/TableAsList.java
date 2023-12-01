@@ -61,53 +61,29 @@ public class TableAsList {
         // Get View, Delete Button Indices.
         int viewBtnInd = -1, deleteBtnInd = -1, updateBtnInd = -1;
         for (int i = 0; i < table.getColumnCount(); i++) {
-            if (table.getColumnName(i).equalsIgnoreCase("update"))  updateBtnInd = i;
-            if (table.getColumnName(i).contains("Detail"))  viewBtnInd = i;
-            if (table.getColumnName(i).equalsIgnoreCase("detail"))   viewBtnInd = i;
-            if (table.getColumnName(i).equalsIgnoreCase("delete button")) deleteBtnInd = i;
+            if (table.getColumnName(i).toUpperCase().contains("UPDATE")) {
+                changeCellColor(table, i, new Color(75, 217, 72));
+            }
+            if (table.getColumnName(i).toUpperCase().contains("DETAIL")) {
+                changeCellColor(table, i, new Color(126, 170, 255));
+            }
+            if (table.getColumnName(i).toUpperCase().contains("DELETE")) {
+                changeCellColor(table, i, new Color(250, 93, 93));
+            }
         }
+    }
 
-        // Change Color of Columns.
-        if (deleteBtnInd != -1) {
-            table.getColumnModel().getColumn(deleteBtnInd).setCellRenderer(
-                    new DefaultTableCellRenderer() {
-                        @Override
-                        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                                       boolean hasFocus, int row, int column) {
-                            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                            setHorizontalAlignment(JLabel.CENTER);
-                            setBackground(new Color(250, 93, 93));
-                            return this;
-                        }
-                    }
-            );
-        }
-        if (viewBtnInd != -1) {
-            table.getColumnModel().getColumn(viewBtnInd).setCellRenderer(
-                    new DefaultTableCellRenderer() {
-                        @Override
-                        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                                       boolean hasFocus, int row, int column) {
-                            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                            setHorizontalAlignment(JLabel.CENTER);
-                            setBackground(new Color(126, 170, 255));
-                            return this;
-                        }
-                    }
-            );
-        }
-        if (updateBtnInd != -1) {
-            table.getColumnModel().getColumn(updateBtnInd).setCellRenderer(new DefaultTableCellRenderer() {
-                @Override
-                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                               boolean hasFocus, int row, int column) {
-                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                    this.setHorizontalAlignment(JLabel.CENTER);
-                    this.setBackground(new Color(75, 217, 72));
-                    return this;
-                }
-            });
-        }
+    public static void changeCellColor(JTable table, int columnInd, Color color) {
+        table.getColumnModel().getColumn(columnInd).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                           boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                this.setHorizontalAlignment(JLabel.CENTER);
+                this.setBackground(color);
+                return this;
+            }
+        });
     }
 
     public JTable getTable() {

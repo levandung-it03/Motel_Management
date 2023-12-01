@@ -2,6 +2,7 @@ package com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pa
 
 import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Views.Configs;
+import com.motel_management.Views.Frame_MainApplication;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.InputComboPanel;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Contract.ContractListListeners;
@@ -14,19 +15,20 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.time.LocalDateTime;
 
-public class ContractListPage extends JPanel {
-    public JTable table;
-    public JScrollPane contractScrollPane;
-    public DefaultTableModel defaultModel;
-    public Object[][] tableData;
+public class Page_ContractList extends JPanel {
+    private Frame_MainApplication mainFrameApp;
+    private JTable table;
+    private DefaultTableModel defaultModel;
+    private Object[][] tableData;
 
-    public JComboBox<String> filterComboBox;
-    public JTextField searchingTextField = new JTextField();
-    public JComboBox<String> searchingComboBox;
+    private final JTextField searchingTextField = new JTextField();
+    private JComboBox<String> filterComboBox;
+    private JComboBox<String> searchingComboBox;
 
     // Constructor
-    public ContractListPage() {
+    public Page_ContractList(Frame_MainApplication mainFrameApp) {
         super(new BorderLayout());
+        this.mainFrameApp = mainFrameApp;
         this.createContractListPage();
         this.saveCurrentTableData();
         this.createListeners();
@@ -35,7 +37,7 @@ public class ContractListPage extends JPanel {
     public void createContractListPage() {
         setPreferredSize(new Dimension(Configs.centralPanelWidth, Configs.centralPanelHeight));
 
-        // Tools
+        // Tools (Title - Search - Filter)
         JPanel tools = new JPanel(new BorderLayout());
         tools.setPreferredSize(new Dimension(Configs.centralPanelWidth, 143));
         tools.setBorder(new EmptyBorder(10, 25, 5, 25));
@@ -49,21 +51,21 @@ public class ContractListPage extends JPanel {
 
         // Search
         this.searchingComboBox = new JComboBox<String>(new String[] {
+                "Contract Id",
                 "Room",
-                "Representative Card",
-                "Name",
+                "Identifier",
+                "Full Name",
                 "Checked Out",
-                "Registered Temp Residence",
                 "Started Date",
                 "Ended Date"
         });
         JPanel searchingComboBoxContainer =
                 InputComboPanel.generateComboBoxInputPanel("Choose Searched Field", this.searchingComboBox);
-
-        JPanel searchingContainer = new JPanel(new BorderLayout());
-        JPanel searchingTextFieldPanel = InputComboPanel.generateTextInputPanel("Searching (Allow dd/, /MM/ or yyyy)", this.searchingTextField);
+        JPanel searchingTextFieldPanel =
+                InputComboPanel.generateTextInputPanel("Searching (Allow dd/, /MM/ or yyyy)", this.searchingTextField);
         searchingTextFieldPanel.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.27), 65));
 
+        JPanel searchingContainer = new JPanel(new BorderLayout());
         searchingContainer.add(searchingComboBoxContainer, BorderLayout.WEST);
         searchingContainer.add(searchingTextFieldPanel, BorderLayout.EAST);
         tools.add(searchingContainer, BorderLayout.WEST);
@@ -83,8 +85,8 @@ public class ContractListPage extends JPanel {
         tools.add(filterComboBoxContainer, BorderLayout.EAST);
 
         // Prepare Date to generate Table.
-        String[] columns = {"Room", "Representative Card", "Name", "Checked Out", "Registered Temp Residence",
-                "Started Date", "Ended Date", "Delete Button"};
+        String[] columns = {"Contract Id", "Room", "Identifier", "Full Name", "Checked Out", "Started Date",
+                "Ended Date", "Detail", "Delete Button"};
         String[][] contracts = Controller_Contract.getAllContractByYearWithTableFormat("0");
 
         // Create Table
@@ -97,18 +99,18 @@ public class ContractListPage extends JPanel {
         this.defaultModel = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
         this.table.setRowSorter(new TableRowSorter<>(defaultModel));
-        this.contractScrollPane = tableAsList.getScrollPane();
+        JScrollPane contractScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.
-        this.contractScrollPane.setBorder(new EmptyBorder(20, 20, 0, 20));
+        contractScrollPane.setBorder(new EmptyBorder(20, 20, 0, 20));
 
         // Resize several Columns.
-        this.table.getColumnModel().getColumn(0).setPreferredWidth(5);
-        this.table.getColumnModel().getColumn(1).setPreferredWidth(120);
-        this.table.getColumnModel().getColumn(2).setPreferredWidth(20);
-        this.table.getColumnModel().getColumn(4).setPreferredWidth(190);
-        this.table.getColumnModel().getColumn(5).setPreferredWidth(60);
-        this.table.getColumnModel().getColumn(6).setPreferredWidth(50);
+        this.table.getColumnModel().getColumn(0).setPreferredWidth(60);
+        this.table.getColumnModel().getColumn(1).setPreferredWidth(5);
+        this.table.getColumnModel().getColumn(3).setPreferredWidth(170);
+        this.table.getColumnModel().getColumn(5).setPreferredWidth(65);
+        this.table.getColumnModel().getColumn(6).setPreferredWidth(60);
+        this.table.getColumnModel().getColumn(7).setPreferredWidth(25);
 
         // Add ScrollPane into CentralPanel/Contract.
         add(tools, BorderLayout.NORTH);
@@ -116,8 +118,9 @@ public class ContractListPage extends JPanel {
     }
 
     public void createListeners() {
-        // Add Clicking Delete Button Action.
-        table.addMouseListener(ContractListListeners.getDeleteCellByMouseListener(this.defaultModel, this.table, this));
+        // Add Clicking Buttons Action.
+        table.addMouseListener(ContractListListeners.getCellActionByMouseListener(mainFrameApp, this,
+                this.defaultModel, this.table));
 
         // Searching Action
         this.searchingTextField.addKeyListener(ContractListListeners.searchTableToGetObjects(this));
@@ -133,4 +136,12 @@ public class ContractListPage extends JPanel {
             for (int col = 0; col < this.table.getColumnCount(); col++)
                 tableData[row][col] = this.table.getValueAt(row, col).toString();
     }
+
+    // Getters
+    public Object[][] getTableData() { return this.tableData; }
+    public JComboBox<String> getFilterComboBox() { return filterComboBox; }
+    public DefaultTableModel getDefaultModel() { return defaultModel; }
+    public JTextField getSearchingTextField() { return searchingTextField; }
+    public JComboBox<String> getSearchingComboBox() { return searchingComboBox; }
+    public JTable getTable() { return table; }
 }

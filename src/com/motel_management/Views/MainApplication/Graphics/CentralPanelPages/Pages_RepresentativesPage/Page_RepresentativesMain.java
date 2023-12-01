@@ -6,7 +6,6 @@ import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Gen
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.GeneralComponents.TableAsList;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Representatives.RepresentativesListeners;
 
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -14,19 +13,18 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.time.LocalDateTime;
 
-public class RepresentativesListPage extends JPanel {
-    JFrame mainAppFrame;
-    public JTable table;
-    public JScrollPane representativesScrollPane;
-    public DefaultTableModel defaultModel;
+public class Page_RepresentativesMain extends JPanel {
+    private final JFrame mainAppFrame;
+    private JTable table;
+    private DefaultTableModel defaultModel;
 
-    public JComboBox<String> filterComboBox;
-    public JTextField searchingTextField = new JTextField();
-    public JComboBox<String> searchingComboBox;
+    private final JTextField searchingTextField = new JTextField();
+    private JComboBox<String> filterComboBox;
+    private JComboBox<String> searchingComboBox;
 
-    public Object[][] tableData;
+    private Object[][] tableData;
 
-    public RepresentativesListPage(JFrame mainAppFrame) {
+    public Page_RepresentativesMain(JFrame mainAppFrame) {
         super(new BorderLayout());
         this.mainAppFrame = mainAppFrame;
         this.createRepresentativesListPage();
@@ -96,10 +94,10 @@ public class RepresentativesListPage extends JPanel {
         this.defaultModel = tableAsList.getDefaultModel();
         this.table = tableAsList.getTable();
         this.table.setRowSorter(new TableRowSorter<>(defaultModel));
-        this.representativesScrollPane = tableAsList.getScrollPane();
+        JScrollPane representativesScrollPane = tableAsList.getScrollPane();
 
         // Margin Table.
-        this.representativesScrollPane.setBorder(new EmptyBorder(20, 30, 0, 30));
+        representativesScrollPane.setBorder(new EmptyBorder(20, 30, 0, 30));
 
         // Resize several Columns.
         this.table.getColumnModel().getColumn(0).setPreferredWidth(10);
@@ -132,4 +130,12 @@ public class RepresentativesListPage extends JPanel {
             for (int col = 0; col < this.table.getColumnCount(); col++)
                 tableData[row][col] = this.table.getValueAt(row, col).toString();
     }
+
+    // Getters
+    public JTextField getSearchingTextField() { return searchingTextField; }
+    public JComboBox<String> getSearchingComboBox() { return searchingComboBox; }
+    public DefaultTableModel getDefaultModel() { return defaultModel; }
+    public JComboBox<String> getFilterComboBox() { return filterComboBox; }
+    public Object[][] getTableData() { return tableData; }
+    public JTable getTable() { return table; }
 }

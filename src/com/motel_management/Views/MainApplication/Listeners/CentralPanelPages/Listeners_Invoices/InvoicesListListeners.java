@@ -1,8 +1,8 @@
 package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.Listeners_Invoices;
 
 import com.motel_management.Controllers.Controller_Invoices;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesListPage;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.InvoicesOfRoomDialog;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.Page_InvoicesList;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.Dialog_InvoicesOfRoom;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ public class InvoicesListListeners {
     public InvoicesListListeners() { super(); }
 
     public static MouseAdapter getAllInvoicesByMouseListener(DefaultTableModel defaultModel, JTable table,
-                                                             InvoicesListPage invoicesList, JFrame mainFrameApp) {
+                                                             Page_InvoicesList invoicesList, JFrame mainFrameApp) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -32,11 +32,11 @@ public class InvoicesListListeners {
         };
     }
 
-    public static void viewAllInvoice(String roomId, JFrame mainFrameApp, InvoicesListPage invoicesList) {
-        InvoicesOfRoomDialog invoicesOfRoom = new InvoicesOfRoomDialog(mainFrameApp, roomId, invoicesList);
+    public static void viewAllInvoice(String roomId, JFrame mainFrameApp, Page_InvoicesList invoicesList) {
+        Dialog_InvoicesOfRoom invoicesOfRoom = new Dialog_InvoicesOfRoom(mainFrameApp, roomId, invoicesList);
     }
 
-    public static void deleteInvoice(int clickedRow, InvoicesListPage invoicesList, DefaultTableModel defaultModel) {
+    public static void deleteInvoice(int clickedRow, Page_InvoicesList invoicesList, DefaultTableModel defaultModel) {
         if (JOptionPane.showConfirmDialog(new JPanel(), "Do you want to delete Invoice "
                 + invoicesList.tableData[clickedRow][2] + "?", "Notice", JOptionPane.YES_NO_OPTION) == 0) {
             if (Controller_Invoices.deleteInvoice(invoicesList.tableData[clickedRow][2].toString()) != 0) {
@@ -56,7 +56,7 @@ public class InvoicesListListeners {
         }
     }
 
-    public static KeyListener searchTableToGetObjects(InvoicesListPage page) {
+    public static KeyListener searchTableToGetObjects(Page_InvoicesList page) {
         return new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}

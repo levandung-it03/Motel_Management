@@ -9,7 +9,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.HashMap;
 
-public class AddInvoicePage extends JPanel {
+public class Page_AddInvoice extends JPanel {
+    private Page_InvoicesMain mainTabbedPane;
     JPanel container;
     JComboBox<Object> roomId;
     JTextField identifier = new JTextField(20);
@@ -31,8 +32,9 @@ public class AddInvoicePage extends JPanel {
     AddInvoiceListeners addInvoiceObj;
 
     // Constructor
-    public AddInvoicePage() {
+    public Page_AddInvoice(Page_InvoicesMain mainTabbedPane) {
         super(new FlowLayout());
+        this.mainTabbedPane = mainTabbedPane;
         this.createAddInvoicePage();
         this.createListeners();
     }
@@ -79,6 +81,6 @@ public class AddInvoicePage extends JPanel {
 
         AddInvoiceListeners.automaticallySetValueTextField(roomId, inpTags);
         this.roomId.addActionListener(AddInvoiceListeners.changeInpValuesWhenRoomIdChanged(this.roomId, inpTags));
-        this.submitBtn.addActionListener(AddInvoiceListeners.addNewInvoicesListener(roomId, inpTags));
+        this.submitBtn.addActionListener(AddInvoiceListeners.addNewInvoicesListener(roomId, inpTags, mainTabbedPane));
     }
 }

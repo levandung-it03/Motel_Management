@@ -8,7 +8,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.HashMap;
 
-public class AddElectricity_WaterPage extends JPanel{
+public class Page_AddElectricityWater extends JPanel{
     JPanel container;
     JTextField electricId = new JTextField(20);
     JTextField electricRangeName = new JTextField(20);
@@ -22,7 +22,7 @@ public class AddElectricity_WaterPage extends JPanel{
     JTextField maxWRangeValue = new JTextField(20);
     JTextField defaultWPrice = new JTextField(20);
     JButton submitWBtn;
-    public AddElectricity_WaterPage() {
+    public Page_AddElectricityWater() {
         super(new GridLayout(0,2));
         setPreferredSize(new Dimension(Configs.centralPanelWidth,Configs.centralPanelHeight));
         this.createAddElectricityPage();

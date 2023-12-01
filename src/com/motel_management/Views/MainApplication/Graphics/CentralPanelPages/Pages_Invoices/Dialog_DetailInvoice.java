@@ -9,8 +9,8 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
-public class InvoiceDetailDialog extends JDialog {
-    public InvoiceDetailDialog(InvoiceModel invoice, JDialog parentDialog) {
+public class Dialog_DetailInvoice extends JDialog {
+    public Dialog_DetailInvoice(InvoiceModel invoice, JDialog parentDialog) {
         super(parentDialog, "Invoice Detail");
         this.createInvoiceDetailDialog(invoice);
     }

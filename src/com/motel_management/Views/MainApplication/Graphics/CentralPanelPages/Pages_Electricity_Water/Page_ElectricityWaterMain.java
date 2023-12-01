@@ -6,12 +6,12 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class Electricity_WaterPage extends JPanel {
+public class Page_ElectricityWaterMain extends JPanel {
     public static JTabbedPane mainEWPage;
     private JPanel EWListPanel;
     private JPanel addEWPanel;
     // Constructor
-    public Electricity_WaterPage() {
+    public Page_ElectricityWaterMain() {
         // Set Layout Here
         super();
         this.createElectricity_WaterPanel();
@@ -20,8 +20,8 @@ public class Electricity_WaterPage extends JPanel {
 
     public void createElectricity_WaterPanel() {
         this.mainEWPage = new JTabbedPane(JTabbedPane.TOP);
-        EWListPanel = new Electricity_WaterListPage();
-        addEWPanel = new AddElectricity_WaterPage();
+        EWListPanel = new Page_ElectricityWaterList();
+        addEWPanel = new Page_AddElectricityWater();
 
         EWListPanel.setBackground(Configs.mainWhiteBackground);
         addEWPanel.setBackground(Configs.mainWhiteBackground);
@@ -37,10 +37,10 @@ public class Electricity_WaterPage extends JPanel {
             @Override
             public void stateChanged(ChangeEvent e) {
                 if (mainEWPage.getSelectedIndex() == 0) {
-                    EWListPanel = new Electricity_WaterListPage();
+                    EWListPanel = new Page_ElectricityWaterList();
                     mainEWPage.setComponentAt(0, EWListPanel);
                 } else {
-                    addEWPanel = new AddElectricity_WaterPage();
+                    addEWPanel = new Page_AddElectricityWater();
                     mainEWPage.setComponentAt(1, addEWPanel);
                 }
             }

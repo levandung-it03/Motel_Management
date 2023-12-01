@@ -94,7 +94,6 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             DB_connection.closeMMDBConnection(myConnection);
         }
     }
-
     // OverLOAD
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
@@ -123,6 +122,7 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             DB_connection.closeMMDBConnection(myConnection);
         }
     }
+
     public void updatePersonStatus(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
@@ -234,10 +234,13 @@ public class PersonDAO implements DAOInterface<PersonModel>{
     public HashMap<String, String> selectAllNameById() {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            ResultSet rs = myConnection.prepareStatement("SELECT identifier, firstName FROM Person;").executeQuery();
+            ResultSet rs = myConnection.prepareStatement("SELECT identifier, lastName, firstName FROM Person").executeQuery();
             HashMap<String, String> result = new HashMap<>();
             while (rs.next()) {
-                result.put(rs.getString("identifier"), rs.getString("firstName"));
+                result.put(
+                        rs.getString("identifier"),
+                        rs.getString("lastName") + " " + rs.getString("firstName")
+                );
             }
             return result;
         } catch (SQLException e) {

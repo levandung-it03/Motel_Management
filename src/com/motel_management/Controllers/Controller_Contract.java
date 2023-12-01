@@ -7,8 +7,11 @@ import com.motel_management.Models.ContractModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class Controller_Contract {
@@ -77,15 +80,19 @@ public class Controller_Contract {
         return result;
     }
 
-    public static void updateContractStatus (String[] data) {
+    public static void updateContractStatus(String[] data) {
         ContractDAO.getInstance().updateContractStatus(data);
     }
 
-    public static int deleteById(String roomId, String identifier) {
+    public static ContractModel getContractById(String contractId) {
+        return ContractDAO.getInstance().selectById(contractId);
+    }
+
+    public static int deleteById(String contractId, String roomId, String identifier) {
         RoomModel roomData = RoomDAO.getInstance().selectById(roomId);
         roomData.setQuantity(0);
 
-        int deleteContractRes = ContractDAO.getInstance().deleteByIdentifier(identifier);
+        int deleteContractRes = ContractDAO.getInstance().delete(contractId);
         int deletePersonRes = PersonDAO.getInstance().delete(identifier);
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
         return deleteContractRes * deletePersonRes * updateRoomRes;
@@ -102,16 +109,17 @@ public class Controller_Contract {
                 .selectByCondition(query);
         HashMap<String, String> selectedPersons = PersonDAO.getInstance().selectAllNameById();
 
-        String[][] contracts = new String[selectedContracts.size()][8];
+        String[][] contracts = new String[selectedContracts.size()][9];
         for (int i = 0; i < selectedContracts.size(); i++) {
-            contracts[i][0] = selectedContracts.get(i).getRoomId();
-            contracts[i][1] = selectedContracts.get(i).getIdentifier();
-            contracts[i][2] = selectedPersons.get(selectedContracts.get(i).getIdentifier());
-            contracts[i][3] = selectedContracts.get(i).getCheckedOut().equals("1") ? "YES" : "NO";
-            contracts[i][4] = selectedContracts.get(i).getIsRegisteredPerAddress().equals("1") ? "YES" : "NO";
+            contracts[i][0] = selectedContracts.get(i).getContractId();
+            contracts[i][1] = selectedContracts.get(i).getRoomId();
+            contracts[i][2] = selectedContracts.get(i).getIdentifier();
+            contracts[i][3] = selectedPersons.get(selectedContracts.get(i).getIdentifier());
+            contracts[i][4] = selectedContracts.get(i).getCheckedOut().equals("0") ? "NO" : "YES";
             contracts[i][5] = dateFormat.format(selectedContracts.get(i).getStartingDate());
             contracts[i][6] = dateFormat.format(selectedContracts.get(i).getEndingDate());
-            contracts[i][7] = "Delete";
+            contracts[i][7] = "View";
+            contracts[i][8] = "Delete";
         }
         return contracts;
     }

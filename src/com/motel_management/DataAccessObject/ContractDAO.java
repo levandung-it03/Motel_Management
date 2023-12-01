@@ -6,6 +6,7 @@ import com.motel_management.Views.Configs;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ContractDAO implements DAOInterface<ContractModel>{
     public ContractDAO() {}
@@ -148,22 +149,6 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         return 0;
     }
 
-    public int deleteByIdentifier (String identifier) {
-        Connection myConnection = DB_connection.getMMDBConnection();
-        try {
-            String query = "DELETE FROM Contract WHERE identifier=?";
-            PreparedStatement ps = myConnection.prepareStatement(query);
-            ps.setString(1, identifier);
-            return ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DB_connection.closeMMDBConnection(myConnection);
-        }
-        return 0;
-    }
-
-
     @Override
     public ContractModel selectById (String id) {
         Connection myConnection = DB_connection.getMMDBConnection();
@@ -172,12 +157,14 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
-            rs.next();
-            return new ContractModel(rs.getString("contractId"),rs.getString("identifier"),
+            if (rs.next())
+                return new ContractModel(rs.getString("contractId"),rs.getString("identifier"),
                     rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
                     rs.getString("isFamily"), rs.getDate("startingDate"),
                     rs.getDate("endingDate"), rs.getInt("totalMonths"),
                     rs.getString("checkedOut"), rs.getString("isRegisteredPerAddress"));
+            else
+                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -232,16 +219,17 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         return null;
     }
 
-    public ArrayList<String> selectContractWithRepresentativeByYear(String condition) {
+    public Date selectLastStartingDateOfContractByRoomId(String roomId) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            PreparedStatement ps = myConnection.prepareStatement("SELECT identifier FROM Contract " + condition);
-            ArrayList<String> result = new ArrayList<>();
+            PreparedStatement ps = myConnection.prepareStatement(
+                    "SELECT MAX(startingDate) AS lastStartingDate FROM Contract WHERE roomId=?"
+            );
+            ps.setString(1, roomId);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.add(rs.getString("identifier"));
-            }
-            return result;
+            if (rs.next())
+                return rs.getDate("lastStartingDate");
+            return null;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

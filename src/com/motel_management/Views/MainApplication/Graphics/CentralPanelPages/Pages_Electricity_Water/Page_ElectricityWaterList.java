@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 
-public class Electricity_WaterListPage extends JPanel {
+public class Page_ElectricityWaterList extends JPanel {
     public JTable electricTable;
     public JTable waterTable;
     public JScrollPane roomScrollPane;
@@ -21,7 +21,7 @@ public class Electricity_WaterListPage extends JPanel {
     public Object[][] electricTableData;
     public Object[][] waterTableData;
 
-    public Electricity_WaterListPage() {
+    public Page_ElectricityWaterList() {
         super(new GridLayout(2,0));
         this.createEWListPage();
         this.createListeners();
@@ -52,7 +52,7 @@ public class Electricity_WaterListPage extends JPanel {
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(electrics, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column != 0 && column != 2 && column != 3 && column != 5;
+                return column != 0  && column != 5;
             }
             @Override
             public Class<?> getColumnClass(int columnIndex) {
