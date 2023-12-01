@@ -9,8 +9,8 @@ import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanel;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.Page_RoomsMain;
+import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanel;
+import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room.Page_RoomsMain;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
