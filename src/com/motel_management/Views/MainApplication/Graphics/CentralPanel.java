@@ -1,13 +1,13 @@
 package com.motel_management.Views.MainApplication.Graphics;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.Frame_MainApplication;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.RoomPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Room.Page_RoomsMain;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_CheckOut.Page_CheckOutMain;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Page_ElectricityWaterMain;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Contract.Page_ContractMain;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Invoices.Page_InvoicesMain;
 import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_RepresentativesPage.Page_RepresentativesMain;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Statistic.StatisticPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Statistic.Page_StatisticMain;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -44,11 +44,11 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Invoices"));
         labels.add(generateTabLabel("Check-out"));
 
-        pages.add(new StatisticPage(mainFrameApp));
-        pages.add(new RoomPage(mainFrameApp));
+        pages.add(new Page_StatisticMain(mainFrameApp));
+        pages.add(new Page_RoomsMain(mainFrameApp));
         pages.add(new Page_ContractMain(mainFrameApp));
         pages.add(new Page_RepresentativesMain(mainFrameApp));
-        pages.add(new Electricity_WaterPage());
+        pages.add(new Page_ElectricityWaterMain());
         pages.add(new Page_InvoicesMain(mainFrameApp));
         pages.add(new Page_CheckOutMain());
 
@@ -82,11 +82,11 @@ public class CentralPanel extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 int tabSelected = category.getSelectedIndex();
                 switch(tabSelected) {
-                    case 0 -> category.setComponentAt(0, new StatisticPage(mainFrameApp));
-                    case 1 -> category.setComponentAt(1, new RoomPage(mainFrameApp));
+                    case 0 -> category.setComponentAt(0, new Page_StatisticMain(mainFrameApp));
+                    case 1 -> category.setComponentAt(1, new Page_RoomsMain(mainFrameApp));
                     case 2 -> category.setComponentAt(2, new Page_ContractMain(mainFrameApp));
                     case 3 -> category.setComponentAt(3, new Page_RepresentativesMain(mainFrameApp));
-                    case 4 -> category.setComponentAt(4, new Electricity_WaterPage());
+                    case 4 -> category.setComponentAt(4, new Page_ElectricityWaterMain());
                     case 5 -> category.setComponentAt(5, new Page_InvoicesMain(mainFrameApp));
                     case 6 -> category.setComponentAt(6, new Page_CheckOutMain());
                 }

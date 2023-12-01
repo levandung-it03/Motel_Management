@@ -2,7 +2,7 @@ package com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.L
 
 import com.motel_management.Controllers.Controller_Electricity_Water;
 import com.motel_management.Views.MainApplication.Listeners.CentralPanelPages.GeneralListeners;
-import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Electricity_WaterListPage;
+import com.motel_management.Views.MainApplication.Graphics.CentralPanelPages.Pages_Electricity_Water.Page_ElectricityWaterList;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -20,7 +20,7 @@ public class EWListListeners {
     public EWListListeners() {
     }
 
-    public static TableModelListener cellElectricValueUpdated(Electricity_WaterListPage EWList) {
+    public static TableModelListener cellElectricValueUpdated(Page_ElectricityWaterList EWList) {
         tmElectricListener = new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent evt) {
@@ -40,7 +40,7 @@ public class EWListListeners {
         return tmElectricListener;
     }
 
-    public static TableModelListener cellWaterValueUpdated(Electricity_WaterListPage EWList) {
+    public static TableModelListener cellWaterValueUpdated(Page_ElectricityWaterList EWList) {
         tmWaterListener = new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent evt) {
