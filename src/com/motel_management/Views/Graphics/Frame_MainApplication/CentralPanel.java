@@ -1,11 +1,11 @@
 package com.motel_management.Views.Graphics.Frame_MainApplication;
 import com.motel_management.Views.Configs;
-import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room.Page_RoomsMain;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_CheckOut.Page_CheckOutMain;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Electricity_Water.Page_ElectricityWaterMain;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Contract.Page_ContractMain;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Invoices.Page_InvoicesMain;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_RepresentativesPage.Page_RepresentativesMain;
+import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room.Page_RoomMain;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Statistic.Page_StatisticMain;
 
 import javax.swing.*;
@@ -44,7 +44,7 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Check-out"));
 
         pages.add(new Page_StatisticMain(mainFrameApp));
-        pages.add(new Page_RoomsMain(mainFrameApp));
+        pages.add(new Page_RoomMain(mainFrameApp));
         pages.add(new Page_ContractMain(mainFrameApp));
         pages.add(new Page_RepresentativesMain(mainFrameApp));
         pages.add(new Page_ElectricityWaterMain());
@@ -82,7 +82,7 @@ public class CentralPanel extends JPanel {
                 int tabSelected = category.getSelectedIndex();
                 switch(tabSelected) {
                     case 0 -> category.setComponentAt(0, new Page_StatisticMain(mainFrameApp));
-                    case 1 -> category.setComponentAt(1, new Page_RoomsMain(mainFrameApp));
+                    case 1 -> category.setComponentAt(1, new Page_RoomMain(mainFrameApp));
                     case 2 -> category.setComponentAt(2, new Page_ContractMain(mainFrameApp));
                     case 3 -> category.setComponentAt(3, new Page_RepresentativesMain(mainFrameApp));
                     case 4 -> category.setComponentAt(4, new Page_ElectricityWaterMain());
