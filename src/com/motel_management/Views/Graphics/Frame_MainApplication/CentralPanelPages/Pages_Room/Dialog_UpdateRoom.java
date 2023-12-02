@@ -16,7 +16,8 @@ public class Dialog_UpdateRoom extends JDialog{
     JTextField defaultPrice;
     JButton updateBtn;
 
-    public Dialog_UpdateRoom(Frame_MainApplication mainFrameApp, JTextField roomId, JTextField quantity, JTextField maxQuantity, JTextField defaultPrice) throws HeadlessException {
+    public Dialog_UpdateRoom(Frame_MainApplication mainFrameApp, JTextField roomId, JTextField quantity,
+                             JTextField maxQuantity, JTextField defaultPrice) throws HeadlessException {
         super(mainFrameApp,"Update");
         this.mainFrameApp = mainFrameApp;
         this.roomId = roomId;
@@ -29,7 +30,6 @@ public class Dialog_UpdateRoom extends JDialog{
 
     public void createEditDialog() {
         JPanel container = new JPanel(new FlowLayout());
-
         updateBtn = InputComboPanel.generateButton("Update");
         container.add(InputComboPanel.generateTextInputPanel("Quantity (Unknomn = -1)",quantity));
         container.add(InputComboPanel.generateTextInputPanel("Maximum Quantity", maxQuantity));
