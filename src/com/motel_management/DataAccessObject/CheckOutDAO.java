@@ -5,10 +5,12 @@ import com.motel_management.Views.Configs;
 
 import javax.swing.*;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class CheckOutDAO implements DAOInterface<CheckOutModel> {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     public CheckOutDAO() {}
     public static CheckOutDAO getInstance() {
         return new CheckOutDAO();
@@ -166,7 +168,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
         return null;
     }
 
-    public Date selectLastCheckedOutDateByRoomId(String roomId) {
+    public String selectLastCheckedOutDateByRoomId(String roomId) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = "SELECT MAX(checkOutDate) AS lastCheckOutDate FROM CheckOut " +
@@ -176,7 +178,30 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             ps.setString(1, roomId);
             ResultSet rs = ps.executeQuery();
             if (rs.next())
-                return rs.getDate("lastCheckOutDate");
+                return sdf.format(rs.getDate("lastCheckOutDate"));
+            return null;
+        } catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return null;
+    }
+
+    public String[] selectLastCheckedOutDateByIdentifier(String identifier) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            String query = "SELECT roomId, MAX(checkOutDate) AS lastCheckOutDate FROM CheckOut " +
+                    "INNER JOIN Contract ON Contract.contractId=CheckOut.contractId " +
+                    "WHERE identifier=?";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, identifier);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+                return new String[] {
+                        rs.getString("roomId"),
+                        sdf.format(rs.getDate("lastCheckOutDate"))
+                };
             return null;
         } catch(SQLException e) {
             e.printStackTrace();
