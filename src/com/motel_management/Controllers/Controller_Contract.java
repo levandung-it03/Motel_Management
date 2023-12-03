@@ -123,7 +123,7 @@ public class Controller_Contract {
         roomData.setQuantity(0);
 
         int deleteContractRes = ContractDAO.getInstance().delete(contractId);
-        // Ignore delete Person Result because there can be several Contracts, which has this Identifier.
+        // Ignore "Deleting Person Result" because there can be several old Contracts, which has this Identifier.
         // ==> Just Delete Contract
         PersonDAO.getInstance().delete(identifier);
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
