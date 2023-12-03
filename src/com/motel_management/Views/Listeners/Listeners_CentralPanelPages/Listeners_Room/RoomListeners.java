@@ -2,9 +2,12 @@ package com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listene
 
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanel;
+import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Invoices.Page_InvoicesMain;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room.Dialog_CheckOutRoom;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room.Dialog_UpdateRoom;
-import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room.Page_RoomsMain;
+import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room.Page_RoomList;
+import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room.Page_RoomMain;
+import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainApplication;
 import com.motel_management.Views.Listeners.Listeners_CentralPanelPages.GeneralCentralPanelListeners;
 import com.toedter.calendar.JDateChooser;
 
@@ -23,7 +26,7 @@ public class RoomListeners {
         return Controller_Room.getLastId();
     }
 
-    public static ActionListener addNewRoomListener(HashMap<String, JTextField> inpTags, JFrame mainFrameApp) {
+    public static ActionListener addNewRoomListener(HashMap<String, JTextField> inpTags) {
 
         return new ActionListener() {
             @Override
@@ -64,77 +67,44 @@ public class RoomListeners {
                     JOptionPane.showMessageDialog(new JPanel(), "Invalid Information", "Notice",
                             JOptionPane.PLAIN_MESSAGE);
                 }
-                //create onsite listener
-                CentralPanel.category.setComponentAt(1,new Page_RoomsMain(mainFrameApp));
             }
         };
     }
 
-    public static ActionListener searchRoomListener(JFrame mainFrameApp, JTextField searchRoomId) {
+    public static ActionListener searchRoomListener(Frame_MainApplication mainFrameApp, Page_RoomList page,
+                                                    Page_RoomMain mainTabbedPane) {
 
         return new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent evt) {
-                String [] searchCondition = {"Search",searchRoomId.getText()};
-
-                if(Controller_Room.getRoomInfo(searchCondition).length==0){
-                    JOptionPane.showConfirmDialog(new Panel(), "No rooms found matching the information",
-                            "Notice", JOptionPane.DEFAULT_OPTION);
-                    CentralPanel.category.setComponentAt(1,new Page_RoomsMain((mainFrameApp)));
-                }
-                else CentralPanel.category.setComponentAt(1, new Page_RoomsMain(mainFrameApp,searchCondition,0));
+            public void actionPerformed(ActionEvent e) {
+                String searchSelectedItemIndex = String.valueOf(page.searchingComboBox.getSelectedIndex());
+                mainTabbedPane.getMainTabbedPane().setComponentAt(0,
+                        new Page_RoomList(mainFrameApp,mainTabbedPane,
+                                new String[]{String.valueOf(page.filterComboBox.getSelectedIndex()),
+                                        searchSelectedItemIndex,
+                                        page.searchingTextField.getText(),
+                                }, page.filterComboBox.getSelectedIndex(),page.searchingComboBox.getSelectedIndex()));
             }
         };
     }
-    public static ActionListener showAllRoomListener(JFrame mainFrameApp,ButtonGroup filter,JRadioButton btn) {
-        return new ActionListener() {
+    public static ItemListener getRoomByStatus(Frame_MainApplication mainFrameApp,Page_RoomList page,Page_RoomMain mainTabbedPane) {
+        return new ItemListener() {
             @Override
-            public void actionPerformed(ActionEvent evt) {
-                //create onsite listener
-                filter.setSelected(btn.getModel(),true);
-                CentralPanel.category.setComponentAt(1,new Page_RoomsMain(mainFrameApp));
-
-            }
-        };
-    }
-    public static ActionListener showEmptyRoomListener(JFrame mainFrameApp,ButtonGroup filter,JRadioButton btn) {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                //create onsite listener
-                filter.setSelected(btn.getModel(),true);
-                if(Controller_Room.getRoomInfo(new String[]{"Empty", "WHERE quantity = 0"}).length==0){
-                    JOptionPane.showConfirmDialog(new Panel(), "No rooms found matching the information",
-                            "Notice", JOptionPane.DEFAULT_OPTION);
-                    CentralPanel.category.setComponentAt(1,new Page_RoomsMain((mainFrameApp)));
-                }else {
-                    CentralPanel.category.setComponentAt(1, new Page_RoomsMain(mainFrameApp,
-                            new String[]{"Empty", "WHERE quantity = 0"}, 1
-                    ));
-                }
-            }
-        };
-    }
-    public static ActionListener showUnpaidRoomListener(JFrame mainFrameApp,ButtonGroup filter,JRadioButton btn) {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                //create onsite listener
-                filter.setSelected(btn.getModel(),true);
-                if(Controller_Room.getRoomInfo(new String[]{"Unpaid","WHERE 0"}).length==0){
-                    JOptionPane.showConfirmDialog(new Panel(), "No rooms found matching the information",
-                            "Notice", JOptionPane.DEFAULT_OPTION);
-                    CentralPanel.category.setComponentAt(1,new Page_RoomsMain((mainFrameApp)));
-                }else {
-                    CentralPanel.category.setComponentAt(1, new Page_RoomsMain(mainFrameApp,
-                            new String[]{"Unpaid","WHERE 0"},2
-                    ));
+            public void itemStateChanged(ItemEvent evt) {
+                int selectedItemIndex = page.filterComboBox.getSelectedIndex();
+                if (selectedItemIndex == 0) {
+                    mainTabbedPane.getMainTabbedPane().setComponentAt(0, new Page_RoomList(mainFrameApp,mainTabbedPane));
+                } else {
+                    mainTabbedPane.getMainTabbedPane().setComponentAt(0,
+                            new Page_RoomList(mainFrameApp,mainTabbedPane, new String[]{String.valueOf(selectedItemIndex), "",""},
+                                    selectedItemIndex,page.searchingComboBox.getSelectedIndex()));
                 }
             }
         };
     }
 
-    public static ActionListener updateRoom(HashMap<String, JTextField> inpTags, JFrame mainFrameApp, JDialog dialog) {
+    public static ActionListener updateRoom(HashMap<String, JTextField> inpTags,
+                                            Frame_MainApplication mainFrameApp, JDialog dialog) {
         return new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 String[] data = {inpTags.get("roomId").getText(), inpTags.get("quantity").getText(),
@@ -144,7 +114,7 @@ public class RoomListeners {
                     if (Controller_Room.updateRoom(data) != 0) {
                         JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice",
                                 JOptionPane.PLAIN_MESSAGE);
-                        CentralPanel.category.setComponentAt(1,new Page_RoomsMain(mainFrameApp));
+                        CentralPanel.category.setComponentAt(1,new Page_RoomMain(mainFrameApp));
                         dialog.dispose();
                     } else
                         JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice",
@@ -155,7 +125,7 @@ public class RoomListeners {
     }
 
     public static ActionListener checkOutRoom(String roomId, JDateChooser checkOutDate, JTextArea reason,
-                                              JFrame mainFrameApp, JDialog dialog) {
+                                              Frame_MainApplication mainFrameApp, JDialog dialog) {
         return new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 Controller_Room.validateCheckOutInfo(roomId,checkOutDate,reason,mainFrameApp,dialog);
@@ -183,7 +153,7 @@ public class RoomListeners {
         };
     }
 
-    public static ActionListener checkoutMenu(String roomId, JFrame mainFrameApp) {
+    public static ActionListener checkoutMenu(String roomId, Frame_MainApplication mainFrameApp) {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Your code here
@@ -196,7 +166,7 @@ public class RoomListeners {
     }
 
     public static ActionListener updateMenu(String roomId, String quantity, String maxQuantity, String price,
-                                            JFrame mainFrameApp) {
+                                            Frame_MainApplication mainFrameApp) {
 
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -209,7 +179,7 @@ public class RoomListeners {
         };
     }
 
-    public static ActionListener deleteMenu(String roomId, JFrame mainFrameApp) {
+    public static ActionListener deleteMenu(String roomId, Frame_MainApplication mainFrameApp) {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this room?", "Confirm",
@@ -217,7 +187,7 @@ public class RoomListeners {
                     if (Controller_Room.deleteById(roomId) != 0) {
                         JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice",
                                 JOptionPane.DEFAULT_OPTION);
-                        CentralPanel.category.setComponentAt(1,new Page_RoomsMain(mainFrameApp));
+                        CentralPanel.category.setComponentAt(1,new Page_RoomMain(mainFrameApp));
                     } else {
                         JOptionPane.showConfirmDialog(new Panel(),
                                 "Delete failed because the room still has contract data", "Notice",

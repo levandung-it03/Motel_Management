@@ -1,6 +1,7 @@
 package com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room;
 
 import com.motel_management.Views.Configs;
+import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainApplication;
 import com.motel_management.Views.Graphics.GeneralComponents.InputComboPanel;
 import com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listeners_Room.RoomListeners;
 import com.toedter.calendar.JDateChooser;
@@ -15,10 +16,10 @@ public class Dialog_CheckOutRoom extends JDialog {
     JButton checkOutBtn;
     JDateChooser checkOutDate = new JDateChooser(Date.valueOf(LocalDate.now()));
     JTextArea reason;
-    JFrame mainFrameApp;
+    Frame_MainApplication mainFrameApp;
     String roomId;
 
-    public Dialog_CheckOutRoom(String roomId, JFrame mainFrameApp) {
+    public Dialog_CheckOutRoom(String roomId, Frame_MainApplication mainFrameApp) {
         super(mainFrameApp,"Check Out");
         this.roomId = roomId;
         this.mainFrameApp = mainFrameApp;
