@@ -71,9 +71,7 @@ public class Controller_Invoices {
                 .selectById(data.get("roomId"))
                 .getQuantity();
 
-        ContractModel contract = ContractDAO.getInstance()
-                .selectByCondition("WHERE roomId = \"" + data.get("roomId") + "\"")
-                .get(0);
+        ContractModel contract = ContractDAO.getInstance().selectLastContractByRoomId(data.get("roomId"));
 
         int isFamily = STI(contract.getIsFamily());
         int isRegisteredPerAddress = STI(contract.getIsRegisteredPerAddress());
