@@ -219,17 +219,24 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         return null;
     }
 
-    public Date selectLastStartingDateOfContractByRoomId(String roomId) {
+    public ContractModel selectLastContractByRoomId(String roomId) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             PreparedStatement ps = myConnection.prepareStatement(
-                    "SELECT MAX(startingDate) AS lastStartingDate FROM Contract WHERE roomId=?"
+                    "SELECT * FROM Contract WHERE (" +
+                            "SELECT MAX(startingDate) AS lastStartingDate FROM Contract WHERE roomId=? LIMIT 1" +
+                    ") = startingDate;"
             );
             ps.setString(1, roomId);
             ResultSet rs = ps.executeQuery();
             if (rs.next())
-                return rs.getDate("lastStartingDate");
-            return null;
+                return new ContractModel(rs.getString("contractId"),rs.getString("identifier"),
+                        rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
+                        rs.getString("isFamily"), rs.getDate("startingDate"),
+                        rs.getDate("endingDate"), rs.getInt("totalMonths"),
+                        rs.getString("checkedOut"), rs.getString("isRegisteredPerAddress"));
+            else
+                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
