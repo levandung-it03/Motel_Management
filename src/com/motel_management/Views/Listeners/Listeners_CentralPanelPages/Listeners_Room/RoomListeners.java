@@ -71,34 +71,35 @@ public class RoomListeners {
         };
     }
 
-    public static ActionListener searchRoomListener(Frame_MainApplication mainFrameApp, Page_RoomList page,
-                                                    Page_RoomMain mainTabbedPane) {
+    public static KeyListener searchRoomListener(Page_RoomList page) {
 
-        return new ActionListener() {
+        return new KeyListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {
                 String searchSelectedItemIndex = String.valueOf(page.searchingComboBox.getSelectedIndex());
-                mainTabbedPane.getMainTabbedPane().setComponentAt(0,
-                        new Page_RoomList(mainFrameApp,mainTabbedPane,
-                                new String[]{String.valueOf(page.filterComboBox.getSelectedIndex()),
+                page.remove(page.roomScrollPane);
+                page.condition = new String[]{String.valueOf(page.filterComboBox.getSelectedIndex()),
                                         searchSelectedItemIndex,
-                                        page.searchingTextField.getText(),
-                                }, page.filterComboBox.getSelectedIndex(),page.searchingComboBox.getSelectedIndex()));
+                                        page.searchingTextField.getText()};
+                page.createRoomsPanel();
+                page.revalidate();
+                page.repaint();
             }
         };
     }
-    public static ItemListener getRoomByStatus(Frame_MainApplication mainFrameApp,Page_RoomList page,Page_RoomMain mainTabbedPane) {
+    public static ItemListener getRoomByStatus(Page_RoomList page) {
         return new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent evt) {
-                int selectedItemIndex = page.filterComboBox.getSelectedIndex();
-                if (selectedItemIndex == 0) {
-                    mainTabbedPane.getMainTabbedPane().setComponentAt(0, new Page_RoomList(mainFrameApp,mainTabbedPane));
-                } else {
-                    mainTabbedPane.getMainTabbedPane().setComponentAt(0,
-                            new Page_RoomList(mainFrameApp,mainTabbedPane, new String[]{String.valueOf(selectedItemIndex), "",""},
-                                    selectedItemIndex,page.searchingComboBox.getSelectedIndex()));
-                }
+                page.remove(page.roomScrollPane);
+                page.condition = new String[]{String.valueOf(page.filterComboBox.getSelectedIndex()), "",""};
+                page.createRoomsPanel();
+                page.revalidate();
+                page.repaint();
             }
         };
     }

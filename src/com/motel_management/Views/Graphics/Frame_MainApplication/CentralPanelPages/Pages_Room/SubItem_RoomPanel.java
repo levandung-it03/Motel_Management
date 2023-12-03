@@ -23,7 +23,7 @@ public class SubItem_RoomPanel extends JPanel {
         super(new BorderLayout());
         this.mainFrameApp = mainFrameApp;
         this.data = data;
-        createRoomTagPanel();
+        this.createRoomTagPanel();
         this.createListeners();
     }
     public void createRoomTagPanel(){
