@@ -11,8 +11,6 @@ public class Page_RoomMain extends JPanel{
     private JPanel roomsListPanel;
     private JPanel addRoomPanel;
     private final Frame_MainApplication mainFrameApp;
-    //Getter
-    public JTabbedPane getMainTabbedPane() { return mainTabbedPane; }
 
     // Constructor
     public Page_RoomMain(Frame_MainApplication mainFrameApp) {
@@ -25,7 +23,7 @@ public class Page_RoomMain extends JPanel{
 
     public void createRoomsPanel() {
         mainTabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        roomsListPanel = new Page_RoomList(mainFrameApp,this);
+        roomsListPanel = new Page_RoomList(mainFrameApp);
         addRoomPanel = new Page_AddRoom();
 
         roomsListPanel.setBackground(Configs.mainWhiteBackground);
@@ -38,12 +36,11 @@ public class Page_RoomMain extends JPanel{
     }
 
     public void createOnsiteListeners() {
-        Page_RoomMain _this = this;
         mainTabbedPane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 if (mainTabbedPane.getSelectedIndex() == 0) {
-                    roomsListPanel = new Page_RoomList(mainFrameApp,_this);
+                    roomsListPanel = new Page_RoomList(mainFrameApp);
                     mainTabbedPane.setComponentAt(0, roomsListPanel);
                 } else {
                     addRoomPanel = new Page_AddRoom();

@@ -12,40 +12,21 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class Page_RoomList extends JPanel {
-    JScrollPane roomScrollPane;
-    private final Page_RoomMain mainTabbedPane;
+    public JScrollPane roomScrollPane;
     private final Frame_MainApplication mainFrameApp;
     JPanel roomContainer;
     JPanel toolContainer;
     public JComboBox<String> filterComboBox;
     public JTextField searchingTextField = new JTextField();
     public JComboBox<String> searchingComboBox;
-    JButton searchBtn;
     String[][] data;
-    String[] condition;
-    int filterIndex;
-    int searchIndex;
+    public String[] condition;
 
-    public Page_RoomList(Frame_MainApplication mainFrameApp,Page_RoomMain mainTabbedPane, String[] condition,
-                         int filterIndex,int searchIndex) {
+    public Page_RoomList(Frame_MainApplication mainFrameApp) {
         super(new BorderLayout());
         this.mainFrameApp = mainFrameApp;
-        this.mainTabbedPane = mainTabbedPane;
-        this.condition = condition;
-        this.filterIndex =filterIndex;
-        this.searchIndex =searchIndex;
-        this.createFunctionsPanel();
-        this.createRoomsPanel();
-        this.createListeners();
-    }
-
-    public Page_RoomList(Frame_MainApplication mainFrameApp,Page_RoomMain mainTabbedPane) {
-        super(new BorderLayout());
-        this.mainFrameApp = mainFrameApp;
-        this.mainTabbedPane = mainTabbedPane;
-        this.condition = new String[]{"","",""};
-        this.filterIndex = 0;
-        this.searchIndex = 0;
+        // condition[0]: filter, condition[1]: search column, condition[2]: search text
+        this.condition = new String[]{"", "", ""};
         this.createFunctionsPanel();
         this.createRoomsPanel();
         this.createListeners();
@@ -57,27 +38,26 @@ public class Page_RoomList extends JPanel {
         data = Controller_Room.getRoomInfo(condition);
         roomContainer = new JPanel(new BorderLayout());
         JPanel overviewPanel = new JPanel(new GridLayout(0, 5, 10, 10));
-        overviewPanel.setPreferredSize(new Dimension(0, 180 * Math.ceilDiv(data.length,5)));
+        overviewPanel.setPreferredSize(new Dimension(0, 180 * Math.ceilDiv(data.length, 5)));
         overviewPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         overviewPanel.setOpaque(false);
 
         //Create tags in UI
         for (String[] room : data) {
-            overviewPanel.add(new SubItem_RoomPanel(room,mainFrameApp));
+            overviewPanel.add(new SubItem_RoomPanel(room, mainFrameApp));
         }
 
-        roomContainer.add(overviewPanel,BorderLayout.NORTH);
+        roomContainer.add(overviewPanel, BorderLayout.NORTH);
         roomScrollPane = new JScrollPane(roomContainer);
         roomScrollPane.setPreferredSize(new Dimension(0, 0));
         roomScrollPane.getVerticalScrollBar().setUnitIncrement(12);
         add(roomScrollPane, BorderLayout.CENTER);
-
-
     }
-    public void createFunctionsPanel(){
+
+    public void createFunctionsPanel() {
         toolContainer = new JPanel(new BorderLayout());
-        toolContainer.setPreferredSize(new Dimension(0,76));
-        toolContainer.setBorder(new EmptyBorder(5,10,5,10));
+        toolContainer.setPreferredSize(new Dimension(0, 76));
+        toolContainer.setBorder(new EmptyBorder(5, 10, 5, 10));
 
         // Search
         this.searchingComboBox = new JComboBox<>(new String[]{
@@ -87,21 +67,15 @@ public class Page_RoomList extends JPanel {
                 "Max Quantity",
                 "Room Price"
         });
-        searchingComboBox.setSelectedIndex(searchIndex);
         JPanel searchingComboBoxContainer =
                 InputComboPanel.generateComboBoxInputPanel("Choose Searched Field", this.searchingComboBox);
         JPanel searchingTextFieldPanel =
                 InputComboPanel.generateTextInputPanel("Searching", this.searchingTextField);
-        searchingTextFieldPanel.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.2), 65));
-        this.searchBtn = InputComboPanel.generateButton("Search");
-        JPanel searchingBtnPanel = new JPanel();
-        searchingBtnPanel.setBorder(new EmptyBorder(15,0,20,0));
-        searchingBtnPanel.add(searchBtn);
+        searchingTextFieldPanel.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth * 0.2), 65));
 
         JPanel searchingContainer = new JPanel(new BorderLayout());
         searchingContainer.add(searchingComboBoxContainer, BorderLayout.WEST);
         searchingContainer.add(searchingTextFieldPanel, BorderLayout.CENTER);
-        searchingContainer.add(searchingBtnPanel, BorderLayout.EAST);
         toolContainer.add(searchingContainer, BorderLayout.WEST);
 
         // Filter
@@ -110,20 +84,19 @@ public class Page_RoomList extends JPanel {
                 "Empty Room",
                 "Unpaid Room"
         });
-        filterComboBox.setSelectedIndex(filterIndex);
         JPanel filterComboBoxContainer =
                 InputComboPanel.generateComboBoxInputPanel("Filter Rooms", this.filterComboBox);
         toolContainer.add(filterComboBoxContainer, BorderLayout.EAST);
-        add(toolContainer,BorderLayout.NORTH);
+        add(toolContainer, BorderLayout.NORTH);
     }
 
-    public void createListeners(){
+    public void createListeners() {
 
         //Create filter listener
-        this.filterComboBox.addItemListener(RoomListeners.getRoomByStatus(mainFrameApp,this,mainTabbedPane));
+        this.filterComboBox.addItemListener(RoomListeners.getRoomByStatus(this));
 
         //Create search listener
-        searchBtn.addActionListener(RoomListeners.searchRoomListener(mainFrameApp,this,mainTabbedPane));
+        searchingTextField.addKeyListener(RoomListeners.searchRoomListener(this));
     }
 
 
