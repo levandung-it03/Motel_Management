@@ -223,12 +223,16 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             PreparedStatement ps = myConnection.prepareStatement(
-                    "SELECT * FROM Contract WHERE (" +
-                            "SELECT MAX(startingDate) AS lastStartingDate FROM Contract WHERE roomId=? LIMIT 1" +
-                    ") = startingDate AND roomId=?;"
+                "SELECT Contract.* FROM Contract " +
+                    "INNER JOIN (" +
+                            "SELECT roomId, MAX(startingDate) AS lastStartingDate " +
+                            "FROM Contract WHERE roomId=? " +
+                            "GROUP BY roomId LIMIT 1 " +
+                    ") AS SimpleContract " +
+                    "ON (SimpleContract.roomId = Contract.roomId AND SimpleContract.lastStartingDate = Contract.startingDate)" +
+                    "LIMIT 1"
             );
             ps.setString(1, roomId);
-            ps.setString(2, roomId);
             ResultSet rs = ps.executeQuery();
             if (rs.next())
                 return new ContractModel(rs.getString("contractId"),rs.getString("identifier"),
