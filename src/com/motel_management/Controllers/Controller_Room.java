@@ -10,7 +10,6 @@ import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanel;
-import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room.Page_RoomList;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room.Page_RoomMain;
 import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainApplication;
 import com.toedter.calendar.JDateChooser;
@@ -49,7 +48,6 @@ public class Controller_Room {
         result = RoomDAO.getInstance().selectByCondition("WHERE 0");
         for (int i = 0; i < temp.size(); i++) {
             switch (condition[1]) {
-                default -> result =temp;
                 case "0" -> {
                     if (temp.get(i).getRoomId().contains(condition[2].toUpperCase())) result.add(temp.get(i));
                 }
@@ -57,20 +55,21 @@ public class Controller_Room {
                     ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition("WHERE (lastName LIKE \"%" +
                             condition[2] + "%\" OR firstName LIKE \"%" + condition[2] + "%\") AND isOccupied = 1");
                     for (PersonModel personModel : personResult) {
-                        if (temp.get(i).getRoomId().equalsIgnoreCase(personModel.getRoomId())){
+                        if (temp.get(i).getRoomId().equalsIgnoreCase(personModel.getRoomId())) {
                             result.add(temp.get(i));
                         }
                     }
                 }
-                case "2" ->{
-                    if (temp.get(i).getQuantity() == Integer.parseInt(condition[2])) result.add(temp.get(i));
+                case "2" -> {
+                    if (String.valueOf(temp.get(i).getQuantity()).equals(condition[2])) result.add(temp.get(i));
                 }
-                case "3" ->{
-                    if (temp.get(i).getMaxQuantity() == Integer.parseInt(condition[2])) result.add(temp.get(i));
+                case "3" -> {
+                    if (String.valueOf(temp.get(i).getMaxQuantity()).equals(condition[2])) result.add(temp.get(i));
                 }
                 case "4" -> {
-                    if (temp.get(i).getDefaultRoomPrice() == Integer.parseInt(condition[2])) result.add(temp.get(i));
+                    if (String.valueOf(temp.get(i).getDefaultRoomPrice()).equals(condition[2])) result.add(temp.get(i));
                 }
+                default -> result = temp;
             }
         }
 
@@ -192,7 +191,7 @@ public class Controller_Room {
                     Controller_Contract.updateContractStatus(new String[]{"1", contractId.get(0).getContractId()});
                     Controller_Representatives.updatePersonStatus(new String[]{"0", contractId.get(0).getIdentifier()});
                     Controller_Room.resetRoomStatus(new String[]{"0", roomId});
-                    CentralPanel.category.setComponentAt(1,new Page_RoomMain(mainFrameApp));
+                    CentralPanel.category.setComponentAt(1, new Page_RoomMain(mainFrameApp));
                     dialog.dispose();
                 }
             }
