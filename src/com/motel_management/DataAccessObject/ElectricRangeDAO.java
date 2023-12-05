@@ -82,10 +82,11 @@ public class ElectricRangeDAO implements DAOInterface<ElectricRangeModel>{
             ps.setString(5, obj.getRangeId());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
     // OverLOAD
     public int update(String[] values) {
@@ -101,10 +102,11 @@ public class ElectricRangeDAO implements DAOInterface<ElectricRangeModel>{
             ps.setString(5, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
 
     @Override

@@ -84,10 +84,11 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ps.setString(11, obj.getCheckedOut());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
 
     // Overload
@@ -112,10 +113,11 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ps.setString(11, values[10]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
     public void updateContractStatus(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
@@ -127,7 +129,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ps.setString(2, values[1]);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
