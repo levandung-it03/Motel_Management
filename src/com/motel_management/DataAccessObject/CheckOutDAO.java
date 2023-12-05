@@ -87,10 +87,11 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             ps.setString(4, obj.getCheckOutId());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
     // Overload
     public int update(String[] values) {
@@ -104,10 +105,11 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             ps.setString(4, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
 
     @Override

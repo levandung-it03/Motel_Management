@@ -89,10 +89,11 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(13, obj.getIsOccupied());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
     // OverLOAD
     public int update(String[] values) {
@@ -117,10 +118,11 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(13, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
 
     public int updateDetails(String[] values) {
@@ -138,10 +140,11 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(7, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
 
     public void updatePersonStatus(String[] values) {
@@ -153,7 +156,7 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(2, values[1]);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
