@@ -12,12 +12,9 @@ import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainAppli
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
-import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Controller_Room {
-    static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public Controller_Room() {
         super();
