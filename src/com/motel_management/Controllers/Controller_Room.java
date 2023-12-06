@@ -107,8 +107,8 @@ public class Controller_Room {
         return RoomDAO.getInstance().update(data);
     }
 
-    public static void resetRoomStatus(String[] data) {
-        RoomDAO.getInstance().resetRoomStatus(data);
+    public static int resetRoomStatus(String[] data) {
+        return RoomDAO.getInstance().resetRoomStatus(data);
     }
 
     public static String getLastId() {
@@ -182,6 +182,4 @@ public class Controller_Room {
                 roomId + "\" AND checkedOut = 0");
         return contractId.get(0);
     }
-
-
 }

@@ -150,14 +150,21 @@ public class RoomListeners {
                             dateFormat.format(checkOutDate.getCalendar().getTime()), reason.getText()};
                     String nextIdWhenSuccessfully = Controller_Checkout.addCheckOutHistory(data);
                     if (nextIdWhenSuccessfully != null) {
-                        JOptionPane.showConfirmDialog(new Panel(), "Successful Check-out",
-                                "Notice", JOptionPane.DEFAULT_OPTION);
-                        Controller_Contract.updateContractStatus(new String[]{"1", contractId.getContractId()});
-                        Controller_Representatives.updatePersonStatus(new String[]{"0", contractId.getIdentifier()});
-                        Controller_Room.resetRoomStatus(new String[]{"0", roomId});
+                        if (Controller_Contract.updateContractStatus(new String[]{"1", contractId.getContractId()}) ==0
+                        || Controller_Representatives.updatePersonStatus(new String[]{"0", contractId.getIdentifier()})==0
+                        || Controller_Room.resetRoomStatus(new String[]{"0", roomId})==0){
+                            JOptionPane.showConfirmDialog(new Panel(), "Check-out failed",
+                                    "Notice", JOptionPane.DEFAULT_OPTION);
+                        }else {
+                            JOptionPane.showConfirmDialog(new Panel(), "Successful Check-out",
+                                    "Notice", JOptionPane.DEFAULT_OPTION);
+                        }
                         CentralPanel.category.setComponentAt(1, new Page_RoomMain(mainFrameApp));
                         dialog.dispose();
                     }
+                }else{
+                    JOptionPane.showConfirmDialog(new Panel(), "Check-out date must be after the starting date!",
+                            "Notice", JOptionPane.DEFAULT_OPTION);
                 }
             }
         };

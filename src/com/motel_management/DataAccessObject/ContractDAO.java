@@ -84,10 +84,11 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ps.setString(11, obj.getCheckedOut());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
 
     // Overload
@@ -112,10 +113,11 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ps.setString(11, values[10]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
     public int updateContractStatus(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
@@ -127,10 +129,11 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ps.setString(2, values[1]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
 
     @Override
@@ -223,9 +226,14 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             PreparedStatement ps = myConnection.prepareStatement(
-                    "SELECT * FROM Contract WHERE (" +
-                            "SELECT MAX(startingDate) AS lastStartingDate FROM Contract WHERE roomId=? LIMIT 1" +
-                    ") = startingDate;"
+                "SELECT Contract.* FROM Contract " +
+                    "INNER JOIN (" +
+                            "SELECT roomId, MAX(startingDate) AS lastStartingDate " +
+                            "FROM Contract WHERE roomId=? " +
+                            "GROUP BY roomId LIMIT 1 " +
+                    ") AS SimpleContract " +
+                    "ON (SimpleContract.roomId = Contract.roomId AND SimpleContract.lastStartingDate = Contract.startingDate)" +
+                    "LIMIT 1"
             );
             ps.setString(1, roomId);
             ResultSet rs = ps.executeQuery();

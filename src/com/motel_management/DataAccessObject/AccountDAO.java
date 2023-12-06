@@ -76,10 +76,11 @@ public class AccountDAO implements DAOInterface<AccountModel> {
             ps.setString(4, obj.getUserId());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
     // OverLOAD
     public int update(String[] values) {
@@ -93,10 +94,11 @@ public class AccountDAO implements DAOInterface<AccountModel> {
             ps.setString(4, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
 
     @Override

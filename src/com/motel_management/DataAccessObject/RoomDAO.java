@@ -77,10 +77,11 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             ps.setString(4, obj.getRoomId());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
     // OverLOAD
     public int update(String[] values) {
@@ -94,10 +95,11 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             ps.setString(4, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
     public int resetRoomStatus(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
@@ -108,10 +110,11 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             ps.setString(2, values[1]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
 
     @Override

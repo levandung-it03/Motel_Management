@@ -66,10 +66,11 @@ public class RegionDAO implements DAOInterface<RegionModel> {
             ps.setString(1, obj.getRegionId());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
 
     @Override

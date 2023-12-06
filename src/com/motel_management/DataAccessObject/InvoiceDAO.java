@@ -123,10 +123,11 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setString(17, obj.getInvoiceId());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
 
     // OverLOAD
@@ -157,10 +158,11 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setString(17, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
 
     @Override
