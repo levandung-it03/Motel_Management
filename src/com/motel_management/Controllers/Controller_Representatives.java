@@ -14,8 +14,8 @@ public class Controller_Representatives {
         return PersonDAO.getInstance().selectById(identifier);
     }
 
-    public static void updatePersonStatus(String[] data) {
-        PersonDAO.getInstance().updatePersonStatus(data);
+    public static int updatePersonStatus(String[] data) {
+        return PersonDAO.getInstance().updatePersonStatus(data);
     }
 
     public static int updatePersonDetails (String[] data) {
