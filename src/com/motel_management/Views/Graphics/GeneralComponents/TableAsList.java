@@ -27,6 +27,7 @@ public class TableAsList {
 
         // Create Table
         this.setTable(new JTable(this.defaultModel));
+        table.getTableHeader().setReorderingAllowed(false);
         table.setBorder(new LineBorder(Configs.blackTextColor, 1, true));
 
         // Automatically unfocused with blur action.
