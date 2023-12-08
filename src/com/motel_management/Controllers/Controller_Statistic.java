@@ -44,6 +44,9 @@ public class Controller_Statistic {
             rooms[i][0] = result.get(i).getRoomId();
             rooms[i][1] = result.get(i).getLastName()+ " " +result.get(i).getFirstName();
             rooms[i][2] = roomResult.getQuantity();
+            if (roomResult.getQuantity() == -1){
+                rooms[i][2] = "Unknown";
+            }
             rooms[i][3] = Configs.convertStringToVNDCurrency(roomResult.getDefaultRoomPrice());
         }
         return rooms;

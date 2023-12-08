@@ -147,19 +147,20 @@ public class PersonDAO implements DAOInterface<PersonModel>{
         return 0;
     }
 
-    public void updatePersonStatus(String[] values) {
+    public int updatePersonStatus(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = "UPDATE Person SET isOccupied=? WHERE (identifier=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[0]);
             ps.setString(2, values[1]);
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
+        return 0;
     }
 
     @Override

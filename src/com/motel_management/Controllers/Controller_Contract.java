@@ -110,8 +110,8 @@ public class Controller_Contract {
         return result;
     }
 
-    public static void updateContractStatus(String[] data) {
-        ContractDAO.getInstance().updateContractStatus(data);
+    public static int updateContractStatus(String[] data) {
+        return ContractDAO.getInstance().updateContractStatus(data);
     }
 
     public static ContractModel getContractById(String contractId) {

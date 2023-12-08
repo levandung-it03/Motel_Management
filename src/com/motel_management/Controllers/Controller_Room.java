@@ -8,19 +8,13 @@ import com.motel_management.Models.ContractModel;
 import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
-import com.motel_management.Views.Configs;
-import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanel;
-import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room.Page_RoomMain;
 import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainApplication;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
-import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Controller_Room {
-    static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public Controller_Room() {
         super();
@@ -110,8 +104,8 @@ public class Controller_Room {
         return RoomDAO.getInstance().update(data);
     }
 
-    public static void resetRoomStatus(String[] data) {
-        RoomDAO.getInstance().resetRoomStatus(data);
+    public static int resetRoomStatus(String[] data) {
+        return RoomDAO.getInstance().resetRoomStatus(data);
     }
 
     public static String getLastId() {
@@ -136,23 +130,19 @@ public class Controller_Room {
         return RoomDAO.getInstance().delete(id);
     }
 
-    public static boolean validateCheckOut(String roomId) {
+    public static int validateCheckOut(String roomId) {
         ArrayList<InvoiceModel> roomPayment = InvoiceDAO.getInstance().selectByCondition("WHERE roomId = \"" + roomId + "\"");
         RoomModel room = RoomDAO.getInstance().selectById(roomId);
         if (room.getQuantity() == 0) {
-            JOptionPane.showConfirmDialog(new Panel(), "Room is not occupied!",
-                    "Notice", JOptionPane.DEFAULT_OPTION);
-            return false;
+            return 1;
         }
         for (InvoiceModel invoiceModel : roomPayment) {
             //check if all months are paid
             if (invoiceModel.getWasPaid().equals("0")) {
-                JOptionPane.showConfirmDialog(new Panel(), "Check-out failed due to unpaid payment",
-                        "Notice", JOptionPane.DEFAULT_OPTION);
-                return false;
+                return 2;
             }
         }
-        return true;
+        return 0;
     }
 
     public static int getRoomStatus(String roomId) {
@@ -170,35 +160,23 @@ public class Controller_Room {
         return 2;
     }
 
-    public static void validateCheckOutInfo(String roomId, JDateChooser checkOutDate, JTextArea reason,
+    public static boolean validateCheckOutInfo(String roomId, JDateChooser checkOutDate, JTextArea reason,
                                             Frame_MainApplication mainFrameApp, JDialog dialog) {
-        ArrayList<ContractModel> contractId = ContractDAO.getInstance().selectByCondition("WHERE roomId = \"" +
-                roomId + "\" AND checkedOut = 0");
+        ContractModel contractId = getContractByRoomId(roomId);
         try {
-            if (checkOutDate.getDate().before(contractId.get(0).getStartingDate()) ||
-                    checkOutDate.getDate().equals(contractId.get(0).getStartingDate())) {
-                JOptionPane.showConfirmDialog(new Panel(),
-                        "Check-out date must be after the starting date!",
-                        "Notice", JOptionPane.DEFAULT_OPTION);
+            if (checkOutDate.getDate().before(contractId.getStartingDate()) ||
+                    checkOutDate.getDate().equals(contractId.getStartingDate())) {
+                return false;
             } else {
-                String checkOutId = "CK" + Configs.generateIdTail();
-                String[] data = {checkOutId, contractId.get(0).getContractId(),
-                        dateFormat.format(checkOutDate.getCalendar().getTime()), reason.getText()};
-                String nextIdWhenSuccessfully = Controller_Checkout.addCheckOutHistory(data);
-                if (nextIdWhenSuccessfully != null) {
-                    JOptionPane.showConfirmDialog(new Panel(), "Successful Check-out",
-                            "Notice", JOptionPane.DEFAULT_OPTION);
-                    Controller_Contract.updateContractStatus(new String[]{"1", contractId.get(0).getContractId()});
-                    Controller_Representatives.updatePersonStatus(new String[]{"0", contractId.get(0).getIdentifier()});
-                    Controller_Room.resetRoomStatus(new String[]{"0", roomId});
-                    CentralPanel.category.setComponentAt(1, new Page_RoomMain(mainFrameApp));
-                    dialog.dispose();
-                }
+                return true;
             }
         } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(new JPanel(),
-                    "Invalid at Check-out Date", "Notice", JOptionPane.PLAIN_MESSAGE
-            );
+            return false;
         }
+    }
+    public static ContractModel getContractByRoomId(String roomId){
+        ArrayList<ContractModel> contractId = ContractDAO.getInstance().selectByCondition("WHERE roomId = \"" +
+                roomId + "\" AND checkedOut = 0");
+        return contractId.get(0);
     }
 }
