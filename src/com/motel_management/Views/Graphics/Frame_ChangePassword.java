@@ -131,6 +131,11 @@ public class Frame_ChangePassword extends JFrame{
                     return;
                 }
 
+                if (newPass.equals(oldPass)) {
+                    JOptionPane.showMessageDialog(new JPanel(), "New Password Can Not Be Similar To Old Password!");
+                    return;
+                }
+
                 HashMap<String, String> result = Controller_ChangePassword.changePassword(user, oldPass, newPass);
 
                 JOptionPane.showMessageDialog(new JPanel(), result.get("message"), "Notice", JOptionPane.PLAIN_MESSAGE);
