@@ -21,7 +21,7 @@ public class Listeners_Login {
                 String u = mainLoginFrame.getUsernameField().getText();
                 String p = mainLoginFrame.getPasswordField().getText();
                 String user = Controller_Login.validate(u, p);
-                if (user == null) {
+                if (u.isEmpty() || p.isEmpty() || user == null) {
                     JOptionPane.showMessageDialog(new JPanel(), "Information is not correct!", "Notice",
                             JOptionPane.PLAIN_MESSAGE);
                 } else {

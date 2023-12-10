@@ -102,9 +102,7 @@ public class Dialog_InvoicesOfRoom extends JDialog {
 
     public void createOnSiteListener() {
 //         Update Last Rooms Invoices When Dialog Closed.
-        this.addWindowListener(new WindowListener() {
-            public void windowClosing(WindowEvent e) {}
-            public void windowOpened(WindowEvent e) {}
+        this.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
                 invoicesList.removeAll();
                 invoicesList.createInvoicesListPage();
@@ -113,10 +111,6 @@ public class Dialog_InvoicesOfRoom extends JDialog {
                 invoicesList.repaint();
                 return;
             }
-            public void windowIconified(WindowEvent e) {}
-            public void windowDeiconified(WindowEvent e) {}
-            public void windowActivated(WindowEvent e) {}
-            public void windowDeactivated(WindowEvent e) {}
         });
 
         // Change Current Page

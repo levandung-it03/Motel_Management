@@ -122,6 +122,26 @@ public class AccountDAO implements DAOInterface<AccountModel> {
         }
         return null;
     }
+    public AccountModel selectByUsername(String username) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            String query = ("SELECT * FROM Account WHERE (username=?)");
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new AccountModel(rs.getString("userId"), rs.getString("name"),
+                        rs.getString("username"), rs.getString("password"));
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return null;
+    }
 
     @Override
     public ArrayList<AccountModel> selectAll() {
