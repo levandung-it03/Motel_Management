@@ -28,7 +28,7 @@ public class Controller_ChangePassword {
         }
 
         BCrypt.Result verifyNewPassResult = BCrypt.verifyer().verify(oldPassword.toCharArray(), newPass);
-        if (!verifyNewPassResult.verified) {
+        if (verifyNewPassResult.verified) {
             result.put("result", "0");
             result.put("message", "New Password Can Not Be Similar To Old Password!");
             return result;
