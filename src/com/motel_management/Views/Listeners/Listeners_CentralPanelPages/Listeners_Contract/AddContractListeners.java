@@ -99,10 +99,10 @@ public class AddContractListeners {
         if (!Pattern.compile("\\d{12}").matcher(inpTags.get("identifier").getText()).matches())
             return "Identity Card";
 
-        if (!Pattern.compile("^[A-Z][a-z]+(\\s[A-Z][a-z]*)*$").matcher(inpTags.get("lastName").getText()).matches())
+        if (!Pattern.compile("^[A-Z][a-z]*(\\s[A-Z]+[a-z]*)*$").matcher(inpTags.get("lastName").getText()).matches())
             return "Last Name";
 
-        if (!Pattern.compile("^[A-Z][a-z]+$").matcher(inpTags.get("firstname").getText()).matches())
+        if (!Pattern.compile("^[A-Z][a-z]*$").matcher(inpTags.get("firstname").getText()).matches())
             return "First Name";
 
         try {
@@ -113,7 +113,7 @@ public class AddContractListeners {
         if (!Pattern.compile("\\d{10}").matcher(inpTags.get("phone").getText()).matches())
             return "Phone";
 
-        if (!Pattern.compile("^[A-Z][a-z]+(\\s[A-Z][a-z]*)*$").matcher(inpTags.get("jobTitle").getText()).matches())
+        if (!Pattern.compile("^[A-Z][a-z]*(\\s[A-Z]+[a-z]*)*$").matcher(inpTags.get("jobTitle").getText()).matches())
             return "Job";
 
         if (inpTags.get("permanentAddress").getText().equals(""))

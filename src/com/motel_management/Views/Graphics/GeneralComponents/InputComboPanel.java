@@ -6,9 +6,11 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class InputComboPanel {
     public InputComboPanel() { super(); }
@@ -65,6 +67,30 @@ public class InputComboPanel {
 
         panel.add(label, BorderLayout.NORTH);
         panel.add(originInp, BorderLayout.CENTER);
+
+        originInp.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                String text = originInp.getText().trim();
+                if (text.isEmpty() || text.contains("@")) {
+                    return;
+                }
+
+                String result = Arrays.stream(text.split(" "))
+                        .filter(letter -> !letter.isEmpty())
+                        .map(letter -> {
+                            // Capitalize First Letter.
+                            String head = Character.toString(letter.charAt(0)).toUpperCase();
+                            StringBuilder temp = new StringBuilder(letter.toLowerCase());
+                            temp.replace(0, 1, head);
+                            return temp.toString();
+                        })
+                        .collect(Collectors.joining(" "));
+
+                originInp.setText(result);
+            }
+        });
+
         return panel;
     }
 
