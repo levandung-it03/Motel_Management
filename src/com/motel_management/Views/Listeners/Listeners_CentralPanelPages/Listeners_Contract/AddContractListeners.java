@@ -25,7 +25,7 @@ public class AddContractListeners {
         roomList.forEach(r -> {
             maxQuantityList.put(r.getRoomId(), r.getMaxQuantity());
         });
-        return new JComboBox<Object>(roomList.stream().map(RoomModel::getRoomId).toArray());
+        return new JComboBox<>(roomList.stream().map(RoomModel::getRoomId).toArray());
     }
 
     public static ActionListener addNewContractListener(HashMap<String, JTextField> inpTags,
@@ -106,7 +106,7 @@ public class AddContractListeners {
             return "First Name";
 
         try {
-            if (dateTags.get("birthday").getCalendar().after((Object) Calendar.getInstance()))
+            if (dateTags.get("birthday").getCalendar().after(Calendar.getInstance()))
                 return "Birthday";
         } catch (NullPointerException ignored) { return "empty Birthday"; }
 

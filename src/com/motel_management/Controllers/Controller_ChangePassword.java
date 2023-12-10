@@ -10,17 +10,16 @@ import java.util.HashMap;
 public class Controller_ChangePassword {
     public Controller_ChangePassword() { super(); }
 
-    public static HashMap<String, String> changePassword(String user, String oldPassword, String newPassAgain) {
+    public static HashMap<String, String> changePassword(String username, String oldPassword, String newPass) {
         HashMap<String, String> result = new HashMap<>();
-        ArrayList<AccountModel> selectResult = AccountDAO.getInstance().selectByCondition("WHERE username=\"" + user + "\"");
+        AccountModel account = AccountDAO.getInstance().selectByUsername(username);
 
-        if (selectResult.size() == 0) {
+        if (account == null) {
             result.put("result", "0");
             result.put("message", "Username Is Not Existed!");
             return result;
         }
 
-        AccountModel account = selectResult.get(0);
         BCrypt.Result verifyOldPassResult = BCrypt.verifyer().verify(oldPassword.toCharArray(), account.getPassword());
         if (!verifyOldPassResult.verified) {
             result.put("result", "0");
@@ -28,7 +27,14 @@ public class Controller_ChangePassword {
             return result;
         }
 
-        String hashingNewPassword = BCrypt.withDefaults().hashToString(10, newPassAgain.toCharArray());
+        BCrypt.Result verifyNewPassResult = BCrypt.verifyer().verify(oldPassword.toCharArray(), newPass);
+        if (!verifyNewPassResult.verified) {
+            result.put("result", "0");
+            result.put("message", "New Password Can Not Be Similar To Old Password!");
+            return result;
+        }
+
+        String hashingNewPassword = BCrypt.withDefaults().hashToString(10, newPass.toCharArray());
         account.setPassword(hashingNewPassword);
 
         if (AccountDAO.getInstance().update(account) != 0) {

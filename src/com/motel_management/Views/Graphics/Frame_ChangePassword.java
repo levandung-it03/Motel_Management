@@ -8,10 +8,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.util.HashMap;
 
 public class Frame_ChangePassword extends JFrame{
@@ -104,23 +101,11 @@ public class Frame_ChangePassword extends JFrame{
 
     public void createOnsiteListeners() {
         Frame_ChangePassword _this = this;
-        this.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {}
+        this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 _this.loginFrame.setVisible(true);
             }
-            @Override
-            public void windowClosed(WindowEvent e) {}
-            @Override
-            public void windowIconified(WindowEvent e) {}
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-            @Override
-            public void windowActivated(WindowEvent e) {}
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
         });
 
         submitBtn.addActionListener(new ActionListener() {
@@ -146,7 +131,7 @@ public class Frame_ChangePassword extends JFrame{
                     return;
                 }
 
-                HashMap<String, String> result = Controller_ChangePassword.changePassword(user, oldPass, newPassAgain);
+                HashMap<String, String> result = Controller_ChangePassword.changePassword(user, oldPass, newPass);
 
                 JOptionPane.showMessageDialog(new JPanel(), result.get("message"), "Notice", JOptionPane.PLAIN_MESSAGE);
                 if (result.get("result").equals("1")) {
@@ -155,6 +140,5 @@ public class Frame_ChangePassword extends JFrame{
                 }
             }
         });
-
     }
 }

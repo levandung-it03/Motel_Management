@@ -11,15 +11,15 @@ public class Controller_Login {
     public Controller_Login() { super(); }
 
     public static String validate(String username, String password) {
-        if (username.isEmpty() || password.isEmpty())
+        AccountModel account = AccountDAO.getInstance().selectByUsername(username);
+        if (account == null)
             return null;
-        ArrayList<AccountModel> account = AccountDAO.getInstance().selectByCondition("WHERE (username=\"" + username + "\")");
 
 //        String bcryptHashString = BCrypt.withDefaults().hashToString(10, password.toCharArray());
-        BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), account.get(0).getPassword());
-        if (account.isEmpty() || !result.verified)
+        BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), account.getPassword());
+         if(!result.verified)
             return null;
 
-        return account.get(0).getName();
+        return account.getName();
     }
 }
