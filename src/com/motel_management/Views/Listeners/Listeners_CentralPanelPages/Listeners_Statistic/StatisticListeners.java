@@ -19,12 +19,4 @@ public class StatisticListeners {
             }
         };
     }
-    public static MouseListener getNextYear(int year){
-        return new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-        };
-    }
 }

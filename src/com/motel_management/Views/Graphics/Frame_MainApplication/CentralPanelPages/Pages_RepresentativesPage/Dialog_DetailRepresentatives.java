@@ -70,6 +70,8 @@ public class Dialog_DetailRepresentatives extends JDialog{
         bankAccountNumber = new JTextField(person.getBankAccountNumber());
         permanentAddress = new JTextArea(person.getPermanentAddress());
         bank.setSelectedItem(person.getBank());
+        bankTextField.setText(person.getBank());
+
 
         //Set component
         button.setPreferredSize(new Dimension(14,14));
