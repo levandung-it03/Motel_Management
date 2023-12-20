@@ -7,7 +7,7 @@ public class Application {
     public Application() { super(); }
 
     public static void createApplication() {
-        Frame_Login loginFrame = new Frame_Login();
-//        Frame_MainApplication mainApp = new Frame_MainApplication("Root", "Tp. Ho Chi Minh");
+//        Frame_Login loginFrame = new Frame_Login();
+        Frame_MainApplication mainApp = new Frame_MainApplication("Root", "Tp. Ho Chi Minh");
     }
 }

@@ -7,6 +7,8 @@ import com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listener
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 
@@ -23,15 +25,25 @@ public class Dialog_DetailRepresentatives extends JDialog{
     private JTextField jobTitle;
     private JTextField email;
     private JTextField bankAccountNumber;
-    private JTextField bank;
+    private JTextField bankTextField = new JTextField();
     private JTextArea permanentAddress;
     private JButton button = new JButton("UPDATE");
+    private final JComboBox<String> bank = new JComboBox<>();
+    String[] values ={"", "ABB", "ACB", "AGRIBANK", "BACABANK", "BID", "CTG", "EIB", "HDBANK", "KLB", "LIENVIET", "MBB",
+                    "MSB", "NAMA", "NCB", "OCB", "PGBANK", "PVCOMBANK", "SCB", "SEABANK", "SGB", "SHB", "STB", "TCB", "TPB",
+                    "VCB", "VIB", "VIETABANK", "VIETCAPITALBANK", "VPB", "VIETBANK"};
 
 
     public Dialog_DetailRepresentatives(JFrame mainAppFrame, PersonModel person){
         super(mainAppFrame);
         this.setTitle("Details Information");
         showInformationById(person);
+    }
+
+    public void addBankListCombobox(){
+        for (String value : values) {
+            bank.addItem(value);
+        }
     }
     public void showInformationById(PersonModel person){
         //Generate
@@ -44,6 +56,8 @@ public class Dialog_DetailRepresentatives extends JDialog{
         ImageIcon icon = new ImageIcon("src/com/motel_management/Assets/img/Representative.png");
         JLabel labelForIcon = new JLabel(icon);
 
+        addBankListCombobox();
+
 
         identifier = new JTextField(person.getIdentifier());
         roomId = new JTextField(person.getRoomId());
@@ -54,8 +68,10 @@ public class Dialog_DetailRepresentatives extends JDialog{
         jobTitle = new JTextField(person.getJobTitle());
         email = new JTextField(person.getEmail());
         bankAccountNumber = new JTextField(person.getBankAccountNumber());
-        bank = new JTextField(person.getBank());
         permanentAddress = new JTextArea(person.getPermanentAddress());
+        bank.setSelectedItem(person.getBank());
+        bankTextField.setText(person.getBank());
+
 
         //Set component
         button.setPreferredSize(new Dimension(14,14));
@@ -97,7 +113,7 @@ public class Dialog_DetailRepresentatives extends JDialog{
 
         subPanel1.add(generateTextInputPanel_reWrite("Full name (*) :",fullName,false));
         subPanel1.add(generateTextInputPanel_reWrite("Gender (*) :",gender,false));
-        subPanel1.add(generateTextInputPanel_reWrite("Bank :",bank,true));
+        subPanel1.add(generateTextInputPanel_reWrite("Bank :",bank,false));
         subPanel1.add(generateTextInputPanel_reWrite("Email (*) :",email,true));
         subPanel1.add(generateTextInputPanel_reWrite("Phone (*):",phone,true));
         subPanel1.add(generateTextInputPanel_reWrite("Job-title (*):",jobTitle, true));
@@ -114,6 +130,7 @@ public class Dialog_DetailRepresentatives extends JDialog{
         this.add(marginPanel);
 
         createPersonUpdateListener();
+
 
         this.setModal(true);
         this.setSize(1100,480);
@@ -166,13 +183,39 @@ public class Dialog_DetailRepresentatives extends JDialog{
         return panel;
     }
 
+    //OVERLOAD
+    //USE FOR COMBO-BOX
+    public JPanel generateTextInputPanel_reWrite(String strLabel, JComboBox<String> originInp, boolean bool) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        panel.setPreferredSize(new Dimension((int) (Configs.centralPanelWidth*0.22), 60));
+
+        JLabel label = new JLabel(strLabel);
+        label.setFont(label.getFont().deriveFont(14.0f));
+        originInp.setEditable(bool);
+        originInp.setFont(originInp.getFont().deriveFont(17.0f));
+
+        panel.add(label, BorderLayout.NORTH);
+        panel.add(originInp, BorderLayout.CENTER);
+
+        originInp.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e) {
+                // get the selected item
+                String selectedItem = originInp.getSelectedItem().toString();
+                bankTextField.setText(selectedItem);
+            }
+        });
+
+        return panel;
+    }
+
     public void createPersonUpdateListener(){
         HashMap<String, JTextField> inpTags = new HashMap<>();
         inpTags.put("Identifier", identifier);
         inpTags.put("Email", email);
         inpTags.put("Phone", phone);
         inpTags.put("Job-Title", jobTitle);
-        inpTags.put("Bank", bank);
+        inpTags.put("Bank", bankTextField);
         inpTags.put("BankAccount", bankAccountNumber);
 
         this.button.addActionListener(RepresentativesListeners.updateByClick(inpTags,permanentAddress,this));

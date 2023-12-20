@@ -105,34 +105,34 @@ public class RepresentativesListeners {
     public static String checkUpdatePerson(HashMap<String,JTextField> inpTags,JTextArea address){
         if (inpTags.get("Phone").getText().isBlank()
             || !Pattern.compile("\\d{10}").matcher(inpTags.get("Phone").getText()).matches())
-            return "Phone";
+            return "Phone Number Error.";
 
         if (!Pattern.compile("^[A-Z][a-z]+(\\s[A-Z][a-z]*)*$").matcher(inpTags.get("Job-Title").getText()).matches()
             || inpTags.get("Job-Title").getText().isBlank())
-            return "Job Title";
+            return "Job Title Error.";
 
         if (address.getText().isBlank())
-            return "Permanent Address";
+            return "Permanent Address Is Blank.";
 
         if (!inpTags.get("Email").getText().isBlank()) {
             if (!Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$").matcher(inpTags.get("Email").getText()).matches()) {
-                return "Email";
+                return "Email Error.";
             }
-        } else return "Email";
+        } else return "Email Error.";
 
         if (!inpTags.get("BankAccount").getText().equals("")) {
             if (!inpTags.get("Bank").getText().equals("")){
                 if (!Pattern.compile("^[0-9]{1,13}$").matcher(inpTags.get("BankAccount").getText()).matches()) {
-                    return "Bank Account Number";
+                    return "Bank Account Number Error.";
                 }
             } else {
-                return "empty Bank Name";
+                return "empty Bank Name.";
             }
         }
 
         if (!inpTags.get("Bank").getText().isBlank()) {
             if (inpTags.get("BankAccount").getText().isBlank())
-                return "empty Bank Account Number";
+                return "empty Bank Account Number.";
         }
 
         return "true";
