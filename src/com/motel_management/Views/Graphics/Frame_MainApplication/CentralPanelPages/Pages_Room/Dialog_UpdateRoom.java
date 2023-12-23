@@ -31,7 +31,7 @@ public class Dialog_UpdateRoom extends JDialog{
     public void createEditDialog() {
         JPanel container = new JPanel(new FlowLayout());
         updateBtn = InputComboPanel.generateButton("Update");
-        container.add(InputComboPanel.generateTextInputPanel("Quantity (Unknomn = -1)",quantity));
+        container.add(InputComboPanel.generateTextInputPanel("Quantity (Unknown = -1)",quantity));
         container.add(InputComboPanel.generateTextInputPanel("Maximum Quantity", maxQuantity));
         container.add(InputComboPanel.generateTextInputPanel("Default Room Price (VNĐ)", defaultPrice));
         container.add(updateBtn);
