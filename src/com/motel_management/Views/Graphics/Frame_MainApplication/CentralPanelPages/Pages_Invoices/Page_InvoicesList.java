@@ -17,13 +17,13 @@ import java.util.ArrayList;
 
 public class Page_InvoicesList extends JPanel {
     private final Frame_MainApplication mainFrameApp;
-    public JTable table;
-    public JScrollPane invoiceScrollPane;
-    public DefaultTableModel defaultModel;
-    public Object[][] tableData;
+    private JTable table;
+    private JScrollPane invoiceScrollPane;
+    private DefaultTableModel defaultModel;
+    private Object[][] tableData;
 
-    public JTextField searchingTextField = new JTextField();
-    public JComboBox<String> searchingComboBox;
+    private JTextField searchingTextField = new JTextField();
+    private JComboBox<String> searchingComboBox;
 
     // Constructor
     public Page_InvoicesList(Frame_MainApplication mainFrameApp) {
@@ -140,9 +140,19 @@ public class Page_InvoicesList extends JPanel {
 
     public void saveCurrentTableData() {
         // Copy Data from Table.
-        tableData = new Object[this.table.getRowCount()][this.table.getColumnCount() - 1];
+        tableData = new Object[this.table.getRowCount()][this.table.getColumnCount()];
         for (int row = 0; row < this.table.getRowCount(); row++)
-            for (int col = 0; col < this.table.getColumnCount() - 1; col++)
+            for (int col = 0; col < this.table.getColumnCount(); col++)
                 tableData[row][col] = this.table.getValueAt(row, col);
     }
+
+    public Frame_MainApplication getMainFrameApp() {
+        return mainFrameApp;
+    }
+    public JTable getTable() { return table; }
+    public JScrollPane getInvoiceScrollPane() { return invoiceScrollPane; }
+    public DefaultTableModel getDefaultModel() { return defaultModel; }
+    public Object[][] getTableData() { return tableData; }
+    public JTextField getSearchingTextField() { return searchingTextField; }
+    public JComboBox<String> getSearchingComboBox() { return searchingComboBox; }
 }

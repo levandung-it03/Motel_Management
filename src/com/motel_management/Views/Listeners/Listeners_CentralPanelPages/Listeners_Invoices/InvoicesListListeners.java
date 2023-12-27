@@ -38,9 +38,9 @@ public class InvoicesListListeners {
 
     public static void deleteInvoice(int clickedRow, Page_InvoicesList invoicesList, DefaultTableModel defaultModel) {
         if (JOptionPane.showConfirmDialog(new JPanel(), "Do you want to delete Invoice "
-                + invoicesList.tableData[clickedRow][2] + "?", "Notice", JOptionPane.YES_NO_OPTION) == 0) {
-            if (Controller_Invoices.deleteInvoice(invoicesList.tableData[clickedRow][2].toString()) != 0) {
-                JOptionPane.showMessageDialog(new JPanel(), "Delete Invoice " + invoicesList.tableData[clickedRow][2]
+                + invoicesList.getTableData()[clickedRow][2] + "?", "Notice", JOptionPane.YES_NO_OPTION) == 0) {
+            if (Controller_Invoices.deleteInvoice(invoicesList.getTableData()[clickedRow][2].toString()) != 0) {
+                JOptionPane.showMessageDialog(new JPanel(), "Delete Invoice " + invoicesList.getTableData()[clickedRow][2]
                         + " Successfully!", "Notice", JOptionPane.PLAIN_MESSAGE);
 
                 invoicesList.removeAll();
@@ -50,7 +50,7 @@ public class InvoicesListListeners {
                 invoicesList.revalidate();
                 invoicesList.repaint();
             } else {
-                JOptionPane.showMessageDialog(new JPanel(), "Delete Invoice " + invoicesList.tableData[clickedRow][2]
+                JOptionPane.showMessageDialog(new JPanel(), "Delete Invoice " + invoicesList.getTableData()[clickedRow][2]
                         + " Failed!", "Notice", JOptionPane.PLAIN_MESSAGE);
             }
         }
@@ -65,10 +65,14 @@ public class InvoicesListListeners {
             @Override
             public void keyReleased(KeyEvent e) {
                 // Make page.tableData Update Continuous.
-                GeneralCentralPanelListeners.searchTableToGetObjects(page.searchingTextField, page.searchingComboBox, page.table,
-                        page.tableData, page.defaultModel);
+                GeneralCentralPanelListeners.searchTableToGetObjects(
+                        page.getSearchingTextField(),
+                        page.getSearchingComboBox(),
+                        page.getTable(),
+                        page.getTableData(),
+                        page.getDefaultModel()
+                );
             }
         };
     }
-
 }
