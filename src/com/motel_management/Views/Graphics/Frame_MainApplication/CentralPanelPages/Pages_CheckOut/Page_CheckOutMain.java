@@ -44,9 +44,9 @@ public class Page_CheckOutMain extends JPanel {
 
         // Search
         this.searchingComboBox = new JComboBox<String>(new String[] {
-                "Check-out ID",
+                "Checkout ID",
                 "Contract ID",
-                "Check-out Date"
+                "Checkout Date"
         });
         JPanel searchingComboBoxContainer = InputComboPanel.generateComboBoxInputPanel("Choose Searched Field", this.searchingComboBox);
         searchingComboBoxContainer.setPreferredSize(new Dimension((int)(Configs.centralPanelWidth*0.17), 75));
@@ -69,13 +69,13 @@ public class Page_CheckOutMain extends JPanel {
                 Integer.toString(currentYear - 4),
         });
         JPanel filterComboBoxContainer =
-                InputComboPanel.generateComboBoxInputPanel("Filter With Check-out Year", this.filterComboBox);
+                InputComboPanel.generateComboBoxInputPanel("Filter With Checkout Year", this.filterComboBox);
         tools.add(filterComboBoxContainer, BorderLayout.EAST);
 
         // Prepare Data to generate Table.
         Object[][] checkout =
                 Controller_Checkout.getAllCheckOutByYearWithTableFormat(Integer.toString(LocalDateTime.now().getYear()));
-        String[] columns = {"Check-out ID", "Contract ID", "Check-out Date", "Reason"};
+        String[] columns = {"Checkout ID", "Contract ID", "Checkout Date", "Reason"};
 
         // Generate Table.
         TableAsList tableAsList = new TableAsList(new DefaultTableModel(checkout, columns) {

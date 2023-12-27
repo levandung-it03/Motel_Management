@@ -3,7 +3,6 @@ package com.motel_management.Views.Graphics;
 import com.motel_management.Controllers.Controller_ChooseRegion;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainApplication;
-import com.motel_management.Views.Listeners.Listeners_ChooseRegion;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -67,7 +66,24 @@ public class Frame_ChooseRegion extends JFrame {
     }
 
     public void createOnsiteListeners() {
-        submitBtn.addActionListener(Listeners_ChooseRegion.chooseRegionAction(this));
+        Frame_ChooseRegion _this = this;
+        submitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (JOptionPane.showConfirmDialog(
+                        new JPanel(),
+                        "Are you sure you want to submit? This information can't be changed!",
+                        "Confirm",
+                        JOptionPane.YES_NO_OPTION) == 0) {
+                    String newRegion = Objects.requireNonNull(_this.getRegion().getSelectedItem()).toString();
+                    Controller_ChooseRegion.setNewRegion(newRegion);
+
+                    Frame_MainApplication mainApp = new Frame_MainApplication(_this.getUser(), newRegion);
+
+                    _this.setVisible(false);
+                }
+            }
+        });
     }
 
     // Getters

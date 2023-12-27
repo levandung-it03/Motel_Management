@@ -153,17 +153,17 @@ public class RoomListeners {
                         if (Controller_Contract.updateContractStatus(new String[]{"1", contractId.getContractId()}) ==0
                         || Controller_Representatives.updatePersonStatus(new String[]{"0", contractId.getIdentifier()})==0
                         || Controller_Room.resetRoomStatus(new String[]{"0", roomId})==0){
-                            JOptionPane.showConfirmDialog(new Panel(), "Check-out failed",
+                            JOptionPane.showConfirmDialog(new Panel(), "Checkout failed",
                                     "Notice", JOptionPane.DEFAULT_OPTION);
                         }else {
-                            JOptionPane.showConfirmDialog(new Panel(), "Successful Check-out",
+                            JOptionPane.showConfirmDialog(new Panel(), "Successful Checkout",
                                     "Notice", JOptionPane.DEFAULT_OPTION);
                         }
                         CentralPanel.category.setComponentAt(1, new Page_RoomMain(mainFrameApp));
                         dialog.dispose();
                     }
                 }else{
-                    JOptionPane.showConfirmDialog(new Panel(), "Check-out date must be after the starting date!",
+                    JOptionPane.showConfirmDialog(new Panel(), "Checkout date must be after the starting date!",
                             "Notice", JOptionPane.DEFAULT_OPTION);
                 }
             }
@@ -199,7 +199,7 @@ public class RoomListeners {
                     JOptionPane.showConfirmDialog(new Panel(), "Room is not occupied!",
                             "Notice", JOptionPane.DEFAULT_OPTION);
                 } else {
-                    JOptionPane.showConfirmDialog(new Panel(), "Check-out failed due to unpaid payment",
+                    JOptionPane.showConfirmDialog(new Panel(), "Checkout failed due to unpaid payment",
                             "Notice", JOptionPane.DEFAULT_OPTION);
                 }
             }

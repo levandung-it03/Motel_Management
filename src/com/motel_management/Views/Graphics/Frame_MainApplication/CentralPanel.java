@@ -41,7 +41,7 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Representatives"));
         labels.add(generateTabLabel("Electricity-Water"));
         labels.add(generateTabLabel("Invoices"));
-        labels.add(generateTabLabel("Check-out"));
+        labels.add(generateTabLabel("Checkout"));
 
         pages.add(new Page_StatisticMain(mainFrameApp));
         pages.add(new Page_RoomMain(mainFrameApp));

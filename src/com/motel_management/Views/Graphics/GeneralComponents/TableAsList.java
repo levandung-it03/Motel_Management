@@ -38,7 +38,7 @@ public class TableAsList {
         header.setFont(Configs.labelFont);
         table.setFont(Configs.labelFont);
 
-        // Set Table size.
+        // Set Table height row.
         table.setRowHeight(30);
 
         // Make all Columns align horizontally.

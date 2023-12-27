@@ -21,16 +21,21 @@ public class Listeners_Login {
                 String u = mainLoginFrame.getUsernameField().getText();
                 String p = mainLoginFrame.getPasswordField().getText();
                 String user = Controller_Login.validate(u, p);
+
                 if (u.isEmpty() || p.isEmpty() || user == null) {
-                    JOptionPane.showMessageDialog(new JPanel(), "Information is not correct!", "Notice",
-                            JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(
+                            new JPanel(),
+                            "Information is not correct!",
+                            "Notice",
+                            JOptionPane.PLAIN_MESSAGE
+                    );
                 } else {
                     mainLoginFrame.setVisible(false);
                     String currentRegion = Controller_ChooseRegion.checkIfRegionExisted();
                     if (currentRegion == null) {
-                        Frame_ChooseRegion mainFrame = new Frame_ChooseRegion(user);
+                        Frame_ChooseRegion chooseRegionFrame = new Frame_ChooseRegion(user);
                     } else {
-                        Frame_MainApplication mainApp = new Frame_MainApplication(user, currentRegion);
+                        Frame_MainApplication mainFrame = new Frame_MainApplication(user, currentRegion);
                     }
                 }
             }

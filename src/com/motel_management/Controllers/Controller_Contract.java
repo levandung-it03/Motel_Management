@@ -27,7 +27,7 @@ public class Controller_Contract {
             Date lastCheckedOutDateOfRoom = sdf.parse(lastCheckedOutDateStrOfRoom);
             if (sdf.parse(data.get("startingDate")).before(lastCheckedOutDateOfRoom)) {
                 result.put("result", "0");
-                result.put("message", "Invalid Started Date Because The Last Check-out Date Of This Room Is: "
+                result.put("message", "Invalid Started Date Because The Last Checkout Date Of This Room Is: "
                         + sdf.format(lastCheckedOutDateOfRoom));
                 return result;
             }

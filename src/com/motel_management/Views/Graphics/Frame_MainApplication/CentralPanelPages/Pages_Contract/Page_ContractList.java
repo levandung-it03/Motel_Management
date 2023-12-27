@@ -16,7 +16,7 @@ import java.awt.*;
 import java.time.LocalDateTime;
 
 public class Page_ContractList extends JPanel {
-    private Frame_MainApplication mainFrameApp;
+    private final Frame_MainApplication mainFrameApp;
     private JTable table;
     private DefaultTableModel defaultModel;
     private Object[][] tableData;

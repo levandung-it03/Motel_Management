@@ -32,7 +32,7 @@ public class SubItem_RoomPanel extends JPanel {
             // Room is not occupied
             setBackground(Color.gray);
         } else if (Controller_Room.getRoomStatus(data[0])==1) {
-            //Check-out failed due to unpaid payment
+            //Checkout failed due to unpaid payment
             setBackground(new Color(220, 20, 0));
         }else {
             setBackground(Configs.normalGreen);

@@ -14,8 +14,6 @@ public class Page_ContractMain extends JPanel {
     private JPanel addContractPanel;
 
     // Getters
-
-
     public JTabbedPane getMainTabbedPane() { return mainTabbedPane; }
 
     // Constructor
