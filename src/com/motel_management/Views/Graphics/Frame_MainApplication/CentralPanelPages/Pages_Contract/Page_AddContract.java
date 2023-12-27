@@ -83,17 +83,6 @@ public class Page_AddContract extends JPanel {
     }
 
     public void createListeners() {
-        this.identifier.setText("038203032578");
-        this.lastName.setText("Le Van");
-        this.firstname.setText("Dung");
-        this.phone.setText("0377863928");
-        this.jobTitle.setText("Sinh Vien");
-        this.permanentAddress.setText("Bien Hoa");
-        this.email.setText("levandung.it03@gmail.com");
-        this.bankAccountNumber.setText("21097877");
-        this.quantity.setText("5");
-        this.roomDeposit.setText("3000000");
-
         HashMap<String, JTextField> inpTags = new HashMap<>();
         HashMap<String, JDateChooser> dateTags = new HashMap<>();
         HashMap<String, JComboBox<Object>> comboTags = new HashMap<>();
