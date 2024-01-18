@@ -63,7 +63,6 @@ CREATE TABLE Contract (
     isFamily VARCHAR(1) DEFAULT "0",
     startingDate DATE DEFAULT (CURRENT_DATE()),
     endingDate DATE DEFAULT (CURRENT_DATE()),
-    totalMonths INT DEFAULT 0,
     isRegisteredPerAddress VARCHAR(1) DEFAULT "0",
     checkedOut VARCHAR(1) DEFAULT "0",
 
@@ -117,7 +116,33 @@ CREATE TABLE RoomPriceRaisingHistory(
 
 CREATE TABLE AddressCollection(
     addressId VARCHAR(20) NOT NULL,
+    remainingAddress VARCHAR(20),
+    streetId VARCHAR(20) NOT NULL,
+    cityId VARCHAR(20) NOT NULL,
+    provinceId VARCHAR(20) NOT NULL,
 
+    CONSTRAINT PK_AddressCollection PRIMARY KEY (addressId),
+    CONSTRAINT FK_AddressCollection_provinceId FOREIGN KEY (provinceId) REFERENCES Province(provinceId),
+    CONSTRAINT FK_AddressCollection_cityId FOREIGN KEY (cityId) REFERENCES City(cityId),
+    CONSTRAINT FK_AddressCollection_streetId FOREIGN KEY (streetId) REFERENCES Street(streetId)
+)
+
+CREATE TABLE Province(
+    provinceId VARCHAR(20) NOT NULL,
+    province VARCHAR(255) NOT NULL,
+    CONSTRAINT PK_Province PRIMARY KEY (provinceId)
+)
+
+CREATE TABLE City(
+    cityId VARCHAR(20) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    CONSTRAINT PK_City PRIMARY KEY (cityId)
+)
+
+CREATE TABLE Street(
+    streetId VARCHAR(20) NOT NULL,
+    street VARCHAR(255) NOT NULL,
+    CONSTRAINT PK_Street PRIMARY KEY (streetId)
 )
 
 INSERT INTO Account VALUES ("admin000", "Root", "root", "$2a$10$j2WJzi7wT1BazuUsnKa8vOmbanLacmKc042wJLWWUxMK5eM3zPXjS")
