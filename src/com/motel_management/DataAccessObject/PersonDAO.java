@@ -16,20 +16,21 @@ public class PersonDAO implements DAOInterface<PersonModel>{
     public int insert(PersonModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Person VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Person VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getIdentifier());
-            ps.setString(2, obj.getLastName());
-            ps.setString(3, obj.getFirstName());
-            ps.setDate(4, obj.getBirthday());
-            ps.setString(5, obj.getPhone());
-            ps.setString(6,obj.getGender());
-            ps.setString(7,obj.getJobTitle());
-            ps.setString(8, obj.getPermanentAddress());
-            ps.setString(9, obj.getEmail());
-            ps.setString(10, obj.getBankAccountNumber());
-            ps.setString(11, obj.getBank());
-            ps.setString(12, obj.getIsOccupied());
+            ps.setString(2, obj.getRoomId());
+            ps.setString(3, obj.getLastName());
+            ps.setString(4, obj.getFirstName());
+            ps.setDate(5, obj.getBirthday());
+            ps.setString(6, obj.getPhone());
+            ps.setString(7,obj.getGender());
+            ps.setString(8,obj.getJobTitle());
+            ps.setString(9, obj.getPermanentAddress());
+            ps.setString(10, obj.getEmail());
+            ps.setString(11, obj.getBankAccountNumber());
+            ps.setString(12, obj.getBank());
+            ps.setString(13, obj.getIsOccupied());
             return ps.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,7 +47,8 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(1, values[0]);
             ps.setString(2, values[1]);
             ps.setString(3, values[2]);
-            ps.setDate(4, Date.valueOf(Configs.stringToDate(values[3])));
+            ps.setString(4, values[3]);
+            ps.setDate(5, Date.valueOf(Configs.stringToDate(values[4])));
             ps.setString(6, values[5]);
             ps.setString(7, values[6]);
             ps.setString(8,values[7]);
@@ -68,22 +70,23 @@ public class PersonDAO implements DAOInterface<PersonModel>{
     public int update (PersonModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Person SET  lastName=?, firstName=?,"+
+            String query = "UPDATE Person SET  roomId=?, lastName=?, firstName=?,"+
                     "birthday=?, phone=?, gender=?, jobTitle=?, permanentAddress=?, email=?, bankAccountNumber=?," +
                     "bank=?, isOccupied=? WHERE (identifier=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
-            ps.setString(1, obj.getLastName());
-            ps.setString(2, obj.getFirstName());
-            ps.setDate(3, obj.getBirthday());
-            ps.setString(4, obj.getPhone());
-            ps.setString(5,obj.getGender());
-            ps.setString(6,obj.getJobTitle());
-            ps.setString(7, obj.getPermanentAddress());
-            ps.setString(8, obj.getEmail());
-            ps.setString(9, obj.getBankAccountNumber());
-            ps.setString(10, obj.getBank());
-            ps.setString(11, obj.getIsOccupied());
-            ps.setString(12, obj.getIdentifier());
+            ps.setString(1, obj.getRoomId());
+            ps.setString(2, obj.getLastName());
+            ps.setString(3, obj.getFirstName());
+            ps.setDate(4, obj.getBirthday());
+            ps.setString(5, obj.getPhone());
+            ps.setString(6,obj.getGender());
+            ps.setString(7,obj.getJobTitle());
+            ps.setString(8, obj.getPermanentAddress());
+            ps.setString(9, obj.getEmail());
+            ps.setString(10, obj.getBankAccountNumber());
+            ps.setString(11, obj.getBank());
+            ps.setString(12, obj.getIsOccupied());
+            ps.setString(13, obj.getIdentifier());
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,22 +99,23 @@ public class PersonDAO implements DAOInterface<PersonModel>{
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Person SET lastName=?, firstName=?,"+
+            String query = "UPDATE Person SET roomId=?, lastName=?, firstName=?,"+
                     "birthday=?, phone=?, gender=?, jobTitle=?, permanentAddress=?, email=?, bankAccountNumber=?," +
                     "bank=?, isOccupied=? WHERE (identifier=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[1]);
             ps.setString(2, values[2]);
-            ps.setDate(3, Date.valueOf(Configs.stringToDate(values[3])));
-            ps.setString(4, values[4]);
+            ps.setString(3, values[3]);
+            ps.setDate(4, Date.valueOf(Configs.stringToDate(values[4])));
             ps.setString(5, values[5]);
-            ps.setString(6,values[6]);
-            ps.setString(7, values[7]);
+            ps.setString(6, values[6]);
+            ps.setString(7,values[7]);
             ps.setString(8, values[8]);
             ps.setString(9, values[9]);
             ps.setString(10, values[10]);
             ps.setString(11, values[11]);
-            ps.setString(12, values[0]);
+            ps.setString(12, values[12]);
+            ps.setString(13, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -184,7 +188,7 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new PersonModel(rs.getString("identifier"),
+                return new PersonModel(rs.getString("identifier"), rs.getString("roomId"),
                         rs.getString("lastName"),rs.getString("firstName"),
                         rs.getDate("birthday"),rs.getString("phone"),
                         rs.getString("gender"), rs.getString("jobTitle"),
@@ -210,7 +214,7 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ArrayList<PersonModel> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                result.add(new PersonModel(rs.getString("identifier"),
+                result.add(new PersonModel(rs.getString("identifier"), rs.getString("roomId"),
                         rs.getString("lastName"),rs.getString("firstName"),
                         rs.getDate("birthday"),rs.getString("phone"),
                         rs.getString("gender"), rs.getString("jobTitle"),
@@ -235,7 +239,7 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ArrayList<PersonModel> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                result.add(new PersonModel(rs.getString("identifier"),
+                result.add(new PersonModel(rs.getString("identifier"), rs.getString("roomId"),
                         rs.getString("lastName"),rs.getString("firstName"),
                         rs.getDate("birthday"),rs.getString("phone"),
                         rs.getString("gender"), rs.getString("jobTitle"),
@@ -277,9 +281,9 @@ public class PersonDAO implements DAOInterface<PersonModel>{
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             PreparedStatement ps = myConnection.prepareStatement(
-                    "SELECT SimpleContract.roomId, Person.identifier, lastName, firstName, startingDate, endingDate, phone " +
+                    "SELECT roomId, Person.identifier, lastName, firstName, startingDate, endingDate, phone " +
                     "FROM Person INNER JOIN (" +
-                            "SELECT roomId, identifier, startingDate, endingDate FROM Contract " + condition +
+                            "SELECT identifier, startingDate, endingDate FROM Contract " + condition +
                     ") AS SimpleContract ON Person.identifier = SimpleContract.identifier"
             );
             ArrayList<String[]> result = new ArrayList<>();

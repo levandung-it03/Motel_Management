@@ -37,6 +37,7 @@ CREATE TABLE WaterRange(
 
 CREATE TABLE Person (
     identifier VARCHAR(20) UNIQUE NOT NULL,
+    roomId VARCHAR(20) NOT NULL,
     lastName VARCHAR(70) NOT NULL,
     firstName VARCHAR(30) NOT NULL,
     birthday DATE NOT NULL,
@@ -48,16 +49,15 @@ CREATE TABLE Person (
     bankAccountNumber VARCHAR(255),
     bank VARCHAR(255),
     isOccupied VARCHAR(1) NOT NULL DEFAULT "1",
-    dateCreated DATE NOT NULL DEFAULT CURRENT_DATE,
 
-    CONSTRAINT UK_Person UNIQUE (identifier, dateCreated),
-    CONSTRAINT PK_Person PRIMARY KEY (identifier, dateCreated)
+    CONSTRAINT PK_Person PRIMARY KEY (identifier),
+    CONSTRAINT FK_Person_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
+    CONSTRAINT UK_Person UNIQUE (identifier, roomId)
 );
 
 CREATE TABLE Contract (
     contractId VARCHAR(20) UNIQUE NOT NULL,
     identifier VARCHAR(20) NOT NULL,
-    roomId VARCHAR(20) NOT NULL,
     quantity INT DEFAULT 0,
     roomDeposit INT DEFAULT 0,
     isFamily VARCHAR(1) DEFAULT "0",
@@ -68,8 +68,7 @@ CREATE TABLE Contract (
 
     CONSTRAINT PK_Contract PRIMARY KEY (contractId),
     CONSTRAINT FK_Contract_identifier FOREIGN KEY (identifier) REFERENCES Person(identifier),
-    CONSTRAINT FK_Contract_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT UK_Contract UNIQUE (contractId, identifier, roomId)
+    CONSTRAINT UK_Contract UNIQUE (contractId, identifier)
 );
 
 CREATE TABLE CheckOut(

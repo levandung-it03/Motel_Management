@@ -52,7 +52,6 @@ public class Controller_Contract {
         String[] contractData = new String[] {
                 contractId,
                 data.get("identifier"),
-                data.get("roomId"),
                 data.get("quantity"),
                 data.get("roomDeposit"),
                 data.get("isFamily"),
@@ -64,6 +63,7 @@ public class Controller_Contract {
         
         String[] personData = new String[] {
                 data.get("identifier"),
+                data.get("roomId"),
                 data.get("lastName"),
                 data.get("firstname"),
                 data.get("birthday"),
