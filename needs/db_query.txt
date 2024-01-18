@@ -7,8 +7,8 @@ CREATE TABLE Region (
 CREATE TABLE Account (
     userId VARCHAR(20) UNIQUE NOT NULL,
     name VARCHAR(20) NOT NULL,
-	username VARCHAR(10) UNIQUE NOT NULL,
-	password VARCHAR(255) NOT NULL,
+    username VARCHAR(10) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
     CONSTRAINT PK_Account PRIMARY KEY (userId)
 );
 CREATE TABLE Room (
@@ -37,7 +37,6 @@ CREATE TABLE WaterRange(
 
 CREATE TABLE Person (
     identifier VARCHAR(20) UNIQUE NOT NULL,
-    roomId VARCHAR(20) NOT NULL,
     lastName VARCHAR(70) NOT NULL,
     firstName VARCHAR(30) NOT NULL,
     birthday DATE NOT NULL,
@@ -49,6 +48,7 @@ CREATE TABLE Person (
     bankAccountNumber VARCHAR(255),
     bank VARCHAR(255),
     isOccupied VARCHAR(1) NOT NULL DEFAULT "1",
+
     CONSTRAINT PK_Person PRIMARY KEY (identifier),
     CONSTRAINT FK_Person_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT UK_Person UNIQUE (identifier, roomId)
@@ -86,7 +86,6 @@ CREATE TABLE CheckOut(
 CREATE TABLE Invoice(
     invoiceId VARCHAR(20) UNIQUE NOT NULL,
     roomId VARCHAR(20) NOT NULL,
-    defaultRoomPrice INT DEFAULT 0,
     dateCreated DATE DEFAULT CURRENT_DATE,
     paymentYear INT NOT NULL,
     paymentMonth INT NOT NULL,
@@ -98,14 +97,28 @@ CREATE TABLE Invoice(
     waterPrice INT DEFAULT 0,
     garbage INT DEFAULT 0,
     wifi INT DEFAULT 0,
-    vehicle	INT DEFAULT 0,
-    total INT DEFAULT 0,
+    vehicle INT DEFAULT 0,
     wasPaid VARCHAR(1) DEFAULT "0",
 
     CONSTRAINT PK_Invoice PRIMARY KEY (invoiceId),
     CONSTRAINT FK_Invoice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT UK_Invoice UNIQUE (roomId, paymentMonth, paymentYear)
 );
+
+CREATE TABLE RoomPriceRaisingHistory(
+    roomId VARCHAR(20) NOT NULL,
+    oldRoomPrice INT DEFAULT 0,
+    newRoomPrice INT DEFAULT 0,
+    dateCreated DATE DEFAULT CURRENT_DATE,
+
+    CONSTRAINT FK_RaisingRoomPrice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
+    CONSTRAINT PK_RaisingRoomPrice PRIMARY KEY (roomId, dateCreated)
+);
+
+CREATE TABLE AddressCollection(
+    addressId VARCHAR(20) NOT NULL,
+
+)
 
 INSERT INTO Account VALUES ("admin000", "Root", "root", "$2a$10$j2WJzi7wT1BazuUsnKa8vOmbanLacmKc042wJLWWUxMK5eM3zPXjS")
 // MK: root#123
