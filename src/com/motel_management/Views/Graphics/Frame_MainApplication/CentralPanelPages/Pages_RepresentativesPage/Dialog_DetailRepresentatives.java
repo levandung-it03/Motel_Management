@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
+import static com.motel_management.Controllers.Controller_Contract.getRoomIdByIdentifier;
+
 
 public class Dialog_DetailRepresentatives extends JDialog{
     private final JPanel subPanel0 = new JPanel();
@@ -37,7 +39,8 @@ public class Dialog_DetailRepresentatives extends JDialog{
     public Dialog_DetailRepresentatives(JFrame mainAppFrame, PersonModel person){
         super(mainAppFrame);
         this.setTitle("Details Information");
-        showInformationById(person);
+        String stringRoomId = getRoomIdByIdentifier(person.getIdentifier());
+        showInformationById(person ,stringRoomId);
     }
 
     public void addBankListCombobox(){
@@ -45,7 +48,7 @@ public class Dialog_DetailRepresentatives extends JDialog{
             bank.addItem(value);
         }
     }
-    public void showInformationById(PersonModel person){
+    public void showInformationById(PersonModel person, String stringRoomId){
         //Generate
         JPanel marginPanel = new JPanel(new GridLayout(1,3));
 
@@ -60,7 +63,7 @@ public class Dialog_DetailRepresentatives extends JDialog{
 
 
         identifier = new JTextField(person.getIdentifier());
-        roomId = new JTextField(person.getRoomId());
+        roomId = new JTextField(stringRoomId);
         fullName = new JTextField(person.getLastName()+" "+person.getFirstName());
         birthday = new JTextField("" + person.getBirthday());
         gender = new JTextField(person.getGender());

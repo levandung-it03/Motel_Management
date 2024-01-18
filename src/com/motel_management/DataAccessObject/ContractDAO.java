@@ -246,4 +246,22 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         }
         return null;
     }
+
+    public String selectRoomIdByIdentifier (String id) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        String res = "";
+        try {
+            String query = ("SELECT roomId FROM Contract WHERE (identifier=?)");
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            res = rs.getString("roomId");
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return res;
+    }
 }

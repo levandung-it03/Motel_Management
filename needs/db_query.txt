@@ -49,9 +49,7 @@ CREATE TABLE Person (
     bank VARCHAR(255),
     isOccupied VARCHAR(1) NOT NULL DEFAULT "1",
 
-    CONSTRAINT PK_Person PRIMARY KEY (identifier),
-    CONSTRAINT FK_Person_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT UK_Person UNIQUE (identifier, roomId)
+    CONSTRAINT PK_Person PRIMARY KEY (identifier)
 );
 
 CREATE TABLE Contract (
@@ -114,6 +112,24 @@ CREATE TABLE RoomPriceRaisingHistory(
     CONSTRAINT PK_RaisingRoomPrice PRIMARY KEY (roomId, dateCreated)
 );
 
+CREATE TABLE Province(
+    provinceId VARCHAR(20) NOT NULL,
+    province VARCHAR(255) NOT NULL,
+    CONSTRAINT PK_Province PRIMARY KEY (provinceId)
+);
+
+CREATE TABLE City(
+    cityId VARCHAR(20) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    CONSTRAINT PK_City PRIMARY KEY (cityId)
+);
+
+CREATE TABLE Street(
+    streetId VARCHAR(20) NOT NULL,
+    street VARCHAR(255) NOT NULL,
+    CONSTRAINT PK_Street PRIMARY KEY (streetId)
+);
+
 CREATE TABLE AddressCollection(
     addressId VARCHAR(20) NOT NULL,
     remainingAddress VARCHAR(20),
@@ -125,27 +141,10 @@ CREATE TABLE AddressCollection(
     CONSTRAINT FK_AddressCollection_provinceId FOREIGN KEY (provinceId) REFERENCES Province(provinceId),
     CONSTRAINT FK_AddressCollection_cityId FOREIGN KEY (cityId) REFERENCES City(cityId),
     CONSTRAINT FK_AddressCollection_streetId FOREIGN KEY (streetId) REFERENCES Street(streetId)
-)
+);
 
-CREATE TABLE Province(
-    provinceId VARCHAR(20) NOT NULL,
-    province VARCHAR(255) NOT NULL,
-    CONSTRAINT PK_Province PRIMARY KEY (provinceId)
-)
 
-CREATE TABLE City(
-    cityId VARCHAR(20) NOT NULL,
-    city VARCHAR(255) NOT NULL,
-    CONSTRAINT PK_City PRIMARY KEY (cityId)
-)
-
-CREATE TABLE Street(
-    streetId VARCHAR(20) NOT NULL,
-    street VARCHAR(255) NOT NULL,
-    CONSTRAINT PK_Street PRIMARY KEY (streetId)
-)
-
-INSERT INTO Account VALUES ("admin000", "Root", "root", "$2a$10$j2WJzi7wT1BazuUsnKa8vOmbanLacmKc042wJLWWUxMK5eM3zPXjS")
+INSERT INTO Account VALUES ("admin000", "Root", "root", "$2a$10$j2WJzi7wT1BazuUsnKa8vOmbanLacmKc042wJLWWUxMK5eM3zPXjS");
 // MK: root#123
 INSERT INTO Room VALUES ("P001", 0, 9, 3000000), ("P002", 0, 9, 3000000), ("P003", 0, 9, 3000000), ("P004", 0, 9, 3000000), ("P005", 0, 9, 3000000),
 ("P006", 0, 9, 3000000);
