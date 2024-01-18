@@ -12,11 +12,10 @@ public class ContractModel {
     private Date startingDate;
     private Date endingDate;
     private String isRegisteredPerAddress;
-    private int totalMonths;
     private String checkedOut;
 
     public ContractModel (String contractId , String identifier, String roomId , int quantity , int roomDeposit,
-                          String isFamily, Date startingDate , Date endingDate, int totalMonths, String checkedOut,
+                          String isFamily, Date startingDate , Date endingDate, String checkedOut,
                           String isRegisteredPerAddress) {
         this.contractId = contractId;
         this.identifier = identifier;
@@ -26,7 +25,6 @@ public class ContractModel {
         this.startingDate = startingDate;
         this.endingDate = endingDate;
         this.isFamily = isFamily;
-        this.totalMonths = totalMonths;
         this.isRegisteredPerAddress = isRegisteredPerAddress;
         this.checkedOut = checkedOut;
     }
@@ -90,10 +88,6 @@ public class ContractModel {
     public String getIsFamily() { return isFamily; }
 
     public void setIsFamily(String isFamily) { this.isFamily = isFamily; }
-
-    public int getTotalMonths() { return totalMonths; }
-
-    public void setTotalMonths(int totalMonths) { this.totalMonths = totalMonths; }
 
     public String getIsRegisteredPerAddress() {
         return isRegisteredPerAddress;

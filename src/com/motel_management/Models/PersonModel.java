@@ -4,7 +4,6 @@ import java.sql.Date;
 
 public class PersonModel {
     private String identifier;
-    private String roomId;
     private String lastName;
     private String firstName;
     private Date birthday;
@@ -18,11 +17,10 @@ public class PersonModel {
     private String isOccupied;
 
     public PersonModel() {}
-    public PersonModel(String identifier, String roomId, String lastName, String firstName, Date birthday,
-                       String phone, String gender,String jobTitle, String permanentAddress, String email,
-                       String bankAccountNumber, String bank, String isOccupied) {
+    public PersonModel(String identifier, String lastName, String firstName, Date birthday, String phone, String gender,
+                       String jobTitle, String permanentAddress, String email, String bankAccountNumber, String bank,
+                       String isOccupied) {
         this.identifier = identifier;
-        this.roomId = roomId;
         this.lastName = lastName;
         this.firstName = firstName;
         this.birthday = birthday;
@@ -38,7 +36,6 @@ public class PersonModel {
 
     // Getters
     public String getIdentifier() { return identifier; }
-    public String getRoomId() { return roomId; }
     public String getLastName() { return lastName; }
     public String getFirstName() { return firstName; }
     public Date getBirthday() { return birthday; }
@@ -54,7 +51,6 @@ public class PersonModel {
 
     // Setters
     public void setIdentifier(String identifier) { this.identifier = identifier; }
-    public void setRoomId(String roomId) { this.roomId = roomId; }
     public void setLastName(String lastName) { this.lastName = lastName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public void setBirthday(Date birthday) { this.birthday = birthday; }
