@@ -6,7 +6,9 @@ import com.motel_management.Views.Configs;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class Controller_Invoices {
@@ -54,9 +56,9 @@ public class Controller_Invoices {
         ArrayList<ElectricRangeModel> electricRanges = ElectricRangeDAO.getInstance().selectByCondition("ORDER BY maxRangeValue ASC");
 
         // Check if data at Water Range, Electric Range is missing.
-        if (waterRanges.size() == 0 || electricRanges.size() < 3
-                || waterRanges.get(waterRanges.size() - 1).getMaxRangeValue() < Integer.MAX_VALUE
-                || electricRanges.get(electricRanges.size() - 1).getMaxRangeValue() < Integer.MAX_VALUE) {
+        if (waterRanges.isEmpty() || electricRanges.size() < 3
+                || waterRanges.getLast().getMaxRangeValue() < Integer.MAX_VALUE
+                || electricRanges.getLast().getMaxRangeValue() < Integer.MAX_VALUE) {
             result.put("result", "0");
             result.put("message", "It's Not Enough Data To Calculate Water and  Electric Price, please check Electric-Water");
             return result;
@@ -75,8 +77,11 @@ public class Controller_Invoices {
 
         int isFamily = STI(contract.getIsFamily());
         int isRegisteredPerAddress = STI(contract.getIsRegisteredPerAddress());
-        int totalContractTimeAsMonth = contract.getTotalMonths();
-        String region = RegionDAO.getInstance().selectAll().get(0).getRegion();
+        long totalContractTimeAsMonth = Period.between(
+                contract.getStartingDate().toLocalDate(),
+                contract.getEndingDate().toLocalDate()
+        ).toTotalMonths();
+        String region = RegionDAO.getInstance().selectAll().getFirst().getRegion();
 
         int electricConsumed = STI(data.get("newElectricNumber")) - STI(data.get("formerElectricNumber"));
         int waterConsumed = STI(data.get("newWaterNumber")) - STI(data.get("formerWaterNumber"));
@@ -156,7 +161,7 @@ public class Controller_Invoices {
         // 150.000VNĐ Environmental Fee if Water Price >= 1.000.000VNĐ
         if (waterPrice >= 1000000)
             waterPrice += environmentalFee;
-        total += waterPrice;
+        total += (int) waterPrice;
 
         String invoiceId = "I" + Configs.generateIdTail();
         LocalDateTime d = LocalDateTime.now();
@@ -200,14 +205,14 @@ public class Controller_Invoices {
 
             if (invoice.isEmpty()) continue;
             String[] temp = new String[9];
-            temp[0] = invoice.get(0).getRoomId();
+            temp[0] = invoice.getFirst().getRoomId();
             temp[1] = "View All";
-            temp[2] = invoice.get(0).getInvoiceId();
-            temp[3] = Integer.toString(invoice.get(0).getPaymentMonth());
-            temp[4] = Integer.toString(invoice.get(0).getPaymentYear());
-            temp[5] = sdf.format(invoice.get(0).getDateCreated());
-            temp[6] = Configs.convertStringToVNDCurrency(Integer.toString(invoice.get(0).getTotal()));
-            temp[7] = invoice.get(0).getWasPaid().equals("0") ? "NO" : "YES";
+            temp[2] = invoice.getFirst().getInvoiceId();
+            temp[3] = Integer.toString(invoice.getFirst().getPaymentMonth());
+            temp[4] = Integer.toString(invoice.getFirst().getPaymentYear());
+            temp[5] = sdf.format(invoice.getFirst().getDateCreated());
+            temp[6] = Configs.convertStringToVNDCurrency(Integer.toString(invoice.getFirst().getTotal()));
+            temp[7] = invoice.getFirst().getWasPaid().equals("0") ? "NO" : "YES";
             temp[8] = "Delete";
             result.add(temp);
         }
