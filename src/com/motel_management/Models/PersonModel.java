@@ -41,9 +41,7 @@ public class PersonModel {
     public Date getBirthday() { return birthday; }
     public String getPhone() { return phone; }
     public String getGender() {return gender; }
-
     public String getJobTitle () {return jobTitle;}
-
     public String getPermanentAddress() { return permanentAddress; }
     public String getEmail() { return email; }
     public String getBankAccountNumber() { return bankAccountNumber; }
@@ -57,7 +55,6 @@ public class PersonModel {
     public void setPhone(String phone) { this.phone = phone; }
     public void setGender (String gender) {this.gender = gender;}
     public String getIsOccupied() { return isOccupied; }
-
     public void setJobTitle (String jobTitle) {this.jobTitle = jobTitle;}
     public void setPermanentAddress(String permanentAddress) { this.permanentAddress = permanentAddress; }
     public void setEmail(String email) { this.email = email; }

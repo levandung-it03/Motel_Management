@@ -34,6 +34,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         }
         return 0;
     }
+
     public int insert(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
