@@ -5,6 +5,7 @@ import java.sql.Date;
 public class InvoiceModel {
     private String invoiceId;
     private String roomId;
+    private Date priceRaisedDate;
     private Date dateCreated;
     private int paymentYear;
     private int paymentMonth;
@@ -19,12 +20,13 @@ public class InvoiceModel {
     private int vehicle;
     private boolean wasPaid;
 
-    public InvoiceModel(String invoiceId, String roomId, int defaultRoomPrice, Date dateCreated, int paymentYear,
+    public InvoiceModel(String invoiceId, String roomId, Date priceRaisedDate, Date dateCreated, int paymentYear,
                         int paymentMonth, int formerElectricNumber, int newElectricNumber, int formerWaterNumber,
                         int newWaterNumber, int electricPrice, int waterPrice, int garbage, int wifi, int vehicle,
                         boolean wasPaid) {
         this.invoiceId = invoiceId;
         this.roomId = roomId;
+        this.priceRaisedDate = priceRaisedDate;
         this.dateCreated = dateCreated;
         this.paymentYear = paymentYear;
         this.paymentMonth = paymentMonth;
@@ -43,7 +45,7 @@ public class InvoiceModel {
     // Getters
     public String getInvoiceId () {return invoiceId;}
     public String getRoomId () {return roomId;}
-    public int getDefaultRoomPrice () {return defaultRoomPrice;}
+    public Date getPriceRaisedDate() { return priceRaisedDate; }
     public Date getDateCreated () {return dateCreated;}
     public int getFormerElectricNumber() {return formerElectricNumber;}
     public int getNewElectricNumber() {return newElectricNumber;}
@@ -65,9 +67,7 @@ public class InvoiceModel {
     public void setRoomId (String roomId) {
         this.roomId = roomId;
     }
-    public void setDefaultRoomPrice (int defaultRoomPrice) {
-        this.defaultRoomPrice = defaultRoomPrice;
-    }
+    public void setPriceRaisedDate(Date priceRaisedDate) { this.priceRaisedDate = priceRaisedDate; }
     public void setDateCreated (Date dateCreated) {this.dateCreated = dateCreated;}
     public void setPaymentYear (int paymentYear) {this.paymentYear = paymentYear;}
     public void setPaymentMonth (int paymentMonth) {this.paymentMonth = paymentMonth;}
