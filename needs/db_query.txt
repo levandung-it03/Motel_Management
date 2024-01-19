@@ -86,7 +86,7 @@ CREATE TABLE RoomPriceHistory(
     priceRaisedDate DATE NOT NULL DEFAULT CURRENT_DATE,
 
     CONSTRAINT FK_RaisingRoomPrice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT PK_RaisingRoomPrice PRIMARY KEY (roomId, dateCreated)
+    CONSTRAINT PK_RaisingRoomPrice PRIMARY KEY (roomId, priceRaisedDate)
 );
 
 CREATE TABLE Invoice(
