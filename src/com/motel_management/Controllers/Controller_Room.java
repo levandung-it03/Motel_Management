@@ -55,8 +55,8 @@ public class Controller_Room {
                     if (String.valueOf(temp.get(i).getMaxQuantity()).equals(condition[2])) result.add(temp.get(i));
                 }
                 case "4" -> {
-                    RoomPriceHistoryModel roomPriceHistoryModel = RoomPriceHistoryDAO.getInstance().selectById(temp.get(i).getRoomId());
-                    if (String.valueOf(roomPriceHistoryModel.getRoomPrice()).equals(condition[2])) result.add(temp.get(i));
+                    int roomPriceHistoryModel = RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(temp.get(i).getRoomId());
+                    if (String.valueOf(roomPriceHistoryModel).equals(condition[2])) result.add(temp.get(i));
                 }
                 default -> result = temp;
             }
@@ -157,7 +157,7 @@ public class Controller_Room {
     }
 
     public static boolean validateCheckOutInfo(String roomId, JDateChooser checkOutDate, JTextArea reason,
-                                            Frame_MainApplication mainFrameApp, JDialog dialog) {
+                                               Frame_MainApplication mainFrameApp, JDialog dialog) {
         ContractModel contractId = getContractByRoomId(roomId);
         try {
             return !checkOutDate.getDate().before(contractId.getStartingDate()) &&
@@ -166,7 +166,8 @@ public class Controller_Room {
             return false;
         }
     }
-    public static ContractModel getContractByRoomId(String roomId){
+
+    public static ContractModel getContractByRoomId(String roomId) {
         ArrayList<ContractModel> contractId = ContractDAO.getInstance().selectByCondition("WHERE roomId = \"" +
                 roomId + "\" AND checkedOut = 0");
         return contractId.getFirst();
