@@ -31,10 +31,10 @@ public class AddInvoiceListeners {
 
     public static void automaticallySetValueTextField(JComboBox<Object> roomId, HashMap<String, JTextField> inpTags) {
         String roomIdValue = Objects.requireNonNull(roomId.getSelectedItem()).toString();
-        ArrayList<RoomModel> room = Controller_Room.getAllRoomWithCondition("WHERE roomId=\"" + roomIdValue + "\"");
-        if (room.isEmpty())   return;
+        int roomPrice = Controller_Room.getRoomPrice(roomId.getSelectedItem().toString());
+        if (roomPrice == 0)   return;
 
-        inpTags.get("defaultRoomPrice").setText(Integer.toString(room.getFirst().getDefaultRoomPrice()));
+        inpTags.get("defaultRoomPrice").setText(Integer.toString(roomPrice));
 
         lastInvoiceOfRoom = Controller_Invoices.getLastInvoice(roomIdValue);
         if (lastInvoiceOfRoom != null) {

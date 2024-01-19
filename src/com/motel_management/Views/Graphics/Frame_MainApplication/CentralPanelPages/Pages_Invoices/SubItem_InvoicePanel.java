@@ -16,11 +16,13 @@ public class SubItem_InvoicePanel extends JPanel {
     private final JButton detailBtn = new JButton("Detail");
     private final Dialog_InvoicesOfRoom parentDialog;
     public final InvoiceModel invoice;
+    private final int roomPrice;
 
 
-    public SubItem_InvoicePanel(InvoiceModel invoice, Dialog_InvoicesOfRoom parentDialog) {
+    public SubItem_InvoicePanel(InvoiceModel invoice, int roomPrice, Dialog_InvoicesOfRoom parentDialog) {
         super(new FlowLayout());
         this.invoice = invoice;
+        this.roomPrice = roomPrice;
         this.createInvoicePanel();
         this.parentDialog = parentDialog;
         this.createListeners();
@@ -67,7 +69,7 @@ public class SubItem_InvoicePanel extends JPanel {
                         + invoice.getWaterPrice()
                         + invoice.getElectricPrice()
                         + invoice.getWifi()
-                        + invoice.getDefaultRoomPrice()
+                        + this.roomPrice
                 )
         ));
         values.put("wasPaidValue", new JLabel(invoice.getWasPaid() ? "YES" : "NO"));
@@ -124,7 +126,7 @@ public class SubItem_InvoicePanel extends JPanel {
     }
 
     public void createListeners() {
-        this.detailBtn.addActionListener(InvoicesOfRoomDialogListeners.viewDetailInvoice(invoice, parentDialog));
+        this.detailBtn.addActionListener(InvoicesOfRoomDialogListeners.viewDetailInvoice(invoice, this.roomPrice, parentDialog));
         this.updateStatusBtn.addActionListener(InvoicesOfRoomDialogListeners.updateInvoiceStatus(invoice, this));
     }
 }

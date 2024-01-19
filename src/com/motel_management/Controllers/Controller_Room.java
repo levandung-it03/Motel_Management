@@ -1,9 +1,6 @@
 package com.motel_management.Controllers;
 
-import com.motel_management.DataAccessObject.ContractDAO;
-import com.motel_management.DataAccessObject.InvoiceDAO;
-import com.motel_management.DataAccessObject.PersonDAO;
-import com.motel_management.DataAccessObject.RoomDAO;
+import com.motel_management.DataAccessObject.*;
 import com.motel_management.Models.ContractModel;
 import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Models.PersonModel;
@@ -18,6 +15,11 @@ public class Controller_Room {
 
     public Controller_Room() {
         super();
+    }
+
+    // Tao mới build, thấy rồi thì xoá đi
+    public static int getRoomPrice(String roomId) {
+        return RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(roomId);
     }
 
     public static String[][] getRoomInfo(String[] condition) {
