@@ -18,7 +18,7 @@ public class SubItem_InvoicePanel extends JPanel {
     public final InvoiceModel invoice;
 
 
-    public SubItem_InvoicePanel(int ind, InvoiceModel invoice, Dialog_InvoicesOfRoom parentDialog) {
+    public SubItem_InvoicePanel(InvoiceModel invoice, Dialog_InvoicesOfRoom parentDialog) {
         super(new FlowLayout());
         this.invoice = invoice;
         this.createInvoicePanel();

@@ -6,6 +6,7 @@ import com.motel_management.Views.Configs;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
 
@@ -208,23 +209,29 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
         return null;
     }
 
-    public ArrayList<RoomPriceHistoryModel> selectAllRoomPrice(String roomId) {
+    public HashMap<String, RoomPriceHistoryModel> selectAllLastPriceOfEachRoom() {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             PreparedStatement ps = myConnection.prepareStatement(
-                    "SELECT RoomPriceHistory.* FROM RoomPriceHistory\n" +
-                    "INNER JOIN (\n" +
-                    "    SELECT roomId, MAX(priceRaisedDate) AS lastChangedPriceDate FROM RoomPriceHistory\n" +
-                    "    GROUP BY roomId\n" +
-                    ") AS allLastChangedDate " +
-                    "ON allLastChangedDate.lastChangedPriceDate = RoomPriceHistory.priceRaisedDate " +
+                    "SELECT RoomPriceHistory.* FROM RoomPriceHistory " +
+                            "INNER JOIN ( " +
+                            "    SELECT roomId, MAX(priceRaisedDate) AS lastChangedPriceDate FROM RoomPriceHistory " +
+                            "    GROUP BY roomId " +
+                            ") AS allLastChangedDate " +
+                            "ON allLastChangedDate.lastChangedPriceDate = RoomPriceHistory.priceRaisedDate " +
                             "AND allLastChangedDate.roomId = RoomPriceHistory.roomId;"
             );
-            ArrayList<RoomPriceHistoryModel> result = new ArrayList<>();
+            HashMap<String, RoomPriceHistoryModel> result = new HashMap<String, RoomPriceHistoryModel>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                result.add(new RoomPriceHistoryModel(rs.getString("roomId"), rs.getDate("priceRaisedDate"),
-                        rs.getInt("roomPrice")));
+                result.put(
+                        rs.getString("roomId"),
+                        new RoomPriceHistoryModel(
+                                rs.getString("roomId"),
+                                rs.getDate("priceRaisedDate"),
+                                rs.getInt("roomPrice")
+                        )
+                );
             }
             return result;
         } catch (SQLException e) {

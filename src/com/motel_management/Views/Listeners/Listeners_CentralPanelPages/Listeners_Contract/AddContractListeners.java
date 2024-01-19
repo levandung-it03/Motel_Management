@@ -32,7 +32,6 @@ public class AddContractListeners {
                                                         HashMap<String, JDateChooser> dateTags,
                                                         HashMap<String, JComboBox<Object>> comboTags,
                                                         Page_ContractMain parentTabbedPane) {
-
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
