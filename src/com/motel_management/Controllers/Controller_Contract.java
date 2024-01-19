@@ -128,23 +128,24 @@ public class Controller_Contract {
 
     public static String[][] getAllContractByYearWithTableFormat(String year) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String query = (
+        String conditionQuery = (
                 year.equals("0")
                 ? "WHERE checkedOut=\"0\""
                 : "WHERE YEAR(startingDate)=\"" + year + "\""
         ) + "ORDER BY roomId ASC, checkedOut ASC";
 
         ArrayList<ContractModel> selectedContracts = ContractDAO.getInstance()
-                .selectByCondition(query);
-        HashMap<String, String> selectedPersons = PersonDAO.getInstance().selectAllNameById();
+                .selectByCondition(conditionQuery);
+        HashMap<String, String[]> selectedPersons =
+                PersonDAO.getInstance().selectAllPersonWithContractTableFormat(conditionQuery);
 
         String[][] contracts = new String[selectedContracts.size()][9];
         for (int i = 0; i < selectedContracts.size(); i++) {
             contracts[i][0] = selectedContracts.get(i).getContractId();
-            contracts[i][1] = selectedContracts.get(i).getRoomId();
+            contracts[i][1] = selectedPersons.get(selectedContracts.get(i).getIdentifier())[0];
             contracts[i][2] = selectedContracts.get(i).getIdentifier();
-            contracts[i][3] = selectedPersons.get(selectedContracts.get(i).getIdentifier());
-            contracts[i][4] = selectedContracts.get(i).getCheckedOut().equals("0") ? "NO" : "YES";
+            contracts[i][3] = selectedPersons.get(selectedContracts.get(i).getIdentifier())[1];
+            contracts[i][4] = selectedContracts.get(i).getCheckedOut() ? "NO" : "YES";
             contracts[i][5] = dateFormat.format(selectedContracts.get(i).getStartingDate());
             contracts[i][6] = dateFormat.format(selectedContracts.get(i).getEndingDate());
             contracts[i][7] = "View";
@@ -154,6 +155,6 @@ public class Controller_Contract {
     }
 
     public static String getRoomIdByIdentifier(String identifier){
-        return ContractDAO.getInstance().selectRoomIdByIdentifier(identifier);
+        return PersonDAO.getInstance().selectRoomIdByIdentifier(identifier);
     }
 }

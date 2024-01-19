@@ -24,7 +24,7 @@ public class AccountDAO implements DAOInterface<AccountModel> {
             ps.setString(4, obj.getPassword());
             return ps.executeUpdate(query);
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -41,7 +41,7 @@ public class AccountDAO implements DAOInterface<AccountModel> {
             ps.setString(4, values[3]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -57,7 +57,7 @@ public class AccountDAO implements DAOInterface<AccountModel> {
             ps.setString(1, id);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -76,7 +76,7 @@ public class AccountDAO implements DAOInterface<AccountModel> {
             ps.setString(4, obj.getUserId());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -94,7 +94,7 @@ public class AccountDAO implements DAOInterface<AccountModel> {
             ps.setString(4, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -116,7 +116,7 @@ public class AccountDAO implements DAOInterface<AccountModel> {
                 return null;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -136,7 +136,7 @@ public class AccountDAO implements DAOInterface<AccountModel> {
                 return null;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -156,7 +156,7 @@ public class AccountDAO implements DAOInterface<AccountModel> {
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -176,7 +176,7 @@ public class AccountDAO implements DAOInterface<AccountModel> {
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }

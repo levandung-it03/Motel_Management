@@ -138,7 +138,7 @@ public class Controller_Room {
         }
         for (InvoiceModel invoiceModel : roomPayment) {
             //check if all months are paid
-            if (invoiceModel.getWasPaid().equals("0")) {
+            if (!invoiceModel.getWasPaid()) {
                 return 2;
             }
         }
@@ -153,7 +153,7 @@ public class Controller_Room {
         }
         for (InvoiceModel invoiceModel : roomPayment) {
             //check if all months are paid
-            if (invoiceModel.getWasPaid().equals("0")) {
+            if (!invoiceModel.getWasPaid()) {
                 return 1;
             }
         }

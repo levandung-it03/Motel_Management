@@ -15,12 +15,12 @@ public class PersonModel {
     private String email;
     private String bankAccountNumber;
     private String bank;
-    private String isOccupied;
+    private boolean isOccupied;
 
     public PersonModel() {}
     public PersonModel(String identifier, String roomId, String lastName, String firstName, Date birthday,
                        String phone, String gender,String jobTitle, String permanentAddress, String email,
-                       String bankAccountNumber, String bank, String isOccupied) {
+                       String bankAccountNumber, String bank, boolean isOccupied) {
         this.identifier = identifier;
         this.roomId = roomId;
         this.lastName = lastName;
@@ -44,13 +44,12 @@ public class PersonModel {
     public Date getBirthday() { return birthday; }
     public String getPhone() { return phone; }
     public String getGender() {return gender; }
-
     public String getJobTitle () {return jobTitle;}
-
     public String getPermanentAddress() { return permanentAddress; }
     public String getEmail() { return email; }
     public String getBankAccountNumber() { return bankAccountNumber; }
     public String getBank() { return bank; }
+    public boolean getIsOccupied() { return isOccupied; }
 
     // Setters
     public void setIdentifier(String identifier) { this.identifier = identifier; }
@@ -60,12 +59,10 @@ public class PersonModel {
     public void setBirthday(Date birthday) { this.birthday = birthday; }
     public void setPhone(String phone) { this.phone = phone; }
     public void setGender (String gender) {this.gender = gender;}
-    public String getIsOccupied() { return isOccupied; }
-
     public void setJobTitle (String jobTitle) {this.jobTitle = jobTitle;}
     public void setPermanentAddress(String permanentAddress) { this.permanentAddress = permanentAddress; }
     public void setEmail(String email) { this.email = email; }
     public void setBankAccountNumber(String bankAccountNumber) { this.bankAccountNumber = bankAccountNumber; }
     public void setBank(String bank) { this.bank = bank; }
-    public void setIsOccupied(String isOccupied) { this.isOccupied = isOccupied; }
+    public void setIsOccupied(boolean isOccupied) { this.isOccupied = isOccupied; }
 }
