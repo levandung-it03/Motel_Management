@@ -211,8 +211,12 @@ public class Controller_Invoices {
                 eachTempResult[3] = Integer.toString(invoice.getPaymentMonth());
                 eachTempResult[4] = Integer.toString(invoice.getPaymentYear());
                 eachTempResult[5] = sdf.format(invoice.getDateCreated());
-                eachTempResult[6] = Configs.convertStringToVNDCurrency(invoice.getGarbage() + invoice.getWaterPrice()
-                        + invoice.getElectricPrice() + invoice.getWifi() + invoice.getDefaultRoomPrice());
+                eachTempResult[6] = Configs.convertStringToVNDCurrency(invoice.getGarbage()
+                        + invoice.getWaterPrice()
+                        + invoice.getElectricPrice()
+                        + invoice.getWifi()
+                        + RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(invoice.getRoomId())
+                );
                 eachTempResult[7] = invoice.getWasPaid() ? "NO" : "YES";
                 eachTempResult[8] = "Delete";
                 result.add(eachTempResult);

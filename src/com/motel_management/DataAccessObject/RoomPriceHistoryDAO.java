@@ -208,4 +208,44 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
         return null;
     }
 
+    public ArrayList<RoomPriceHistoryModel> selectAllRoomPrice(String roomId) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            PreparedStatement ps = myConnection.prepareStatement(
+                    "SELECT RoomPriceHistory.*, MAX(priceRaisedDate) AS currentPriceDate FROM RoomPriceHistory" +
+                    "GROUP BY roomId HAVING RoomPriceHistory.priceRaisedDate = currentPriceDate;"
+            );
+            ArrayList<RoomPriceHistoryModel> result = new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(new RoomPriceHistoryModel(rs.getString("roomId"), rs.getDate("priceRaisedDate"),
+                        rs.getInt("roomPrice")));
+            }
+            return result;
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return null;
+    }
+
+    public int selectCurrentRoomPriceWithRoomId(String roomId) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            PreparedStatement ps = myConnection.prepareStatement(
+                    "SELECT * FROM RoomPriceHistory WHERE roomId=? ORDER BY priceRaisedDate DESC LIMIT 1"
+            );
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("roomPrice"));
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return 0;
+    }
+
 }
