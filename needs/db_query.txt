@@ -108,7 +108,6 @@ CREATE TABLE Invoice(
     wasPaid BOOLEAN DEFAULT FALSE,
 
     CONSTRAINT PK_Invoice PRIMARY KEY (invoiceId),
-    CONSTRAINT FK_Invoice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT FK_RoomPriceHistory_priceRaisedDate FOREIGN KEY (roomId, priceRaisedDate) REFERENCES RoomPriceHistory(roomId, priceRaisedDate),
     CONSTRAINT UK_Invoice UNIQUE (roomId, paymentMonth, paymentYear)
 );
