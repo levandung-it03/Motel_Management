@@ -1,13 +1,7 @@
 package com.motel_management.Controllers;
 
-import com.motel_management.DataAccessObject.ContractDAO;
-import com.motel_management.DataAccessObject.InvoiceDAO;
-import com.motel_management.DataAccessObject.PersonDAO;
-import com.motel_management.DataAccessObject.RoomDAO;
-import com.motel_management.Models.ContractModel;
-import com.motel_management.Models.InvoiceModel;
-import com.motel_management.Models.PersonModel;
-import com.motel_management.Models.RoomModel;
+import com.motel_management.DataAccessObject.*;
+import com.motel_management.Models.*;
 import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainApplication;
 import com.toedter.calendar.JDateChooser;
 
@@ -49,9 +43,7 @@ public class Controller_Room {
                     ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition("WHERE (lastName LIKE \"%" +
                             condition[2] + "%\" OR firstName LIKE \"%" + condition[2] + "%\") AND isOccupied = 1");
                     for (PersonModel personModel : personResult) {
-                        ArrayList<ContractModel> contractResult = ContractDAO.getInstance().selectByCondition("WHERE identifier = \""+
-                                personModel.getIdentifier()+"\"");
-                        if (temp.get(i).getRoomId().equalsIgnoreCase(contractResult.get(0).getRoomId())) {
+                        if (temp.get(i).getRoomId().equalsIgnoreCase(personModel.getRoomId())) {
                             result.add(temp.get(i));
                         }
                     }
@@ -63,7 +55,8 @@ public class Controller_Room {
                     if (String.valueOf(temp.get(i).getMaxQuantity()).equals(condition[2])) result.add(temp.get(i));
                 }
                 case "4" -> {
-                    if (String.valueOf(temp.get(i).getDefaultRoomPrice()).equals(condition[2])) result.add(temp.get(i));
+                    RoomPriceHistoryModel roomPriceHistoryModel = RoomPriceHistoryDAO.getInstance().selectById(temp.get(i).getRoomId());
+                    if (String.valueOf(roomPriceHistoryModel.getRoomPrice()).equals(condition[2])) result.add(temp.get(i));
                 }
                 default -> result = temp;
             }
@@ -82,7 +75,8 @@ public class Controller_Room {
             }
             rooms[i][2] = Integer.toString(result.get(i).getQuantity());
             rooms[i][3] = Integer.toString(result.get(i).getMaxQuantity());
-            rooms[i][4] = Integer.toString(result.get(i).getDefaultRoomPrice());
+            RoomPriceHistoryModel roomPriceHistoryModel = RoomPriceHistoryDAO.getInstance().selectById(result.get(i).getRoomId());
+            rooms[i][4] = Integer.toString(roomPriceHistoryModel.getRoomPrice());
         }
         return rooms;
     }
