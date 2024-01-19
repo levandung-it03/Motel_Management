@@ -212,8 +212,13 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             PreparedStatement ps = myConnection.prepareStatement(
-                    "SELECT RoomPriceHistory.*, MAX(priceRaisedDate) AS currentPriceDate FROM RoomPriceHistory " +
-                    "GROUP BY roomId HAVING RoomPriceHistory.priceRaisedDate = currentPriceDate;"
+                    "SELECT RoomPriceHistory.* FROM RoomPriceHistory\n" +
+                    "INNER JOIN (\n" +
+                    "    SELECT roomId, MAX(priceRaisedDate) AS lastChangedPriceDate FROM RoomPriceHistory\n" +
+                    "    GROUP BY roomId\n" +
+                    ") AS allLastChangedDate " +
+                    "ON allLastChangedDate.lastChangedPriceDate = RoomPriceHistory.priceRaisedDate " +
+                            "AND allLastChangedDate.roomId = RoomPriceHistory.roomId;"
             );
             ArrayList<RoomPriceHistoryModel> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
