@@ -82,8 +82,8 @@ CREATE TABLE CheckOut(
 
 CREATE TABLE RoomPriceHistory(
     roomId VARCHAR(20) NOT NULL,
-    roomPrice INT DEFAULT 0,
     priceRaisedDate DATE NOT NULL DEFAULT CURRENT_DATE,
+    roomPrice INT DEFAULT 0,
 
     CONSTRAINT FK_RaisingRoomPrice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT PK_RaisingRoomPrice PRIMARY KEY (roomId, priceRaisedDate)
