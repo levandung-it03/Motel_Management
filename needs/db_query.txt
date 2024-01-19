@@ -15,7 +15,6 @@ CREATE TABLE Room (
     roomId VARCHAR(20) UNIQUE NOT NULL,
     quantity INT DEFAULT 0 CHECK (quantity <= maxQuantity),
     maxQuantity INT DEFAULT 0,
-    defaultRoomPrice INT DEFAULT 0,
     CONSTRAINT PK_Room PRIMARY KEY (RoomId)
 );
 CREATE TABLE ElectricRange(
@@ -84,6 +83,7 @@ CREATE TABLE CheckOut(
 CREATE TABLE Invoice(
     invoiceId VARCHAR(20) UNIQUE NOT NULL,
     roomId VARCHAR(20) NOT NULL,
+    priceRaisedDate DATE NOT NULL,
     dateCreated DATE DEFAULT CURRENT_DATE,
     paymentYear INT NOT NULL,
     paymentMonth INT NOT NULL,
@@ -100,14 +100,15 @@ CREATE TABLE Invoice(
 
     CONSTRAINT PK_Invoice PRIMARY KEY (invoiceId),
     CONSTRAINT FK_Invoice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
+    CONSTRAINT FK_RoomPriceHistory_priceRaisedDate FOREIGN KEY (roomId, priceRaisedDate)
+        REFERENCES RoomPriceHistory(roomId, priceRaisedDate),
     CONSTRAINT UK_Invoice UNIQUE (roomId, paymentMonth, paymentYear)
 );
 
-CREATE TABLE RoomPriceRaisingHistory(
+CREATE TABLE RoomPriceHistory(
     roomId VARCHAR(20) NOT NULL,
-    oldRoomPrice INT DEFAULT 0,
-    newRoomPrice INT DEFAULT 0,
-    dateCreated DATE DEFAULT CURRENT_DATE,
+    roomPrice INT DEFAULT 0,
+    priceRaisedDate DATE NOT NULL DEFAULT CURRENT_DATE,
 
     CONSTRAINT FK_RaisingRoomPrice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT PK_RaisingRoomPrice PRIMARY KEY (roomId, dateCreated)

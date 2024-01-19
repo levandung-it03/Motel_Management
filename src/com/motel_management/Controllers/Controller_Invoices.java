@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 
 public class Controller_Invoices {
@@ -88,8 +87,8 @@ public class Controller_Invoices {
 
         int electricPrice = 0;
         double waterPrice = 0;
-        int environmentalFee = 150000;
-        double electricTax = 8d;
+        int environmentalFee = 0;
+        double electricTax = 0;
 
         // Calculating Electric Price.
         if (electricConsumed != 0) {
@@ -125,7 +124,7 @@ public class Controller_Invoices {
             }
         }
 
-        // 15% tax.
+        // Tax.
         electricPrice = (int) (electricPrice * (100 + electricTax) / 100);
         total += electricPrice;
 
@@ -157,7 +156,6 @@ public class Controller_Invoices {
                 }
             }
         }
-        System.out.println(waterPrice);
 
         // 150.000VNĐ Environmental Fee if Water Price >= 1.000.000VNĐ
         if (waterPrice >= 1000000)

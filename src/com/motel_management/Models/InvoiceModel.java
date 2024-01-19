@@ -5,7 +5,6 @@ import java.sql.Date;
 public class InvoiceModel {
     private String invoiceId;
     private String roomId;
-    private int defaultRoomPrice;
     private Date dateCreated;
     private int paymentYear;
     private int paymentMonth;
@@ -26,7 +25,6 @@ public class InvoiceModel {
                         boolean wasPaid) {
         this.invoiceId = invoiceId;
         this.roomId = roomId;
-        this.defaultRoomPrice = defaultRoomPrice;
         this.dateCreated = dateCreated;
         this.paymentYear = paymentYear;
         this.paymentMonth = paymentMonth;

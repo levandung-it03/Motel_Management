@@ -104,7 +104,6 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
                     "wasPaid=? WHERE (invoiceId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getRoomId());
-            ps.setInt(2, obj.getDefaultRoomPrice());
             ps.setDate(3, obj.getDateCreated());
             ps.setInt(4, obj.getPaymentYear());
             ps.setInt(5, obj.getPaymentMonth());

@@ -24,7 +24,7 @@ public class AddInvoiceListeners {
 
     public JComboBox<Object> createRoomIdComboBox() {
         roomList = Controller_Room.getAllRoomWithCondition("WHERE NOT (quantity = 0)");
-        if (roomList.size() == 0)
+        if (roomList.isEmpty())
             return new JComboBox<>(new String[] {""});
         return new JComboBox<Object>(roomList.stream().map(RoomModel::getRoomId).toArray());
     }
