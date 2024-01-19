@@ -136,8 +136,10 @@ public class Controller_Contract {
 
         ArrayList<ContractModel> selectedContracts = ContractDAO.getInstance()
                 .selectByCondition(conditionQuery);
-        HashMap<String, String[]> selectedPersons =
-                PersonDAO.getInstance().selectAllPersonWithContractTableFormat(conditionQuery);
+
+        // selectedPersons = { identifier: new String[] {roomId, fullName} }
+        HashMap<String, String[]> selectedPersons = PersonDAO.getInstance()
+                .selectAllPersonWithContractTableFormat(conditionQuery);
 
         String[][] contracts = new String[selectedContracts.size()][9];
         for (int i = 0; i < selectedContracts.size(); i++) {

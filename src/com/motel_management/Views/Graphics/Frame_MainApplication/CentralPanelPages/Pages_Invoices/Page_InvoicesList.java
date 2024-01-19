@@ -88,8 +88,7 @@ public class Page_InvoicesList extends JPanel {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
                 return switch (columnIndex) {
-                    case 3 -> Integer.class;
-                    case 4 -> Integer.class;
+                    case 3, 4 -> Integer.class;
                     default -> String.class;
                 };
             }
