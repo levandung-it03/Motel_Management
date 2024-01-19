@@ -238,7 +238,7 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
             );
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return rs.getInt("roomPrice"));
+                return rs.getInt("roomPrice");
             }
         } catch (SQLException e) {
             e.fillInStackTrace();
@@ -247,5 +247,4 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
         }
         return 0;
     }
-
 }
