@@ -196,8 +196,7 @@ public class Controller_Invoices {
     public static ArrayList<String[]> getAllLastInvoicesOfRoomWithTableFormat() {
         ArrayList<String> rooms = RoomDAO.getInstance().selectAllOccupiedRoomId();
         ArrayList<String[]> result = new ArrayList<>();
-        HashMap<String, RoomPriceHistoryModel> roomPriceList = RoomPriceHistoryDAO.getInstance()
-                .selectAllLastPriceOfEachRoom();
+        HashMap<String, RoomPriceHistoryModel> roomPriceList = Controller_Room.getAllLastPriceOfEachRoom();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         for (String room : rooms) {

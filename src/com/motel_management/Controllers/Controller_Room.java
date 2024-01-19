@@ -1,15 +1,13 @@
 package com.motel_management.Controllers;
 
 import com.motel_management.DataAccessObject.*;
-import com.motel_management.Models.ContractModel;
-import com.motel_management.Models.InvoiceModel;
-import com.motel_management.Models.PersonModel;
-import com.motel_management.Models.RoomModel;
+import com.motel_management.Models.*;
 import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainApplication;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Controller_Room {
 
@@ -17,9 +15,14 @@ public class Controller_Room {
         super();
     }
 
-    // Tao mới build, thấy rồi thì xoá đi
+    /**********************Tao mới build, thấy rồi thì xoá đi*******************/
     public static int getRoomPrice(String roomId) {
         return RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(roomId);
+    }
+
+    /**********************Tao mới build, thấy rồi thì xoá đi*******************/
+    public static HashMap<String, RoomPriceHistoryModel> getAllLastPriceOfEachRoom() {
+        return RoomPriceHistoryDAO.getInstance().selectAllLastPriceOfEachRoom();
     }
 
     public static String[][] getRoomInfo(String[] condition) {
