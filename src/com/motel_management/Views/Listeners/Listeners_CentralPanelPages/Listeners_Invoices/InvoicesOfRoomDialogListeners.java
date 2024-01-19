@@ -36,7 +36,7 @@ public class InvoicesOfRoomDialogListeners {
 
                 if (result.get("result").equals("1")) {
                     rootPanel.removeAll();
-                    rootPanel.invoice.setWasPaid(invoice.getWasPaid().equals("0") ? "1" : "0");
+                    rootPanel.invoice.setWasPaid(!invoice.getWasPaid());
                     rootPanel.createInvoicePanel();
                     rootPanel.revalidate();
                     rootPanel.repaint();

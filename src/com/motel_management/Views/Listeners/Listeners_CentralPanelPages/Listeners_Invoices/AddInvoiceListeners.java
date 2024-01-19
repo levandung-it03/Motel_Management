@@ -24,7 +24,7 @@ public class AddInvoiceListeners {
 
     public JComboBox<Object> createRoomIdComboBox() {
         roomList = Controller_Room.getAllRoomWithCondition("WHERE NOT (quantity = 0)");
-        if (roomList.size() == 0)
+        if (roomList.isEmpty())
             return new JComboBox<>(new String[] {""});
         return new JComboBox<Object>(roomList.stream().map(RoomModel::getRoomId).toArray());
     }
@@ -32,9 +32,9 @@ public class AddInvoiceListeners {
     public static void automaticallySetValueTextField(JComboBox<Object> roomId, HashMap<String, JTextField> inpTags) {
         String roomIdValue = Objects.requireNonNull(roomId.getSelectedItem()).toString();
         ArrayList<RoomModel> room = Controller_Room.getAllRoomWithCondition("WHERE roomId=\"" + roomIdValue + "\"");
-        if (room.size() == 0)   return;
+        if (room.isEmpty())   return;
 
-        inpTags.get("defaultRoomPrice").setText(Integer.toString(room.get(0).getDefaultRoomPrice()));
+        inpTags.get("defaultRoomPrice").setText(Integer.toString(room.getFirst().getDefaultRoomPrice()));
 
         lastInvoiceOfRoom = Controller_Invoices.getLastInvoice(roomIdValue);
         if (lastInvoiceOfRoom != null) {

@@ -5,21 +5,19 @@ import java.sql.Date;
 public class ContractModel {
     private String contractId;
     private String identifier;
-    private String roomId;
     private int quantity;
     private int roomDeposit;
-    private String isFamily;
+    private boolean isFamily;
     private Date startingDate;
     private Date endingDate;
-    private String isRegisteredPerAddress;
-    private String checkedOut;
+    private boolean checkedOut;
+    private boolean isRegisteredPerAddress;
 
-    public ContractModel (String contractId , String identifier, String roomId , int quantity , int roomDeposit,
-                          String isFamily, Date startingDate , Date endingDate, String checkedOut,
-                          String isRegisteredPerAddress) {
+    public ContractModel (String contractId , String identifier, int quantity , int roomDeposit,
+                          boolean isFamily, Date startingDate , Date endingDate, boolean checkedOut,
+                          boolean isRegisteredPerAddress) {
         this.contractId = contractId;
         this.identifier = identifier;
-        this.roomId = roomId;
         this.quantity = quantity;
         this.roomDeposit = roomDeposit;
         this.startingDate = startingDate;
@@ -29,75 +27,25 @@ public class ContractModel {
         this.checkedOut = checkedOut;
     }
 
-    public String getContractId () {
-        return contractId;
-    }
+    // Getters
+    public String getContractId() { return contractId; }
+    public String getIdentifier() { return identifier; }
+    public int getQuantity() { return quantity; }
+    public int getRoomDeposit() { return roomDeposit; }
+    public boolean getIsFamily() { return isFamily; }
+    public Date getStartingDate() { return startingDate; }
+    public Date getEndingDate() { return endingDate; }
+    public boolean getCheckedOut() { return checkedOut; }
+    public boolean getIsRegisteredPerAddress() { return isRegisteredPerAddress; }
 
-    public void setContractId (String contractId) {
-        this.contractId = contractId;
-    }
-
-    public String getIdentifier () {
-        return identifier;
-    }
-
-    public void setIdentifier (String identifier) {
-        this.identifier = identifier;
-    }
-
-    public String getRoomId () {
-        return roomId;
-    }
-
-    public void setRoomId (String roomId) {
-        this.roomId = roomId;
-    }
-
-    public int getQuantity () {
-        return quantity;
-    }
-
-    public void setQuantity (int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getRoomDeposit () {
-        return roomDeposit;
-    }
-
-    public void setRoomDeposit (int roomDeposit) {
-        this.roomDeposit = roomDeposit;
-    }
-
-    public Date getStartingDate () {
-        return startingDate;
-    }
-
-    public void setStartingDate (Date startingDate) {
-        this.startingDate = startingDate;
-    }
-
-    public Date getEndingDate () {
-        return endingDate;
-    }
-
-    public void setEndingDate (Date endingDate) {
-        this.endingDate = endingDate;
-    }
-
-    public String getIsFamily() { return isFamily; }
-
-    public void setIsFamily(String isFamily) { this.isFamily = isFamily; }
-
-    public String getIsRegisteredPerAddress() {
-        return isRegisteredPerAddress;
-    }
-
-    public void setIsRegisteredPerAddress(String isRegisteredPerAddress) {
-        this.isRegisteredPerAddress = isRegisteredPerAddress;
-    }
-
-    public String getCheckedOut() { return checkedOut; }
-
-    public void setCheckedOut(String checkedOut) { this.checkedOut = checkedOut; }
+    // Setters
+    public void setContractId(String contractId) { this.contractId = contractId; }
+    public void setIdentifier(String identifier) { this.identifier = identifier; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
+    public void setRoomDeposit(int roomDeposit) { this.roomDeposit = roomDeposit; }
+    public void setFamily(boolean family) { isFamily = family; }
+    public void setStartingDate(Date startingDate) { this.startingDate = startingDate; }
+    public void setEndingDate(Date endingDate) { this.endingDate = endingDate; }
+    public void setCheckedOut(boolean checkedOut) { this.checkedOut = checkedOut; }
+    public void setRegisteredPerAddress(boolean registeredPerAddress) { isRegisteredPerAddress = registeredPerAddress; }
 }

@@ -20,7 +20,7 @@ public class RegionDAO implements DAOInterface<RegionModel> {
             ps.setString(2, obj.getRegion());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -35,7 +35,7 @@ public class RegionDAO implements DAOInterface<RegionModel> {
             ps.setString(2, values[1]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -50,7 +50,7 @@ public class RegionDAO implements DAOInterface<RegionModel> {
             ps.setString(1, id);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -66,7 +66,7 @@ public class RegionDAO implements DAOInterface<RegionModel> {
             ps.setString(1, obj.getRegionId());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -84,7 +84,7 @@ public class RegionDAO implements DAOInterface<RegionModel> {
             rs.next();
             return new RegionModel(rs.getString("regionId"), rs.getString("region"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -103,7 +103,7 @@ public class RegionDAO implements DAOInterface<RegionModel> {
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -122,7 +122,7 @@ public class RegionDAO implements DAOInterface<RegionModel> {
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }

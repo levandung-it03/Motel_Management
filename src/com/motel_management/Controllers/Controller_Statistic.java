@@ -31,24 +31,28 @@ public class Controller_Statistic {
                 LocalDate.now().getYear() +"\" AND wasPaid = 1");
         int totalYearRevenue =0;
         for (InvoiceModel invoiceModel : result) {
-            totalYearRevenue += invoiceModel.getTotal();
+            RoomPriceHistoryModel roomPriceHistoryModel = RoomPriceHistoryDAO.getInstance().selectById(invoiceModel.getRoomId());
+            int total = invoiceModel.getElectricPrice()+invoiceModel.getWaterPrice()+
+                    invoiceModel.getGarbage()+invoiceModel.getWifi()+invoiceModel.getVehicle()+
+                    roomPriceHistoryModel.getRoomPrice();
+            totalYearRevenue+=total;
         }
         return totalYearRevenue;
     }
 
     public static Object[][] getRoomList() {
-        ArrayList<ContractModel> result = ContractDAO.getInstance().selectByCondition("WHERE checkedOut = 0");
+        ArrayList<PersonModel> result = PersonDAO.getInstance().selectByCondition("WHERE isOccupied = 1");
         Object[][] rooms = new Object[result.size()][4];
         for (int i = 0; i < result.size(); i++) {
             RoomModel roomResult = RoomDAO.getInstance().selectById(result.get(i).getRoomId());
-            PersonModel personResult = PersonDAO.getInstance().selectById(result.get(i).getIdentifier());
+            RoomPriceHistoryModel roomPriceResult = RoomPriceHistoryDAO.getInstance().selectById(result.get(i).getRoomId());
             rooms[i][0] = result.get(i).getRoomId();
-            rooms[i][1] = personResult.getLastName()+ " " +personResult.getFirstName();
+            rooms[i][1] = result.get(i).getLastName()+ " " +result.get(i).getFirstName();
             rooms[i][2] = roomResult.getQuantity();
             if (roomResult.getQuantity() == -1){
                 rooms[i][2] = "Unknown";
             }
-            rooms[i][3] = Configs.convertStringToVNDCurrency(roomResult.getDefaultRoomPrice());
+            rooms[i][3] = Configs.convertStringToVNDCurrency(roomPriceResult.getRoomPrice());
         }
         return rooms;
     }

@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 
 public class Controller_Invoices {
@@ -75,8 +74,8 @@ public class Controller_Invoices {
 
         ContractModel contract = ContractDAO.getInstance().selectLastContractByRoomId(data.get("roomId"));
 
-        int isFamily = STI(contract.getIsFamily());
-        int isRegisteredPerAddress = STI(contract.getIsRegisteredPerAddress());
+        boolean isFamily = contract.getIsFamily();
+        boolean isRegisteredPerAddress = contract.getIsRegisteredPerAddress();
         long totalContractTimeAsMonth = Period.between(
                 contract.getStartingDate().toLocalDate(),
                 contract.getEndingDate().toLocalDate()
@@ -88,13 +87,13 @@ public class Controller_Invoices {
 
         int electricPrice = 0;
         double waterPrice = 0;
-        int environmentalFee = 150000;
-        double electricTax = 8d;
+        int environmentalFee = 0;
+        double electricTax = 0;
 
         // Calculating Electric Price.
         if (electricConsumed != 0) {
             // Case (1) or (2.1)
-            if (isFamily == 1 || (totalContractTimeAsMonth >= 12 && isRegisteredPerAddress == 1)) {
+            if (isFamily || (totalContractTimeAsMonth >= 12 && isRegisteredPerAddress)) {
                 for (ElectricRangeModel e : electricRanges) {
                     if (e.getMaxRangeValue() <= electricConsumed)
                         electricPrice += (e.getMaxRangeValue() - e.getMinRangeValue() + 1) * e.getPrice();
@@ -124,7 +123,8 @@ public class Controller_Invoices {
                 }
             }
         }
-        // 15% tax.
+
+        // Tax.
         electricPrice = (int) (electricPrice * (100 + electricTax) / 100);
         total += electricPrice;
 
@@ -156,7 +156,6 @@ public class Controller_Invoices {
                 }
             }
         }
-        System.out.println(waterPrice);
 
         // 150.000VNĐ Environmental Fee if Water Price >= 1.000.000VNĐ
         if (waterPrice >= 1000000)
@@ -194,27 +193,36 @@ public class Controller_Invoices {
         return result;
     }
 
-    public static ArrayList<String[]> getAllInvoicesWithTableFormat() {
+    public static ArrayList<String[]> getAllLastInvoicesOfRoomWithTableFormat() {
         ArrayList<String> rooms = RoomDAO.getInstance().selectAllOccupiedRoomId();
         ArrayList<String[]> result = new ArrayList<>();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         for (String room : rooms) {
-            ArrayList<InvoiceModel> invoice = InvoiceDAO.getInstance()
-                    .selectByCondition("WHERE roomId=\"" + room + "\" ORDER BY paymentYear DESC, paymentMonth DESC LIMIT 1");
+            try {
+                InvoiceModel invoice = InvoiceDAO.getInstance().selectByCondition(
+                        "WHERE roomId=\"" + room + "\" ORDER BY paymentYear DESC, paymentMonth DESC LIMIT 1"
+                ).getFirst();
 
-            if (invoice.isEmpty()) continue;
-            String[] temp = new String[9];
-            temp[0] = invoice.getFirst().getRoomId();
-            temp[1] = "View All";
-            temp[2] = invoice.getFirst().getInvoiceId();
-            temp[3] = Integer.toString(invoice.getFirst().getPaymentMonth());
-            temp[4] = Integer.toString(invoice.getFirst().getPaymentYear());
-            temp[5] = sdf.format(invoice.getFirst().getDateCreated());
-            temp[6] = Configs.convertStringToVNDCurrency(Integer.toString(invoice.getFirst().getTotal()));
-            temp[7] = invoice.getFirst().getWasPaid().equals("0") ? "NO" : "YES";
-            temp[8] = "Delete";
-            result.add(temp);
+                String[] eachTempResult = new String[9];
+                eachTempResult[0] = invoice.getRoomId();
+                eachTempResult[1] = "View All";
+                eachTempResult[2] = invoice.getInvoiceId();
+                eachTempResult[3] = Integer.toString(invoice.getPaymentMonth());
+                eachTempResult[4] = Integer.toString(invoice.getPaymentYear());
+                eachTempResult[5] = sdf.format(invoice.getDateCreated());
+                eachTempResult[6] = Configs.convertStringToVNDCurrency(invoice.getGarbage()
+                        + invoice.getWaterPrice()
+                        + invoice.getElectricPrice()
+                        + invoice.getWifi()
+                        + RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(invoice.getRoomId())
+                );
+                eachTempResult[7] = invoice.getWasPaid() ? "NO" : "YES";
+                eachTempResult[8] = "Delete";
+                result.add(eachTempResult);
+            } catch (NullPointerException ignored) {
+                continue;
+            }
         }
         return result;
     }
@@ -222,7 +230,7 @@ public class Controller_Invoices {
     public static HashMap<String, String> updateInvoiceStatus(String invoiceId) {
         HashMap<String, String> result = new HashMap<>();
         InvoiceModel invoice = InvoiceDAO.getInstance().selectById(invoiceId);
-        invoice.setWasPaid(invoice.getWasPaid().equals("1") ? "0" : "1");
+        invoice.setWasPaid(!invoice.getWasPaid());
         if (InvoiceDAO.getInstance().update(invoice) == 1) {
             result.put("result", "1");
             result.put("message", "Change Invoice Payment Status Successfully!");

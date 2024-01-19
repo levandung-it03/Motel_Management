@@ -15,7 +15,6 @@ CREATE TABLE Room (
     roomId VARCHAR(20) UNIQUE NOT NULL,
     quantity INT DEFAULT 0 CHECK (quantity <= maxQuantity),
     maxQuantity INT DEFAULT 0,
-    defaultRoomPrice INT DEFAULT 0,
     CONSTRAINT PK_Room PRIMARY KEY (RoomId)
 );
 CREATE TABLE ElectricRange(
@@ -37,6 +36,7 @@ CREATE TABLE WaterRange(
 
 CREATE TABLE Person (
     identifier VARCHAR(20) UNIQUE NOT NULL,
+    roomId VARCHAR(20) NOT NULL,
     lastName VARCHAR(70) NOT NULL,
     firstName VARCHAR(30) NOT NULL,
     birthday DATE NOT NULL,
@@ -47,29 +47,27 @@ CREATE TABLE Person (
     email VARCHAR(255),
     bankAccountNumber VARCHAR(255),
     bank VARCHAR(255),
-    isOccupied VARCHAR(1) NOT NULL DEFAULT "1",
-    dateCreated DATE NOT NULL DEFAULT CURRENT_DATE,
+    isOccupied BOOLEAN DEFAULT FALSE,
 
-    CONSTRAINT UK_Person UNIQUE (identifier, dateCreated),
-    CONSTRAINT PK_Person PRIMARY KEY (identifier, dateCreated)
+    CONSTRAINT PK_Person PRIMARY KEY (identifier),
+    CONSTRAINT FK_Person_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
+    CONSTRAINT UK_Person UNIQUE (identifier, roomId)
 );
 
 CREATE TABLE Contract (
     contractId VARCHAR(20) UNIQUE NOT NULL,
     identifier VARCHAR(20) NOT NULL,
-    roomId VARCHAR(20) NOT NULL,
     quantity INT DEFAULT 0,
     roomDeposit INT DEFAULT 0,
-    isFamily VARCHAR(1) DEFAULT "0",
+    isFamily BOOLEAN DEFAULT FALSE,
     startingDate DATE DEFAULT (CURRENT_DATE()),
     endingDate DATE DEFAULT (CURRENT_DATE()),
-    isRegisteredPerAddress VARCHAR(1) DEFAULT "0",
-    checkedOut VARCHAR(1) DEFAULT "0",
+    isRegisteredPerAddress BOOLEAN DEFAULT FALSE,
+    checkedOut BOOLEAN DEFAULT FALSE,
 
     CONSTRAINT PK_Contract PRIMARY KEY (contractId),
     CONSTRAINT FK_Contract_identifier FOREIGN KEY (identifier) REFERENCES Person(identifier),
-    CONSTRAINT FK_Contract_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT UK_Contract UNIQUE (contractId, identifier, roomId)
+    CONSTRAINT UK_Contract UNIQUE (contractId, identifier)
 );
 
 CREATE TABLE CheckOut(
@@ -82,9 +80,19 @@ CREATE TABLE CheckOut(
     CONSTRAINT FK_CheckOut_contractId FOREIGN KEY (contractId) REFERENCES Contract(contractId)
 );
 
+CREATE TABLE RoomPriceHistory(
+    roomId VARCHAR(20) NOT NULL,
+    priceRaisedDate DATE NOT NULL DEFAULT CURRENT_DATE,
+    roomPrice INT DEFAULT 0,
+
+    CONSTRAINT FK_RaisingRoomPrice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
+    CONSTRAINT PK_RaisingRoomPrice PRIMARY KEY (roomId, priceRaisedDate)
+);
+
 CREATE TABLE Invoice(
     invoiceId VARCHAR(20) UNIQUE NOT NULL,
     roomId VARCHAR(20) NOT NULL,
+    priceRaisedDate DATE NOT NULL,
     dateCreated DATE DEFAULT CURRENT_DATE,
     paymentYear INT NOT NULL,
     paymentMonth INT NOT NULL,
@@ -97,24 +105,40 @@ CREATE TABLE Invoice(
     garbage INT DEFAULT 0,
     wifi INT DEFAULT 0,
     vehicle INT DEFAULT 0,
-    wasPaid VARCHAR(1) DEFAULT "0",
+    wasPaid BOOLEAN DEFAULT FALSE,
 
     CONSTRAINT PK_Invoice PRIMARY KEY (invoiceId),
-    CONSTRAINT FK_Invoice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
+    CONSTRAINT FK_RoomPriceHistory_priceRaisedDate FOREIGN KEY (roomId, priceRaisedDate) REFERENCES RoomPriceHistory(roomId, priceRaisedDate),
     CONSTRAINT UK_Invoice UNIQUE (roomId, paymentMonth, paymentYear)
-);
-
-CREATE TABLE RoomPriceRaisingHistory(
-    roomId VARCHAR(20) NOT NULL,
-    oldRoomPrice INT DEFAULT 0,
-    newRoomPrice INT DEFAULT 0,
-    dateCreated DATE DEFAULT CURRENT_DATE,
-
-    CONSTRAINT FK_RaisingRoomPrice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT PK_RaisingRoomPrice PRIMARY KEY (roomId, dateCreated)
 );
 
 INSERT INTO Account VALUES ("admin000", "Root", "root", "$2a$10$j2WJzi7wT1BazuUsnKa8vOmbanLacmKc042wJLWWUxMK5eM3zPXjS");
 // MK: root#123
 INSERT INTO Room VALUES ("P001", 0, 9, 3000000), ("P002", 0, 9, 3000000), ("P003", 0, 9, 3000000), ("P004", 0, 9, 3000000), ("P005", 0, 9, 3000000),
 ("P006", 0, 9, 3000000);
+
+INSERT INTO Room
+VALUES
+("P001", 0, 9, 3000000),
+("P002", 0, 9, 3000000),
+("P003", 0, 9, 3000000),
+("P004", 0, 9, 3000000),
+("P005", 0, 9, 3000000),
+("P006", 0, 9, 3000000),
+("P007", 0, 9, 3000000);
+
+INSERT INTO Person (identifier, roomId, lastName, firstName, birthday, phone, gender, jobTitle, permanentAddress, email, bankAccountNumber, bank)
+VALUES
+('038203032574', 'P001', 'Le Van', 'Dung', '1990-01-15', '123456789', '0', 'Manager', '123 Main St', 'vana@example.com', '123-456-789', 'ACB'),
+('038203032575', 'P002', 'Le Van', 'Duong', '1985-05-20', '987654321', '0', 'Engineer', '456 Oak St', 'thib@example.com', '987-654-321', 'Vietcombank'),
+('038203032576', 'P002', 'Le Van', 'Hung', '1985-05-20', '987654321', '0', 'Engineer', '456 Oak St', 'thia@example.com', '987-654-321', 'Vietcombank'),
+('038203032577', 'P002', 'Tran Thi', 'An', '1985-05-20', '987654321', '1', 'Engineer', '456 Oak St', 'thic@example.com', '987-654-321', 'Vietcombank'),
+('038203032578', 'P003', 'Le Duc', 'Thai', '1995-08-10', '456123789', '0', 'Analyst', '789 Pine St', 'ducc@example.com', '456-123-789', 'Techcombank');
+
+INSERT INTO Contract
+VALUES
+("C1000001", "038203032574", 5, 1000000, "0", "2024-01-19", "2024-03-19", "0", "0"),
+("C1000002", "038203032575", 5, 1000000, "0", "2024-01-19", "2024-03-19", "0", "1"),
+("C1000003", "038203032576", 5, 1000000, "0", "2024-05-19", "2024-08-19", "0", "1"),
+("C1000004", "038203032577", 5, 1000000, "0", "2024-09-19", "2024-12-19", "0", "0"),
+("C1000005", "038203032578", 5, 1000000, "0", "2024-09-29", "2024-11-19", "0", "0");

@@ -77,7 +77,7 @@ public class Controller_Room {
             if (contractResult.isEmpty()) {
                 rooms[i][1] = "Unknown";
             } else {
-                PersonModel personResult = PersonDAO.getInstance().selectById(contractResult.get(0).getIdentifier());
+                PersonModel personResult = PersonDAO.getInstance().selectById(contractResult.getFirst().getIdentifier());
                 rooms[i][1] = personResult.getLastName() + " " + personResult.getFirstName();
             }
             rooms[i][2] = Integer.toString(result.get(i).getQuantity());
@@ -93,7 +93,7 @@ public class Controller_Room {
             return null;
         } else {
             ArrayList<RoomModel> roomList = RoomDAO.getInstance().selectByCondition("ORDER BY roomId ASC");
-            StringBuilder lastRoomId = new StringBuilder(roomList.get(roomList.size() - 1).getRoomId());
+            StringBuilder lastRoomId = new StringBuilder(roomList.getLast().getRoomId());
             lastRoomId.replace(0, 1, "0");
             StringBuilder idTail = new StringBuilder(Integer.toString(Integer.parseInt(lastRoomId.toString()) + 1));
             while (idTail.length() != 3)
@@ -115,7 +115,7 @@ public class Controller_Room {
         if (roomList.isEmpty()) {
             return "P001";
         } else {
-            StringBuilder lastRoomId = new StringBuilder(roomList.get(roomList.size() - 1).getRoomId());
+            StringBuilder lastRoomId = new StringBuilder(roomList.getLast().getRoomId());
             lastRoomId.replace(0, 1, "0");
             StringBuilder idTail = new StringBuilder(Integer.toString(Integer.parseInt(lastRoomId.toString()) + 1));
             while (idTail.length() != 3)
@@ -140,7 +140,7 @@ public class Controller_Room {
         }
         for (InvoiceModel invoiceModel : roomPayment) {
             //check if all months are paid
-            if (invoiceModel.getWasPaid().equals("0")) {
+            if (!invoiceModel.getWasPaid()) {
                 return 2;
             }
         }
@@ -155,7 +155,7 @@ public class Controller_Room {
         }
         for (InvoiceModel invoiceModel : roomPayment) {
             //check if all months are paid
-            if (invoiceModel.getWasPaid().equals("0")) {
+            if (!invoiceModel.getWasPaid()) {
                 return 1;
             }
         }
@@ -166,19 +166,15 @@ public class Controller_Room {
                                             Frame_MainApplication mainFrameApp, JDialog dialog) {
         ContractModel contractId = getContractByRoomId(roomId);
         try {
-            if (checkOutDate.getDate().before(contractId.getStartingDate()) ||
-                    checkOutDate.getDate().equals(contractId.getStartingDate())) {
-                return false;
-            } else {
-                return true;
-            }
-        } catch (NullPointerException e) {
+            return !checkOutDate.getDate().before(contractId.getStartingDate()) &&
+                    !checkOutDate.getDate().equals(contractId.getStartingDate());
+        } catch (NullPointerException ignored) {
             return false;
         }
     }
     public static ContractModel getContractByRoomId(String roomId){
         ArrayList<ContractModel> contractId = ContractDAO.getInstance().selectByCondition("WHERE roomId = \"" +
                 roomId + "\" AND checkedOut = 0");
-        return contractId.get(0);
+        return contractId.getFirst();
     }
 }

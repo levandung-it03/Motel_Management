@@ -28,7 +28,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             ps.setString(4,obj.getReason());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -52,7 +52,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
                     "Notice",
                     JOptionPane.PLAIN_MESSAGE
             );
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -68,7 +68,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             ps.setString(1, id);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -87,7 +87,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             ps.setString(4, obj.getCheckOutId());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -105,7 +105,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             ps.setString(4, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -123,7 +123,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             return new CheckOutModel(rs.getString("checkOutId"), rs.getString("contractId"),
                      rs.getDate("checkOutDate"),rs.getString("reason"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -143,7 +143,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -163,7 +163,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -183,7 +183,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
                 return sdf.format(rs.getDate("lastCheckOutDate"));
             return null;
         } catch(SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -206,7 +206,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
                 };
             return null;
         } catch(SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }

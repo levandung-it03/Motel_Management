@@ -73,7 +73,7 @@ public class Page_InvoicesList extends JPanel {
         tools.add(title, BorderLayout.WEST);
 
         // Prepare Data to generate Table.
-        ArrayList<String[]> result = Controller_Invoices.getAllInvoicesWithTableFormat();
+        ArrayList<String[]> result = Controller_Invoices.getAllLastInvoicesOfRoomWithTableFormat();
         String[][] invoices = new String[result.size()][9];
         for (int i = 0; i < result.size(); i++)
             System.arraycopy(result.get(i), 0, invoices[i], 0, 9);
