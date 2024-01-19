@@ -13,7 +13,6 @@ public class Page_AddInvoice extends JPanel {
     private final Page_InvoicesMain mainTabbedPane;
     JPanel container;
     JComboBox<Object> roomId;
-    JTextField identifier = new JTextField(20);
     JTextField defaultRoomPrice = new JTextField(20);
     JTextField paymentYear = new JTextField(20);
     JTextField paymentMonth = new JTextField(20);

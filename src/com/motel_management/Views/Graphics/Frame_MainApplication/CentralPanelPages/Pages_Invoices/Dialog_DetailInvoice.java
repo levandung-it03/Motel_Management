@@ -10,12 +10,12 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 public class Dialog_DetailInvoice extends JDialog {
-    public Dialog_DetailInvoice(InvoiceModel invoice, JDialog parentDialog) {
+    public Dialog_DetailInvoice(InvoiceModel invoice, int roomPrice, JDialog parentDialog) {
         super(parentDialog, "Invoice Detail");
-        this.createInvoiceDetailDialog(invoice);
+        this.createInvoiceDetailDialog(invoice, roomPrice);
     }
 
-    public void createInvoiceDetailDialog(InvoiceModel invoice) {
+    public void createInvoiceDetailDialog(InvoiceModel invoice, int roomPrice) {
         int fullHeight = 500;
         int fullWith = 580;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -56,7 +56,7 @@ public class Dialog_DetailInvoice extends JDialog {
         values.put("dateCreatedValue", new JLabel(sdf.format(invoice.getDateCreated())));
         values.put("roomIdValue", new JLabel(invoice.getRoomId()));
         values.put("paymentTimeValue", new JLabel(invoice.getPaymentMonth() + "/" + invoice.getPaymentYear()));
-        values.put("defaultRoomPriceValue", new JLabel(Configs.convertStringToVNDCurrency(invoice.getDefaultRoomPrice())));
+        values.put("defaultRoomPriceValue", new JLabel(Configs.convertStringToVNDCurrency(roomPrice)));
         values.put("formerElectricNumberValue", new JLabel(invoice.getFormerElectricNumber() + "kWh"));
         values.put("newElectricNumberValue", new JLabel(invoice.getNewElectricNumber() + "kWh"));
         values.put("formerWaterNumberValue", new JLabel(invoice.getFormerWaterNumber() + "m³"));
@@ -70,7 +70,7 @@ public class Dialog_DetailInvoice extends JDialog {
                 + invoice.getWaterPrice()
                 + invoice.getElectricPrice()
                 + invoice.getWifi()
-                + invoice.getDefaultRoomPrice()
+                + roomPrice
         )));
         values.put("wasPaidValue", new JLabel(invoice.getWasPaid() ? "YES" : "NO"));
 

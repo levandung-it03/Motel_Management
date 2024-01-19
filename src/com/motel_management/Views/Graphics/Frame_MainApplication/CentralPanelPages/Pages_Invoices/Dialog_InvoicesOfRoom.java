@@ -1,7 +1,7 @@
 package com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Invoices;
 
 import com.motel_management.Controllers.Controller_Invoices;
-import com.motel_management.DataAccessObject.RoomPriceHistoryDAO;
+import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Models.RoomPriceHistoryModel;
 import com.motel_management.Views.Configs;
@@ -92,9 +92,9 @@ public class Dialog_InvoicesOfRoom extends JDialog {
         }
 
         this.invoices = Controller_Invoices.getInvoicesByRoomIdWithPage(this.currentPage, roomId);
-        HashMap<String, RoomPriceHistoryModel> roomPriceList = RoomPriceHistoryDAO.getInstance().selectAllLastPriceOfEachRoom();
+        HashMap<String, RoomPriceHistoryModel> roomPriceList = Controller_Room.getAllLastPriceOfEachRoom();
         for (InvoiceModel invoice: invoices)
-            invoicePanels.add(new SubItem_InvoicePanel(invoice, this));
+            invoicePanels.add(new SubItem_InvoicePanel(invoice, roomPriceList.get(invoice.getRoomId()).getRoomPrice(), this));
 
         invoicePanels.forEach(panel -> mainPanel.add(panel));
         for (int i = 12 - invoicePanels.size(); i > 0; i--) {

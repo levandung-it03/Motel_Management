@@ -7,11 +7,22 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Controller_Room {
 
     public Controller_Room() {
         super();
+    }
+
+    /**********************Tao mới build, thấy rồi thì xoá đi*******************/
+    public static int getRoomPrice(String roomId) {
+        return RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(roomId);
+    }
+
+    /**********************Tao mới build, thấy rồi thì xoá đi*******************/
+    public static HashMap<String, RoomPriceHistoryModel> getAllLastPriceOfEachRoom() {
+        return RoomPriceHistoryDAO.getInstance().selectAllLastPriceOfEachRoom();
     }
 
     public static String[][] getRoomInfo(String[] condition) {
