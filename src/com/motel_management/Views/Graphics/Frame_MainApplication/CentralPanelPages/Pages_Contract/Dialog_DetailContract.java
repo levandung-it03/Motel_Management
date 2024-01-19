@@ -65,7 +65,6 @@ public class Dialog_DetailContract extends JDialog {
         rightColumn.add(new JLabel(this.contract.getIsFamily().equals("0") ? "NO" : "YES"));
         rightColumn.add(new JLabel(sdf.format(this.contract.getStartingDate())));
         rightColumn.add(new JLabel(sdf.format(this.contract.getEndingDate())));
-        rightColumn.add(new JLabel(Integer.toString((this.contract.getTotalMonths()))));
         rightColumn.add(new JLabel(this.contract.getIsRegisteredPerAddress().equals("0") ? "NO" : "YES"));
 
         leftColumn.setPreferredSize(new Dimension((int)(fullWith*0.52), fullHeight));

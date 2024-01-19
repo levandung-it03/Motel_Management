@@ -37,12 +37,13 @@ public class Controller_Statistic {
     }
 
     public static Object[][] getRoomList() {
-        ArrayList<PersonModel> result = PersonDAO.getInstance().selectByCondition("WHERE isOccupied = 1");
+        ArrayList<ContractModel> result = ContractDAO.getInstance().selectByCondition("WHERE checkedOut = 0");
         Object[][] rooms = new Object[result.size()][4];
         for (int i = 0; i < result.size(); i++) {
             RoomModel roomResult = RoomDAO.getInstance().selectById(result.get(i).getRoomId());
+            PersonModel personResult = PersonDAO.getInstance().selectById(result.get(i).getIdentifier());
             rooms[i][0] = result.get(i).getRoomId();
-            rooms[i][1] = result.get(i).getLastName()+ " " +result.get(i).getFirstName();
+            rooms[i][1] = personResult.getLastName()+ " " +personResult.getFirstName();
             rooms[i][2] = roomResult.getQuantity();
             if (roomResult.getQuantity() == -1){
                 rooms[i][2] = "Unknown";

@@ -49,7 +49,9 @@ public class Controller_Room {
                     ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition("WHERE (lastName LIKE \"%" +
                             condition[2] + "%\" OR firstName LIKE \"%" + condition[2] + "%\") AND isOccupied = 1");
                     for (PersonModel personModel : personResult) {
-                        if (temp.get(i).getRoomId().equalsIgnoreCase(personModel.getRoomId())) {
+                        ArrayList<ContractModel> contractResult = ContractDAO.getInstance().selectByCondition("WHERE identifier = \""+
+                                personModel.getIdentifier()+"\"");
+                        if (temp.get(i).getRoomId().equalsIgnoreCase(contractResult.get(0).getRoomId())) {
                             result.add(temp.get(i));
                         }
                     }
