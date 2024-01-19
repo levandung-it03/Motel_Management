@@ -25,7 +25,7 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
             ps.setInt(5, obj.getPrice());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -45,7 +45,7 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
 
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -61,7 +61,7 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
             ps.setString(1, id);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -82,7 +82,7 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
             ps.setString(5, obj.getRangeId());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -102,7 +102,7 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
             ps.setString(5, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -122,7 +122,7 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
                     rs.getInt("minRangeValue"),rs.getInt("maxRangeValue"),
                     rs.getInt("price"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -143,7 +143,7 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -164,7 +164,7 @@ public class WaterRangeDAO implements DAOInterface<WaterRangeModel>{
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }

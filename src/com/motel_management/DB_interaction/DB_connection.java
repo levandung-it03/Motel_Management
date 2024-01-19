@@ -15,10 +15,10 @@ public class DB_connection {
             myConnection = DriverManager.getConnection(dbURL, username, password);
         } catch (ClassNotFoundException e) {
             System.out.println("Can not find com.mysql.cj.jdbc.Driver or you haven't installed Driver yet!");
-            e.printStackTrace();
+            e.fillInStackTrace();
         } catch (SQLException e) {
             System.out.println("Some Problems Occur With Your Server!");
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
         if (myConnection != null) { System.out.println("Connect to DB successfully!"); }
@@ -33,7 +33,7 @@ public class DB_connection {
                 }
             } catch (SQLException e) {
                 System.out.println("Failed to close DB");
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
     }
 }

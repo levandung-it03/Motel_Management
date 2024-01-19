@@ -66,8 +66,13 @@ public class Dialog_DetailInvoice extends JDialog {
         values.put("garbageValue", new JLabel(Configs.convertStringToVNDCurrency(invoice.getGarbage())));
         values.put("wifiValue", new JLabel(Configs.convertStringToVNDCurrency(invoice.getWifi())));
         values.put("vehicleValue", new JLabel(Configs.convertStringToVNDCurrency(invoice.getVehicle())));
-        values.put("totalValue", new JLabel(Configs.convertStringToVNDCurrency(invoice.getTotal())));
-        values.put("wasPaidValue", new JLabel(invoice.getWasPaid().equals("1") ? "YES" : "NO"));
+        values.put("totalValue", new JLabel(Configs.convertStringToVNDCurrency(invoice.getGarbage()
+                + invoice.getWaterPrice()
+                + invoice.getElectricPrice()
+                + invoice.getWifi()
+                + invoice.getDefaultRoomPrice()
+        )));
+        values.put("wasPaidValue", new JLabel(invoice.getWasPaid() ? "YES" : "NO"));
 
         labels.forEach((key, label) -> {
             label.setFont(Configs.labelFont);

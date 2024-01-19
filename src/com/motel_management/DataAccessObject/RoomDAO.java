@@ -23,7 +23,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             ps.setInt(4, obj.getDefaultRoomPrice());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -42,7 +42,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
 
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -58,7 +58,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             ps.setString(1, id);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -77,7 +77,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             ps.setString(4, obj.getRoomId());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -95,7 +95,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             ps.setString(4, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -110,7 +110,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             ps.setString(2, values[1]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -129,7 +129,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             return new RoomModel(rs.getString("roomId"), rs.getInt("quantity"),
                     rs.getInt("maxQuantity"), rs.getInt("defaultRoomPrice"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -149,7 +149,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -169,7 +169,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -188,7 +188,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }

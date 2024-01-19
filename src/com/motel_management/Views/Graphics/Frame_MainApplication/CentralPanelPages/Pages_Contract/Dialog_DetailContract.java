@@ -52,21 +52,19 @@ public class Dialog_DetailContract extends JDialog {
         leftColumn.add(new JLabel("Is A Family:"));
         leftColumn.add(new JLabel("Starting Date:"));
         leftColumn.add(new JLabel("Ending Date:"));
-        leftColumn.add(new JLabel("Total Occupying Months:"));
         leftColumn.add(new JLabel("Register Temporary Address:"));
 
         JPanel rightColumn = new JPanel(new GridLayout(11, 0));
         rightColumn.add(new JLabel(this.contract.getRoomId()));
-        rightColumn.add(new JLabel(this.contract.getCheckedOut().equals("0") ? "NO" : "YES"));
+        rightColumn.add(new JLabel(this.contract.getCheckedOut() ? "NO" : "YES"));
         rightColumn.add(new JLabel(this.contract.getIdentifier()));
         rightColumn.add(new JLabel(this.fullName));
         rightColumn.add(new JLabel(Integer.toString(this.contract.getQuantity())));
         rightColumn.add(new JLabel(Configs.convertStringToVNDCurrency(this.contract.getRoomDeposit())));
-        rightColumn.add(new JLabel(this.contract.getIsFamily().equals("0") ? "NO" : "YES"));
+        rightColumn.add(new JLabel(this.contract.getIsFamily() ? "NO" : "YES"));
         rightColumn.add(new JLabel(sdf.format(this.contract.getStartingDate())));
         rightColumn.add(new JLabel(sdf.format(this.contract.getEndingDate())));
-        rightColumn.add(new JLabel(Integer.toString((this.contract.getTotalMonths()))));
-        rightColumn.add(new JLabel(this.contract.getIsRegisteredPerAddress().equals("0") ? "NO" : "YES"));
+        rightColumn.add(new JLabel(this.contract.getIsRegisteredPerAddress() ? "NO" : "YES"));
 
         leftColumn.setPreferredSize(new Dimension((int)(fullWith*0.52), fullHeight));
         rightColumn.setPreferredSize(new Dimension((int)(fullWith*0.48), fullHeight));

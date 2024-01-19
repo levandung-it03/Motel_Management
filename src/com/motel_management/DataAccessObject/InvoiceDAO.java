@@ -20,7 +20,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
     public int insert(InvoiceModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Invoice VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Invoice VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getInvoiceId());
             ps.setString(2, obj.getRoomId());
@@ -37,11 +37,10 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setInt(13, obj.getGarbage());
             ps.setInt(14, obj.getWifi());
             ps.setInt(15, obj.getVehicle());
-            ps.setInt(16, obj.getTotal());
-            ps.setString(17, obj.getWasPaid());
+            ps.setBoolean(16, obj.getWasPaid());
             return ps.executeUpdate(query);
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -51,7 +50,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
     public int insert(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Invoice VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Invoice VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[0]);
             ps.setString(2, values[1]);
@@ -72,7 +71,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setString(17, values[16]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -88,7 +87,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setString(1, id);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -102,10 +101,9 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             String query = "UPDATE Invoice SET  roomId=?, defaultRoomPrice=?," +
                     "dateCreated=?, paymentYear=?, paymentMonth=?, formerElectricNumber=?, newElectricNumber=?," +
                     "formerWaterNumber=?, newWaterNumber=?, electricPrice=?, waterPrice=?, garbage=?, wifi=?, vehicle=?," +
-                    "total=?, wasPaid=? WHERE (invoiceId=?);";
+                    "wasPaid=? WHERE (invoiceId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getRoomId());
-            ps.setInt(2, obj.getDefaultRoomPrice());
             ps.setDate(3, obj.getDateCreated());
             ps.setInt(4, obj.getPaymentYear());
             ps.setInt(5, obj.getPaymentMonth());
@@ -118,12 +116,11 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setInt(12, obj.getGarbage());
             ps.setInt(13, obj.getWifi());
             ps.setInt(14, obj.getVehicle());
-            ps.setInt(15, obj.getTotal());
-            ps.setString(16, obj.getWasPaid());
-            ps.setString(17, obj.getInvoiceId());
+            ps.setBoolean(15, obj.getWasPaid());
+            ps.setString(16, obj.getInvoiceId());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -134,10 +131,9 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Invoice SET  roomId=?, defaultRoomPrice=?," +
-                    "dateCreated=?, paymentYear=?, paymentMonth=?, formerElectricNumber=?, newElectricNumber=?," +
-                    "formerWaterNumber=?, newWaterNumber=?, electricPrice=?, waterPrice=?, garbage=?, wifi=?, vehicle=?," +
-                    "total=?, wasPaid=? WHERE (invoiceId=?);";
+            String query = "UPDATE Invoice SET  roomId=?, defaultRoomPrice=?, dateCreated=?, paymentYear=?, paymentMonth=?," +
+                    "formerElectricNumber=?, newElectricNumber=?, formerWaterNumber=?, newWaterNumber=?, electricPrice=?," +
+                    "waterPrice=?, garbage=?, wifi=?, vehicle=?, wasPaid=? WHERE (invoiceId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[1]);
             ps.setInt(2, Integer.parseInt(values[2]));
@@ -153,12 +149,11 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setInt(12, Integer.parseInt(values[12]));
             ps.setInt(13, Integer.parseInt(values[13]));
             ps.setInt(14, Integer.parseInt(values[14]));
-            ps.setInt(15, Integer.parseInt(values[15]));
-            ps.setString(16, values[16]);
-            ps.setString(17, values[0]);
+            ps.setBoolean(15, values[16].equals("1"));
+            ps.setString(16, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -181,9 +176,9 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
                     rs.getInt("formerWaterNumber"), rs.getInt("newWaterNumber"),
                     rs.getInt("electricPrice"), rs.getInt("waterPrice"),
                     rs.getInt("garbage"), rs.getInt("wifi"), rs.getInt("vehicle"),
-                    rs.getInt("total"), rs.getString("wasPaid"));
+                    rs.getBoolean("wasPaid"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -205,11 +200,11 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
                         rs.getInt("formerWaterNumber"), rs.getInt("newWaterNumber"),
                         rs.getInt("electricPrice"), rs.getInt("waterPrice"),
                         rs.getInt("garbage"), rs.getInt("wifi"), rs.getInt("vehicle"),
-                        rs.getInt("total"), rs.getString("wasPaid")));
+                        rs.getBoolean("wasPaid")));
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -231,11 +226,11 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
                         rs.getInt("formerWaterNumber"), rs.getInt("newWaterNumber"),
                         rs.getInt("electricPrice"), rs.getInt("waterPrice"),
                         rs.getInt("garbage"), rs.getInt("wifi"), rs.getInt("vehicle"),
-                        rs.getInt("total"), rs.getString("wasPaid")));
+                        rs.getBoolean("wasPaid")));
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -264,7 +259,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
                 return null;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }

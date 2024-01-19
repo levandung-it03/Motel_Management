@@ -11,7 +11,9 @@ import java.util.HashMap;
 
 public class PersonDAO implements DAOInterface<PersonModel>{
     public PersonDAO() {}
+
     public static PersonDAO getInstance() {return new PersonDAO();}
+
     @Override
     public int insert(PersonModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
@@ -30,15 +32,16 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(10, obj.getEmail());
             ps.setString(11, obj.getBankAccountNumber());
             ps.setString(12, obj.getBank());
-            ps.setString(13, obj.getIsOccupied());
+            ps.setBoolean(13, obj.getIsOccupied());
             return ps.executeUpdate(query);
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
         return 0;
     }
+
     public int insert(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
@@ -56,10 +59,10 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(10, values[9]);
             ps.setString(11, values[10]);
             ps.setString(12, values[11]);
-            ps.setString(13, values[12]);
+            ps.setBoolean(13, values[12].equals("1"));
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -85,11 +88,11 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(9, obj.getEmail());
             ps.setString(10, obj.getBankAccountNumber());
             ps.setString(11, obj.getBank());
-            ps.setString(12, obj.getIdentifier());
-            ps.setString(13, obj.getIsOccupied());
+            ps.setBoolean(12, obj.getIsOccupied());
+            ps.setString(13, obj.getIdentifier());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -114,11 +117,11 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(9, values[9]);
             ps.setString(10, values[10]);
             ps.setString(11, values[11]);
-            ps.setString(12, values[12]);
+            ps.setBoolean(12, values[12].equals("1"));
             ps.setString(13, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -140,7 +143,7 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(7, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -152,11 +155,11 @@ public class PersonDAO implements DAOInterface<PersonModel>{
         try {
             String query = "UPDATE Person SET isOccupied=? WHERE (identifier=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
-            ps.setString(1, values[0]);
+            ps.setBoolean(1, values[0].equals("1"));
             ps.setString(2, values[1]);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -172,7 +175,7 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(1, id);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -194,12 +197,12 @@ public class PersonDAO implements DAOInterface<PersonModel>{
                         rs.getString("gender"), rs.getString("jobTitle"),
                         rs.getString("permanentAddress"), rs.getString("email"),
                         rs.getString("bankAccountNumber"), rs.getString("bank"),
-                        rs.getString("isOccupied"));
+                        rs.getBoolean("isOccupied"));
             } else {
                 return null;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -220,11 +223,11 @@ public class PersonDAO implements DAOInterface<PersonModel>{
                         rs.getString("gender"), rs.getString("jobTitle"),
                         rs.getString("permanentAddress"), rs.getString("email"),
                         rs.getString("bankAccountNumber"), rs.getString("bank"),
-                        rs.getString("isOccupied")));
+                        rs.getBoolean("isOccupied")));
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -245,31 +248,40 @@ public class PersonDAO implements DAOInterface<PersonModel>{
                         rs.getString("gender"), rs.getString("jobTitle"),
                         rs.getString("permanentAddress"), rs.getString("email"),
                         rs.getString("bankAccountNumber"), rs.getString("bank"),
-                        rs.getString("isOccupied")));
+                        rs.getBoolean("isOccupied")));
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
         return null;
     }
 
-    public HashMap<String, String> selectAllNameById() {
+    public HashMap<String, String[]> selectAllPersonWithContractTableFormat(String contractConditionQuery) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            ResultSet rs = myConnection.prepareStatement("SELECT identifier, lastName, firstName FROM Person").executeQuery();
-            HashMap<String, String> result = new HashMap<>();
+            ResultSet rs = myConnection.prepareStatement(
+                    "SELECT identifier, lastName, firstName, roomId FROM Person" +
+                    "INNER JOIN (" +
+                            "SELECT Contract.identifier FROM Contract " + contractConditionQuery +
+                    ") AS SimpleContract ON SimpleContract.identifier = Person.identifier;"
+            ).executeQuery();
+
+            HashMap<String, String[]> result = new HashMap<>();
             while (rs.next()) {
                 result.put(
                         rs.getString("identifier"),
-                        rs.getString("lastName") + " " + rs.getString("firstName")
+                        new String[] {
+                                rs.getString("roomId"),
+                                rs.getString("lastName") + " " + rs.getString("firstName")
+                        }
                 );
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
@@ -282,9 +294,9 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             PreparedStatement ps = myConnection.prepareStatement(
                     "SELECT roomId, Person.identifier, lastName, firstName, startingDate, endingDate, phone " +
-                            "FROM Person INNER JOIN (" +
+                    "FROM Person INNER JOIN (" +
                             "SELECT identifier, startingDate, endingDate FROM Contract " + condition +
-                            ") AS SimpleContract ON Person.identifier = SimpleContract.identifier"
+                    ") AS SimpleContract ON Person.identifier = SimpleContract.identifier"
             );
             ArrayList<String[]> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
@@ -297,10 +309,28 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             }
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
         return null;
+    }
+
+    public String selectRoomIdByIdentifier (String id) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        String res = "";
+        try {
+            String query = ("SELECT roomId FROM Contract WHERE (identifier=?)");
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            res = rs.getString("roomId");
+            return res;
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return res;
     }
 }

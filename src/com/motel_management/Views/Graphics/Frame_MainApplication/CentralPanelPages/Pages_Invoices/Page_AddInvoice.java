@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class Page_AddInvoice extends JPanel {
-    private Page_InvoicesMain mainTabbedPane;
+    private final Page_InvoicesMain mainTabbedPane;
     JPanel container;
     JComboBox<Object> roomId;
     JTextField identifier = new JTextField(20);

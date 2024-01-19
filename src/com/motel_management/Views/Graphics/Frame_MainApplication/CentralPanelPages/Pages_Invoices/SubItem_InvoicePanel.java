@@ -62,8 +62,15 @@ public class SubItem_InvoicePanel extends JPanel {
 
         values.put("invoiceIdValue", new JLabel(invoice.getInvoiceId()));
         values.put("dateCreatedValue", new JLabel(sdf.format(invoice.getDateCreated())));
-        values.put("totalValue", new JLabel(Configs.convertStringToVNDCurrency(invoice.getTotal())));
-        values.put("wasPaidValue", new JLabel(invoice.getWasPaid().equals("1") ? "YES" : "NO"));
+        values.put("totalValue", new JLabel(
+                Configs.convertStringToVNDCurrency(invoice.getGarbage()
+                        + invoice.getWaterPrice()
+                        + invoice.getElectricPrice()
+                        + invoice.getWifi()
+                        + invoice.getDefaultRoomPrice()
+                )
+        ));
+        values.put("wasPaidValue", new JLabel(invoice.getWasPaid() ? "YES" : "NO"));
 
         title.setForeground(Configs.greenTextColor);
         labels.forEach((key, label) -> {
@@ -94,7 +101,7 @@ public class SubItem_InvoicePanel extends JPanel {
 
         JPanel centralPanel = new JPanel(new BorderLayout());
 
-        Color mainColor = invoice.getWasPaid().equals("1")
+        Color mainColor = invoice.getWasPaid()
                 ? new Color(184, 207, 229)
                 : new Color(229, 184, 184);
 
