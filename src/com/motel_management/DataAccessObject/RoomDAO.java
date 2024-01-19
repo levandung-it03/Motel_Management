@@ -15,12 +15,11 @@ public class RoomDAO implements DAOInterface<RoomModel> {
     public int insert(RoomModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Room VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO Room VALUES (?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getRoomId());
             ps.setInt(2, obj.getQuantity());
             ps.setInt(3, obj.getMaxQuantity());
-            ps.setInt(4, obj.getDefaultRoomPrice());
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
@@ -33,12 +32,11 @@ public class RoomDAO implements DAOInterface<RoomModel> {
     public int insert(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Room VALUES (?, ?, ?, ?);";
+            String query = "INSERT INTO Room VALUES (?, ?, ?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[0]);
             ps.setInt(2, Integer.parseInt(values[1]));
             ps.setInt(3, Integer.parseInt(values[2]));
-            ps.setInt(4, Integer.parseInt(values[3]));
 
             return ps.executeUpdate();
         } catch (SQLException e) {
@@ -69,12 +67,11 @@ public class RoomDAO implements DAOInterface<RoomModel> {
     public int update(RoomModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Room SET  quantity=?, maxQuantity=?, defaultRoomPrice=? WHERE (roomId=?);";
+            String query = "UPDATE Room SET  quantity=?, maxQuantity=?, WHERE (roomId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setInt(1, obj.getQuantity());
             ps.setInt(2, obj.getMaxQuantity());
-            ps.setInt(3, obj.getDefaultRoomPrice());
-            ps.setString(4, obj.getRoomId());
+            ps.setString(3, obj.getRoomId());
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
@@ -87,12 +84,11 @@ public class RoomDAO implements DAOInterface<RoomModel> {
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Room SET  quantity=?, maxQuantity=?, defaultRoomPrice=? WHERE (roomId=?);";
+            String query = "UPDATE Room SET  quantity=?, maxQuantity=? WHERE (roomId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setInt(1, Integer.parseInt(values[1]));
             ps.setInt(2, Integer.parseInt(values[2]));
-            ps.setInt(3, Integer.parseInt(values[3]));
-            ps.setString(4, values[0]);
+            ps.setString(3, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
@@ -127,7 +123,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             ResultSet rs = ps.executeQuery();
             rs.next();
             return new RoomModel(rs.getString("roomId"), rs.getInt("quantity"),
-                    rs.getInt("maxQuantity"), rs.getInt("defaultRoomPrice"));
+                    rs.getInt("maxQuantity"));
         } catch (SQLException e) {
             e.fillInStackTrace();
         } finally {
@@ -145,7 +141,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new RoomModel(rs.getString("roomId"), rs.getInt("quantity"),
-                        rs.getInt("maxQuantity"), rs.getInt("defaultRoomPrice")));
+                        rs.getInt("maxQuantity")));
             }
             return result;
         } catch (SQLException e) {
@@ -165,7 +161,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new RoomModel(rs.getString("roomId"), rs.getInt("quantity"),
-                        rs.getInt("maxQuantity"), rs.getInt("defaultRoomPrice")));
+                        rs.getInt("maxQuantity")));
             }
             return result;
         } catch (SQLException e) {
