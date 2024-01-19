@@ -19,6 +19,7 @@ public class Controller_Contract {
     public static HashMap<String, String> addNewContract(HashMap<String, String> data) {
         HashMap<String, String> result = new HashMap<>();
 
+
         // Check If This Room Already Had 'StartingDate' < 'CheckOutDate'.
         try {
             String lastCheckedOutDateStrOfRoom =
@@ -48,6 +49,7 @@ public class Controller_Contract {
         } catch(NullPointerException | ParseException ignored) {}
 
         String contractId = "C" + Configs.generateIdTail();
+        int totalMonths = Configs.calTotalMonthsBetweenStrDates(data.get("startingDate"), data.get("endingDate"));
 
         String[] contractData = new String[] {
                 contractId,
@@ -58,12 +60,14 @@ public class Controller_Contract {
                 data.get("isFamily"),
                 data.get("startingDate"),
                 data.get("endingDate"),
+                Integer.toString(totalMonths),
                 data.get("isRegisteredPerAddress"),
                 "0"
         };
-        
+
         String[] personData = new String[] {
                 data.get("identifier"),
+                data.get("roomId"),
                 data.get("lastName"),
                 data.get("firstname"),
                 data.get("birthday"),
@@ -77,7 +81,7 @@ public class Controller_Contract {
                 "1"
         };
 
-        if (!ContractDAO.getInstance().selectByCondition("WHERE checkedOut=\"0\" AND identifier=\"" + data.get("identifier") + "\"").isEmpty()) {
+        if (ContractDAO.getInstance().selectByCondition("WHERE checkedOut=\"0\" AND identifier=\"" + data.get("identifier") + "\"").size() > 0) {
             result.put("result", "0");
             result.put("message", "This Person Is In Another Room!");
             return result;
@@ -130,8 +134,8 @@ public class Controller_Contract {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String query = (
                 year.equals("0")
-                ? "WHERE checkedOut=\"0\""
-                : "WHERE YEAR(startingDate)=\"" + year + "\""
+                        ? "WHERE checkedOut=\"0\""
+                        : "WHERE YEAR(startingDate)=\"" + year + "\""
         ) + "ORDER BY roomId ASC, checkedOut ASC";
 
         ArrayList<ContractModel> selectedContracts = ContractDAO.getInstance()
@@ -151,9 +155,5 @@ public class Controller_Contract {
             contracts[i][8] = "Delete";
         }
         return contracts;
-    }
-
-    public static String getRoomIdByIdentifier(String identifier){
-        return ContractDAO.getInstance().selectRoomIdByIdentifier(identifier);
     }
 }
