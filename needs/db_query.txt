@@ -80,6 +80,15 @@ CREATE TABLE CheckOut(
     CONSTRAINT FK_CheckOut_contractId FOREIGN KEY (contractId) REFERENCES Contract(contractId)
 );
 
+CREATE TABLE RoomPriceHistory(
+    roomId VARCHAR(20) NOT NULL,
+    roomPrice INT DEFAULT 0,
+    priceRaisedDate DATE NOT NULL DEFAULT CURRENT_DATE,
+
+    CONSTRAINT FK_RaisingRoomPrice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
+    CONSTRAINT PK_RaisingRoomPrice PRIMARY KEY (roomId, dateCreated)
+);
+
 CREATE TABLE Invoice(
     invoiceId VARCHAR(20) UNIQUE NOT NULL,
     roomId VARCHAR(20) NOT NULL,
@@ -100,18 +109,8 @@ CREATE TABLE Invoice(
 
     CONSTRAINT PK_Invoice PRIMARY KEY (invoiceId),
     CONSTRAINT FK_Invoice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT FK_RoomPriceHistory_priceRaisedDate FOREIGN KEY (roomId, priceRaisedDate)
-        REFERENCES RoomPriceHistory(roomId, priceRaisedDate),
+    CONSTRAINT FK_RoomPriceHistory_priceRaisedDate FOREIGN KEY (roomId, priceRaisedDate) REFERENCES RoomPriceHistory(roomId, priceRaisedDate),
     CONSTRAINT UK_Invoice UNIQUE (roomId, paymentMonth, paymentYear)
-);
-
-CREATE TABLE RoomPriceHistory(
-    roomId VARCHAR(20) NOT NULL,
-    roomPrice INT DEFAULT 0,
-    priceRaisedDate DATE NOT NULL DEFAULT CURRENT_DATE,
-
-    CONSTRAINT FK_RaisingRoomPrice_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT PK_RaisingRoomPrice PRIMARY KEY (roomId, dateCreated)
 );
 
 INSERT INTO Account VALUES ("admin000", "Root", "root", "$2a$10$j2WJzi7wT1BazuUsnKa8vOmbanLacmKc042wJLWWUxMK5eM3zPXjS");
