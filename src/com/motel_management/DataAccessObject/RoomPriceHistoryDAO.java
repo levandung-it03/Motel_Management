@@ -209,7 +209,7 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
         return null;
     }
 
-    public HashMap<String, RoomPriceHistoryModel> selectAllRoomPriceWithRoomId() {
+    public HashMap<String, RoomPriceHistoryModel> selectAllLastPriceOfEachRoom() {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             PreparedStatement ps = myConnection.prepareStatement(

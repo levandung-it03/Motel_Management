@@ -77,8 +77,8 @@ public class Page_InvoicesList extends JPanel {
         String[][] invoices = new String[result.size()][9];
         for (int i = 0; i < result.size(); i++)
             System.arraycopy(result.get(i), 0, invoices[i], 0, 9);
-        String[] columns = { "Room Id", "Invoices Detail", "Last Invoice", "Month Payment", "Year Payment", "Date Created", "Total",
-                "Was Paid", "Delete Button"};
+        String[] columns = { "Room Id", "Invoices Detail", "Last Invoice", "Month Payment", "Year Payment",
+                "Date Created", "Total", "Was Paid", "Delete Button"};
 
         // Generate Table.
         // Make All Value Unchangeable.

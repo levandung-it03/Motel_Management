@@ -196,7 +196,8 @@ public class Controller_Invoices {
     public static ArrayList<String[]> getAllLastInvoicesOfRoomWithTableFormat() {
         ArrayList<String> rooms = RoomDAO.getInstance().selectAllOccupiedRoomId();
         ArrayList<String[]> result = new ArrayList<>();
-        HashMap<String, RoomPriceHistoryModel> roomPriceList = RoomPriceHistoryDAO.getInstance().selectAllRoomPriceWithRoomId();
+        HashMap<String, RoomPriceHistoryModel> roomPriceList = RoomPriceHistoryDAO.getInstance()
+                .selectAllLastPriceOfEachRoom();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         for (String room : rooms) {
@@ -216,7 +217,7 @@ public class Controller_Invoices {
                         + invoice.getWaterPrice()
                         + invoice.getElectricPrice()
                         + invoice.getWifi()
-                        + RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(invoice.getRoomId())
+                        + roomPriceList.get(invoice.getRoomId()).getRoomPrice()
                 );
                 eachTempResult[7] = invoice.getWasPaid() ? "NO" : "YES";
                 eachTempResult[8] = "Delete";
@@ -246,8 +247,8 @@ public class Controller_Invoices {
         return InvoiceDAO.getInstance()
                 .selectByCondition(
                         "WHERE roomId=\"" + roomId + "\" " +
-                                "ORDER BY paymentYear DESC, paymentMonth DESC " +
-                                "LIMIT " + (12*currentPage) + ", 12"
+                        "ORDER BY paymentYear DESC, paymentMonth DESC " +
+                        "LIMIT " + (12*currentPage) + ", 12"
                 );
     }
 
