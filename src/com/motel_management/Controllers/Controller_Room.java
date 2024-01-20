@@ -15,12 +15,10 @@ public class Controller_Room {
         super();
     }
 
-    /**********************Tao mới build, thấy rồi thì xoá đi*******************/
     public static int getRoomPrice(String roomId) {
         return RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(roomId);
     }
 
-    /**********************Tao mới build, thấy rồi thì xoá đi*******************/
     public static HashMap<String, RoomPriceHistoryModel> getAllLastPriceOfEachRoom() {
         return RoomPriceHistoryDAO.getInstance().selectAllLastPriceOfEachRoom();
     }
@@ -76,18 +74,16 @@ public class Controller_Room {
         String[][] rooms = new String[result.size()][5];
         for (int i = 0; i < result.size(); i++) {
             rooms[i][0] = result.get(i).getRoomId();
-            ArrayList<ContractModel> contractResult = ContractDAO.getInstance().selectByCondition("WHERE roomId=\"" +
-                    result.get(i).getRoomId() + "\" AND checkedOut = 0");
-            if (contractResult.isEmpty()) {
+            ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition("WHERE roomId=\"" +
+                    result.get(i).getRoomId() + "\" AND isOccupied = 0");
+            if (personResult.isEmpty()) {
                 rooms[i][1] = "Unknown";
             } else {
-                PersonModel personResult = PersonDAO.getInstance().selectById(contractResult.getFirst().getIdentifier());
-                rooms[i][1] = personResult.getLastName() + " " + personResult.getFirstName();
+                rooms[i][1] = personResult.getFirst().getLastName() + " " + personResult.getFirst().getFirstName();
             }
             rooms[i][2] = Integer.toString(result.get(i).getQuantity());
             rooms[i][3] = Integer.toString(result.get(i).getMaxQuantity());
-            RoomPriceHistoryModel roomPriceHistoryModel = RoomPriceHistoryDAO.getInstance().selectById(result.get(i).getRoomId());
-            rooms[i][4] = Integer.toString(roomPriceHistoryModel.getRoomPrice());
+            rooms[i][4] = Integer.toString(getRoomPrice(result.get(i).getRoomId()));
         }
         return rooms;
     }
