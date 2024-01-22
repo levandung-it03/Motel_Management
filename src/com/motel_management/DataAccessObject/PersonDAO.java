@@ -269,10 +269,10 @@ public class PersonDAO implements DAOInterface<PersonModel>{
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            PreparedStatement ps = myConnection.prepareStatement(
-                    "SELECT roomId, Person.identifier, lastName, firstName, startingDate, endingDate, phone " +
-                    "FROM Person INNER JOIN (" +
-                            "SELECT identifier, startingDate, endingDate FROM Contract " + condition +
+            PreparedStatement ps = myConnection.prepareStatement("""
+                    SELECT SimpleContract.roomId, Person.identifier, lastName, firstName, startingDate, endingDate, phone
+                    FROM Person INNER JOIN (
+                        SELECT identifier, startingDate, endingDate FROM Contract\s""" + condition +
                     ") AS SimpleContract ON Person.identifier = SimpleContract.identifier"
             );
             ArrayList<String[]> result = new ArrayList<>();
