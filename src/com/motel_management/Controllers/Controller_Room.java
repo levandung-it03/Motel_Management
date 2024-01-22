@@ -15,12 +15,10 @@ public class Controller_Room {
         super();
     }
 
-    /**********************Tao mới build, thấy rồi thì xoá đi*******************/
     public static int getRoomPrice(String roomId) {
         return RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(roomId);
     }
 
-    /**********************Tao mới build, thấy rồi thì xoá đi*******************/
     public static HashMap<String, RoomPriceHistoryModel> getAllLastPriceOfEachRoom() {
         return RoomPriceHistoryDAO.getInstance().selectAllLastPriceOfEachRoom();
     }
@@ -66,7 +64,8 @@ public class Controller_Room {
                     if (String.valueOf(temp.get(i).getMaxQuantity()).equals(condition[2])) result.add(temp.get(i));
                 }
                 case "4" -> {
-                    if (String.valueOf(temp.get(i).getDefaultRoomPrice()).equals(condition[2])) result.add(temp.get(i));
+                    int roomPriceHistoryModel = RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(temp.get(i).getRoomId());
+                    if (String.valueOf(roomPriceHistoryModel).equals(condition[2])) result.add(temp.get(i));
                 }
                 default -> result = temp;
             }
@@ -75,17 +74,16 @@ public class Controller_Room {
         String[][] rooms = new String[result.size()][5];
         for (int i = 0; i < result.size(); i++) {
             rooms[i][0] = result.get(i).getRoomId();
-            ArrayList<ContractModel> contractResult = ContractDAO.getInstance().selectByCondition("WHERE roomId=\"" +
-                    result.get(i).getRoomId() + "\" AND checkedOut = 0");
-            if (contractResult.isEmpty()) {
+            ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition("WHERE roomId=\"" +
+                    result.get(i).getRoomId() + "\" AND isOccupied = 0");
+            if (personResult.isEmpty()) {
                 rooms[i][1] = "Unknown";
             } else {
-                PersonModel personResult = PersonDAO.getInstance().selectById(contractResult.getFirst().getIdentifier());
-                rooms[i][1] = personResult.getLastName() + " " + personResult.getFirstName();
+                rooms[i][1] = personResult.getFirst().getLastName() + " " + personResult.getFirst().getFirstName();
             }
             rooms[i][2] = Integer.toString(result.get(i).getQuantity());
             rooms[i][3] = Integer.toString(result.get(i).getMaxQuantity());
-            rooms[i][4] = Integer.toString(result.get(i).getDefaultRoomPrice());
+            rooms[i][4] = Integer.toString(getRoomPrice(result.get(i).getRoomId()));
         }
         return rooms;
     }
@@ -166,7 +164,7 @@ public class Controller_Room {
     }
 
     public static boolean validateCheckOutInfo(String roomId, JDateChooser checkOutDate, JTextArea reason,
-                                            Frame_MainApplication mainFrameApp, JDialog dialog) {
+                                               Frame_MainApplication mainFrameApp, JDialog dialog) {
         ContractModel contractId = getContractByRoomId(roomId);
         try {
             return !checkOutDate.getDate().before(contractId.getStartingDate()) &&
@@ -175,7 +173,8 @@ public class Controller_Room {
             return false;
         }
     }
-    public static ContractModel getContractByRoomId(String roomId){
+
+    public static ContractModel getContractByRoomId(String roomId) {
         ArrayList<ContractModel> contractId = ContractDAO.getInstance().selectByCondition("WHERE roomId = \"" +
                 roomId + "\" AND checkedOut = 0");
         return contractId.getFirst();
