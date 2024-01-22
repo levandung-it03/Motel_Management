@@ -132,8 +132,8 @@ public class Controller_Contract {
                 year.equals("0")
                 ? "WHERE checkedOut=\"0\""
                 : "WHERE YEAR(startingDate)=\"" + year + "\""
-        ) + "ORDER BY roomId ASC, checkedOut ASC";
-
+        );
+//  + "ORDER BY roomId ASC, checkedOut ASC";
         ArrayList<ContractModel> selectedContracts = ContractDAO.getInstance()
                 .selectByCondition(conditionQuery);
 
