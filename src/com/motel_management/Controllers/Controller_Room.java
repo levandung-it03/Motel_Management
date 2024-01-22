@@ -77,7 +77,7 @@ public class Controller_Room {
             rooms[i][0] = result.get(i).getRoomId();
             ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition("WHERE roomId=\"" +
                     result.get(i).getRoomId() + "\" AND isOccupied = 0");
-            if (personResult.isEmpty()) {
+            if (personResult == null || personResult.isEmpty()) {
                 rooms[i][1] = "Unknown";
             } else {
                 rooms[i][1] = personResult.getFirst().getLastName() + " " + personResult.getFirst().getFirstName();

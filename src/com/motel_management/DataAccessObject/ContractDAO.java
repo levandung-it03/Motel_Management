@@ -36,10 +36,10 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
-        return 0;
+        return -1;
     }
 
-    public int insert(String[] values) {
+    public int insert (String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = "INSERT INTO Contract VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -60,7 +60,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
-        return 0;
+        return -1;
     }
 
     @Override
@@ -88,7 +88,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
-        return 0;
+        return -1;
     }
 
     // Overload
@@ -116,7 +116,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
-        return 0;
+        return -1;
     }
 
     public int updateContractStatus(String[] values) {

@@ -77,7 +77,8 @@ public class Controller_Contract {
                 "1"
         };
 
-        if (!ContractDAO.getInstance().selectByCondition("WHERE checkedOut=\"0\" AND identifier=\"" + data.get("identifier") + "\"").isEmpty()) {
+        if (!ContractDAO.getInstance()
+                .selectByCondition("WHERE checkedOut=\"0\" AND identifier=\"" + data.get("identifier") + "\"").isEmpty()) {
             result.put("result", "0");
             result.put("message", "This Person Is In Another Room!");
             return result;
@@ -87,16 +88,21 @@ public class Controller_Contract {
         if (PersonDAO.getInstance().selectById(data.get("identifier")) != null) {
             // Person existed but there is no Contract has this Person which hasn't checked out yet.
             addPersonRes = PersonDAO.getInstance().update(personData);
-        } else
+        } else {
             addPersonRes = PersonDAO.getInstance().insert(personData);
+        }
 
         int addContractRes = ContractDAO.getInstance().insert(contractData);
+        if (addContractRes == -1) {
+            result.put("result", "0");
+            result.put("message", "This Person is in this room at starting-date: " + data.get("startingDate"));
+        }
 
         RoomModel roomData = RoomDAO.getInstance().selectById(data.get("roomId"));
         roomData.setQuantity(Integer.parseInt(data.get("quantity")));
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
 
-        if (addContractRes * addPersonRes * updateRoomRes != 0) {
+        if (addPersonRes * updateRoomRes != 0) {
             result.put("result", "1");
             result.put("message", "New Contract was added!");
         } else {
@@ -135,6 +141,8 @@ public class Controller_Contract {
         );
         ArrayList<HashMap<String, String>> selectedContracts = ContractDAO.getInstance()
                 .selectAllPersonWithContractTableFormat(conditionQuery);
+        if (selectedContracts == null)
+            return new String[0][9];
 
         String[][] contracts = new String[selectedContracts.size()][9];
         for (int i = 0; i < selectedContracts.size(); i++) {
