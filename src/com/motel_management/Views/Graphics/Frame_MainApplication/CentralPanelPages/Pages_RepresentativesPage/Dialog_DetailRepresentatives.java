@@ -11,8 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
-import static com.motel_management.Controllers.Controller_Contract.getRoomIdByIdentifier;
-
 
 public class Dialog_DetailRepresentatives extends JDialog{
     private final JPanel subPanel0 = new JPanel();
@@ -32,15 +30,14 @@ public class Dialog_DetailRepresentatives extends JDialog{
     private JButton button = new JButton("UPDATE");
     private final JComboBox<String> bank = new JComboBox<>();
     String[] values ={"", "ABB", "ACB", "AGRIBANK", "BACABANK", "BID", "CTG", "EIB", "HDBANK", "KLB", "LIENVIET", "MBB",
-                    "MSB", "NAMA", "NCB", "OCB", "PGBANK", "PVCOMBANK", "SCB", "SEABANK", "SGB", "SHB", "STB", "TCB", "TPB",
-                    "VCB", "VIB", "VIETABANK", "VIETCAPITALBANK", "VPB", "VIETBANK"};
+            "MSB", "NAMA", "NCB", "OCB", "PGBANK", "PVCOMBANK", "SCB", "SEABANK", "SGB", "SHB", "STB", "TCB", "TPB",
+            "VCB", "VIB", "VIETABANK", "VIETCAPITALBANK", "VPB", "VIETBANK"};
 
 
     public Dialog_DetailRepresentatives(JFrame mainAppFrame, PersonModel person){
         super(mainAppFrame);
         this.setTitle("Details Information");
-        String stringRoomId = getRoomIdByIdentifier(person.getIdentifier());
-        showInformationById(person ,stringRoomId);
+        showInformationById(person);
     }
 
     public void addBankListCombobox(){
@@ -48,7 +45,7 @@ public class Dialog_DetailRepresentatives extends JDialog{
             bank.addItem(value);
         }
     }
-    public void showInformationById(PersonModel person, String stringRoomId){
+    public void showInformationById(PersonModel person){
         //Generate
         JPanel marginPanel = new JPanel(new GridLayout(1,3));
 
@@ -63,7 +60,7 @@ public class Dialog_DetailRepresentatives extends JDialog{
 
 
         identifier = new JTextField(person.getIdentifier());
-        roomId = new JTextField(stringRoomId);
+        roomId = new JTextField(person.getRoomId());
         fullName = new JTextField(person.getLastName()+" "+person.getFirstName());
         birthday = new JTextField("" + person.getBirthday());
         gender = new JTextField(person.getGender());

@@ -61,7 +61,7 @@ public class Controller_Contract {
                 data.get("isRegisteredPerAddress"),
                 "0"
         };
-        
+
         String[] personData = new String[] {
                 data.get("identifier"),
                 data.get("lastName"),
@@ -136,8 +136,8 @@ public class Controller_Contract {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String conditionQuery = (
                 year.equals("0")
-                ? "WHERE checkedOut=0\n"
-                : "WHERE YEAR(startingDate)=\"" + year + "\"\n"
+                        ? "WHERE checkedOut=0\n"
+                        : "WHERE YEAR(startingDate)=\"" + year + "\"\n"
         );
         ArrayList<HashMap<String, String>> selectedContracts = ContractDAO.getInstance()
                 .selectAllPersonWithContractTableFormat(conditionQuery);
