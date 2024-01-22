@@ -6,6 +6,7 @@ import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainAppli
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -89,8 +90,9 @@ public class Controller_Room {
     }
 
     public static String addNewRoom(String[] data) {
-        int res = RoomDAO.getInstance().insert(data);
-        if (res == 0) {
+        int res = RoomDAO.getInstance().insert(new String[]{data[0],data[1],data[2]});
+        int resHistory = RoomPriceHistoryDAO.getInstance().insert(new String[]{data[0], LocalDate.now().toString(),data[3]});
+        if (res == 0 || resHistory == 0) {
             return null;
         } else {
             ArrayList<RoomModel> roomList = RoomDAO.getInstance().selectByCondition("ORDER BY roomId ASC");

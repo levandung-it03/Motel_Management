@@ -44,7 +44,7 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
             String query = "INSERT INTO RoomPriceHistory VALUES (?, ?, ?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[0]);
-            ps.setDate(2, Date.valueOf(Configs.stringToDate(values[1])));
+            ps.setDate(2, Date.valueOf(values[1]));
             ps.setInt(3, Integer.parseInt(values[2]));
 
             return ps.executeUpdate();
@@ -248,6 +248,7 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
             PreparedStatement ps = myConnection.prepareStatement(
                     "SELECT * FROM RoomPriceHistory WHERE roomId=? ORDER BY priceRaisedDate DESC LIMIT 1"
             );
+            ps.setString(1, roomId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt("roomPrice");

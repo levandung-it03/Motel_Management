@@ -49,7 +49,7 @@ CREATE TABLE Person (
     isOccupied BOOLEAN DEFAULT FALSE,
 
     CONSTRAINT PK_Person PRIMARY KEY (identifier),
-    CONSTRAINT UK_Person UNIQUE (identifier, roomId)
+    CONSTRAINT UK_Person UNIQUE (identifier)
 );
 
 CREATE TABLE Contract (
@@ -67,7 +67,7 @@ CREATE TABLE Contract (
     CONSTRAINT PK_Contract PRIMARY KEY (contractId),
     CONSTRAINT FK_Contract_identifier FOREIGN KEY (identifier) REFERENCES Person(identifier),
     CONSTRAINT FK_Person_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT UK_Contract UNIQUE (contractId, identifier)
+    CONSTRAINT UK_Contract UNIQUE (identifier,roomId,startingDate)
 );
 
 CREATE TABLE CheckOut(
