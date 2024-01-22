@@ -19,7 +19,6 @@ public class Controller_Contract {
     public static HashMap<String, String> addNewContract(HashMap<String, String> data) {
         HashMap<String, String> result = new HashMap<>();
 
-
         // Check If This Room Already Had 'StartingDate' < 'CheckOutDate'.
         try {
             String lastCheckedOutDateStrOfRoom =
@@ -49,24 +48,22 @@ public class Controller_Contract {
         } catch(NullPointerException | ParseException ignored) {}
 
         String contractId = "C" + Configs.generateIdTail();
-        int totalMonths = Configs.calTotalMonthsBetweenStrDates(data.get("startingDate"), data.get("endingDate"));
 
         String[] contractData = new String[] {
                 contractId,
                 data.get("identifier"),
+                data.get("roomId"),
                 data.get("quantity"),
                 data.get("roomDeposit"),
                 data.get("isFamily"),
                 data.get("startingDate"),
                 data.get("endingDate"),
-                Integer.toString(totalMonths),
                 data.get("isRegisteredPerAddress"),
                 "0"
         };
 
         String[] personData = new String[] {
                 data.get("identifier"),
-                data.get("roomId"),
                 data.get("lastName"),
                 data.get("firstname"),
                 data.get("birthday"),
@@ -80,7 +77,8 @@ public class Controller_Contract {
                 "1"
         };
 
-        if (ContractDAO.getInstance().selectByCondition("WHERE checkedOut=\"0\" AND identifier=\"" + data.get("identifier") + "\"").size() > 0) {
+        if (!ContractDAO.getInstance()
+                .selectByCondition("WHERE checkedOut=\"0\" AND identifier=\"" + data.get("identifier") + "\"").isEmpty()) {
             result.put("result", "0");
             result.put("message", "This Person Is In Another Room!");
             return result;
@@ -90,16 +88,21 @@ public class Controller_Contract {
         if (PersonDAO.getInstance().selectById(data.get("identifier")) != null) {
             // Person existed but there is no Contract has this Person which hasn't checked out yet.
             addPersonRes = PersonDAO.getInstance().update(personData);
-        } else
+        } else {
             addPersonRes = PersonDAO.getInstance().insert(personData);
+        }
 
         int addContractRes = ContractDAO.getInstance().insert(contractData);
+        if (addContractRes == -1) {
+            result.put("result", "0");
+            result.put("message", "This Person is in this room at starting-date: " + data.get("startingDate"));
+        }
 
         RoomModel roomData = RoomDAO.getInstance().selectById(data.get("roomId"));
         roomData.setQuantity(Integer.parseInt(data.get("quantity")));
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
 
-        if (addContractRes * addPersonRes * updateRoomRes != 0) {
+        if (addPersonRes * updateRoomRes != 0) {
             result.put("result", "1");
             result.put("message", "New Contract was added!");
         } else {
@@ -133,32 +136,30 @@ public class Controller_Contract {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String conditionQuery = (
                 year.equals("0")
-                        ? "WHERE checkedOut=\"0\""
-                        : "WHERE YEAR(startingDate)=\"" + year + "\""
+                        ? "WHERE checkedOut=0\n"
+                        : "WHERE YEAR(startingDate)=\"" + year + "\"\n"
         );
-//  + "ORDER BY roomId ASC, checkedOut ASC";
-        ArrayList<ContractModel> selectedContracts = ContractDAO.getInstance()
-                .selectByCondition(conditionQuery);
-
-        // selectedPersons = { identifier: new String[] {roomId, fullName} }
-        HashMap<String, String[]> selectedPersons = PersonDAO.getInstance()
+        ArrayList<HashMap<String, String>> selectedContracts = ContractDAO.getInstance()
                 .selectAllPersonWithContractTableFormat(conditionQuery);
-
-        if (selectedContracts.isEmpty() || selectedPersons == null)
+        if (selectedContracts == null)
             return new String[0][9];
 
         String[][] contracts = new String[selectedContracts.size()][9];
         for (int i = 0; i < selectedContracts.size(); i++) {
-            contracts[i][0] = selectedContracts.get(i).getContractId();
-            contracts[i][1] = selectedPersons.get(selectedContracts.get(i).getIdentifier())[0];
-            contracts[i][2] = selectedContracts.get(i).getIdentifier();
-            contracts[i][3] = selectedPersons.get(selectedContracts.get(i).getIdentifier())[1];
-            contracts[i][4] = selectedContracts.get(i).getCheckedOut() ? "NO" : "YES";
-            contracts[i][5] = dateFormat.format(selectedContracts.get(i).getStartingDate());
-            contracts[i][6] = dateFormat.format(selectedContracts.get(i).getEndingDate());
+            contracts[i][0] = selectedContracts.get(i).get("contractId");
+            contracts[i][1] = selectedContracts.get(i).get("roomId");
+            contracts[i][2] = selectedContracts.get(i).get("identifier");
+            contracts[i][3] = selectedContracts.get(i).get("fullName");
+            contracts[i][4] = selectedContracts.get(i).get("checkedOut");
+            contracts[i][5] = selectedContracts.get(i).get("startingDate");
+            contracts[i][6] = selectedContracts.get(i).get("endingDate");
             contracts[i][7] = "View";
             contracts[i][8] = "Delete";
         }
         return contracts;
+    }
+
+    public static String getRoomIdByIdentifier(String identifier){
+        return PersonDAO.getInstance().selectRoomIdByIdentifier(identifier);
     }
 }

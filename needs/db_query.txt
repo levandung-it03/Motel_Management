@@ -36,7 +36,6 @@ CREATE TABLE WaterRange(
 
 CREATE TABLE Person (
     identifier VARCHAR(20) UNIQUE NOT NULL,
-    roomId VARCHAR(20) NOT NULL,
     lastName VARCHAR(70) NOT NULL,
     firstName VARCHAR(30) NOT NULL,
     birthday DATE NOT NULL,
@@ -50,12 +49,12 @@ CREATE TABLE Person (
     isOccupied BOOLEAN DEFAULT FALSE,
 
     CONSTRAINT PK_Person PRIMARY KEY (identifier),
-    CONSTRAINT FK_Person_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
-    CONSTRAINT UK_Person UNIQUE (identifier, roomId)
+    CONSTRAINT UK_Person UNIQUE (identifier)
 );
 
 CREATE TABLE Contract (
     contractId VARCHAR(20) UNIQUE NOT NULL,
+    roomId VARCHAR(20) NOT NULL,
     identifier VARCHAR(20) NOT NULL,
     quantity INT DEFAULT 0,
     roomDeposit INT DEFAULT 0,
@@ -67,7 +66,8 @@ CREATE TABLE Contract (
 
     CONSTRAINT PK_Contract PRIMARY KEY (contractId),
     CONSTRAINT FK_Contract_identifier FOREIGN KEY (identifier) REFERENCES Person(identifier),
-    CONSTRAINT UK_Contract UNIQUE (contractId, identifier)
+    CONSTRAINT FK_Person_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
+    CONSTRAINT UK_Contract UNIQUE (identifier,roomId,startingDate)
 );
 
 CREATE TABLE CheckOut(
@@ -125,21 +125,20 @@ VALUES
 ("P006", 0, 9),
 ("P007", 0, 9);
 
-INSERT INTO Person (identifier, roomId, lastName, firstName, birthday, phone, gender, jobTitle, permanentAddress, email, bankAccountNumber, bank)
-VALUES
-('038203032574', 'P001', 'Le Van', 'Dung', '1990-01-15', '123456789', '0', 'Manager', '123 Main St', 'vana@example.com', '21097877', 'ACB'),
-('038203032575', 'P002', 'Le Van', 'Duong', '1985-05-20', '987654321', '0', 'Engineer', '456 Oak St', 'thib@example.com', '987654321', 'Vietcombank'),
-('038203032576', 'P002', 'Le Van', 'Hung', '1985-05-20', '987654321', '0', 'Engineer', '456 Oak St', 'thia@example.com', '987654321', 'Vietcombank'),
-('038203032577', 'P002', 'Tran Thi', 'An', '1985-05-20', '987654321', '1', 'Engineer', '456 Oak St', 'thic@example.com', '987654321', 'Vietcombank'),
-('038203032578', 'P003', 'Le Duc', 'Thai', '1995-08-10', '456123789', '0', 'Analyst', '789 Pine St', 'ducc@example.com', '456123789', 'Techcombank');
+INSERT INTO Person (`identifier`, `roomId`, `lastName`, `firstName`, `birthday`, `phone`, `gender`, `jobTitle`,
+`permanentAddress`, `email`, `bankAccountNumber`, `bank`, `isOccupied`) VALUES
+('038203032574', 'P001', 'Le Van', 'Dung', '1990-01-15', '123456789', '0', 'Manager', '123 Main St', 'vana@example.com', '21097877', 'ACB', '1'),
+('038203032575', 'P002', 'Le Van', 'Duong', '1985-05-20', '987654321', '0', 'Engineer', '456 Oak St', 'thib@example.com', '987654321', 'Vietcombank', '0'),
+('038203032576', 'P003', 'Le Van', 'Hung', '1985-05-20', '987654321', '0', 'Engineer', '456 Oak St', 'thia@example.com', '987654321', 'Vietcombank', '0'),
+('038203032577', 'P004', 'Tran Thi', 'An', '1985-05-20', '987654321', '1', 'Engineer', '456 Oak St', 'thic@example.com', '987654321', 'Vietcombank', '1');
 
-INSERT INTO Contract
-VALUES
-("C1000001", "038203032574", 5, 1000000, "0", "2024-01-19", "2024-03-19", "0", "0"),
-("C1000002", "038203032575", 5, 1000000, "0", "2024-01-19", "2024-03-19", "0", "1"),
-("C1000003", "038203032576", 5, 1000000, "0", "2024-05-19", "2024-08-19", "0", "1"),
-("C1000004", "038203032577", 5, 1000000, "0", "2024-09-19", "2024-12-19", "0", "0"),
-("C1000005", "038203032578", 5, 1000000, "0", "2024-09-29", "2024-11-19", "0", "0");
+INSERT INTO Contract (`contractId`, `identifier`, `quantity`, `roomDeposit`, `isFamily`, `startingDate`, `endingDate`,
+`isRegisteredPerAddress`, `checkedOut`) VALUES
+("C1000001", "038203032574", 5, 1000000, "0", "2024-01-19", "2024-03-19", "0", "1"),
+("C1000002", "038203032575", 5, 1000000, "0", "2023-01-19", "2024-03-19", "0", "1"),
+("C1000003", "038203032575", 5, 1000000, "0", "2022-05-19", "2024-08-19", "0", "0"),
+("C1000004", "038203032576", 5, 1000000, "0", "2021-09-19", "2024-12-19", "0", "0"),
+("C1000005", "038203032577", 5, 1000000, "0", "2023-09-29", "2024-11-19", "0", "1");
 
 INSERT INTO RoomPriceHistory
 VALUES

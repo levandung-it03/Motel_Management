@@ -115,18 +115,18 @@ public class AddContractListeners {
         if (!Pattern.compile("^[A-Z][a-z]*(\\s[A-Z]+[a-z]*)*$").matcher(inpTags.get("jobTitle").getText()).matches())
             return "Job";
 
-        if (inpTags.get("permanentAddress").getText().equals(""))
+        if (inpTags.get("permanentAddress").getText().isEmpty())
             return "Permanent Address";
 
-        if (!inpTags.get("email").getText().equals("")) {
+        if (!inpTags.get("email").getText().isEmpty()) {
             // Checking "Email" if it's not empty!
             if (!Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$").matcher(inpTags.get("email").getText()).matches()) {
                 return "Email";
             }
         }
 
-        if (!inpTags.get("bankAccountNumber").getText().equals("")) {
-            if (!Objects.requireNonNull(comboTags.get("bank").getSelectedItem()).toString().equals("")) {
+        if (!inpTags.get("bankAccountNumber").getText().isEmpty()) {
+            if (!Objects.requireNonNull(comboTags.get("bank").getSelectedItem()).toString().isEmpty()) {
                 if (!Pattern.compile("^[0-9]{1,13}$").matcher(inpTags.get("bankAccountNumber").getText()).matches()) {
                     return "Bank Account Number";
                 }
@@ -135,8 +135,8 @@ public class AddContractListeners {
             }
         }
 
-        if (!Objects.requireNonNull(comboTags.get("bank").getSelectedItem()).toString().equals(""))
-            if (inpTags.get("bankAccountNumber").getText().equals(""))
+        if (!Objects.requireNonNull(comboTags.get("bank").getSelectedItem()).toString().isEmpty())
+            if (inpTags.get("bankAccountNumber").getText().isEmpty())
                 return "empty Bank Account Number";
 
         try {

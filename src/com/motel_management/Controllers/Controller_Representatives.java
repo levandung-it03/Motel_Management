@@ -30,6 +30,8 @@ public class Controller_Representatives {
         else    condition = "WHERE YEAR(startingDate)=\"" + year +"\"";
 
         ArrayList<String[]> persons = PersonDAO.getInstance().selectByInnerJoinContract(condition);
+        if (persons == null)
+            return new String[0][8];
         result = new String[persons.size()][8];
 
         for (int i = 0; i < persons.size(); i++) {

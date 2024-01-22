@@ -21,7 +21,6 @@ public class PersonModel {
     public PersonModel(String identifier, String roomId, String lastName, String firstName, Date birthday,
                        String phone, String gender,String jobTitle, String permanentAddress, String email,
                        String bankAccountNumber, String bank, boolean isOccupied) {
-
         this.identifier = identifier;
         this.roomId = roomId;
         this.lastName = lastName;
@@ -45,9 +44,7 @@ public class PersonModel {
     public Date getBirthday() { return birthday; }
     public String getPhone() { return phone; }
     public String getGender() {return gender; }
-
     public String getJobTitle () {return jobTitle;}
-
     public String getPermanentAddress() { return permanentAddress; }
     public String getEmail() { return email; }
     public String getBankAccountNumber() { return bankAccountNumber; }

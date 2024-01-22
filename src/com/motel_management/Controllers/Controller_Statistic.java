@@ -42,6 +42,8 @@ public class Controller_Statistic {
 
     public static Object[][] getRoomList() {
         ArrayList<PersonModel> result = PersonDAO.getInstance().selectByCondition("WHERE isOccupied = 1");
+        if (result == null)
+            return new Object[0][4];
         Object[][] rooms = new Object[result.size()][4];
         for (int i = 0; i < result.size(); i++) {
             RoomModel roomResult = RoomDAO.getInstance().selectById(result.get(i).getRoomId());

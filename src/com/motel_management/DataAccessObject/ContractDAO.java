@@ -4,9 +4,13 @@ import com.motel_management.Models.ContractModel;
 import com.motel_management.Views.Configs;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ContractDAO implements DAOInterface<ContractModel>{
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
     public ContractDAO() {}
     public static ContractDAO getInstance() {return new ContractDAO();}
 
@@ -14,99 +18,105 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public int insert (ContractModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Contract VALUES (?, ?, ? ,? ,? ,?, ?, ?, ?)";
+            String query = "INSERT INTO Contract VALUES (?, ?, ? ,? ,? ,?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getContractId());
             ps.setString(2,obj.getIdentifier());
-            ps.setInt(3, obj.getQuantity());
-            ps.setInt(4, obj.getRoomDeposit());
-            ps.setBoolean(5, obj.getIsFamily());
-            ps.setDate(6, obj.getStartingDate());
-            ps.setDate(7, obj.getEndingDate());
-            ps.setBoolean(8, obj.getIsRegisteredPerAddress());
-            ps.setBoolean(9, obj.getCheckedOut());
+            ps.setString(3, obj.getRoomId());
+            ps.setInt(4, obj.getQuantity());
+            ps.setInt(5, obj.getRoomDeposit());
+            ps.setBoolean(6, obj.getIsFamily());
+            ps.setDate(7, obj.getStartingDate());
+            ps.setDate(8, obj.getEndingDate());
+            ps.setBoolean(9, obj.getIsRegisteredPerAddress());
+            ps.setBoolean(10, obj.getCheckedOut());
             return ps.executeUpdate(query);
         } catch (SQLException e) {
             e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
-        return 0;
+        return -1;
     }
 
-    public int insert(String[] values) {
+    public int insert (String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = "INSERT INTO Contract VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[0]);
             ps.setString(2,values[1]);
-            ps.setInt(3, Integer.parseInt(values[2]));
+            ps.setString(3,values[2]);
             ps.setInt(4, Integer.parseInt(values[3]));
-            ps.setBoolean(5, values[4].equals("1"));
-            ps.setDate(6,Date.valueOf(Configs.stringToDate(values[5])));
+            ps.setInt(5, Integer.parseInt(values[4]));
+            ps.setBoolean(6, values[5].equals("1"));
             ps.setDate(7, Date.valueOf(Configs.stringToDate(values[6])));
-            ps.setBoolean(8, values[8].equals("1"));
+            ps.setDate(8, Date.valueOf(Configs.stringToDate(values[7])));
             ps.setBoolean(9, values[8].equals("1"));
+            ps.setBoolean(10, values[9].equals("1"));
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
-        return 0;
+        return -1;
     }
 
     @Override
     public int update (ContractModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Contract SET identifier=?, quantity=? ,roomDeposit=?, isFamily=?, startingDate=?," +
-                    "endingDate=?, isRegisteredPerAddress=? checkedOut=? WHERE (contractId=?);";
+            String query = """
+                    UPDATE Contract SET identifier=?, quantity=?, roomId=? ,roomDeposit=?, isFamily=?,
+                    startingDate=?, endingDate=?, isRegisteredPerAddress=? checkedOut=? WHERE (contractId=?);""";
             PreparedStatement ps = myConnection.prepareStatement(query);
 
             ps.setString(1,obj.getIdentifier());
             ps.setInt(2, obj.getQuantity());
-            ps.setInt(3, obj.getRoomDeposit());
-            ps.setBoolean(4, obj.getIsFamily());
-            ps.setDate(5, obj.getStartingDate());
-            ps.setDate(6, obj.getEndingDate());
-            ps.setBoolean(7, obj.getIsRegisteredPerAddress());
-            ps.setBoolean(8, obj.getCheckedOut());
-            ps.setString(9, obj.getContractId());
+            ps.setString(3, obj.getRoomId());
+            ps.setInt(4, obj.getRoomDeposit());
+            ps.setBoolean(5, obj.getIsFamily());
+            ps.setDate(6, obj.getStartingDate());
+            ps.setDate(7, obj.getEndingDate());
+            ps.setBoolean(8, obj.getIsRegisteredPerAddress());
+            ps.setBoolean(9, obj.getCheckedOut());
+            ps.setString(10, obj.getContractId());
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
-        return 0;
+        return -1;
     }
 
     // Overload
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Contract SET identifier=?, quantity=? ,roomDeposit=?, isFamily=?, startingDate=?," +
-                    "endingDate=?, isRegisteredPerAddress=? checkedOut=? WHERE (contractId=?);";
+            String query = """
+                    UPDATE Contract SET identifier=?, quantity=?, roomId=? ,roomDeposit=?, isFamily=?,
+                    startingDate=?, endingDate=?, isRegisteredPerAddress=? checkedOut=? WHERE (contractId=?);""";
             PreparedStatement ps = myConnection.prepareStatement(query);
 
-            ps.setString(1,values[1]);
+            ps.setString(1, values[1]);
             ps.setInt(2, Integer.parseInt(values[2]));
-            ps.setInt(3, Integer.parseInt(values[3]));
-            ps.setBoolean(4, values[4].equals("1"));
-            ps.setDate(5,Date.valueOf(Configs.stringToDate(values[5])));
+            ps.setString(3, values[3]);
+            ps.setInt(4, Integer.parseInt(values[4]));
+            ps.setBoolean(5, values[5].equals("1"));
             ps.setDate(6, Date.valueOf(Configs.stringToDate(values[6])));
-            ps.setBoolean(7, values[7].equals("1"));
+            ps.setDate(7, Date.valueOf(Configs.stringToDate(values[7])));
             ps.setBoolean(8, values[8].equals("1"));
-            ps.setString(9, values[0]);
+            ps.setBoolean(9, values[9].equals("1"));
+            ps.setString(10, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
         }
-        return 0;
+        return -1;
     }
 
     public int updateContractStatus(String[] values) {
@@ -146,16 +156,16 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public ContractModel selectById (String id) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = ("SELECT * FROM Contract WHERE (contractId=?)");
+            String query = "SELECT * FROM Contract WHERE contractId=?";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next())
                 return new ContractModel(rs.getString("contractId"), rs.getString("identifier"),
-                    rs.getInt("quantity"), rs.getInt("roomDeposit"),
-                    rs.getBoolean("isFamily"), rs.getDate("startingDate"),
-                    rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
-                    rs.getBoolean("isRegisteredPerAddress"));
+                        rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
+                        rs.getBoolean("isFamily"), rs.getDate("startingDate"),
+                        rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
+                        rs.getBoolean("isRegisteredPerAddress"));
             else
                 return null;
         } catch (SQLException e) {
@@ -175,7 +185,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new ContractModel(rs.getString("contractId"), rs.getString("identifier"),
-                        rs.getInt("quantity"), rs.getInt("roomDeposit"),
+                        rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
                         rs.getBoolean("isFamily"), rs.getDate("startingDate"),
                         rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
                         rs.getBoolean("isRegisteredPerAddress")));
@@ -193,12 +203,12 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public ArrayList<ContractModel> selectByCondition(String condition) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            PreparedStatement ps = myConnection.prepareStatement("SELECT * FROM Contract " + condition);
+            PreparedStatement ps = myConnection.prepareStatement("SELECT * FROM Contract" + condition);
             ArrayList<ContractModel> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new ContractModel(rs.getString("contractId"), rs.getString("identifier"),
-                        rs.getInt("quantity"), rs.getInt("roomDeposit"),
+                        rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
                         rs.getBoolean("isFamily"), rs.getDate("startingDate"),
                         rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
                         rs.getBoolean("isRegisteredPerAddress")));
@@ -212,25 +222,56 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         return null;
     }
 
+    public ArrayList<HashMap<String, String>> selectAllPersonWithContractTableFormat(String contractConditionQuery) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            ResultSet rs = myConnection.prepareStatement(
+                    """
+                    SELECT Contract.identifier, SimplePerson.lastName, SimplePerson.firstName FROM Contract
+                    INNER JOIN (SELECT Person.identifier, lastName, firstName FROM Person) AS SimplePerson
+                    ON SimplePerson.identifier = Contact.identifier\s""" + contractConditionQuery
+            ).executeQuery();
+
+            ArrayList<HashMap<String, String>> result = new ArrayList<>();
+            while (rs.next()) {
+                HashMap<String, String> tempMap = new HashMap<>();
+                tempMap.put("contractId", rs.getString("contractId"));
+                tempMap.put("identifier", rs.getString("identifier"));
+                tempMap.put("roomId", rs.getString("roomId"));
+                tempMap.put("quantity", Integer.toString(rs.getInt("quantity")));
+                tempMap.put("roomDeposit", Integer.toString(rs.getInt("roomDeposit")));
+                tempMap.put("isFamily", Boolean.toString(rs.getBoolean("isFamily")));
+                tempMap.put("startingDate", dateFormat.format(rs.getDate("startingDate")));
+                tempMap.put("endingDate", dateFormat.format(rs.getDate("endingDate")));
+                tempMap.put("checkedOut", Boolean.toString(rs.getBoolean("checkedOut")));
+                tempMap.put("isRegisteredPerAddress", Boolean.toString(rs.getBoolean("isRegisteredPerAddress")));
+                tempMap.put("fullName", rs.getString("lastName") + " " + rs.getString("firstName"));
+                result.add(tempMap);
+            }
+            return result;
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return null;
+    }
+
     public ContractModel selectLastContractByRoomId(String roomId) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            PreparedStatement ps = myConnection.prepareStatement(
-                    "SELECT Contract.*, SimplePerson.roomId FROM Contract" +
-                    "INNER JOIN (SELECT Person.identifier, roomId FROM Person WHERE roomId=?) AS SimplePerson" +
-                    "ON SimplePerson.identifier = Contract.identifier" +
-                    "ORDER BY Contract.startingDate DESC LIMIT 1"
-            );
+            PreparedStatement ps = myConnection.prepareStatement("""
+                            SELECT * FROM Contract
+                            WHERE (roomId=? AND startingDate=(SELECT MAX(startingDate) FROM Contract WHERE roomId=?)""");
             ps.setString(1, roomId);
             ResultSet rs = ps.executeQuery();
-            if (rs.next())
-                return new ContractModel(rs.getString("contractId"),rs.getString("identifier"),
-                        rs.getInt("quantity"), rs.getInt("roomDeposit"),
+            if (rs.next()) {
+                return new ContractModel(rs.getString("contractId"), rs.getString("identifier"),
+                        rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
                         rs.getBoolean("isFamily"), rs.getDate("startingDate"),
                         rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
                         rs.getBoolean("isRegisteredPerAddress"));
-            else
-                return null;
+            }
         } catch (SQLException e) {
             e.fillInStackTrace();
         } finally {

@@ -5,6 +5,7 @@ import java.sql.Date;
 public class ContractModel {
     private String contractId;
     private String identifier;
+    private String roomId;
     private int quantity;
     private int roomDeposit;
     private boolean isFamily;
@@ -13,11 +14,12 @@ public class ContractModel {
     private boolean checkedOut;
     private boolean isRegisteredPerAddress;
 
-    public ContractModel (String contractId , String identifier, int quantity , int roomDeposit,
+    public ContractModel (String contractId , String identifier, String roomId, int quantity , int roomDeposit,
                           boolean isFamily, Date startingDate , Date endingDate, boolean checkedOut,
                           boolean isRegisteredPerAddress) {
         this.contractId = contractId;
         this.identifier = identifier;
+        this.roomId = roomId;
         this.quantity = quantity;
         this.roomDeposit = roomDeposit;
         this.startingDate = startingDate;
@@ -30,6 +32,7 @@ public class ContractModel {
     // Getters
     public String getContractId() { return contractId; }
     public String getIdentifier() { return identifier; }
+    public String getRoomId() { return roomId; }
     public int getQuantity() { return quantity; }
     public int getRoomDeposit() { return roomDeposit; }
     public boolean getIsFamily() { return isFamily; }
@@ -41,6 +44,7 @@ public class ContractModel {
     // Setters
     public void setContractId(String contractId) { this.contractId = contractId; }
     public void setIdentifier(String identifier) { this.identifier = identifier; }
+    public void setRoomId(String roomId) { this.roomId = roomId; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
     public void setRoomDeposit(int roomDeposit) { this.roomDeposit = roomDeposit; }
     public void setFamily(boolean family) { isFamily = family; }
