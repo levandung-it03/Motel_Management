@@ -141,6 +141,9 @@ public class Controller_Contract {
         HashMap<String, String[]> selectedPersons = PersonDAO.getInstance()
                 .selectAllPersonWithContractTableFormat(conditionQuery);
 
+        if (selectedContracts.isEmpty() || selectedPersons == null)
+            return new String[0][9];
+
         String[][] contracts = new String[selectedContracts.size()][9];
         for (int i = 0; i < selectedContracts.size(); i++) {
             contracts[i][0] = selectedContracts.get(i).getContractId();
