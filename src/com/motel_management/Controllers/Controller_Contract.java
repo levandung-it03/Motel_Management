@@ -52,6 +52,7 @@ public class Controller_Contract {
         String[] contractData = new String[] {
                 contractId,
                 data.get("identifier"),
+                data.get("roomId"),
                 data.get("quantity"),
                 data.get("roomDeposit"),
                 data.get("isFamily"),
@@ -63,7 +64,6 @@ public class Controller_Contract {
         
         String[] personData = new String[] {
                 data.get("identifier"),
-                data.get("roomId"),
                 data.get("lastName"),
                 data.get("firstname"),
                 data.get("birthday"),
@@ -133,23 +133,18 @@ public class Controller_Contract {
                 ? "WHERE checkedOut=0\n"
                 : "WHERE YEAR(startingDate)=\"" + year + "\"\n"
         );
-        ArrayList<ContractModel> selectedContracts = ContractDAO.getInstance().selectByCondition(conditionQuery);
-
-        // selectedPersons = { identifier: new String[] {roomId, fullName} }
-        HashMap<String, String[]> selectedPersons = PersonDAO.getInstance().selectAllPersonWithContractTableFormat(conditionQuery);
-
-        if (selectedPersons == null || selectedContracts == null)
-            return new String[0][9];
+        ArrayList<HashMap<String, String>> selectedContracts = ContractDAO.getInstance()
+                .selectAllPersonWithContractTableFormat(conditionQuery);
 
         String[][] contracts = new String[selectedContracts.size()][9];
         for (int i = 0; i < selectedContracts.size(); i++) {
-            contracts[i][0] = selectedContracts.get(i).getContractId();
-            contracts[i][1] = selectedPersons.get(selectedContracts.get(i).getIdentifier())[0];
-            contracts[i][2] = selectedContracts.get(i).getIdentifier();
-            contracts[i][3] = selectedPersons.get(selectedContracts.get(i).getIdentifier())[1];
-            contracts[i][4] = selectedContracts.get(i).getCheckedOut() ? "NO" : "YES";
-            contracts[i][5] = dateFormat.format(selectedContracts.get(i).getStartingDate());
-            contracts[i][6] = dateFormat.format(selectedContracts.get(i).getEndingDate());
+            contracts[i][0] = selectedContracts.get(i).get("contractId");
+            contracts[i][1] = selectedContracts.get(i).get("roomId");
+            contracts[i][2] = selectedContracts.get(i).get("identifier");
+            contracts[i][3] = selectedContracts.get(i).get("fullName");
+            contracts[i][4] = selectedContracts.get(i).get("checkedOut");
+            contracts[i][5] = selectedContracts.get(i).get("startingDate");
+            contracts[i][6] = selectedContracts.get(i).get("endingDate");
             contracts[i][7] = "View";
             contracts[i][8] = "Delete";
         }
