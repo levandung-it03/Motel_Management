@@ -263,8 +263,8 @@ public class PersonDAO implements DAOInterface<PersonModel>{
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             ResultSet rs = myConnection.prepareStatement(
-                    "SELECT identifier, lastName, firstName, roomId FROM Person" +
-                    "INNER JOIN (" +
+                    "SELECT Person.identifier, lastName, firstName, roomId FROM Person\n" +
+                    "INNER JOIN (\n" +
                             "SELECT Contract.identifier FROM Contract " + contractConditionQuery +
                     ") AS SimpleContract ON SimpleContract.identifier = Person.identifier;"
             ).executeQuery();

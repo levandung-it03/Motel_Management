@@ -146,16 +146,20 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public ContractModel selectById (String id) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = ("SELECT * FROM Contract WHERE (contractId=?)");
+            String query = ("""
+                    SELECT Contract.*, SimplePerson.roomId FROM Contract
+                    INNER JOIN (SELECT Person.identifier, roomId FROM Person) AS SimplePerson
+                    ON SimplePerson.identifier = Contract.identifier
+                    WHERE (contractId=?)""");
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next())
                 return new ContractModel(rs.getString("contractId"), rs.getString("identifier"),
-                    rs.getInt("quantity"), rs.getInt("roomDeposit"),
-                    rs.getBoolean("isFamily"), rs.getDate("startingDate"),
-                    rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
-                    rs.getBoolean("isRegisteredPerAddress"));
+                        rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
+                        rs.getBoolean("isFamily"), rs.getDate("startingDate"),
+                        rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
+                        rs.getBoolean("isRegisteredPerAddress"));
             else
                 return null;
         } catch (SQLException e) {
@@ -170,12 +174,15 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public ArrayList<ContractModel> selectAll () {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            PreparedStatement ps = myConnection.prepareStatement("SELECT * FROM Contract");
+            PreparedStatement ps = myConnection.prepareStatement("""
+                    SELECT Contract.*, SimplePerson.roomId FROM Contract
+                    INNER JOIN (SELECT Person.identifier, roomId FROM Person) AS SimplePerson
+                    ON SimplePerson.identifier = Contract.identifier""");
             ArrayList<ContractModel> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new ContractModel(rs.getString("contractId"), rs.getString("identifier"),
-                        rs.getInt("quantity"), rs.getInt("roomDeposit"),
+                        rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
                         rs.getBoolean("isFamily"), rs.getDate("startingDate"),
                         rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
                         rs.getBoolean("isRegisteredPerAddress")));
@@ -193,12 +200,15 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public ArrayList<ContractModel> selectByCondition(String condition) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            PreparedStatement ps = myConnection.prepareStatement("SELECT * FROM Contract " + condition);
+            PreparedStatement ps = myConnection.prepareStatement("""
+                    SELECT Contract.*, SimplePerson.roomId FROM Contract
+                    INNER JOIN (SELECT Person.identifier, roomId FROM Person) AS SimplePerson
+                    ON SimplePerson.identifier = Contract.identifier""" + condition);
             ArrayList<ContractModel> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new ContractModel(rs.getString("contractId"), rs.getString("identifier"),
-                        rs.getInt("quantity"), rs.getInt("roomDeposit"),
+                        rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
                         rs.getBoolean("isFamily"), rs.getDate("startingDate"),
                         rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
                         rs.getBoolean("isRegisteredPerAddress")));
@@ -215,22 +225,20 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public ContractModel selectLastContractByRoomId(String roomId) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            PreparedStatement ps = myConnection.prepareStatement(
-                    "SELECT Contract.*, SimplePerson.roomId FROM Contract" +
-                    "INNER JOIN (SELECT Person.identifier, roomId FROM Person WHERE roomId=?) AS SimplePerson" +
-                    "ON SimplePerson.identifier = Contract.identifier" +
-                    "ORDER BY Contract.startingDate DESC LIMIT 1"
-            );
+            PreparedStatement ps = myConnection.prepareStatement("""
+                            SELECT Contract.*, SimplePerson.roomId FROM Contract
+                            INNER JOIN (SELECT Person.identifier, roomId FROM Person WHERE roomId=?) AS SimplePerson
+                            ON SimplePerson.identifier = Contract.identifier
+                            ORDER BY Contract.startingDate DESC LIMIT 1""");
             ps.setString(1, roomId);
             ResultSet rs = ps.executeQuery();
-            if (rs.next())
-                return new ContractModel(rs.getString("contractId"),rs.getString("identifier"),
-                        rs.getInt("quantity"), rs.getInt("roomDeposit"),
+            if (rs.next()) {
+                return new ContractModel(rs.getString("contractId"), rs.getString("identifier"),
+                        rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
                         rs.getBoolean("isFamily"), rs.getDate("startingDate"),
                         rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
                         rs.getBoolean("isRegisteredPerAddress"));
-            else
-                return null;
+            }
         } catch (SQLException e) {
             e.fillInStackTrace();
         } finally {
