@@ -13,12 +13,12 @@ import java.util.HashMap;
 public class InvoicesOfRoomDialogListeners {
     public InvoicesOfRoomDialogListeners() {}
 
-    public static ActionListener viewDetailInvoice(InvoiceModel invoice, JDialog parentDialog) {
+    public static ActionListener viewDetailInvoice(InvoiceModel invoice, int roomPrice, JDialog parentDialog) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Dialog_DetailInvoice detailDialog =
-                        new Dialog_DetailInvoice(Controller_Invoices.getInvoiceByInvoiceId(invoice.getInvoiceId()), parentDialog);
+                Dialog_DetailInvoice detailDialog = new Dialog_DetailInvoice(Controller_Invoices
+                        .getInvoiceByInvoiceId(invoice.getInvoiceId()), roomPrice, parentDialog);
             }
         };
     }

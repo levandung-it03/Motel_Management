@@ -112,28 +112,26 @@ CREATE TABLE Invoice(
     CONSTRAINT UK_Invoice UNIQUE (roomId, paymentMonth, paymentYear)
 );
 
-INSERT INTO Account VALUES ("admin000", "Root", "root", "$2a$10$j2WJzi7wT1BazuUsnKa8vOmbanLacmKc042wJLWWUxMK5eM3zPXjS");
 // MK: root#123
-INSERT INTO Room VALUES ("P001", 0, 9, 3000000), ("P002", 0, 9, 3000000), ("P003", 0, 9, 3000000), ("P004", 0, 9, 3000000), ("P005", 0, 9, 3000000),
-("P006", 0, 9, 3000000);
+INSERT INTO Account VALUES ("admin000", "Root", "root", "$2a$10$j2WJzi7wT1BazuUsnKa8vOmbanLacmKc042wJLWWUxMK5eM3zPXjS");
 
 INSERT INTO Room
 VALUES
-("P001", 0, 9, 3000000),
-("P002", 0, 9, 3000000),
-("P003", 0, 9, 3000000),
-("P004", 0, 9, 3000000),
-("P005", 0, 9, 3000000),
-("P006", 0, 9, 3000000),
-("P007", 0, 9, 3000000);
+("P001", 0, 9),
+("P002", 0, 9),
+("P003", 0, 9),
+("P004", 0, 9),
+("P005", 0, 9),
+("P006", 0, 9),
+("P007", 0, 9);
 
 INSERT INTO Person (identifier, roomId, lastName, firstName, birthday, phone, gender, jobTitle, permanentAddress, email, bankAccountNumber, bank)
 VALUES
-('038203032574', 'P001', 'Le Van', 'Dung', '1990-01-15', '123456789', '0', 'Manager', '123 Main St', 'vana@example.com', '123-456-789', 'ACB'),
-('038203032575', 'P002', 'Le Van', 'Duong', '1985-05-20', '987654321', '0', 'Engineer', '456 Oak St', 'thib@example.com', '987-654-321', 'Vietcombank'),
-('038203032576', 'P002', 'Le Van', 'Hung', '1985-05-20', '987654321', '0', 'Engineer', '456 Oak St', 'thia@example.com', '987-654-321', 'Vietcombank'),
-('038203032577', 'P002', 'Tran Thi', 'An', '1985-05-20', '987654321', '1', 'Engineer', '456 Oak St', 'thic@example.com', '987-654-321', 'Vietcombank'),
-('038203032578', 'P003', 'Le Duc', 'Thai', '1995-08-10', '456123789', '0', 'Analyst', '789 Pine St', 'ducc@example.com', '456-123-789', 'Techcombank');
+('038203032574', 'P001', 'Le Van', 'Dung', '1990-01-15', '123456789', '0', 'Manager', '123 Main St', 'vana@example.com', '21097877', 'ACB'),
+('038203032575', 'P002', 'Le Van', 'Duong', '1985-05-20', '987654321', '0', 'Engineer', '456 Oak St', 'thib@example.com', '987654321', 'Vietcombank'),
+('038203032576', 'P002', 'Le Van', 'Hung', '1985-05-20', '987654321', '0', 'Engineer', '456 Oak St', 'thia@example.com', '987654321', 'Vietcombank'),
+('038203032577', 'P002', 'Tran Thi', 'An', '1985-05-20', '987654321', '1', 'Engineer', '456 Oak St', 'thic@example.com', '987654321', 'Vietcombank'),
+('038203032578', 'P003', 'Le Duc', 'Thai', '1995-08-10', '456123789', '0', 'Analyst', '789 Pine St', 'ducc@example.com', '456123789', 'Techcombank');
 
 INSERT INTO Contract
 VALUES
@@ -142,3 +140,15 @@ VALUES
 ("C1000003", "038203032576", 5, 1000000, "0", "2024-05-19", "2024-08-19", "0", "1"),
 ("C1000004", "038203032577", 5, 1000000, "0", "2024-09-19", "2024-12-19", "0", "0"),
 ("C1000005", "038203032578", 5, 1000000, "0", "2024-09-29", "2024-11-19", "0", "0");
+
+INSERT INTO RoomPriceHistory
+VALUES
+("P001", "2024-01-19", 3000000),
+("P001", "2024-01-20", 4000000),
+("P001", "2024-01-21", 4000000),
+("P002", "2024-01-19", 3000000),
+("P002", "2024-01-20", 4000000),
+("P002", "2024-01-21", 5000000),
+("P003", "2024-01-19", 3000000),
+("P003", "2024-01-20", 2000000),
+("P003", "2024-01-21", 4000000);

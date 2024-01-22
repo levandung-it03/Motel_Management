@@ -31,7 +31,11 @@ public class Controller_Statistic {
                 LocalDate.now().getYear() +"\" AND wasPaid = 1");
         int totalYearRevenue =0;
         for (InvoiceModel invoiceModel : result) {
-            totalYearRevenue += invoiceModel.getTotal();
+            int currentRoomPrice = RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(invoiceModel.getRoomId());
+            int total = invoiceModel.getElectricPrice()+invoiceModel.getWaterPrice()+
+                    invoiceModel.getGarbage()+invoiceModel.getWifi()+invoiceModel.getVehicle()+
+                    currentRoomPrice;
+            totalYearRevenue+=total;
         }
         return totalYearRevenue;
     }
@@ -41,13 +45,14 @@ public class Controller_Statistic {
         Object[][] rooms = new Object[result.size()][4];
         for (int i = 0; i < result.size(); i++) {
             RoomModel roomResult = RoomDAO.getInstance().selectById(result.get(i).getRoomId());
+            int roomPriceResult = RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(result.get(i).getRoomId());
             rooms[i][0] = result.get(i).getRoomId();
             rooms[i][1] = result.get(i).getLastName()+ " " +result.get(i).getFirstName();
             rooms[i][2] = roomResult.getQuantity();
             if (roomResult.getQuantity() == -1){
                 rooms[i][2] = "Unknown";
             }
-            rooms[i][3] = Configs.convertStringToVNDCurrency(roomResult.getDefaultRoomPrice());
+            rooms[i][3] = Configs.convertStringToVNDCurrency(roomPriceResult);
         }
         return rooms;
     }
@@ -61,8 +66,12 @@ public class Controller_Statistic {
             int totalRevenueYear =0;
             int totalProfitYear =0;
             for (InvoiceModel invoiceModel : result) {
-                totalRevenueYear += invoiceModel.getTotal();
-                totalProfitYear += invoiceModel.getDefaultRoomPrice();
+                int currentRoomPrice = RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(invoiceModel.getRoomId());
+                int total = invoiceModel.getElectricPrice()+invoiceModel.getWaterPrice()+
+                        invoiceModel.getGarbage()+invoiceModel.getWifi()+invoiceModel.getVehicle()+
+                        currentRoomPrice;
+                totalRevenueYear += total;
+                totalProfitYear += currentRoomPrice;
             }
             revenue[i][0] = LocalDate.now().getYear()-4+i;
             revenue[i][1] = Configs.convertStringToVNDCurrency(String.valueOf(totalRevenueYear));
@@ -84,8 +93,12 @@ public class Controller_Statistic {
             int totalRevenue=0;
             int totalProfit=0;
             for (InvoiceModel invoiceModel : result) {
-                totalRevenue += invoiceModel.getTotal();
-                totalProfit += invoiceModel.getDefaultRoomPrice();
+                int currentRoomPrice = RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(invoiceModel.getRoomId());
+                int total = invoiceModel.getElectricPrice()+invoiceModel.getWaterPrice()+
+                        invoiceModel.getGarbage()+invoiceModel.getWifi()+invoiceModel.getVehicle()+
+                        currentRoomPrice;
+                totalRevenue += total;
+                totalProfit += currentRoomPrice;
             }
             revenue[i][0] = i+1;
             revenue[i][1] = Configs.convertStringToVNDCurrency(String.valueOf(totalRevenue));

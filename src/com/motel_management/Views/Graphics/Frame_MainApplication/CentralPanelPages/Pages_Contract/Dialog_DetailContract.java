@@ -1,5 +1,6 @@
 package com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Contract;
 
+import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.Models.ContractModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainApplication;
@@ -55,7 +56,7 @@ public class Dialog_DetailContract extends JDialog {
         leftColumn.add(new JLabel("Register Temporary Address:"));
 
         JPanel rightColumn = new JPanel(new GridLayout(11, 0));
-        rightColumn.add(new JLabel(this.contract.getRoomId()));
+        rightColumn.add(new JLabel(PersonDAO.getInstance().selectById(this.contract.getIdentifier()).getRoomId()));
         rightColumn.add(new JLabel(this.contract.getCheckedOut() ? "NO" : "YES"));
         rightColumn.add(new JLabel(this.contract.getIdentifier()));
         rightColumn.add(new JLabel(this.fullName));

@@ -135,12 +135,17 @@ public class Controller_Contract {
                 year.equals("0")
                         ? "WHERE checkedOut=\"0\""
                         : "WHERE YEAR(startingDate)=\"" + year + "\""
-        ) + "ORDER BY roomId ASC, checkedOut ASC";
-
+        );
+//  + "ORDER BY roomId ASC, checkedOut ASC";
         ArrayList<ContractModel> selectedContracts = ContractDAO.getInstance()
                 .selectByCondition(conditionQuery);
-        HashMap<String, String[]> selectedPersons =
-                PersonDAO.getInstance().selectAllPersonWithContractTableFormat(conditionQuery);
+
+        // selectedPersons = { identifier: new String[] {roomId, fullName} }
+        HashMap<String, String[]> selectedPersons = PersonDAO.getInstance()
+                .selectAllPersonWithContractTableFormat(conditionQuery);
+
+        if (selectedContracts.isEmpty() || selectedPersons == null)
+            return new String[0][9];
 
         String[][] contracts = new String[selectedContracts.size()][9];
         for (int i = 0; i < selectedContracts.size(); i++) {
