@@ -17,6 +17,17 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
 
     @Override
     public int delete(String id) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            String query = "DELETE FROM RoomPriceHistory WHERE roomId=?";
+            PreparedStatement ps = myConnection.prepareStatement(query);
+            ps.setString(1, id);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
         return 0;
     }
 
@@ -120,7 +131,7 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setInt(1, Integer.parseInt(values[2]));
             ps.setString(2, values[0]);
-            ps.setInt(3, Integer.parseInt(values[1]));
+            ps.setDate(3, Date.valueOf(values[1]));
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();

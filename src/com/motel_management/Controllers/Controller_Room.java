@@ -2,10 +2,12 @@ package com.motel_management.Controllers;
 
 import com.motel_management.DataAccessObject.*;
 import com.motel_management.Models.*;
+import com.motel_management.Views.Configs;
 import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainApplication;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,7 +78,7 @@ public class Controller_Room {
         for (int i = 0; i < result.size(); i++) {
             rooms[i][0] = result.get(i).getRoomId();
             ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition("WHERE roomId=\"" +
-                    result.get(i).getRoomId() + "\" AND isOccupied = 0");
+                    result.get(i).getRoomId() + "\" AND isOccupied = 1");
             if (personResult == null || personResult.isEmpty()) {
                 rooms[i][1] = "Unknown";
             } else {
@@ -106,7 +108,8 @@ public class Controller_Room {
     }
 
     public static int updateRoom(String[] data) {
-        return RoomDAO.getInstance().update(data);
+        return RoomDAO.getInstance().update(new String[]{data[0],data[1],data[2]})
+                * RoomPriceHistoryDAO.getInstance().update(new String[]{data[0], String.valueOf(LocalDate.now()),data[3]});
     }
 
     public static int resetRoomStatus(String[] data) {
@@ -132,7 +135,10 @@ public class Controller_Room {
     }
 
     public static int deleteById(String id) {
-        return RoomDAO.getInstance().delete(id);
+        if (ContractDAO.getInstance().selectByCondition("WHERE roomId = \""+id+"\"").isEmpty()){
+            return RoomPriceHistoryDAO.getInstance().delete(id) * RoomDAO.getInstance().delete(id);
+        }
+        return 0;
     }
 
     public static int validateCheckOut(String roomId) {
@@ -180,5 +186,18 @@ public class Controller_Room {
         ArrayList<ContractModel> contractId = ContractDAO.getInstance().selectByCondition("WHERE roomId = \"" +
                 roomId + "\" AND checkedOut = 0");
         return contractId.getFirst();
+    }
+    public static Object[][] getAllRoomPriceHistoryByYearWithTableFormat(String year) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        ArrayList<RoomPriceHistoryModel> result = RoomPriceHistoryDAO.getInstance()
+                .selectByCondition("WHERE YEAR(priceRaisedDate)=\"" + year + "\"");
+
+        Object[][] checkouts = new Object[result.size()][3];
+        for (int i = 0; i < result.size(); i++) {
+            checkouts[i][0] = result.get(i).getRoomId();
+            checkouts[i][1] = Configs.convertStringToVNDCurrency(result.get(i).getRoomPrice());
+            checkouts[i][2] = sdf.format(result.get(i).getPriceRaisedDate());
+        }
+        return checkouts;
     }
 }

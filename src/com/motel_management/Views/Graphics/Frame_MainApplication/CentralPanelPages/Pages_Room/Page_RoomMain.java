@@ -10,6 +10,7 @@ public class Page_RoomMain extends JPanel{
     private JTabbedPane mainTabbedPane;
     private JPanel roomsListPanel;
     private JPanel addRoomPanel;
+    private JPanel roomPriceHistoryPanel;
     private final Frame_MainApplication mainFrameApp;
 
     // Constructor
@@ -25,12 +26,15 @@ public class Page_RoomMain extends JPanel{
         mainTabbedPane = new JTabbedPane(JTabbedPane.TOP);
         roomsListPanel = new Page_RoomList(mainFrameApp);
         addRoomPanel = new Page_AddRoom();
+        roomPriceHistoryPanel = new Page_RoomPriceHistory();
 
         roomsListPanel.setBackground(Configs.mainWhiteBackground);
         addRoomPanel.setBackground(Configs.mainWhiteBackground);
+        roomPriceHistoryPanel.setBackground(Configs.mainWhiteBackground);
 
         mainTabbedPane.add("Rooms List", roomsListPanel);
         mainTabbedPane.add("Add New Room", addRoomPanel);
+        mainTabbedPane.add("Room Price History", roomPriceHistoryPanel);
 
         add(mainTabbedPane);
     }
@@ -42,9 +46,12 @@ public class Page_RoomMain extends JPanel{
                 if (mainTabbedPane.getSelectedIndex() == 0) {
                     roomsListPanel = new Page_RoomList(mainFrameApp);
                     mainTabbedPane.setComponentAt(0, roomsListPanel);
-                } else {
+                } else if (mainTabbedPane.getSelectedIndex() == 1) {
                     addRoomPanel = new Page_AddRoom();
                     mainTabbedPane.setComponentAt(1, addRoomPanel);
+                }else {
+                    roomPriceHistoryPanel = new Page_RoomPriceHistory();
+                    mainTabbedPane.setComponentAt(2, roomPriceHistoryPanel);
                 }
             }
         });
