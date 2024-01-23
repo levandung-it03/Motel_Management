@@ -67,7 +67,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
     public int update(RoomModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE Room SET  quantity=?, maxQuantity=?, WHERE (roomId=?);";
+            String query = "UPDATE Room SET quantity=?, maxQuantity=? WHERE (roomId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setInt(1, obj.getQuantity());
             ps.setInt(2, obj.getMaxQuantity());
@@ -80,6 +80,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
         }
         return 0;
     }
+
     // OverLOAD
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
@@ -97,6 +98,7 @@ public class RoomDAO implements DAOInterface<RoomModel> {
         }
         return 0;
     }
+
     public int resetRoomStatus(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
@@ -190,4 +192,5 @@ public class RoomDAO implements DAOInterface<RoomModel> {
         }
         return null;
     }
+
 }

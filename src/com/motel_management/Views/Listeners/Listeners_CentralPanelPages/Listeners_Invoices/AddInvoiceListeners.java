@@ -37,22 +37,20 @@ public class AddInvoiceListeners {
         inpTags.get("defaultRoomPrice").setText(Integer.toString(roomPrice));
 
         lastInvoiceOfRoom = Controller_Invoices.getLastInvoice(roomIdValue);
+        if (LocalDateTime.now().getMonthValue() == 1) {
+            inpTags.get("paymentMonth").setText(Integer.toString(12));
+            inpTags.get("paymentYear").setText(Integer.toString(currentYear - 1));
+        } else {
+            inpTags.get("paymentMonth").setText(Integer.toString(currentMonth - 1));
+            inpTags.get("paymentYear").setText(Integer.toString(currentYear));
+        }
         if (lastInvoiceOfRoom != null) {
-            if (LocalDateTime.now().getMonthValue() == 1) {
-                inpTags.get("paymentMonth").setText(Integer.toString(12));
-                inpTags.get("paymentYear").setText(Integer.toString(currentYear - 1));
-            } else {
-                inpTags.get("paymentMonth").setText(Integer.toString(currentMonth - 1));
-                inpTags.get("paymentYear").setText(Integer.toString(currentYear));
-            }
             inpTags.get("formerElectricNumber").setText(lastInvoiceOfRoom.get("newElectricNumber"));
             inpTags.get("formerWaterNumber").setText(lastInvoiceOfRoom.get("newWaterNumber"));
             inpTags.get("garbage").setText(lastInvoiceOfRoom.get("garbage"));
             inpTags.get("wifi").setText(lastInvoiceOfRoom.get("wifi"));
             inpTags.get("vehicle").setText(lastInvoiceOfRoom.get("vehicle"));
         } else {
-            inpTags.get("paymentYear").setText(Integer.toString(currentYear));
-            inpTags.get("paymentMonth").setText(Integer.toString(currentMonth - 1));
             inpTags.get("formerElectricNumber").setText("");
             inpTags.get("formerWaterNumber").setText("");
             inpTags.get("garbage").setText("");

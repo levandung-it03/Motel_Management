@@ -42,7 +42,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public int insert (String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Contract VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Contract VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[0]);
             ps.setString(2,values[1]);
@@ -203,7 +203,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public ArrayList<ContractModel> selectByCondition(String condition) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            PreparedStatement ps = myConnection.prepareStatement("SELECT * FROM Contract" + condition);
+            PreparedStatement ps = myConnection.prepareStatement("SELECT * FROM Contract " + condition);
             ArrayList<ContractModel> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -227,9 +227,9 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         try {
             ResultSet rs = myConnection.prepareStatement(
                     """
-                    SELECT Contract.identifier, SimplePerson.lastName, SimplePerson.firstName FROM Contract
+                    SELECT Contract.*, SimplePerson.lastName, SimplePerson.firstName FROM Contract
                     INNER JOIN (SELECT Person.identifier, lastName, firstName FROM Person) AS SimplePerson
-                    ON SimplePerson.identifier = Contact.identifier\s""" + contractConditionQuery
+                    ON SimplePerson.identifier = Contract.identifier\s""" + contractConditionQuery
             ).executeQuery();
 
             ArrayList<HashMap<String, String>> result = new ArrayList<>();

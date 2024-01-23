@@ -164,7 +164,7 @@ public class Controller_Invoices {
 
         String invoiceId = "I" + Configs.generateIdTail();
         LocalDateTime d = LocalDateTime.now();
-        int addResult = InvoiceDAO.getInstance().insert(new String[] {
+        int addResult = InvoiceDAO.getInstance().insert(new String[]{
                 invoiceId,
                 data.get("roomId"),
                 data.get("defaultRoomPrice"),
@@ -194,36 +194,34 @@ public class Controller_Invoices {
     }
 
     public static ArrayList<String[]> getAllLastInvoicesOfRoomWithTableFormat() {
-        ArrayList<String> rooms = RoomDAO.getInstance().selectAllOccupiedRoomId();
         ArrayList<String[]> result = new ArrayList<>();
+
         HashMap<String, RoomPriceHistoryModel> roomPriceList = Controller_Room.getAllLastPriceOfEachRoom();
-
+        ArrayList<InvoiceModel> newestInvoices = InvoiceDAO.getInstance().selectByCondition("""
+                WHERE(roomId, paymentYear, paymentMonth) IN(
+                    SELECT roomId, MAX(paymentYear), MAX(paymentMonth)FROM Invoice
+                    GROUP BY roomId
+                )
+                ORDER BY roomId ASC
+        """);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        for (String room : rooms) {
-            try {
-                InvoiceModel invoice = InvoiceDAO.getInstance().selectByCondition(
-                        "WHERE roomId=\"" + room + "\" ORDER BY paymentYear DESC, paymentMonth DESC LIMIT 1"
-                ).getFirst();
-
-                String[] eachTempResult = new String[9];
-                eachTempResult[0] = invoice.getRoomId();
-                eachTempResult[1] = "View All";
-                eachTempResult[2] = invoice.getInvoiceId();
-                eachTempResult[3] = Integer.toString(invoice.getPaymentMonth());
-                eachTempResult[4] = Integer.toString(invoice.getPaymentYear());
-                eachTempResult[5] = sdf.format(invoice.getDateCreated());
-                eachTempResult[6] = Configs.convertStringToVNDCurrency(invoice.getGarbage()
-                        + invoice.getWaterPrice()
-                        + invoice.getElectricPrice()
-                        + invoice.getWifi()
-                        + roomPriceList.get(invoice.getRoomId()).getRoomPrice()
-                );
-                eachTempResult[7] = invoice.getWasPaid() ? "NO" : "YES";
-                eachTempResult[8] = "Delete";
-                result.add(eachTempResult);
-            } catch (NullPointerException ignored) {
-                continue;
-            }
+        for (InvoiceModel invoice : newestInvoices) {
+            String[] eachTempResult = new String[9];
+            eachTempResult[0] = invoice.getRoomId();
+            eachTempResult[1] = "View All";
+            eachTempResult[2] = invoice.getInvoiceId();
+            eachTempResult[3] = Integer.toString(invoice.getPaymentMonth());
+            eachTempResult[4] = Integer.toString(invoice.getPaymentYear());
+            eachTempResult[5] = sdf.format(invoice.getDateCreated());
+            eachTempResult[6] = Configs.convertStringToVNDCurrency(invoice.getGarbage()
+                    + invoice.getWaterPrice()
+                    + invoice.getElectricPrice()
+                    + invoice.getWifi()
+                    + roomPriceList.get(invoice.getRoomId()).getRoomPrice()
+            );
+            eachTempResult[7] = invoice.getWasPaid() ? "NO" : "YES";
+            eachTempResult[8] = "Delete";
+            result.add(eachTempResult);
         }
         return result;
     }
@@ -246,8 +244,8 @@ public class Controller_Invoices {
         return InvoiceDAO.getInstance()
                 .selectByCondition(
                         "WHERE roomId=\"" + roomId + "\" " +
-                        "ORDER BY paymentYear DESC, paymentMonth DESC " +
-                        "LIMIT " + (12*currentPage) + ", 12"
+                                "ORDER BY paymentYear DESC, paymentMonth DESC " +
+                                "LIMIT " + (12 * currentPage) + ", 12"
                 );
     }
 
