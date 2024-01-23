@@ -262,7 +262,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         try {
             PreparedStatement ps = myConnection.prepareStatement("""
                             SELECT * FROM Contract
-                            WHERE (roomId=? AND startingDate=(SELECT MAX(startingDate) FROM Contract WHERE roomId=?)""");
+                            WHERE (roomId=? AND startingDate=(SELECT MAX(startingDate) FROM Contract WHERE roomId=?))""");
             ps.setString(1, roomId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
