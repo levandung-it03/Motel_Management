@@ -31,16 +31,18 @@ public class Page_AddContract extends JPanel {
     private final JDateChooser startingDate = new JDateChooser(Date.valueOf(LocalDate.now()));
 
     private final JComboBox<Object> bank = new JComboBox<>(
-            new String[] {"", "ABB", "ACB", "AGRIBANK", "BACABANK", "BID", "CTG", "EIB", "HDBANK", "KLB", "LIENVIET", "MBB",
-            "MSB", "NAMA", "NCB", "OCB", "PGBANK", "PVCOMBANK", "SCB", "SEABANK", "SGB", "SHB", "STB", "TCB", "TPB",
-            "VCB", "VIB", "VIETABANK", "VIETCAPITALBANK", "VPB", "VIETBANK"}
+            new String[]{"", "ABB", "ACB", "AGRIBANK", "BACABANK", "BID", "CTG", "EIB", "HDBANK", "KLB", "LIENVIET", "MBB",
+                    "MSB", "NAMA", "NCB", "OCB", "PGBANK", "PVCOMBANK", "SCB", "SEABANK", "SGB", "SHB", "STB", "TCB", "TPB",
+                    "VCB", "VIB", "VIETABANK", "VIETCAPITALBANK", "VPB", "VIETBANK"}
     );
-    private final JComboBox<Object> gender = new JComboBox<Object>(new String[] {"Men", "Women"});
-    private final JComboBox<Object> isFamily = new JComboBox<Object>(new String[] {"NO", "YES"});
-    private final JComboBox<Object> isRegisteredPerAddress = new JComboBox<Object>(new String[] {"NO", "YES"});
-    private final JComboBox<Object> roomId = AddContractListeners.createRoomIdComboBox();;
+    private final JComboBox<Object> gender = new JComboBox<Object>(new String[]{"Men", "Women"});
+    private final JComboBox<Object> isFamily = new JComboBox<Object>(new String[]{"NO", "YES"});
+    private final JComboBox<Object> isRegisteredPerAddress = new JComboBox<Object>(new String[]{"NO", "YES"});
+    private final JComboBox<Object> roomId = AddContractListeners.createRoomIdComboBox();
+    ;
 
     private final JButton submitBtn = InputComboPanel.generateButton("Submit");
+    private HashMap<String, JTextField> inpTags;
 
     // Constructor
     public Page_AddContract(Page_ContractMain mainTabbedPane) {
@@ -104,6 +106,16 @@ public class Page_AddContract extends JPanel {
         comboTags.put("roomId", roomId);
         comboTags.put("isFamily", isFamily);
         comboTags.put("isRegisteredPerAddress", isRegisteredPerAddress);
+
+        inpTags.get("identifier").setText("123123123132");
+        inpTags.get("lastName").setText("Le Van");
+        inpTags.get("firstname").setText("Dung");
+        inpTags.get("phone").setText("0377863928");
+        inpTags.get("jobTitle").setText("It");
+        inpTags.get("permanentAddress").setText("Bien Hoa, Dong Nai");
+        inpTags.get("email").setText("lvd@gmail.com");
+        inpTags.get("quantity").setText("5");
+        inpTags.get("roomDeposit").setText("300000");
 
         this.submitBtn.addActionListener(AddContractListeners.addNewContractListener(inpTags, dateTags, comboTags, this.mainTabbedPane));
     }

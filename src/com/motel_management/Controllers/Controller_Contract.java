@@ -96,12 +96,13 @@ public class Controller_Contract {
         if (addContractRes == -1) {
             result.put("result", "0");
             result.put("message", "This Person is in this room at starting-date: " + data.get("startingDate"));
+            return result;
         }
 
         RoomModel roomData = RoomDAO.getInstance().selectById(data.get("roomId"));
         roomData.setQuantity(Integer.parseInt(data.get("quantity")));
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
-
+        System.out.println(addContractRes + " " + addPersonRes + " " + updateRoomRes);
         if (addPersonRes * updateRoomRes != 0) {
             result.put("result", "1");
             result.put("message", "New Contract was added!");
@@ -133,7 +134,6 @@ public class Controller_Contract {
     }
 
     public static String[][] getAllContractByYearWithTableFormat(String year) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String conditionQuery = (
                 year.equals("0")
                         ? "WHERE checkedOut=0\n"
@@ -141,6 +141,7 @@ public class Controller_Contract {
         );
         ArrayList<HashMap<String, String>> selectedContracts = ContractDAO.getInstance()
                 .selectAllPersonWithContractTableFormat(conditionQuery);
+
         if (selectedContracts == null)
             return new String[0][9];
 
@@ -150,7 +151,7 @@ public class Controller_Contract {
             contracts[i][1] = selectedContracts.get(i).get("roomId");
             contracts[i][2] = selectedContracts.get(i).get("identifier");
             contracts[i][3] = selectedContracts.get(i).get("fullName");
-            contracts[i][4] = selectedContracts.get(i).get("checkedOut");
+            contracts[i][4] = Boolean.parseBoolean(selectedContracts.get(i).get("checkedOut")) ? "YES" : "NO";
             contracts[i][5] = selectedContracts.get(i).get("startingDate");
             contracts[i][6] = selectedContracts.get(i).get("endingDate");
             contracts[i][7] = "View";
