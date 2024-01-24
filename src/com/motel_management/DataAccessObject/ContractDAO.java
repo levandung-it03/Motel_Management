@@ -260,10 +260,12 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public ContractModel selectLastContractByRoomId(String roomId) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
+            System.out.println(1);
             PreparedStatement ps = myConnection.prepareStatement("""
                             SELECT * FROM Contract
                             WHERE (roomId=? AND startingDate=(SELECT MAX(startingDate) FROM Contract WHERE roomId=?))""");
             ps.setString(1, roomId);
+            ps.setString(2, roomId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new ContractModel(rs.getString("contractId"), rs.getString("identifier"),
@@ -272,6 +274,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
                         rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
                         rs.getBoolean("isRegisteredPerAddress"));
             }
+
         } catch (SQLException e) {
             e.fillInStackTrace();
         } finally {

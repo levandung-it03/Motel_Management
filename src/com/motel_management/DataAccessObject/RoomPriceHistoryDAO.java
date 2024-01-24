@@ -269,4 +269,24 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
         }
         return 0;
     }
+
+    public RoomPriceHistoryModel selectCurrentRoomPriceHistoryWithRoomId(String roomId) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            PreparedStatement ps = myConnection.prepareStatement(
+                    "SELECT * FROM RoomPriceHistory WHERE roomId=? ORDER BY priceRaisedDate DESC LIMIT 1"
+            );
+            ps.setString(1, roomId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new RoomPriceHistoryModel(roomId, rs.getDate("priceRaisedDate"),
+                        rs.getInt("roomPrice"));
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return null;
+    }
 }

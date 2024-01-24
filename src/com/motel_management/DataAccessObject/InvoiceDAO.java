@@ -67,8 +67,7 @@ public class InvoiceDAO implements DAOInterface<InvoiceModel> {
             ps.setInt(13, Integer.parseInt(values[12]));
             ps.setInt(14, Integer.parseInt(values[13]));
             ps.setInt(15, Integer.parseInt(values[14]));
-            ps.setInt(16, Integer.parseInt(values[15]));
-            ps.setString(17, values[16]);
+            ps.setString(16, values[15]);
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
