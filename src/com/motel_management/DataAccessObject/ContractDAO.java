@@ -4,13 +4,10 @@ import com.motel_management.Models.ContractModel;
 import com.motel_management.Views.Configs;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ContractDAO implements DAOInterface<ContractModel>{
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
     public ContractDAO() {}
     public static ContractDAO getInstance() {return new ContractDAO();}
 
@@ -241,8 +238,8 @@ public class ContractDAO implements DAOInterface<ContractModel>{
                 tempMap.put("quantity", Integer.toString(rs.getInt("quantity")));
                 tempMap.put("roomDeposit", Integer.toString(rs.getInt("roomDeposit")));
                 tempMap.put("isFamily", Boolean.toString(rs.getBoolean("isFamily")));
-                tempMap.put("startingDate", dateFormat.format(rs.getDate("startingDate")));
-                tempMap.put("endingDate", dateFormat.format(rs.getDate("endingDate")));
+                tempMap.put("startingDate", Configs.simpleDateFormat.format(rs.getDate("startingDate")));
+                tempMap.put("endingDate", Configs.simpleDateFormat.format(rs.getDate("endingDate")));
                 tempMap.put("checkedOut", Boolean.toString(rs.getBoolean("checkedOut")));
                 tempMap.put("isRegisteredPerAddress", Boolean.toString(rs.getBoolean("isRegisteredPerAddress")));
                 tempMap.put("fullName", rs.getString("lastName") + " " + rs.getString("firstName"));
@@ -260,7 +257,6 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public ContractModel selectLastContractByRoomId(String roomId) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            System.out.println(1);
             PreparedStatement ps = myConnection.prepareStatement("""
                             SELECT * FROM Contract
                             WHERE (roomId=? AND startingDate=(SELECT MAX(startingDate) FROM Contract WHERE roomId=?))""");

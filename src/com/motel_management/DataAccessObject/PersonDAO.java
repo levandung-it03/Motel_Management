@@ -5,9 +5,7 @@ import com.motel_management.Views.Configs;
 
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class PersonDAO implements DAOInterface<PersonModel>{
     public PersonDAO() {}
@@ -268,7 +266,6 @@ public class PersonDAO implements DAOInterface<PersonModel>{
     public ArrayList<String[]> selectByInnerJoinContract(String condition) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             PreparedStatement ps = myConnection.prepareStatement("""
                     SELECT SimpleContract.roomId, Person.identifier, lastName, firstName, startingDate, endingDate, phone
                     FROM Person INNER JOIN (
@@ -281,8 +278,8 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             while (rs.next()) {
                 result.add(new String[] {rs.getString("roomId"), rs.getString("identifier"),
                         rs.getString("lastName"),rs.getString("firstName"),
-                        rs.getString("phone"), sdf.format(rs.getDate("startingDate")),
-                        sdf.format(rs.getDate("endingDate"))});
+                        rs.getString("phone"), Configs.simpleDateFormat.format(rs.getDate("startingDate")),
+                        Configs.simpleDateFormat.format(rs.getDate("endingDate"))});
             }
             return result;
         } catch (SQLException e) {

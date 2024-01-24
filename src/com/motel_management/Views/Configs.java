@@ -1,10 +1,13 @@
 package com.motel_management.Views;
 
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 public class Configs {
     public Configs() { super(); }
+
+    public static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public static final Font labelFont = new Font("Consolas", Font.PLAIN, 16);
     public static final int fullWidth = 1366;

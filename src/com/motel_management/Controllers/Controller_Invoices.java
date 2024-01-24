@@ -4,14 +4,12 @@ import com.motel_management.DataAccessObject.*;
 import com.motel_management.Models.*;
 import com.motel_management.Views.Configs;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Controller_Invoices {
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     public Controller_Invoices() {
         super();
@@ -166,7 +164,7 @@ public class Controller_Invoices {
 
         String invoiceId = "I" + Configs.generateIdTail();
         LocalDateTime d = LocalDateTime.now();
-        String priceRaisedDate = sdf.format(RoomPriceHistoryDAO.getInstance()
+        String priceRaisedDate = Configs.simpleDateFormat.format(RoomPriceHistoryDAO.getInstance()
                 .selectCurrentRoomPriceHistoryWithRoomId(data.get("roomId")).getPriceRaisedDate());
 
         int addResult = InvoiceDAO.getInstance().insert(new String[]{
@@ -188,23 +186,6 @@ public class Controller_Invoices {
                 "0"
         });
 
-        System.out.println(invoiceId + " " +
-                data.get("roomId") + " " +
-                priceRaisedDate + " " +
-                d.getDayOfMonth() + "/" + d.getMonthValue() + "/" + d.getYear() + " " +
-                data.get("paymentYear") + " " +
-                data.get("paymentMonth") + " " +
-                data.get("formerElectricNumber") + " " +
-                data.get("newElectricNumber") + " " +
-                data.get("formerWaterNumber") + " " +
-                data.get("newWaterNumber") + " " +
-                Integer.toString(electricPrice) + " " +
-                Integer.toString((int) waterPrice) + " " +
-                data.get("garbage") + " " +
-                data.get("wifi") + " " +
-                data.get("vehicle") + " " +
-                Integer.toString(total) + " " +
-                "0");
         if (addResult != 0) {
             result.put("result", "1");
             result.put("message", "Successfully Create Invoice of Room " + data.get("roomId") + ", Total is: " + total + "VNĐ");
@@ -220,12 +201,13 @@ public class Controller_Invoices {
 
         HashMap<String, RoomPriceHistoryModel> roomPriceList = Controller_Room.getAllLastPriceOfEachRoom();
         ArrayList<InvoiceModel> newestInvoices = InvoiceDAO.getInstance().selectByCondition("""
-                        WHERE(roomId, paymentYear, paymentMonth) IN(
-                            SELECT roomId, MAX(paymentYear), MAX(paymentMonth)FROM Invoice
-                            GROUP BY roomId
-                        )
-                        ORDER BY roomId ASC
-                """);
+                WHERE (roomId, paymentYear, paymentMonth) IN (
+                	SELECT roomId, MAX(paymentYear), paymentMonth FROM Invoice
+                	GROUP BY roomId
+                    ORDER BY paymentMonth DESC
+                )
+                ORDER BY roomId ASC
+        """);
         for (InvoiceModel invoice : newestInvoices) {
             String[] eachTempResult = new String[9];
             eachTempResult[0] = invoice.getRoomId();
@@ -233,7 +215,7 @@ public class Controller_Invoices {
             eachTempResult[2] = invoice.getInvoiceId();
             eachTempResult[3] = Integer.toString(invoice.getPaymentMonth());
             eachTempResult[4] = Integer.toString(invoice.getPaymentYear());
-            eachTempResult[5] = sdf.format(invoice.getDateCreated());
+            eachTempResult[5] = Configs.simpleDateFormat.format(invoice.getDateCreated());
             eachTempResult[6] = Configs.convertStringToVNDCurrency(invoice.getGarbage()
                     + invoice.getWaterPrice()
                     + invoice.getElectricPrice()

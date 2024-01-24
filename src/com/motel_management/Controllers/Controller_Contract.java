@@ -9,11 +9,9 @@ import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Controller_Contract {
-    static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     public Controller_Contract() { super(); }
 
     public static HashMap<String, String> addNewContract(HashMap<String, String> data) {
@@ -23,11 +21,11 @@ public class Controller_Contract {
         try {
             String lastCheckedOutDateStrOfRoom =
                     CheckOutDAO.getInstance().selectLastCheckedOutDateByRoomId(data.get("roomId"));
-            Date lastCheckedOutDateOfRoom = sdf.parse(lastCheckedOutDateStrOfRoom);
-            if (sdf.parse(data.get("startingDate")).before(lastCheckedOutDateOfRoom)) {
+            Date lastCheckedOutDateOfRoom = Configs.simpleDateFormat.parse(lastCheckedOutDateStrOfRoom);
+            if (Configs.simpleDateFormat.parse(data.get("startingDate")).before(lastCheckedOutDateOfRoom)) {
                 result.put("result", "0");
                 result.put("message", "Invalid Started Date Because The Last Checkout Date Of This Room Is: "
-                        + sdf.format(lastCheckedOutDateOfRoom));
+                        + Configs.simpleDateFormat.format(lastCheckedOutDateOfRoom));
                 return result;
             }
         } catch (NullPointerException | ParseException ignored) {}
@@ -37,12 +35,12 @@ public class Controller_Contract {
             String[] lastCheckedOutDateStrOfPerson =
                     CheckOutDAO.getInstance().selectLastCheckedOutDateByIdentifier(data.get("identifier"));
 
-            Date lastCheckedOutDateOfPerson = sdf.parse(lastCheckedOutDateStrOfPerson[1]);
-            if (sdf.parse(data.get("startingDate")).before(lastCheckedOutDateOfPerson)) {
+            Date lastCheckedOutDateOfPerson = Configs.simpleDateFormat.parse(lastCheckedOutDateStrOfPerson[1]);
+            if (Configs.simpleDateFormat.parse(data.get("startingDate")).before(lastCheckedOutDateOfPerson)) {
                 result.put("result", "0");
                 result.put("message", "Invalid Started Date Because This Person Occupied In"
                         + " Room " + lastCheckedOutDateStrOfPerson[0]
-                        + " And Checked-out In: " + sdf.format(lastCheckedOutDateOfPerson));
+                        + " And Checked-out In: " + Configs.simpleDateFormat.format(lastCheckedOutDateOfPerson));
                 return result;
             }
         } catch(NullPointerException | ParseException ignored) {}

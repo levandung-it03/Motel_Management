@@ -10,13 +10,11 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
 public class AddContractListeners {
     static HashMap<String, Integer> maxQuantityList = new HashMap<>();
-    static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     public AddContractListeners() { super(); }
 
@@ -50,7 +48,7 @@ public class AddContractListeners {
                 data.put("identifier", inpTags.get("identifier").getText());
                 data.put("lastName", inpTags.get("lastName").getText());
                 data.put("firstname", inpTags.get("firstname").getText());
-                data.put("birthday", sdf.format(dateTags.get("birthday").getCalendar().getTime()));
+                data.put("birthday", Configs.simpleDateFormat.format(dateTags.get("birthday").getCalendar().getTime()));
                 data.put("phone", inpTags.get("phone").getText());
                 data.put("jobTitle", inpTags.get("jobTitle").getText());
                 data.put("permanentAddress", inpTags.get("permanentAddress").getText());
@@ -60,8 +58,8 @@ public class AddContractListeners {
                 data.put("roomId", Objects.requireNonNull(comboTags.get("roomId").getSelectedItem()).toString());
                 data.put("quantity", inpTags.get("quantity").getText());
                 data.put("roomDeposit", inpTags.get("roomDeposit").getText());
-                data.put("startingDate", sdf.format(dateTags.get("startingDate").getCalendar().getTime()));
-                data.put("endingDate", sdf.format(dateTags.get("endingDate").getCalendar().getTime()));
+                data.put("startingDate", Configs.simpleDateFormat.format(dateTags.get("startingDate").getCalendar().getTime()));
+                data.put("endingDate", Configs.simpleDateFormat.format(dateTags.get("endingDate").getCalendar().getTime()));
                 data.put("gender", Objects.requireNonNull(comboTags.get("gender")
                                 .getSelectedItem())
                         .toString()
@@ -168,8 +166,8 @@ public class AddContractListeners {
                 return "Ended Date";
         } catch (NullPointerException ignored) { return "Empty Ended Date"; }
 
-        if (Configs.calTotalMonthsBetweenStrDates(sdf.format(dateTags.get("startingDate").getCalendar().getTime()),
-                sdf.format(dateTags.get("endingDate").getCalendar().getTime())) < 12
+        if (Configs.calTotalMonthsBetweenStrDates(Configs.simpleDateFormat.format(dateTags.get("startingDate").getCalendar().getTime()),
+                Configs.simpleDateFormat.format(dateTags.get("endingDate").getCalendar().getTime())) < 12
                 && Objects.requireNonNull(comboTags.get("isRegisteredPerAddress").getSelectedItem()).toString().equals("YES"))
             return "Registering Permanent or Temporary Household with under 12 Months Total Contract Time!";
 

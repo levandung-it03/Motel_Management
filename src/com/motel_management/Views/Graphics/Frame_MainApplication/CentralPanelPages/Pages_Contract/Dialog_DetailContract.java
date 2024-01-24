@@ -7,7 +7,6 @@ import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainAppli
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.text.SimpleDateFormat;
 
 public class Dialog_DetailContract extends JDialog {
     private final ContractModel contract;
@@ -25,7 +24,6 @@ public class Dialog_DetailContract extends JDialog {
 
         int fullHeight = 490;
         int fullWith = 580;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         this.setSize(fullWith, fullHeight);
         this.setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);
@@ -62,8 +60,8 @@ public class Dialog_DetailContract extends JDialog {
         rightColumn.add(new JLabel(Integer.toString(this.contract.getQuantity())));
         rightColumn.add(new JLabel(Configs.convertStringToVNDCurrency(this.contract.getRoomDeposit())));
         rightColumn.add(new JLabel(this.contract.getIsFamily() ? "NO" : "YES"));
-        rightColumn.add(new JLabel(sdf.format(this.contract.getStartingDate())));
-        rightColumn.add(new JLabel(sdf.format(this.contract.getEndingDate())));
+        rightColumn.add(new JLabel(Configs.simpleDateFormat.format(this.contract.getStartingDate())));
+        rightColumn.add(new JLabel(Configs.simpleDateFormat.format(this.contract.getEndingDate())));
         rightColumn.add(new JLabel(this.contract.getIsRegisteredPerAddress() ? "NO" : "YES"));
 
         leftColumn.setPreferredSize(new Dimension((int)(fullWith*0.52), fullHeight));

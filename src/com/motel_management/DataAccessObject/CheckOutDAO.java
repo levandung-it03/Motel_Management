@@ -5,12 +5,9 @@ import com.motel_management.Views.Configs;
 
 import javax.swing.*;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class CheckOutDAO implements DAOInterface<CheckOutModel> {
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     public CheckOutDAO() {}
     public static CheckOutDAO getInstance() {
         return new CheckOutDAO();
@@ -180,7 +177,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             ps.setString(1, roomId);
             ResultSet rs = ps.executeQuery();
             if (rs.next())
-                return sdf.format(rs.getDate("lastCheckOutDate"));
+                return Configs.simpleDateFormat.format(rs.getDate("lastCheckOutDate"));
             return null;
         } catch(SQLException e) {
             e.fillInStackTrace();
@@ -202,7 +199,7 @@ public class CheckOutDAO implements DAOInterface<CheckOutModel> {
             if (rs.next())
                 return new String[] {
                         rs.getString("roomId"),
-                        sdf.format(rs.getDate("lastCheckOutDate"))
+                        Configs.simpleDateFormat.format(rs.getDate("lastCheckOutDate"))
                 };
             return null;
         } catch(SQLException e) {

@@ -18,14 +18,11 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RoomListeners {
-    static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
     public RoomListeners() {
         super();
     }
@@ -147,7 +144,7 @@ public class RoomListeners {
                 if (isValid) {
                     String checkOutId = "CK" + Configs.generateIdTail();
                     String[] data = {checkOutId, contractId.getContractId(),
-                            dateFormat.format(checkOutDate.getCalendar().getTime()), reason.getText()};
+                            Configs.simpleDateFormat.format(checkOutDate.getCalendar().getTime()), reason.getText()};
                     String nextIdWhenSuccessfully = Controller_Checkout.addCheckOutHistory(data);
                     if (nextIdWhenSuccessfully != null) {
                         if (Controller_Contract.updateContractStatus(new String[]{"1", contractId.getContractId()}) ==0

@@ -8,7 +8,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 public class SubItem_InvoicePanel extends JPanel {
@@ -34,8 +33,6 @@ public class SubItem_InvoicePanel extends JPanel {
 
         setPreferredSize(new Dimension(panelWidth, panelHeight + 70));
         setBorder(new LineBorder(Configs.greenTextColor, 1, true));
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         JPanel monthLabel = new JPanel();
         JLabel title = new JLabel(invoice.getPaymentMonth() + "/" + invoice.getPaymentYear());
@@ -63,7 +60,7 @@ public class SubItem_InvoicePanel extends JPanel {
         labels.put("wasPaidLabel", new JLabel("Was Paid:"));
 
         values.put("invoiceIdValue", new JLabel(invoice.getInvoiceId()));
-        values.put("dateCreatedValue", new JLabel(sdf.format(invoice.getDateCreated())));
+        values.put("dateCreatedValue", new JLabel(Configs.simpleDateFormat.format(invoice.getDateCreated())));
         values.put("totalValue", new JLabel(
                 Configs.convertStringToVNDCurrency(invoice.getGarbage()
                         + invoice.getWaterPrice()

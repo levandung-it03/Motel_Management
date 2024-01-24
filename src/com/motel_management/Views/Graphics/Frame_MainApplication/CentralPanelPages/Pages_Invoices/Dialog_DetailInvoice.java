@@ -6,7 +6,6 @@ import com.motel_management.Views.Configs;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 public class Dialog_DetailInvoice extends JDialog {
@@ -18,7 +17,6 @@ public class Dialog_DetailInvoice extends JDialog {
     public void createInvoiceDetailDialog(InvoiceModel invoice, int roomPrice) {
         int fullHeight = 500;
         int fullWith = 580;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         this.setModal(true);
         this.setSize(fullWith, fullHeight);
         this.setLayout(new BorderLayout());
@@ -53,7 +51,7 @@ public class Dialog_DetailInvoice extends JDialog {
         labels.put("wasPaidLabel", new JLabel("Was Paid:"));
 
         values.put("invoiceIdValue", new JLabel(invoice.getInvoiceId()));
-        values.put("dateCreatedValue", new JLabel(sdf.format(invoice.getDateCreated())));
+        values.put("dateCreatedValue", new JLabel(Configs.simpleDateFormat.format(invoice.getDateCreated())));
         values.put("roomIdValue", new JLabel(invoice.getRoomId()));
         values.put("paymentTimeValue", new JLabel(invoice.getPaymentMonth() + "/" + invoice.getPaymentYear()));
         values.put("defaultRoomPriceValue", new JLabel(Configs.convertStringToVNDCurrency(roomPrice)));

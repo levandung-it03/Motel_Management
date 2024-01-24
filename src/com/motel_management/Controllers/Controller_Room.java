@@ -7,7 +7,6 @@ import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainAppli
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -188,7 +187,6 @@ public class Controller_Room {
         return contractId.getFirst();
     }
     public static Object[][] getAllRoomPriceHistoryByYearWithTableFormat(String year) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         ArrayList<RoomPriceHistoryModel> result = RoomPriceHistoryDAO.getInstance()
                 .selectByCondition("WHERE YEAR(priceRaisedDate)=\"" + year + "\"");
 
@@ -196,7 +194,7 @@ public class Controller_Room {
         for (int i = 0; i < result.size(); i++) {
             checkouts[i][0] = result.get(i).getRoomId();
             checkouts[i][1] = Configs.convertStringToVNDCurrency(result.get(i).getRoomPrice());
-            checkouts[i][2] = sdf.format(result.get(i).getPriceRaisedDate());
+            checkouts[i][2] = Configs.simpleDateFormat.format(result.get(i).getPriceRaisedDate());
         }
         return checkouts;
     }
