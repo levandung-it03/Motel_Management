@@ -8,6 +8,7 @@ import com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listener
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
@@ -57,9 +58,7 @@ public class Page_ElectricityWaterList extends JPanel {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
                 return switch (columnIndex) {
-                    case 2 -> Integer.class;
-                    case 3 -> Integer.class;
-                    case 4 -> Integer.class;
+                    case 2, 3, 4 -> Integer.class;
                     default -> String.class;
                 };
             }
@@ -69,6 +68,17 @@ public class Page_ElectricityWaterList extends JPanel {
         this.electricTable = tableAsList.getTable();
         this.electricTable.setRowSorter(new TableRowSorter<>(defaultElectricModel));
         this.roomScrollPane = tableAsList.getScrollPane();
+
+        // Convert maxRange to Unlimited and string to currency, center component
+        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer(){
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                return super.getTableCellRendererComponent(table, Configs.convertStringToVNDCurrency(value.toString()), isSelected, hasFocus, row, column);
+            }
+        };
+        cellRenderer.setHorizontalAlignment(JLabel.CENTER);
+        cellRenderer.setVerticalAlignment(JLabel.CENTER);
+        electricTable.getColumnModel().getColumn(4).setCellRenderer(cellRenderer);
 
         // Margin Table.
         this.roomScrollPane.setBorder(new EmptyBorder(20, 50, 0, 50));
@@ -106,9 +116,7 @@ public class Page_ElectricityWaterList extends JPanel {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
                 return switch (columnIndex) {
-                    case 2 -> Integer.class;
-                    case 3 -> Integer.class;
-                    case 4 -> Integer.class;
+                    case 2, 3, 4 -> Integer.class;
                     default -> String.class;
                 };
             }
@@ -117,6 +125,17 @@ public class Page_ElectricityWaterList extends JPanel {
         this.waterTable = tableAsList.getTable();
         this.waterTable.setRowSorter(new TableRowSorter<>(defaultWaterModel));
         this.roomScrollPane = tableAsList.getScrollPane();
+
+        // Convert maxRange to Unlimited and string to currency, center component
+        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer(){
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                return super.getTableCellRendererComponent(table, Configs.convertStringToVNDCurrency(value.toString()), isSelected, hasFocus, row, column);
+            }
+        };
+        cellRenderer.setHorizontalAlignment(JLabel.CENTER);
+        cellRenderer.setVerticalAlignment(JLabel.CENTER);
+        waterTable.getColumnModel().getColumn(4).setCellRenderer(cellRenderer);
 
         // Margin Table.
         this.roomScrollPane.setBorder(new EmptyBorder(20, 50, 0, 50));
