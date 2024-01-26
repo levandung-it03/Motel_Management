@@ -20,8 +20,6 @@ First approach with "Motel Management".
 
 **1. Login & Change Password Panel**
 
-![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/703bfdee-a19a-4d41-ae07-351d96187c48)
-
 **2. Reset Region Panel**
 
 ![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/f30d8049-0793-4ccc-b018-ebd5099c1075)
