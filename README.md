@@ -1,4 +1,4 @@
-## Welcome to our Motel Management project 
+![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/4a430161-3720-44f6-9316-88fcb36d9e2a)## Welcome to our Motel Management project 
 This "Motel Management" Application belongs to Landlords, who want to manage their Motel with the faster and easier ways.
 
 ## Technologies, Tools and Libraries
@@ -14,26 +14,29 @@ The code is compiled with target [Java 21](https://en.wikipedia.org/wiki/Java_ve
 
 ## How to use Application and Features Descriptions:
 ## Getting start
-**1. Login & Change Password Panel**
-![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/ad654481-b0c3-438f-92d1-26fc26cb1274) ![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/895bf851-fcef-4642-9295-ea20529bb562)
-**2. Reset Region Panel**
+## 1. Login & Change Password Panel
+![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/703bfdee-a19a-4d41-ae07-351d96187c48)
+
+
+## 2. Reset Region Panel
 ![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/f30d8049-0793-4ccc-b018-ebd5099c1075)
 
 ## Main Application Frame
-![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/c2781146-e1fb-4813-88c2-084f4777f0cb)
-**1. Statistic**
+![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/80fb950e-70ce-423b-9be8-23a0797c0656)
 
-**2. Room**
+## 1. Statistic
 
-**3. Contract**
+## 2. Room
 
-**4. Representatives List**
+## 3. Contract
 
-**5. Electricity & Water Tables**
+## 4. Representatives List
 
-**6. Invoices of Each Room**
+## 5. Electricity & Water Tables
 
-**7. Check Out action**
+## 6. Invoices of Each Room
+
+## 7. Check Out action
 
 *****Old*****
 o	Features Desciption: 
