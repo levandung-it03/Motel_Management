@@ -15,8 +15,7 @@ The code is compiled with target [Java 21](https://en.wikipedia.org/wiki/Java_ve
 ## How to use Application and Features Descriptions:
 Let's start with our Application.
 
-## Getting start
-First approach with "Motel Management".
+## First approach
 
 **1. Login & Change Password Panel.**
 
