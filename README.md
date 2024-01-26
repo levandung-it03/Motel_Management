@@ -18,9 +18,9 @@ Let's start with our Application.
 ## Getting start
 First approach with "Motel Management".
 
-**1. Login & Change Password Panel**
+**1. Login & Change Password Panel.**
 
-**2. Reset Region Panel**
+**2. Reset Region Panel.**
 
 ![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/f30d8049-0793-4ccc-b018-ebd5099c1075)
 
@@ -29,19 +29,19 @@ This is our Main Display.
 
 ![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/80fb950e-70ce-423b-9be8-23a0797c0656)
 
-**1. Statistic**
+**1. Statistic.**
 
-**2. Room**
+**2. Room.**
 
-**3. Contract**
+**3. Contract.**
 
-**4. Representatives List**
+**4. Representatives List:**
 
-**5. Electricity & Water Tables**
+**5. Electricity & Water Tables.**
 
-**6. Invoices of Each Room**
+**6. Invoices of Each Room.**
 
-**7. Check Out action**
+**7. Check Out action.**
 
 *****Old*****
 o	Features Desciption: 
