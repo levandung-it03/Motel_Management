@@ -10,24 +10,37 @@ This "Motel Management" Application belongs to Landlords, who want to manage the
 
 4. [bytes-1.6.1](https://central.sonatype.com/artifact/at.favre.lib/bytes/1.6.1/versions)
 
-The code is compiled with target [Java 21](https://en.wikipedia.org/wiki/Java_version_history#Java_SE_21).
+The code is compiled with target [Java 21](https://en.wikipedia.org/wiki/Java_version_history#Java_SE_21) and Java Swing for Graphics.
 
 ## How to use Application and Features Descriptions:
-o	Features Desciption:
+## Getting start
+**1. Login & Change Password Panel**
+![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/ad654481-b0c3-438f-92d1-26fc26cb1274) ![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/895bf851-fcef-4642-9295-ea20529bb562)
+**2. Reset Region Panel**
+![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/f30d8049-0793-4ccc-b018-ebd5099c1075)
 
-  •	The landlord is granted an account to manage the motels.  
-  
-  •	The landlord can add, delete, and modify the number of rooms, the number of people in each room, and the maximum number of people that can stay in each      room.
-
-  •	The landlord creates a contract with the tenant. When the contract expires, the contract is still stored in the database.
-  
-  •	The landlord can view and modify the information of the tenant. The information of the tenant is still stored in the database after the tenant has           checked out.
-  
-  •	The landlord can add electricity and water rates. Customize the electricity and water prices according to the state policy.
-  
-  •	The landlord can create payment invoices for the tenant, easily manage income and expenses.
-  
-  •	When the tenant checks out, the landlord can check whether the tenant has paid the entire bill.
-  
+## Main Application Frame
 ![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/c2781146-e1fb-4813-88c2-084f4777f0cb)
+**1. Statistic**
 
+**2. Room**
+
+**3. Contract**
+
+**4. Representatives List**
+
+**5. Electricity & Water Tables**
+
+**6. Invoices of Each Room**
+
+**7. Check Out action**
+
+*****Old*****
+o	Features Desciption: 
+  •	The landlord is granted an account to manage the motels.
+  •	The landlord can add, delete, and modify the number of rooms, the number of people in each room, and the maximum number of people that can stay in each room
+  •	The landlord creates a contract with the tenant. When the contract expires, the contract is still stored in the database.
+  •	The landlord can view and modify the information of the tenant. The information of the tenant is still stored in the database after the tenant has checked out.
+  •	The landlord can add electricity and water rates. Customize the electricity and water prices according to the state policy.
+  •	The landlord can create payment invoices for the tenant, easily manage income and expenses.
+  •	When the tenant checks out, the landlord can check whether the tenant has paid the entire bill.
