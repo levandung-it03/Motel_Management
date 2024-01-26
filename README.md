@@ -14,6 +14,7 @@ The code is compiled with target [Java 21](https://en.wikipedia.org/wiki/Java_ve
 
 ## How to use Application and Features Descriptions:
 o	Features Desciption:
+
   •	The landlord is granted an account to manage the motels.  
   
   •	The landlord can add, delete, and modify the number of rooms, the number of people in each room, and the maximum number of people that can stay in each      room.
