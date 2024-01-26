@@ -29,4 +29,5 @@ o	Features Desciption:
   
   •	When the tenant checks out, the landlord can check whether the tenant has paid the entire bill.
   
+![image](https://github.com/levandung-it03/Motel_Management/assets/89738182/c2781146-e1fb-4813-88c2-084f4777f0cb)
 
