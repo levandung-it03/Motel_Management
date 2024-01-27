@@ -15,7 +15,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public int insert (ContractModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Contract VALUES (?, ?, ? ,? ,? ,?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Contract VALUES (?, ?, ? ,? ,? ,?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getContractId());
             ps.setString(2,obj.getIdentifier());
@@ -27,6 +27,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ps.setDate(8, obj.getEndingDate());
             ps.setBoolean(9, obj.getIsRegisteredPerAddress());
             ps.setBoolean(10, obj.getCheckedOut());
+            ps.setTimestamp(11, obj.getCreatingTime());
             return ps.executeUpdate(query);
         } catch (SQLException e) {
             e.fillInStackTrace();
@@ -39,7 +40,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     public int insert (String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO Contract VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Contract VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[0]);
             ps.setString(2,values[1]);
@@ -51,6 +52,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ps.setDate(8, Date.valueOf(Configs.stringToDate(values[7])));
             ps.setBoolean(9, values[8].equals("1"));
             ps.setBoolean(10, values[9].equals("1"));
+            ps.setTimestamp(11, Timestamp.valueOf(values[10]));
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
@@ -66,7 +68,8 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         try {
             String query = """
                     UPDATE Contract SET identifier=?, quantity=?, roomId=? ,roomDeposit=?, isFamily=?,
-                    startingDate=?, endingDate=?, isRegisteredPerAddress=? checkedOut=? WHERE (contractId=?);""";
+                    startingDate=?, endingDate=?, isRegisteredPerAddress=?, checkedOut=?, creatingTime=?
+                    WHERE (contractId=?);""";
             PreparedStatement ps = myConnection.prepareStatement(query);
 
             ps.setString(1,obj.getIdentifier());
@@ -78,7 +81,8 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ps.setDate(7, obj.getEndingDate());
             ps.setBoolean(8, obj.getIsRegisteredPerAddress());
             ps.setBoolean(9, obj.getCheckedOut());
-            ps.setString(10, obj.getContractId());
+            ps.setTimestamp(10, obj.getCreatingTime());
+            ps.setString(11, obj.getContractId());
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
@@ -94,7 +98,8 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         try {
             String query = """
                     UPDATE Contract SET identifier=?, quantity=?, roomId=? ,roomDeposit=?, isFamily=?,
-                    startingDate=?, endingDate=?, isRegisteredPerAddress=? checkedOut=? WHERE (contractId=?);""";
+                    startingDate=?, endingDate=?, isRegisteredPerAddress=?, checkedOut=?, creatingTime=?
+                    WHERE (contractId=?);""";
             PreparedStatement ps = myConnection.prepareStatement(query);
 
             ps.setString(1, values[1]);
@@ -106,7 +111,8 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ps.setDate(7, Date.valueOf(Configs.stringToDate(values[7])));
             ps.setBoolean(8, values[8].equals("1"));
             ps.setBoolean(9, values[9].equals("1"));
-            ps.setString(10, values[0]);
+            ps.setTimestamp(10, Timestamp.valueOf(values[10]));
+            ps.setString(11, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
@@ -162,7 +168,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
                         rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
                         rs.getBoolean("isFamily"), rs.getDate("startingDate"),
                         rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
-                        rs.getBoolean("isRegisteredPerAddress"));
+                        rs.getBoolean("isRegisteredPerAddress"), rs.getTimestamp("creatingTime"));
             else
                 return null;
         } catch (SQLException e) {
@@ -185,7 +191,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
                         rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
                         rs.getBoolean("isFamily"), rs.getDate("startingDate"),
                         rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
-                        rs.getBoolean("isRegisteredPerAddress")));
+                        rs.getBoolean("isRegisteredPerAddress"), rs.getTimestamp("creatingTime")));
             }
             return result;
         } catch (SQLException e) {
@@ -208,7 +214,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
                         rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
                         rs.getBoolean("isFamily"), rs.getDate("startingDate"),
                         rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
-                        rs.getBoolean("isRegisteredPerAddress")));
+                        rs.getBoolean("isRegisteredPerAddress"), rs.getTimestamp("creatingTime")));
             }
             return result;
         } catch (SQLException e) {
@@ -268,7 +274,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
                         rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
                         rs.getBoolean("isFamily"), rs.getDate("startingDate"),
                         rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
-                        rs.getBoolean("isRegisteredPerAddress"));
+                        rs.getBoolean("isRegisteredPerAddress"), rs.getTimestamp("creatingTime"));
             }
 
         } catch (SQLException e) {

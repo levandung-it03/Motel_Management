@@ -1,6 +1,7 @@
 package com.motel_management.Models;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class ContractModel {
     private String contractId;
@@ -13,10 +14,11 @@ public class ContractModel {
     private Date endingDate;
     private boolean checkedOut;
     private boolean isRegisteredPerAddress;
+    private Timestamp creatingTime;
 
     public ContractModel (String contractId , String identifier, String roomId, int quantity , int roomDeposit,
                           boolean isFamily, Date startingDate , Date endingDate, boolean checkedOut,
-                          boolean isRegisteredPerAddress) {
+                          boolean isRegisteredPerAddress, Timestamp creatingTime) {
         this.contractId = contractId;
         this.identifier = identifier;
         this.roomId = roomId;
@@ -27,6 +29,7 @@ public class ContractModel {
         this.isFamily = isFamily;
         this.isRegisteredPerAddress = isRegisteredPerAddress;
         this.checkedOut = checkedOut;
+        this.creatingTime = creatingTime;
     }
 
     // Getters
@@ -40,6 +43,7 @@ public class ContractModel {
     public Date getEndingDate() { return endingDate; }
     public boolean getCheckedOut() { return checkedOut; }
     public boolean getIsRegisteredPerAddress() { return isRegisteredPerAddress; }
+    public Timestamp getCreatingTime() { return creatingTime; }
 
     // Setters
     public void setContractId(String contractId) { this.contractId = contractId; }
@@ -52,4 +56,5 @@ public class ContractModel {
     public void setEndingDate(Date endingDate) { this.endingDate = endingDate; }
     public void setCheckedOut(boolean checkedOut) { this.checkedOut = checkedOut; }
     public void setRegisteredPerAddress(boolean registeredPerAddress) { isRegisteredPerAddress = registeredPerAddress; }
+    public void setCreatingTime(Timestamp creatingTime) { this.creatingTime = creatingTime; }
 }

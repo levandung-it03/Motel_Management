@@ -222,7 +222,7 @@ public class Controller_Invoices {
                     + invoice.getWifi()
                     + roomPriceList.get(invoice.getRoomId()).getRoomPrice()
             );
-            eachTempResult[7] = invoice.getWasPaid() ? "NO" : "YES";
+            eachTempResult[7] = invoice.getWasPaid() ? "YES" : "NO";
             eachTempResult[8] = "Delete";
             result.add(eachTempResult);
         }

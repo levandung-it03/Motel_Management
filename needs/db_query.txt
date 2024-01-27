@@ -63,6 +63,7 @@ CREATE TABLE Contract (
     endingDate DATE DEFAULT (CURRENT_DATE()),
     isRegisteredPerAddress BOOLEAN DEFAULT FALSE,
     checkedOut BOOLEAN DEFAULT FALSE,
+    creatingTime DATETIME DEFAULT (CURRENT_TIMESTAMP())
 
     CONSTRAINT PK_Contract PRIMARY KEY (contractId),
     CONSTRAINT FK_Contract_identifier FOREIGN KEY (identifier) REFERENCES Person(identifier),

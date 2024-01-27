@@ -8,7 +8,9 @@ import com.motel_management.Models.ContractModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Controller_Contract {
@@ -57,7 +59,10 @@ public class Controller_Contract {
                 data.get("startingDate"),
                 data.get("endingDate"),
                 data.get("isRegisteredPerAddress"),
-                "0"
+                // CheckedOut
+                "0",
+                // CreatingTime
+                Timestamp.valueOf(LocalDateTime.now()).toString()
         };
 
         String[] personData = new String[] {
@@ -72,6 +77,7 @@ public class Controller_Contract {
                 data.get("email"),
                 data.get("bankAccountNumber"),
                 data.get("bank"),
+                // IsOccupied
                 "1"
         };
 
@@ -100,10 +106,10 @@ public class Controller_Contract {
         RoomModel roomData = RoomDAO.getInstance().selectById(data.get("roomId"));
         roomData.setQuantity(Integer.parseInt(data.get("quantity")));
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
-        System.out.println(addContractRes + " " + addPersonRes + " " + updateRoomRes);
+
         if (addPersonRes * updateRoomRes != 0) {
             result.put("result", "1");
-            result.put("message", "New Contract was added!");
+            result.put("message", "Adding Successfully! Please check it because it'll be locked and can't be deleted in 24h!");
         } else {
             result.put("result", "0");
             result.put("message", "Something Wrong!");
