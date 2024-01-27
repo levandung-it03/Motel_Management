@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class ContractListListeners {
@@ -44,16 +45,17 @@ public class ContractListListeners {
                 if (clickedColumn == 8) {
                     if (JOptionPane.showConfirmDialog(new Panel(), "Confirm delete this row?", "Confirm",
                             JOptionPane.YES_NO_OPTION) == 0) {
-                        if (Controller_Contract.deleteById(
+                        HashMap<String, String> result = Controller_Contract.deleteById(
                                 table.getValueAt(clickedRow, 0).toString(),
                                 table.getValueAt(clickedRow, 1).toString(),
                                 table.getValueAt(clickedRow, 2).toString()
-                        ) != 0) {
-                            JOptionPane.showConfirmDialog(new Panel(), "Delete Successfully!", "Notice", JOptionPane.DEFAULT_OPTION);
+                        );
+                        if (result.get("result").equals("0")) {
+                            JOptionPane.showConfirmDialog(new Panel(), result.get("message"), "Notice", JOptionPane.DEFAULT_OPTION);
+                        } else {
+                            JOptionPane.showConfirmDialog(new Panel(), result.get("message"), "Notice", JOptionPane.DEFAULT_OPTION);
                             defaultModel.removeRow(clickedRow);
                             contractList.saveCurrentTableData();
-                        } else {
-                            JOptionPane.showConfirmDialog(new Panel(), "Delete Failed!", "Notice", JOptionPane.DEFAULT_OPTION);
                         }
                     }
                 }
