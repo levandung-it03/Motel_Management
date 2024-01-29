@@ -170,8 +170,7 @@ public class Controller_Room {
         return 2;
     }
 
-    public static boolean validateCheckOutInfo(String roomId, JDateChooser checkOutDate, JTextArea reason,
-                                               Frame_MainApplication mainFrameApp, JDialog dialog) {
+    public static boolean validateCheckOutInfo(String roomId, JDateChooser checkOutDate) {
         ContractModel contractId = getContractByRoomId(roomId);
         try {
             return !checkOutDate.getDate().before(contractId.getStartingDate()) &&

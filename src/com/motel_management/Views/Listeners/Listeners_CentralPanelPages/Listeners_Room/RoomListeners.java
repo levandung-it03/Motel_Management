@@ -139,7 +139,7 @@ public class RoomListeners {
                                               Frame_MainApplication mainFrameApp, JDialog dialog) {
         return new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                boolean isValid = Controller_Room.validateCheckOutInfo(roomId, checkOutDate, reason, mainFrameApp, dialog);
+                boolean isValid = Controller_Room.validateCheckOutInfo(roomId, checkOutDate);
                 ContractModel contractId = Controller_Room.getContractByRoomId(roomId);
                 if (isValid) {
                     String checkOutId = "CK" + Configs.generateIdTail();
