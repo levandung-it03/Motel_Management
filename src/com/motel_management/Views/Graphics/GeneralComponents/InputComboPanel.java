@@ -1,6 +1,6 @@
 package com.motel_management.Views.Graphics.GeneralComponents;
 
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;

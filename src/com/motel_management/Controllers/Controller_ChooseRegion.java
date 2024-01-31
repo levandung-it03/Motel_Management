@@ -2,7 +2,7 @@ package com.motel_management.Controllers;
 
 import com.motel_management.DataAccessObject.RegionDAO;
 import com.motel_management.Models.RegionModel;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 
 import java.util.ArrayList;
 

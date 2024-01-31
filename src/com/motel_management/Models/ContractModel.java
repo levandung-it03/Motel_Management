@@ -16,6 +16,8 @@ public class ContractModel {
     private boolean isRegisteredPerAddress;
     private Timestamp creatingTime;
 
+    public ContractModel() { super(); }
+
     public ContractModel (String contractId , String identifier, String roomId, int quantity , int roomDeposit,
                           boolean isFamily, Date startingDate , Date endingDate, boolean checkedOut,
                           boolean isRegisteredPerAddress, Timestamp creatingTime) {

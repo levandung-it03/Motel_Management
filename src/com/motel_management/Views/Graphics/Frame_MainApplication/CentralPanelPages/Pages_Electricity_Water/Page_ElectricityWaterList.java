@@ -2,7 +2,7 @@ package com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPa
 
 
 import com.motel_management.Controllers.Controller_Electricity_Water;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.motel_management.Views.Graphics.GeneralComponents.TableAsList;
 import com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listeners_Electricity_Water.EWListListeners;
 

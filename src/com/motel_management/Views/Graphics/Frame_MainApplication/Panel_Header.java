@@ -1,5 +1,5 @@
 package com.motel_management.Views.Graphics.Frame_MainApplication;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.motel_management.Views.Listeners.Listeners_Header;
 
 import javax.swing.*;

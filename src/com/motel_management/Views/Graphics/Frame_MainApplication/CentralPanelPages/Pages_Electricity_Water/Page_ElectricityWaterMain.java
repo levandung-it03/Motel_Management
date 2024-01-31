@@ -1,6 +1,6 @@
 package com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Electricity_Water;
 
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

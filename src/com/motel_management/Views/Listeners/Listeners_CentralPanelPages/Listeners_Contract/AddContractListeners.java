@@ -3,7 +3,7 @@ package com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listene
 import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Models.RoomModel;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Contract.Page_ContractMain;
 import com.toedter.calendar.JDateChooser;
 

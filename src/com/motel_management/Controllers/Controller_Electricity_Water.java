@@ -2,12 +2,11 @@ package com.motel_management.Controllers;
 
 import com.motel_management.DataAccessObject.ElectricRangeDAO;
 import com.motel_management.DataAccessObject.RegionDAO;
-import com.motel_management.DataAccessObject.RoomDAO;
 import com.motel_management.DataAccessObject.WaterRangeDAO;
 import com.motel_management.Models.ElectricRangeModel;
 import com.motel_management.Models.RegionModel;
 import com.motel_management.Models.WaterRangeModel;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 
 import java.util.ArrayList;
 

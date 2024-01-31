@@ -1,7 +1,7 @@
 package com.motel_management.Views.Graphics;
 
 import com.motel_management.Controllers.Controller_ChooseRegion;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainApplication;
 
 import javax.swing.*;

@@ -1,7 +1,7 @@
 package com.motel_management.DataAccessObject;
 import com.motel_management.DB_interaction.DB_connection;
 import com.motel_management.Models.PersonModel;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 
 
 import java.sql.*;
@@ -97,7 +97,6 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            System.out.println(1);
             String query = "UPDATE " + personTableNameType + " "
                     + "SET lastName=?, firstName=?, birthday=?, phone=?, gender=?, jobTitle=?,"
                     + "permanentAddress=?, email=?, bankAccountNumber=?, bank=?, isOccupied=? WHERE (identifier=?);";

@@ -1,9 +1,8 @@
 package com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room;
 
 import com.motel_management.Controllers.Controller_Room;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainApplication;
-import com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listeners_Invoices.InvoicesOfRoomDialogListeners;
 import com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listeners_Room.RoomListeners;
 
 import javax.swing.*;
