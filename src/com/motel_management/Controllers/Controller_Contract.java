@@ -124,7 +124,7 @@ public class Controller_Contract {
         RoomModel roomData = RoomDAO.getInstance().selectById(data.get("roomId"));
         roomData.setQuantity(Integer.parseInt(data.get("quantity")));
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
-        System.out.println(addPersonRes+" "+updateRoomRes+" "+addContractRes);
+//        System.out.println(addPersonRes+" "+updateRoomRes+" "+addContractRes);
 
         if (addPersonRes * updateRoomRes * addContractRes != 0) {
             result.put("result", "1");
@@ -163,11 +163,8 @@ public class Controller_Contract {
             + The new one under 24h: keep deleting.
         */
         int rollbackPersonRes = 0;
-        if (PersonDAO.getInstance().delete(identifier) == 0) {
-            PersonModel foundPerson = PersonTempHistoryDAO.getInstance().selectById(identifier);
-            System.out.println(foundPerson);
-            rollbackPersonRes = PersonDAO.getInstance().update(foundPerson);
-        }
+        if (PersonDAO.getInstance().delete(identifier) == 0)
+            rollbackPersonRes = PersonDAO.getInstance().update(PersonTempHistoryDAO.getInstance().selectById(identifier));
 
         RoomModel roomData = RoomDAO.getInstance().selectById(roomId);
         roomData.setQuantity(0);
