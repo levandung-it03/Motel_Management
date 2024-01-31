@@ -68,6 +68,7 @@ public class Dialog_DetailInvoice extends JDialog {
                 + invoice.getWaterPrice()
                 + invoice.getElectricPrice()
                 + invoice.getWifi()
+                + invoice.getVehicle()
                 + roomPrice
         )));
         values.put("wasPaidValue", new JLabel(invoice.getWasPaid() ? "YES" : "NO"));

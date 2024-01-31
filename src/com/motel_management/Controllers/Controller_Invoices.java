@@ -199,7 +199,6 @@ public class Controller_Invoices {
     public static ArrayList<String[]> getAllLastInvoicesOfRoomWithTableFormat() {
         ArrayList<String[]> result = new ArrayList<>();
 
-        HashMap<String, RoomPriceHistoryModel> roomPriceList = Controller_Room.getAllLastPriceOfEachRoom();
         ArrayList<InvoiceModel> newestInvoices = InvoiceDAO.getInstance().selectByCondition("""
                 WHERE (roomId, paymentYear, paymentMonth) IN (
                 	SELECT roomId, MAX(paymentYear), paymentMonth FROM Invoice
@@ -220,7 +219,10 @@ public class Controller_Invoices {
                     + invoice.getWaterPrice()
                     + invoice.getElectricPrice()
                     + invoice.getWifi()
-                    + roomPriceList.get(invoice.getRoomId()).getRoomPrice()
+                    + invoice.getVehicle()
+                    + RoomPriceHistoryDAO.getInstance()
+                        .selectById(invoice.getRoomId(), invoice.getPriceRaisedDate())
+                        .getRoomPrice()
             );
             eachTempResult[7] = invoice.getWasPaid() ? "YES" : "NO";
             eachTempResult[8] = "Delete";
@@ -252,12 +254,12 @@ public class Controller_Invoices {
                 );
     }
 
-    public static int STI(String num) {
-        return Integer.parseInt(num);
-    }
-
     public static int deleteInvoice(String invoiceId) {
         return InvoiceDAO.getInstance().delete(invoiceId);
+    }
+
+    public static int STI(String num) {
+        return Integer.parseInt(num);
     }
 
 }

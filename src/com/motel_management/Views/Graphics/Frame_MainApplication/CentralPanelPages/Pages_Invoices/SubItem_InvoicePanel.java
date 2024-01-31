@@ -1,5 +1,6 @@
 package com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Invoices;
 
+import com.motel_management.DataAccessObject.RoomPriceHistoryDAO;
 import com.motel_management.Models.InvoiceModel;
 import com.motel_management.Views.Configs;
 import com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listeners_Invoices.InvoicesOfRoomDialogListeners;
@@ -17,11 +18,12 @@ public class SubItem_InvoicePanel extends JPanel {
     public final InvoiceModel invoice;
     private final int roomPrice;
 
-
-    public SubItem_InvoicePanel(InvoiceModel invoice, int roomPrice, Dialog_InvoicesOfRoom parentDialog) {
+    public SubItem_InvoicePanel(InvoiceModel invoice, Dialog_InvoicesOfRoom parentDialog) {
         super(new FlowLayout());
         this.invoice = invoice;
-        this.roomPrice = roomPrice;
+        this.roomPrice = RoomPriceHistoryDAO.getInstance()
+                .selectById(invoice.getRoomId(), invoice.getPriceRaisedDate())
+                .getRoomPrice();
         this.createInvoicePanel();
         this.parentDialog = parentDialog;
         this.createListeners();
@@ -66,6 +68,7 @@ public class SubItem_InvoicePanel extends JPanel {
                         + invoice.getWaterPrice()
                         + invoice.getElectricPrice()
                         + invoice.getWifi()
+                        + invoice.getVehicle()
                         + this.roomPrice
                 )
         ));
