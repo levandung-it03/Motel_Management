@@ -122,14 +122,11 @@ public class RoomListeners {
                         inpTags.get("maxQuantity").getText(), inpTags.get("defaultPrice").getText()};
                 boolean isValid = GeneralCentralPanelListeners.validateRoomTableData(inpTags);
                 if (isValid) {
-                    if (Controller_Room.updateRoom(data) != 0 && Controller_Room.updateRoomPrice(data)!=0) {
+                    if (Controller_Room.updateRoom(data) != 0 && Controller_Room.updateRoomPrice(data) != 0 ) {
                         JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice",
                                 JOptionPane.PLAIN_MESSAGE);
                         CentralPanel.category.setComponentAt(1, new Page_RoomMain(mainFrameApp));
                         dialog.dispose();
-                    } else if (Controller_Room.updateRoomPrice(data)==0) {
-                        JOptionPane.showMessageDialog(new JPanel(), "Update failed because it was updated today !", "Notice",
-                                JOptionPane.PLAIN_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(new JPanel(), "Update failed !", "Notice",
                                 JOptionPane.PLAIN_MESSAGE);
