@@ -83,7 +83,7 @@ CREATE TABLE Contract (
 
     CONSTRAINT PK_Contract PRIMARY KEY (contractId),
     CONSTRAINT FK_Contract_identifier FOREIGN KEY (identifier) REFERENCES Person(identifier),
-    CONSTRAINT FK_Person_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
+    CONSTRAINT FK_Contract_roomId FOREIGN KEY (roomId) REFERENCES Room(roomId),
     CONSTRAINT UK_Contract UNIQUE (identifier,roomId,startingDate)
 );
 
@@ -131,62 +131,3 @@ CREATE TABLE Invoice(
 
 -- MK: root#123
 INSERT INTO Account VALUES ("admin000", "Root", "root", "$2a$10$j2WJzi7wT1BazuUsnKa8vOmbanLacmKc042wJLWWUxMK5eM3zPXjS");
-
-INSERT INTO Room
-VALUES
-("P001", 0, 9),
-("P002", 9, 9),
-("P003", 4, 9),
-("P004", 0, 9),
-("P005", 1, 9),
-("P006", 0, 9),
-("P007", 0, 9);
-
-INSERT INTO Person (`identifier`, `roomId`, `lastName`, `firstName`, `birthday`, `phone`, `gender`, `jobTitle`,
-`permanentAddress`, `email`, `bankAccountNumber`, `bank`, `isOccupied`) VALUES
-('038203032574', 'P001', 'Le Van', 'Dung', '1990-01-15', '123456789', '0', 'Manager', '123 Main St', 'vana@example.com', '21097877', 'ACB', '1'),
-('038203032575', 'P002', 'Le Van', 'Duong', '1985-05-20', '987654321', '0', 'Engineer', '456 Oak St', 'thib@example.com', '987654321', 'Vietcombank', '0'),
-('038203032576', 'P003', 'Le Van', 'Hung', '1985-05-20', '987654321', '0', 'Engineer', '456 Oak St', 'thia@example.com', '987654321', 'Vietcombank', '0'),
-('038203032577', 'P004', 'Tran Thi', 'An', '1985-05-20', '987654321', '1', 'Engineer', '456 Oak St', 'thic@example.com', '987654321', 'Vietcombank', '1');
-
-INSERT INTO Contract (`contractId`, `identifier`, `quantity`, `roomDeposit`, `isFamily`, `startingDate`, `endingDate`,
-`isRegisteredPerAddress`, `checkedOut`) VALUES
-("C1000001", "038203032574", 5, 1000000, "0", "2024-01-19", "2024-03-19", "0", "1"),
-("C1000002", "038203032575", 5, 1000000, "0", "2023-01-19", "2024-03-19", "0", "1"),
-("C1000003", "038203032575", 5, 1000000, "0", "2022-05-19", "2024-08-19", "0", "0"),
-("C1000004", "038203032576", 5, 1000000, "0", "2021-09-19", "2024-12-19", "0", "0"),
-("C1000005", "038203032577", 5, 1000000, "0", "2023-09-29", "2024-11-19", "0", "1");
-
-INSERT INTO RoomPriceHistory
-VALUES
-("P001", "2024-01-19", 3000000),
-("P001", "2024-01-20", 4000000),
-("P001", "2024-01-21", 4000000),
-("P002", "2024-01-19", 3000000),
-("P002", "2024-01-20", 4000000),
-("P002", "2024-01-21", 5000000),
-("P003", "2024-01-24", 3000000),
-("P003", "2024-01-20", 2000000),
-("P003", "2024-01-21", 4000000);
-
-INSERT INTO ElectricRange
-VALUES
-('1', 'Electric Range 1', 100, 200, 500),
-('2', 'Electric Range 2', 150, 250, 600),
-('3', 'Electric Range 3', 200, 300, 700);
-
-INSERT INTO WaterRange
-VALUES
- ('1', 'Water Range 1', 100, 200, 3000),
- ('2', 'Water Range 2', 150, 250, 4000),
- ('3', 'Water Range 3', 200, 300, 5000);
-
- INSERT INTO Invoice (invoiceId, roomId, priceRaisedDate, paymentYear, paymentMonth)
- VALUES ('inv001', 'P001', '2022-01-01', 2023, 1),
-        ('inv002', 'P002', '2023-10-3', 2023, 2),
-        ('inv003', 'P003', '2022-12-3', 2023, 3),
-        ('inv004', 'P001', '2023-14-9', 2023, 7),
-        ('inv005', 'P002', '2022-6-01', 2023, 4),
-        ('inv006', 'P003', '2023-5-12', 2023, 2),
-        ('inv007', 'P001', '2022-1-8', 2023, 6),
-        ('inv008', 'P002', '2023-02-01', 2023, 5);
