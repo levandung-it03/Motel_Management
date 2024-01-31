@@ -5,7 +5,7 @@ import com.motel_management.Controllers.Controller_Contract;
 import com.motel_management.Controllers.Controller_Representatives;
 import com.motel_management.Controllers.Controller_Room;
 import com.motel_management.Models.ContractModel;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanel;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room.Dialog_CheckOutRoom;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room.Dialog_UpdateRoom;

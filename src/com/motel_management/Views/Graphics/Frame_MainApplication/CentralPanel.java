@@ -1,5 +1,5 @@
 package com.motel_management.Views.Graphics.Frame_MainApplication;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_CheckOut.Page_CheckOutMain;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Electricity_Water.Page_ElectricityWaterMain;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Contract.Page_ContractMain;

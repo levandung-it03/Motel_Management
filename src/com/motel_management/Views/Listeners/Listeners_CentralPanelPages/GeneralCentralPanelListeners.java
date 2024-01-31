@@ -1,7 +1,7 @@
 package com.motel_management.Views.Listeners.Listeners_CentralPanelPages;
 
 import com.motel_management.DataAccessObject.ContractDAO;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;

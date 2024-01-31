@@ -1,6 +1,6 @@
 package com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Electricity_Water;
 
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.motel_management.Views.Graphics.GeneralComponents.InputComboPanel;
 import com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listeners_Electricity_Water.AddEWListeners;
 import javax.swing.*;

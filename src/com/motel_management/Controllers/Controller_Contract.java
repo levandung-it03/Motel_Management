@@ -4,9 +4,8 @@ import com.motel_management.DataAccessObject.*;
 import com.motel_management.Models.ContractModel;
 import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.time.LocalDate;

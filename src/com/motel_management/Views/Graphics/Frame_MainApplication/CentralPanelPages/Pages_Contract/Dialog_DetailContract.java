@@ -1,7 +1,7 @@
 package com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Contract;
 
 import com.motel_management.Models.ContractModel;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainApplication;
 
 import javax.swing.*;

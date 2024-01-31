@@ -2,7 +2,7 @@ package com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPa
 
 import com.motel_management.DataAccessObject.RoomPriceHistoryDAO;
 import com.motel_management.Models.InvoiceModel;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listeners_Invoices.InvoicesOfRoomDialogListeners;
 
 import javax.swing.*;

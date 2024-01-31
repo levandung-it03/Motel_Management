@@ -1,7 +1,7 @@
 package com.motel_management.Views.Graphics;
 
 import com.motel_management.Controllers.Controller_ChangePassword;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.motel_management.Views.Graphics.GeneralComponents.InputComboPanel;
 
 import javax.swing.*;

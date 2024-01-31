@@ -1,7 +1,7 @@
 package com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_CheckOut;
 
 import com.motel_management.Controllers.Controller_Checkout;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.motel_management.Views.Graphics.GeneralComponents.InputComboPanel;
 import com.motel_management.Views.Graphics.GeneralComponents.TableAsList;
 import com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listeners_CheckOut.CheckOutListListener;

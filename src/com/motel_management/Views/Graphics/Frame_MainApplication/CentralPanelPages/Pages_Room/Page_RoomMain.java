@@ -1,6 +1,6 @@
 package com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Room;
 
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.motel_management.Views.Graphics.Frame_MainApplication.Frame_MainApplication;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

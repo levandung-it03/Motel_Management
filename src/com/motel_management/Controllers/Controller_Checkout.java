@@ -2,7 +2,7 @@ package com.motel_management.Controllers;
 
 import com.motel_management.DataAccessObject.CheckOutDAO;
 import com.motel_management.Models.CheckOutModel;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 
 import java.util.ArrayList;
 

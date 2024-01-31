@@ -2,7 +2,7 @@ package com.motel_management.Controllers;
 
 import com.motel_management.DataAccessObject.*;
 import com.motel_management.Models.*;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

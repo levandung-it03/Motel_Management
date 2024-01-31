@@ -1,7 +1,7 @@
 package com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_RepresentativesPage;
 
 import com.motel_management.Models.PersonModel;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 import com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listeners_Representatives.RepresentativesListeners;
 
 import javax.swing.*;

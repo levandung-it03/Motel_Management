@@ -2,12 +2,14 @@ package com.motel_management.Controllers;
 
 import com.motel_management.DataAccessObject.*;
 import com.motel_management.Models.*;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Controller_Invoices {
 
@@ -27,6 +29,7 @@ public class Controller_Invoices {
         HashMap<String, String> result = new HashMap<>();
         HashMap<String, String> lastInvoice = Controller_Invoices.getLastInvoice(data.get("roomId"));
 
+        // Creating Invoice before the Last Invoice Created Date.
         if (lastInvoice != null) {
             if (STI(lastInvoice.get("paymentYear")) > LocalDateTime.now().getYear()
                     || (STI(lastInvoice.get("paymentYear")) == LocalDateTime.now().getYear()
@@ -73,6 +76,16 @@ public class Controller_Invoices {
                 .getQuantity();
 
         ContractModel contract = ContractDAO.getInstance().selectLastContractByRoomId(data.get("roomId"));
+
+        // Creating Invoice before Contract's startingDate.
+        if (STI(data.get("paymentYear")) < contract.getStartingDate().toLocalDate().getYear()
+                || (STI(data.get("paymentYear")) == contract.getStartingDate().toLocalDate().getYear()
+                && STI(data.get("paymentMonth")) < contract.getStartingDate().toLocalDate().getMonthValue())) {
+            result.put("result", "0");
+            result.put("message", "You can't create Invoice before the Starting Date of Contract!");
+            return result;
+        }
+
 
         boolean isFamily = contract.getIsFamily();
         boolean isRegisteredPerAddress = contract.getIsRegisteredPerAddress();

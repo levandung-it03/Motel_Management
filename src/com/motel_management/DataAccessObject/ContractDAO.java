@@ -1,7 +1,7 @@
 package com.motel_management.DataAccessObject;
 import com.motel_management.DB_interaction.DB_connection;
 import com.motel_management.Models.ContractModel;
-import com.motel_management.Views.Configs;
+import com.motel_management.Configs;
 
 import java.sql.*;
 import java.util.ArrayList;

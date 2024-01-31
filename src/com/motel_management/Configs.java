@@ -1,4 +1,4 @@
-package com.motel_management.Views;
+package com.motel_management;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
