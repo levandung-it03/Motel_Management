@@ -97,10 +97,12 @@ public class PersonDAO implements DAOInterface<PersonModel>{
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
+            System.out.println(1);
             String query = """
                     UPDATE Person SET lastName=?, firstName=?, birthday=?, phone=?, gender=?, jobTitle=?,
                     permanentAddress=?, email=?, bankAccountNumber=?, bank=?, isOccupied=? WHERE (identifier=?);""";
             PreparedStatement ps = myConnection.prepareStatement(query);
+            System.out.println(2);
             ps.setString(1, values[1]);
             ps.setString(2, values[2]);
             ps.setDate(3, Date.valueOf(Configs.stringToDate(values[3])));
@@ -113,8 +115,10 @@ public class PersonDAO implements DAOInterface<PersonModel>{
             ps.setString(10, values[10]);
             ps.setBoolean(11, values[11].equals("1"));
             ps.setString(12, values[0]);
+            System.out.println(3);
             return ps.executeUpdate();
         } catch (SQLException e) {
+            System.out.println(4);
             e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
@@ -184,7 +188,7 @@ public class PersonDAO implements DAOInterface<PersonModel>{
                     SELECT Person.*, roomId FROM Person
                     INNER JOIN (SELECT Contract.identifier, roomId FROM Contract) AS SimpleContract
                     ON Person.identifier = SimpleContract.identifier
-                    WHERE (identifier=?)""");
+                    WHERE (Person.identifier=?)""");
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();

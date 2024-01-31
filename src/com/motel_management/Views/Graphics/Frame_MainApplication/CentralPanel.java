@@ -15,7 +15,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.ArrayList;
 
-
 public class CentralPanel extends JPanel {
     private final Frame_MainApplication mainFrameApp;
     public static JTabbedPane category;
@@ -44,12 +43,21 @@ public class CentralPanel extends JPanel {
         labels.add(generateTabLabel("Checkout"));
 
         pages.add(new Page_StatisticMain(mainFrameApp));
-        pages.add(new Page_RoomMain(mainFrameApp));
-        pages.add(new Page_ContractMain(mainFrameApp));
-        pages.add(new Page_RepresentativesMain(mainFrameApp));
-        pages.add(new Page_ElectricityWaterMain());
-        pages.add(new Page_InvoicesMain(mainFrameApp));
-        pages.add(new Page_CheckOutMain());
+        pages.add(new JPanel());
+        pages.add(new JPanel());
+        pages.add(new JPanel());
+        pages.add(new JPanel());
+        pages.add(new JPanel());
+        pages.add(new JPanel());
+        /*
+        - Optimize Code:
+            pages.add(new Page_RoomMain(mainFrameApp));
+            pages.add(new Page_ContractMain(mainFrameApp));
+            pages.add(new Page_RepresentativesMain(mainFrameApp));
+            pages.add(new Page_ElectricityWaterMain());
+            pages.add(new Page_InvoicesMain(mainFrameApp));
+            pages.add(new Page_CheckOutMain());
+         */
 
         for (int i = 0; i < pages.size(); i++) {
             pages.get(i).setPreferredSize(

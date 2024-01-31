@@ -8,7 +8,11 @@ import com.motel_management.Models.ContractModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.*;
 
 public class Controller_Contract {
@@ -34,8 +38,8 @@ public class Controller_Contract {
         try {
             String[] lastCheckedOutDateStrOfPerson =
                     CheckOutDAO.getInstance().selectLastCheckedOutDateByIdentifier(data.get("identifier"));
-
             Date lastCheckedOutDateOfPerson = Configs.simpleDateFormat.parse(lastCheckedOutDateStrOfPerson[1]);
+
             if (Configs.simpleDateFormat.parse(data.get("startingDate")).before(lastCheckedOutDateOfPerson)) {
                 result.put("result", "0");
                 result.put("message", "Invalid Started Date Because This Person Occupied In"
@@ -57,7 +61,10 @@ public class Controller_Contract {
                 data.get("startingDate"),
                 data.get("endingDate"),
                 data.get("isRegisteredPerAddress"),
-                "0"
+                // CheckedOut
+                "0",
+                // CreatingTime
+                Timestamp.valueOf(LocalDateTime.now()).toString()
         };
 
         String[] personData = new String[] {
@@ -72,6 +79,7 @@ public class Controller_Contract {
                 data.get("email"),
                 data.get("bankAccountNumber"),
                 data.get("bank"),
+                // IsOccupied
                 "1"
         };
 
@@ -100,10 +108,11 @@ public class Controller_Contract {
         RoomModel roomData = RoomDAO.getInstance().selectById(data.get("roomId"));
         roomData.setQuantity(Integer.parseInt(data.get("quantity")));
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
-        System.out.println(addContractRes + " " + addPersonRes + " " + updateRoomRes);
+        System.out.println(addPersonRes+" "+updateRoomRes+" "+addContractRes);
+
         if (addPersonRes * updateRoomRes != 0) {
             result.put("result", "1");
-            result.put("message", "New Contract was added!");
+            result.put("message", "Adding Successfully! Please check it because it'll be locked and can't be deleted in 24h!");
         } else {
             result.put("result", "0");
             result.put("message", "Something Wrong!");
@@ -119,16 +128,42 @@ public class Controller_Contract {
         return ContractDAO.getInstance().selectById(contractId);
     }
 
-    public static int deleteById(String contractId, String roomId, String identifier) {
+    public static HashMap<String, String> deleteById(String contractId, String roomId, String identifier) {
+        ContractModel currentContract = ContractDAO.getInstance().selectById(contractId);
+        HashMap<String, String> result = new HashMap<>();
+
+        if (Period.between(currentContract.getCreatingTime().toLocalDateTime().toLocalDate(),
+                LocalDateTime.now().toLocalDate()).getDays() >= 1) {
+            result.put("result", "0");
+            result.put("message", "Can not delete this Contract! Because it's locked after 24h you had created it!");
+            return result;
+        }
+
+        int deleteContractRes = ContractDAO.getInstance().delete(contractId);
+
         RoomModel roomData = RoomDAO.getInstance().selectById(roomId);
         roomData.setQuantity(0);
 
-        int deleteContractRes = ContractDAO.getInstance().delete(contractId);
-        // Ignore "Deleting Person Result" because there can be several old Contracts, which has this Identifier.
-        // ==> Just Delete Contract
-        PersonDAO.getInstance().delete(identifier);
+        /*
+        - Perhaps, there are several Contracts, which has this Identifier:
+            + The old one: throw exception ==> Stop delete Person, but still delete Contract.
+            + The new one under 24h: keep deleting.
+        */
+        int deletePersonRes = PersonDAO.getInstance().delete(identifier);
+
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
-        return deleteContractRes * updateRoomRes;
+
+        if (deleteContractRes * updateRoomRes == 0) {
+            result.put("result", "0");
+            result.put("message", "There's something wrong with your Database!");
+        } else if (deletePersonRes == 0) {
+            result.put("result", "1");
+            result.put("message", "Delete successfully! But there's no modify of representative information, please check it!");
+        } else {
+            result.put("result", "1");
+            result.put("message", "Delete Successfully!");
+        }
+        return result;
     }
 
     public static String[][] getAllContractByYearWithTableFormat(String year) {

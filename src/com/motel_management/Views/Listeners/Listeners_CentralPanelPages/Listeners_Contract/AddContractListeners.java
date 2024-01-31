@@ -61,7 +61,7 @@ public class AddContractListeners {
                 data.put("startingDate", Configs.simpleDateFormat.format(dateTags.get("startingDate").getCalendar().getTime()));
                 data.put("endingDate", Configs.simpleDateFormat.format(dateTags.get("endingDate").getCalendar().getTime()));
                 data.put("gender", Objects.requireNonNull(comboTags.get("gender")
-                                .getSelectedItem())
+                        .getSelectedItem())
                         .toString()
                         .equals("Men") ? "0" : "1"
                 );

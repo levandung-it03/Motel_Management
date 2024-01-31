@@ -1,5 +1,8 @@
 package com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listeners_Statistic;
 
+import com.motel_management.Controllers.Controller_Contract;
+import com.motel_management.Models.ContractModel;
+import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Contract.Dialog_DetailContract;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Statistic.Dialog_DetailStatistic;
 
 import javax.swing.*;
@@ -15,7 +18,12 @@ public class StatisticListeners {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                new Dialog_DetailStatistic(mainFrameApp,Integer.parseInt(table.getValueAt(table.rowAtPoint(e.getPoint()),0).toString()));
+                int clickedRow = table.rowAtPoint(e.getPoint());
+                int clickedColumn = table.columnAtPoint(e.getPoint());
+                if (clickedColumn == 3 && clickedRow!= 5) {
+                    new Dialog_DetailStatistic(mainFrameApp,Integer.parseInt(table.getValueAt(clickedRow,0).toString()));
+                }
+
             }
         };
     }
