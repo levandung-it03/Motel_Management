@@ -84,7 +84,8 @@ public class Controller_Contract {
         };
 
         if (!ContractDAO.getInstance()
-                .selectByCondition("WHERE checkedOut=\"0\" AND identifier=\"" + data.get("identifier") + "\"").isEmpty()) {
+                .selectByCondition("WHERE checkedOut=\"0\" AND identifier=\"" + data.get("identifier") + "\"")
+                .isEmpty()) {
             result.put("result", "0");
             result.put("message", "This Person Is In Another Room!");
             return result;
@@ -95,6 +96,7 @@ public class Controller_Contract {
             addPersonRes = PersonDAO.getInstance().insert(personData);
         } else {
             // Person existed but there is no Contract has this Person which hasn't checked out yet.
+
             addPersonRes = PersonDAO.getInstance().update(personData);
         }
 
