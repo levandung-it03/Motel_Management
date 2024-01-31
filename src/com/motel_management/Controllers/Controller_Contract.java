@@ -91,11 +91,11 @@ public class Controller_Contract {
         }
 
         int addPersonRes = 0;
-        if (PersonDAO.getInstance().selectById(data.get("identifier")) != null) {
+        if (PersonDAO.getInstance().selectById(data.get("identifier")) == null) {
+            addPersonRes = PersonDAO.getInstance().insert(personData);
+        } else {
             // Person existed but there is no Contract has this Person which hasn't checked out yet.
             addPersonRes = PersonDAO.getInstance().update(personData);
-        } else {
-            addPersonRes = PersonDAO.getInstance().insert(personData);
         }
 
         int addContractRes = ContractDAO.getInstance().insert(contractData);
@@ -108,7 +108,7 @@ public class Controller_Contract {
         RoomModel roomData = RoomDAO.getInstance().selectById(data.get("roomId"));
         roomData.setQuantity(Integer.parseInt(data.get("quantity")));
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
-        System.out.println(addPersonRes+" "+updateRoomRes+" "+addContractRes);
+//        System.out.println(addPersonRes+" "+updateRoomRes+" "+addContractRes);
 
         if (addPersonRes * updateRoomRes != 0) {
             result.put("result", "1");
@@ -191,9 +191,5 @@ public class Controller_Contract {
             contracts[i][8] = "Delete";
         }
         return contracts;
-    }
-
-    public static String getRoomIdByIdentifier(String identifier){
-        return PersonDAO.getInstance().selectRoomIdByIdentifier(identifier);
     }
 }
