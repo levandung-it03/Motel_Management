@@ -39,7 +39,7 @@ CREATE TABLE Person (
     lastName VARCHAR(70) NOT NULL,
     firstName VARCHAR(30) NOT NULL,
     birthday DATE NOT NULL,
-    phone VARCHAR(15) NOT NULL,
+    phone VARCHAR(15) UNIQUE NOT NULL,
     gender VARCHAR(1) NOT NULL,
     jobTitle VARCHAR(70) NOT NULL,
     permanentAddress VARCHAR(255) NOT NULL,
@@ -48,8 +48,24 @@ CREATE TABLE Person (
     bank VARCHAR(255),
     isOccupied BOOLEAN DEFAULT FALSE,
 
-    CONSTRAINT PK_Person PRIMARY KEY (identifier),
-    CONSTRAINT UK_Person UNIQUE (identifier)
+    CONSTRAINT PK_Person PRIMARY KEY (identifier)
+);
+
+CREATE TABLE Person_Temp_History (
+    identifier VARCHAR(20) UNIQUE NOT NULL,
+    lastName VARCHAR(70) NOT NULL,
+    firstName VARCHAR(30) NOT NULL,
+    birthday DATE NOT NULL,
+    phone VARCHAR(15) UNIQUE NOT NULL,
+    gender VARCHAR(1) NOT NULL,
+    jobTitle VARCHAR(70) NOT NULL,
+    permanentAddress VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    bankAccountNumber VARCHAR(255),
+    bank VARCHAR(255),
+    isOccupied BOOLEAN DEFAULT FALSE,
+
+    CONSTRAINT PK_Person PRIMARY KEY (identifier)
 );
 
 CREATE TABLE Contract (

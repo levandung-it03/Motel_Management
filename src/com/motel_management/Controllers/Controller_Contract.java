@@ -192,8 +192,4 @@ public class Controller_Contract {
         }
         return contracts;
     }
-
-    public static String getRoomIdByIdentifier(String identifier){
-        return PersonDAO.getInstance().selectRoomIdByIdentifier(identifier);
-    }
 }
