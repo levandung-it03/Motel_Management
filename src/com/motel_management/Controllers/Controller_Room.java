@@ -91,8 +91,8 @@ public class Controller_Room {
     }
 
     public static String addNewRoom(String[] data) {
-        int res = RoomDAO.getInstance().insert(new String[]{data[0], data[1], data[2]});
-        int resHistory = RoomPriceHistoryDAO.getInstance().insert(new String[]{data[0], LocalDate.now().toString(), data[3]});
+        int res = RoomDAO.getInstance().insert(new String[]{data[0],data[1],data[2]});
+        int resHistory = RoomPriceHistoryDAO.getInstance().insert(new String[]{data[0], LocalDate.now().toString(),data[3]});
         if (res == 0 || resHistory == 0) {
             return null;
         } else {
@@ -107,10 +107,8 @@ public class Controller_Room {
     }
 
     public static int updateRoom(String[] data) {
-        // If update on the same date, it will be updated, if it is a different date, it will be inserted in history
-        return RoomDAO.getInstance().update(new String[]{data[0], data[1], data[2]})
-                * (RoomPriceHistoryDAO.getInstance().insert(new String[]{data[0], String.valueOf(LocalDate.now()), data[3]})
-                + RoomPriceHistoryDAO.getInstance().update(new String[]{data[0], String.valueOf(LocalDate.now()), data[3]}));
+        return RoomDAO.getInstance().update(new String[]{data[0],data[1],data[2]})
+                * RoomPriceHistoryDAO.getInstance().update(new String[]{data[0], String.valueOf(LocalDate.now()),data[3]});
     }
 
     public static int resetRoomStatus(String[] data) {
@@ -136,7 +134,7 @@ public class Controller_Room {
     }
 
     public static int deleteById(String id) {
-        if (ContractDAO.getInstance().selectByCondition("WHERE roomId = \"" + id + "\"").isEmpty()) {
+        if (ContractDAO.getInstance().selectByCondition("WHERE roomId = \""+id+"\"").isEmpty()){
             return RoomPriceHistoryDAO.getInstance().delete(id) * RoomDAO.getInstance().delete(id);
         }
         return 0;
@@ -187,7 +185,6 @@ public class Controller_Room {
                 roomId + "\" AND checkedOut = 0");
         return contractId.getFirst();
     }
-
     public static Object[][] getAllRoomPriceHistoryByYearWithTableFormat(String year) {
         ArrayList<RoomPriceHistoryModel> result = RoomPriceHistoryDAO.getInstance()
                 .selectByCondition("WHERE YEAR(priceRaisedDate)=\"" + year + "\"");

@@ -173,4 +173,24 @@ public class RoomDAO implements DAOInterface<RoomModel> {
         }
         return null;
     }
+
+    public ArrayList<String> selectAllOccupiedRoomId() {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            PreparedStatement ps = myConnection
+                    .prepareStatement("SELECT roomId FROM Room WHERE (quantity > 0 OR quantity = -1) ORDER BY roomId ASC");
+            ArrayList<String> result = new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getString("roomId"));
+            }
+            return result;
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
+        return null;
+    }
+
 }
