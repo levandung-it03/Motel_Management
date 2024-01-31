@@ -107,10 +107,10 @@ public class Controller_Room {
     }
 
     public static int updateRoom(String[] data) {
-        //If it is updated on the same date, it will be updated, if it is a different date, it will be inserted in history
-        return RoomDAO.getInstance().update(new String[]{data[0],data[1],data[2]})
-                * (RoomPriceHistoryDAO.getInstance().update(new String[]{data[0], String.valueOf(LocalDate.now()),data[3]})
-                +RoomPriceHistoryDAO.getInstance().insert(new String[]{data[0], String.valueOf(LocalDate.now()),data[3]}));
+        return RoomDAO.getInstance().update(new String[]{data[0],data[1],data[2]});
+    }
+    public static int updateRoomPrice(String[] data) {
+        return RoomPriceHistoryDAO.getInstance().insert(new String[]{data[0], String.valueOf(LocalDate.now()),data[3]});
     }
 
     public static int resetRoomStatus(String[] data) {
