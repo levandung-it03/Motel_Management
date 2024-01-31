@@ -29,7 +29,7 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
             ps.setString(10, obj.getBankAccountNumber());
             ps.setString(11, obj.getBank());
             ps.setBoolean(12, obj.getIsOccupied());
-            return ps.executeUpdate(query);
+            return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
         } finally {
@@ -68,9 +68,9 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
     public int update (PersonModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "UPDATE " + personTableNameType + """
-                    SET lastName=?, firstName=?, birthday=?, phone=?, gender=?, jobTitle=?,
-                    permanentAddress=?, email=?, bankAccountNumber=?, bank=?, isOccupied=? WHERE (identifier=?);""";
+            String query = "UPDATE " + personTableNameType + " "
+                    + "SET lastName=?, firstName=?, birthday=?, phone=?, gender=?, jobTitle=?,"
+                    + "permanentAddress=?, email=?, bankAccountNumber=?, bank=?, isOccupied=? WHERE (identifier=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getLastName());
             ps.setString(2, obj.getFirstName());
@@ -98,12 +98,10 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             System.out.println(1);
-            String query = "UPDATE " + personTableNameType + "  "
+            String query = "UPDATE " + personTableNameType + " "
                     + "SET lastName=?, firstName=?, birthday=?, phone=?, gender=?, jobTitle=?,"
                     + "permanentAddress=?, email=?, bankAccountNumber=?, bank=?, isOccupied=? WHERE (identifier=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
-            System.out.println(2);
-            System.out.println(query);
             ps.setString(1, values[1]);
             ps.setString(2, values[2]);
             ps.setDate(3, Date.valueOf(Configs.stringToDate(values[3])));
@@ -116,10 +114,8 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
             ps.setString(10, values[10]);
             ps.setBoolean(11, values[11].equals("1"));
             ps.setString(12, values[0]);
-            System.out.println(3);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(4);
             e.fillInStackTrace();
         } finally {
             DB_connection.closeMMDBConnection(myConnection);
@@ -147,11 +143,11 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = String.format("""
-                    SELECT %s.*, roomId FROM Person
+                    SELECT %s.*, roomId FROM %s
                     INNER JOIN (SELECT Contract.identifier, roomId FROM Contract) AS SimpleContract
                     ON %s.identifier = SimpleContract.identifier
                     WHERE (%s.identifier=?)""",
-                    personTableNameType, personTableNameType, personTableNameType);
+                    personTableNameType, personTableNameType, personTableNameType, personTableNameType);
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
@@ -179,10 +175,10 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             PreparedStatement ps = myConnection.prepareStatement(String.format("""
-                    SELECT %s.*, roomId FROM Person
+                    SELECT %s.*, roomId FROM %s
                     INNER JOIN (SELECT Contract.identifier, roomId FROM Contract) AS SimpleContract
                     ON %s.identifier = SimpleContract.identifier""",
-                    personTableNameType, personTableNameType));
+                    personTableNameType, personTableNameType, personTableNameType));
             ArrayList<PersonModel> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -208,10 +204,10 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             PreparedStatement ps = myConnection.prepareStatement(String.format("""
-                    SELECT %s.*, roomId FROM Person
+                    SELECT %s.*, roomId FROM %s
                     INNER JOIN (SELECT Contract.identifier, roomId FROM Contract) AS SimpleContract
                     ON %s.identifier = SimpleContract.identifier\s""",
-                    personTableNameType, personTableNameType) + condition);
+                    personTableNameType, personTableNameType, personTableNameType) + condition);
             ArrayList<PersonModel> result = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

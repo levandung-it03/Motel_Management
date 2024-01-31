@@ -51,7 +51,7 @@ CREATE TABLE Person (
     CONSTRAINT PK_Person PRIMARY KEY (identifier)
 );
 
-CREATE TABLE Person_Temp_History (
+CREATE TABLE PersonTempHistory (
     identifier VARCHAR(20) UNIQUE NOT NULL,
     lastName VARCHAR(70) NOT NULL,
     firstName VARCHAR(30) NOT NULL,

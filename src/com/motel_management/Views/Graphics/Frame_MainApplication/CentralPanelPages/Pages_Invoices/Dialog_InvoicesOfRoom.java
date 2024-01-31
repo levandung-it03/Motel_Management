@@ -92,9 +92,8 @@ public class Dialog_InvoicesOfRoom extends JDialog {
         }
 
         this.invoices = Controller_Invoices.getInvoicesByRoomIdWithPage(this.currentPage, roomId);
-        HashMap<String, RoomPriceHistoryModel> roomPriceList = Controller_Room.getAllLastPriceOfEachRoom();
         for (InvoiceModel invoice: invoices)
-            invoicePanels.add(new SubItem_InvoicePanel(invoice, roomPriceList.get(invoice.getRoomId()).getRoomPrice(), this));
+            invoicePanels.add(new SubItem_InvoicePanel(invoice, this));
 
         invoicePanels.forEach(panel -> mainPanel.add(panel));
         for (int i = 12 - invoicePanels.size(); i > 0; i--) {

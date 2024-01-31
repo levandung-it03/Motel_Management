@@ -85,11 +85,32 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
     }
 
     @Override
-    public RoomPriceHistoryModel selectById(String id) {
+    public RoomPriceHistoryModel selectById(String ignored) { return null; }
+
+    // Overloads
+    public RoomPriceHistoryModel selectById(String roomId, Date priceRaisedDate) {
+        Connection myConnection = DB_connection.getMMDBConnection();
+        try {
+            PreparedStatement ps = myConnection.prepareStatement("""
+            SELECT * FROM RoomPriceHistory WHERE (roomId=? AND priceRaisedDate=?)
+            """);
+            ps.setString(1, roomId);
+            ps.setDate(2, priceRaisedDate);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                return new RoomPriceHistoryModel(rs.getString("roomId"),
+                        rs.getDate("priceRaisedDate"),
+                        rs.getInt("roomPrice"));
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        } finally {
+            DB_connection.closeMMDBConnection(myConnection);
+        }
         return null;
     }
 
-    // OverLOAD
+    // Overloads
     public int update(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {

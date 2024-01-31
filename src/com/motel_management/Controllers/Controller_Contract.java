@@ -2,6 +2,7 @@ package com.motel_management.Controllers;
 
 import com.motel_management.DataAccessObject.*;
 import com.motel_management.Models.ContractModel;
+import com.motel_management.Models.PersonModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
 
@@ -104,12 +105,13 @@ public class Controller_Contract {
         };
 
         int addPersonRes = 0;
-        if (PersonDAO.getInstance().selectById(data.get("identifier")) == null) {
+        PersonModel foundPerson = PersonDAO.getInstance().selectById(data.get("identifier"));
+        if (foundPerson == null) {
             addPersonRes = PersonDAO.getInstance().insert(personData);
         } else {
             // Person existed but there is no Contract has this Person which hasn't checked out yet.
-            PersonTempHistoryDAO.getInstance().insert(personData);
-            addPersonRes = PersonDAO.getInstance().update(personData);
+            addPersonRes = PersonTempHistoryDAO.getInstance().insert(foundPerson);
+            addPersonRes *= PersonDAO.getInstance().update(personData);
         }
 
         int addContractRes = ContractDAO.getInstance().insert(contractData);
@@ -124,7 +126,7 @@ public class Controller_Contract {
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
         System.out.println(addPersonRes+" "+updateRoomRes+" "+addContractRes);
 
-        if (addPersonRes * updateRoomRes != 0) {
+        if (addPersonRes * updateRoomRes * addContractRes != 0) {
             result.put("result", "1");
             result.put("message", "Adding Successfully! Please check it because it'll be locked and can't be deleted in 24h!");
         } else {
@@ -155,24 +157,25 @@ public class Controller_Contract {
 
         int deleteContractRes = ContractDAO.getInstance().delete(contractId);
 
-        RoomModel roomData = RoomDAO.getInstance().selectById(roomId);
-        roomData.setQuantity(0);
-
         /*
         - Perhaps, there are several Contracts, which has this Identifier:
-            + The old one: throw exception ==> Stop delete Person, but still delete Contract.
+            + The old one: throw exception ==> Stop delete Person, rollback Person Info, but still delete Contract.
             + The new one under 24h: keep deleting.
         */
-        int deletePersonRes = PersonDAO.getInstance().delete(identifier);
+        int rollbackPersonRes = 0;
+        if (PersonDAO.getInstance().delete(identifier) == 0) {
+            PersonModel foundPerson = PersonTempHistoryDAO.getInstance().selectById(identifier);
+            System.out.println(foundPerson);
+            rollbackPersonRes = PersonDAO.getInstance().update(foundPerson);
+        }
 
+        RoomModel roomData = RoomDAO.getInstance().selectById(roomId);
+        roomData.setQuantity(0);
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
 
-        if (deleteContractRes * updateRoomRes == 0) {
+        if (rollbackPersonRes * deleteContractRes * updateRoomRes == 0) {
             result.put("result", "0");
             result.put("message", "There's something wrong with your Database!");
-        } else if (deletePersonRes == 0) {
-            result.put("result", "1");
-            result.put("message", "Delete successfully! But there's no modify of representative information, please check it!");
         } else {
             result.put("result", "1");
             result.put("message", "Delete Successfully!");

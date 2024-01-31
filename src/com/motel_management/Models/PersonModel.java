@@ -65,4 +65,23 @@ public class PersonModel {
     public void setBankAccountNumber(String bankAccountNumber) { this.bankAccountNumber = bankAccountNumber; }
     public void setBank(String bank) { this.bank = bank; }
     public void setIsOccupied(boolean isOccupied) { this.isOccupied = isOccupied; }
+
+    @Override
+    public String toString() {
+        return "PersonModel{" +
+                "identifier='" + identifier + '\'' +
+                ", roomId='" + roomId + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", birthday=" + birthday +
+                ", phone='" + phone + '\'' +
+                ", gender='" + gender + '\'' +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", permanentAddress='" + permanentAddress + '\'' +
+                ", email='" + email + '\'' +
+                ", bankAccountNumber='" + bankAccountNumber + '\'' +
+                ", bank='" + bank + '\'' +
+                ", isOccupied=" + isOccupied +
+                '}';
+    }
 }

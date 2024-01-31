@@ -7,5 +7,4 @@ public class PersonTempHistoryDAO extends PersonStereoTypeDAO {
 
     public static PersonTempHistoryDAO getInstance() { return new PersonTempHistoryDAO(); }
 
-
 }
