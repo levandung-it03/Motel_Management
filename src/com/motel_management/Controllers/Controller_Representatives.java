@@ -23,17 +23,16 @@ public class Controller_Representatives {
     }
 
     public static String[][] getAllRepresentativesWithTableFormat(String year) {
-        String[][] result;
-        String condition;
-
-        if (year.equals("0"))   condition = "WHERE checkedOut=\"0\"";
-        else    condition = "WHERE YEAR(startingDate)=\"" + year +"\"";
+        String condition = year.equals("0") ?
+                "WHERE checkedOut=\"0\"" :
+                "WHERE YEAR(startingDate)=\"" + year +"\"";
 
         ArrayList<String[]> persons = PersonDAO.getInstance().selectByInnerJoinContract(condition);
+
         if (persons == null)
             return new String[0][8];
-        result = new String[persons.size()][8];
 
+        String[][] result = new String[persons.size()][8];
         for (int i = 0; i < persons.size(); i++) {
             result[i][0] = persons.get(i)[0];
             result[i][1] = persons.get(i)[1];
@@ -44,7 +43,6 @@ public class Controller_Representatives {
             result[i][6] = persons.get(i)[6];
             result[i][7] = "View";
         }
-
         return result;
     }
 }

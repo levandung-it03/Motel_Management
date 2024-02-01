@@ -57,7 +57,7 @@ public class PersonDAO extends PersonStereoTypeDAO {
         try {
             PreparedStatement ps = myConnection.prepareStatement("""
                     SELECT SimpleContract.roomId, Person.identifier, lastName, firstName, startingDate, endingDate, phone
-                    FROM " + personTableNameType + " INNER JOIN (
+                    FROM Person INNER JOIN (
                         SELECT roomId, Contract.identifier, startingDate, endingDate FROM Contract\s""" + condition +
                     ") AS SimpleContract ON Person.identifier = SimpleContract.identifier"
             );

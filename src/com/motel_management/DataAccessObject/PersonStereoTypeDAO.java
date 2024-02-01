@@ -98,11 +98,12 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             System.out.println(1);
-            String query = "UPDATE " + personTableNameType + """
-                    SET lastName=?, firstName=?, birthday=?, phone=?, gender=?, jobTitle=?,
-                    permanentAddress=?, email=?, bankAccountNumber=?, bank=?, isOccupied=? WHERE (identifier=?);""";
+            String query = "UPDATE " + personTableNameType + "  "
+                    + "SET lastName=?, firstName=?, birthday=?, phone=?, gender=?, jobTitle=?,"
+                    + "permanentAddress=?, email=?, bankAccountNumber=?, bank=?, isOccupied=? WHERE (identifier=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             System.out.println(2);
+            System.out.println(query);
             ps.setString(1, values[1]);
             ps.setString(2, values[2]);
             ps.setDate(3, Date.valueOf(Configs.stringToDate(values[3])));

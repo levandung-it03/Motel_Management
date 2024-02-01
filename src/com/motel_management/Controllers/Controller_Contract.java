@@ -56,7 +56,7 @@ public class Controller_Contract {
             return result;
         }
 
-        // Check Is There's A Contract Added In The Last 24h.
+        // Check If There's A Contract Added In The Last 24h.
         try {
             ContractModel foundLastContract = ContractDAO.getInstance().selectLastContractByRoomId(data.get("roomId"));
             if (Period.between(foundLastContract.getCreatingTime().toLocalDateTime().toLocalDate(),
@@ -122,7 +122,7 @@ public class Controller_Contract {
         RoomModel roomData = RoomDAO.getInstance().selectById(data.get("roomId"));
         roomData.setQuantity(Integer.parseInt(data.get("quantity")));
         int updateRoomRes = RoomDAO.getInstance().update(roomData);
-//        System.out.println(addPersonRes+" "+updateRoomRes+" "+addContractRes);
+        System.out.println(addPersonRes+" "+updateRoomRes+" "+addContractRes);
 
         if (addPersonRes * updateRoomRes != 0) {
             result.put("result", "1");
