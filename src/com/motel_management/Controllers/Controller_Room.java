@@ -8,6 +8,7 @@ import com.toedter.calendar.JDateChooser;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class Controller_Room {
 
@@ -106,16 +107,19 @@ public class Controller_Room {
 
     public static int updateRoom(String[] data) {
         // data[0] = roomId, data[1] = quantity, data[2] = maxQuantity, data[3] = defaultPrice
-        // If an invoice has been created during the day, the price cannot be changed
         return RoomDAO.getInstance().update(new String[]{data[0], data[1], data[2]});
     }
 
     public static int updateRoomPrice(String[] data) {
         // data[0] = roomId, data[1] = quantity, data[2] = maxQuantity, data[3] = defaultPrice
         // If an invoice has been created during the day, the price cannot be changed
-        if (InvoiceDAO.getInstance().selectByCondition("WHERE roomId = \"" + data[0] + "\" ORDER BY priceRaisedDate DESC")
-                .getFirst().getPriceRaisedDate().toLocalDate().equals(LocalDate.now())) {
-            return 0;
+        try {
+            if (InvoiceDAO.getInstance().selectByCondition("WHERE roomId = \"" + data[0] + "\" ORDER BY priceRaisedDate DESC")
+                    .getFirst().getPriceRaisedDate().toLocalDate().equals(LocalDate.now())
+                    && RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(data[0]) != Integer.parseInt(data[3])) {
+                return 0;
+            }
+        } catch (NoSuchElementException ignored) {
         }
         // If it is updated on the same date, it will be updated, if it is a different date, it will be inserted in history
         return (RoomPriceHistoryDAO.getInstance().update(new String[]{data[0], String.valueOf(LocalDate.now()), data[3]})
