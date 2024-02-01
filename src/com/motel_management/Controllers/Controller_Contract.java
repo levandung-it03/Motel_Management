@@ -1,9 +1,6 @@
 package com.motel_management.Controllers;
 
-import com.motel_management.DataAccessObject.CheckOutDAO;
-import com.motel_management.DataAccessObject.ContractDAO;
-import com.motel_management.DataAccessObject.PersonDAO;
-import com.motel_management.DataAccessObject.RoomDAO;
+import com.motel_management.DataAccessObject.*;
 import com.motel_management.Models.ContractModel;
 import com.motel_management.Models.RoomModel;
 import com.motel_management.Views.Configs;
@@ -11,6 +8,7 @@ import com.motel_management.Views.Configs;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.*;
@@ -49,8 +47,30 @@ public class Controller_Contract {
             }
         } catch(NullPointerException | ParseException ignored) {}
 
-        String contractId = "C" + Configs.generateIdTail();
+        // Check If This Person Is In Another Room (Have A Contract With isOccupied == 0)
+        if (!ContractDAO.getInstance()
+                .selectByCondition("WHERE checkedOut=\"0\" AND identifier=\"" + data.get("identifier") + "\"")
+                .isEmpty()) {
+            result.put("result", "0");
+            result.put("message", "This Person Is In Another Room!");
+            return result;
+        }
 
+        // Check Is There's A Contract Added In The Last 24h.
+        try {
+            ContractModel foundLastContract = ContractDAO.getInstance().selectLastContractByRoomId(data.get("roomId"));
+            if (Period.between(foundLastContract.getCreatingTime().toLocalDateTime().toLocalDate(),
+            LocalDate.now()).getDays() < 1) {
+                result.put("result", "0");
+                result.put("message", "There was a Contract added in the last 24h. Please wait to add new Contract!");
+                return result;
+            } else {
+                // Clear the last updated Person history to save new (if there are the old Person with new info).
+                PersonTempHistoryDAO.getInstance().delete(data.get("identifier"));
+            }
+        } catch (NullPointerException ignored) {}
+
+        String contractId = "C" + Configs.generateIdTail();
         String[] contractData = new String[] {
                 contractId,
                 data.get("identifier"),
@@ -83,20 +103,12 @@ public class Controller_Contract {
                 "1"
         };
 
-        if (!ContractDAO.getInstance()
-                .selectByCondition("WHERE checkedOut=\"0\" AND identifier=\"" + data.get("identifier") + "\"")
-                .isEmpty()) {
-            result.put("result", "0");
-            result.put("message", "This Person Is In Another Room!");
-            return result;
-        }
-
         int addPersonRes = 0;
         if (PersonDAO.getInstance().selectById(data.get("identifier")) == null) {
             addPersonRes = PersonDAO.getInstance().insert(personData);
         } else {
             // Person existed but there is no Contract has this Person which hasn't checked out yet.
-
+            PersonTempHistoryDAO.getInstance().insert(personData);
             addPersonRes = PersonDAO.getInstance().update(personData);
         }
 
