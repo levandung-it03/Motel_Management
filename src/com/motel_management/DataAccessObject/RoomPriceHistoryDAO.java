@@ -2,7 +2,6 @@ package com.motel_management.DataAccessObject;
 
 import com.motel_management.DB_interaction.DB_connection;
 import com.motel_management.Models.RoomPriceHistoryModel;
-import com.motel_management.Views.Configs;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -67,39 +66,6 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
         return 0;
     }
 
-    public int deleteLastHistory(String id, String date) {
-        Connection myConnection = DB_connection.getMMDBConnection();
-        try {
-            String query = "DELETE FROM RoomPriceHistory WHERE roomId=? and priceRaisedDate=?";
-            PreparedStatement ps = myConnection.prepareStatement(query);
-            ps.setString(1, id);
-            ps.setDate(2, Date.valueOf(Configs.stringToDate(date)));
-            return ps.executeUpdate();
-        } catch (SQLException e) {
-            e.fillInStackTrace();
-        } finally {
-            DB_connection.closeMMDBConnection(myConnection);
-        }
-        return 0;
-    }
-
-    // Overloads
-    public int deleteLastHistory(String id, Date date) {
-        Connection myConnection = DB_connection.getMMDBConnection();
-        try {
-            String query = "DELETE FROM RoomPriceHistory WHERE roomId=? and priceRaisedDate=?";
-            PreparedStatement ps = myConnection.prepareStatement(query);
-            ps.setString(1, id);
-            ps.setDate(2, date);
-            return ps.executeUpdate();
-        } catch (SQLException e) {
-            e.fillInStackTrace();
-        } finally {
-            DB_connection.closeMMDBConnection(myConnection);
-        }
-        return 0;
-    }
-
     @Override
     public int update(RoomPriceHistoryModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
@@ -139,45 +105,6 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
             DB_connection.closeMMDBConnection(myConnection);
         }
         return 0;
-    }
-
-    public RoomPriceHistoryModel selectByIdAndDate(String id, String date) {
-        Connection myConnection = DB_connection.getMMDBConnection();
-        try {
-            String query = ("SELECT * FROM RoomPriceHistory WHERE (roomId=? AND priceRaisedDate=?)");
-            PreparedStatement ps = myConnection.prepareStatement(query);
-            ps.setString(1, id);
-            ps.setDate(2, Date.valueOf(Configs.stringToDate(date)));
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            return new RoomPriceHistoryModel(rs.getString("roomId"), rs.getDate("priceRaisedDate"),
-                    rs.getInt("roomPrice"));
-        } catch (SQLException e) {
-            e.fillInStackTrace();
-        } finally {
-            DB_connection.closeMMDBConnection(myConnection);
-        }
-        return null;
-    }
-
-    // Overloads
-    public RoomPriceHistoryModel selectByIdAndDate(String id, Date date) {
-        Connection myConnection = DB_connection.getMMDBConnection();
-        try {
-            String query = ("SELECT * FROM RoomPriceHistory WHERE (roomId=? AND priceRaisedDate=?)");
-            PreparedStatement ps = myConnection.prepareStatement(query);
-            ps.setString(1, id);
-            ps.setDate(2, date);
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            return new RoomPriceHistoryModel(rs.getString("roomId"), rs.getDate("priceRaisedDate"),
-                    rs.getInt("roomPrice"));
-        } catch (SQLException e) {
-            e.fillInStackTrace();
-        } finally {
-            DB_connection.closeMMDBConnection(myConnection);
-        }
-        return null;
     }
 
     @Override
@@ -230,7 +157,7 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
                         GROUP BY roomId
                     );"""
             );
-            HashMap<String, RoomPriceHistoryModel> result = new HashMap<String, RoomPriceHistoryModel>();
+            HashMap<String, RoomPriceHistoryModel> result = new HashMap<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.put(
