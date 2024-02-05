@@ -268,7 +268,11 @@ public class Controller_Invoices {
     }
 
     public static int deleteInvoice(String invoiceId) {
-        return InvoiceDAO.getInstance().delete(invoiceId);
+        InvoiceModel invoice = InvoiceDAO.getInstance().selectById(invoiceId);
+        if (!invoice.getWasPaid()){
+            return InvoiceDAO.getInstance().delete(invoiceId);
+        }
+        return 0;
     }
 
     public static int STI(String num) {
