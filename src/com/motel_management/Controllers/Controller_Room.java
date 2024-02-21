@@ -20,9 +20,6 @@ public class Controller_Room {
         return RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(roomId);
     }
 
-    public static HashMap<String, RoomPriceHistoryModel> getAllLastPriceOfEachRoom() {
-        return RoomPriceHistoryDAO.getInstance().selectAllLastPriceOfEachRoom();
-    }
 
     public static String[][] getRoomInfo(String[] condition) {
         // Default

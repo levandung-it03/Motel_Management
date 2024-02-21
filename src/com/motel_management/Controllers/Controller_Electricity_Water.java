@@ -69,7 +69,7 @@ public class Controller_Electricity_Water {
 
     public static String checkRegion() {
         ArrayList<RegionModel> region = RegionDAO.getInstance().selectAll();
-        if (region.size() != 0) {
+        if (!region.isEmpty()) {
             if (region.get(0).getRegion().equalsIgnoreCase("Tp.Ho Chi Minh")) {
                 return "Price(VND/Person/m³)";
             } else {

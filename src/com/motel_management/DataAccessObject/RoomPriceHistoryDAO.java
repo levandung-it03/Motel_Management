@@ -168,37 +168,6 @@ public class RoomPriceHistoryDAO implements DAOInterface<RoomPriceHistoryModel>{
         return null;
     }
 
-    public HashMap<String, RoomPriceHistoryModel> selectAllLastPriceOfEachRoom() {
-        Connection myConnection = DB_connection.getMMDBConnection();
-        try {
-            PreparedStatement ps = myConnection.prepareStatement("""
-                    SELECT * FROM RoomPriceHistory
-                    WHERE (roomId, priceRaisedDate) IN (
-                        SELECT roomId, MAX(priceRaisedDate) FROM RoomPriceHistory
-                        GROUP BY roomId
-                    );"""
-            );
-            HashMap<String, RoomPriceHistoryModel> result = new HashMap<>();
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.put(
-                        rs.getString("roomId"),
-                        new RoomPriceHistoryModel(
-                                rs.getString("roomId"),
-                                rs.getDate("priceRaisedDate"),
-                                rs.getInt("roomPrice")
-                        )
-                );
-            }
-            return result;
-        } catch (SQLException e) {
-            e.fillInStackTrace();
-        } finally {
-            DB_connection.closeMMDBConnection(myConnection);
-        }
-        return null;
-    }
-
     public int selectCurrentRoomPriceWithRoomId(String roomId) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
