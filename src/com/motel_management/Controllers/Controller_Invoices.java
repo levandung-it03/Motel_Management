@@ -86,7 +86,6 @@ public class Controller_Invoices {
             return result;
         }
 
-
         boolean isFamily = contract.getIsFamily();
         boolean isRegisteredPerAddress = contract.getIsRegisteredPerAddress();
         long totalContractTimeAsMonth = Period.between(
