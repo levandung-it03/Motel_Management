@@ -3,8 +3,6 @@ package com.motel_management.Controllers;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.motel_management.DataAccessObject.AccountDAO;
 import com.motel_management.Models.AccountModel;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Controller_ChangePassword {

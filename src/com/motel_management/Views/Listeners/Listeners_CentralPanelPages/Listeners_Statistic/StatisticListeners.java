@@ -1,10 +1,6 @@
 package com.motel_management.Views.Listeners.Listeners_CentralPanelPages.Listeners_Statistic;
 
-import com.motel_management.Controllers.Controller_Contract;
-import com.motel_management.Models.ContractModel;
-import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Contract.Dialog_DetailContract;
 import com.motel_management.Views.Graphics.Frame_MainApplication.CentralPanelPages.Pages_Statistic.Dialog_DetailStatistic;
-
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
