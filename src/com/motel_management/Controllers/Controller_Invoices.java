@@ -4,12 +4,10 @@ import com.motel_management.DataAccessObject.*;
 import com.motel_management.Models.*;
 import com.motel_management.Configs;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class Controller_Invoices {
 
