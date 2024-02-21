@@ -38,7 +38,7 @@ public class RoomListeners {
             public void actionPerformed(ActionEvent evt) {
                 Pattern pattern = Pattern.compile("P\\d{3}");
                 Matcher matcher = pattern.matcher(inpTags.get("roomIdInp").getText());
-                boolean isValid = true;
+                boolean isValid;
 
                 try {
                     isValid = matcher.matches()
@@ -122,14 +122,19 @@ public class RoomListeners {
                         inpTags.get("maxQuantity").getText(), inpTags.get("defaultPrice").getText()};
                 boolean isValid = GeneralCentralPanelListeners.validateRoomTableData(inpTags);
                 if (isValid) {
-                    if (Controller_Room.updateRoom(data) != 0) {
+                    if (Controller_Room.updateRoomPrice(data) != 0 && Controller_Room.updateRoom(data) != 0) {
                         JOptionPane.showMessageDialog(new JPanel(), "Update Successfully!", "Notice",
                                 JOptionPane.PLAIN_MESSAGE);
                         CentralPanel.category.setComponentAt(1, new Page_RoomMain(mainFrameApp));
                         dialog.dispose();
-                    } else
-                        JOptionPane.showMessageDialog(new JPanel(), "Update Failed!", "Notice",
+                    } else if (Controller_Room.updateRoomPrice(data) == 0) {
+                        JOptionPane.showMessageDialog(new JPanel(),
+                                "Update failed because this month's invoice has already been created !", "Notice",
                                 JOptionPane.PLAIN_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(new JPanel(), "Update failed !", "Notice",
+                                JOptionPane.PLAIN_MESSAGE);
+                    }
                 }
             }
         };
@@ -147,19 +152,19 @@ public class RoomListeners {
                             Configs.simpleDateFormat.format(checkOutDate.getCalendar().getTime()), reason.getText()};
                     String nextIdWhenSuccessfully = Controller_Checkout.addCheckOutHistory(data);
                     if (nextIdWhenSuccessfully != null) {
-                        if (Controller_Contract.updateContractStatus(new String[]{"1", contractId.getContractId()}) ==0
-                        || Controller_Representatives.updatePersonStatus(new String[]{"0", contractId.getIdentifier()})==0
-                        || Controller_Room.resetRoomStatus(new String[]{"0", roomId})==0){
+                        if (Controller_Contract.updateContractStatus(new String[]{"1", contractId.getContractId()}) == 0
+                                || Controller_Representatives.updatePersonStatus(new String[]{"0", contractId.getIdentifier()}) == 0
+                                || Controller_Room.resetRoomStatus(new String[]{"0", roomId}) == 0) {
                             JOptionPane.showConfirmDialog(new Panel(), "Checkout failed",
                                     "Notice", JOptionPane.DEFAULT_OPTION);
-                        }else {
+                        } else {
                             JOptionPane.showConfirmDialog(new Panel(), "Successful Checkout",
                                     "Notice", JOptionPane.DEFAULT_OPTION);
                         }
                         CentralPanel.category.setComponentAt(1, new Page_RoomMain(mainFrameApp));
                         dialog.dispose();
                     }
-                }else{
+                } else {
                     JOptionPane.showConfirmDialog(new Panel(), "Checkout date must be after the starting date!",
                             "Notice", JOptionPane.DEFAULT_OPTION);
                 }

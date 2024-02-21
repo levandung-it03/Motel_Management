@@ -57,6 +57,8 @@ public class Page_AddInvoice extends JPanel {
         container.add(InputComboPanel.generateTextInputPanel("Wifi Fee", wifi));
         container.add(InputComboPanel.generateTextInputPanel("Vehicle Fee", vehicle));
 
+        defaultRoomPrice.setEditable(false);
+
         this.submitBtn = InputComboPanel.generateButton("Submit");
         this.submitBtnContainer.add(this.submitBtn);
         this.submitBtnContainer.setBorder(new EmptyBorder(10, 55, 0, 55));
