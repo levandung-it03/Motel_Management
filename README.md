@@ -42,7 +42,8 @@ This is our Main Display.
 
 **7. Check Out action.**
 
-o	Features Desciption: 
+o	Features Desciption:
+
   •	The landlord is granted an account to manage the motels.
   
   •	The landlord can add, delete, and modify the number of rooms, the number of people in each room, and the maximum number of people that can stay in each room
