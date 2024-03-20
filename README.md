@@ -42,12 +42,17 @@ This is our Main Display.
 
 **7. Check Out action.**
 
-*****Old*****
 o	Features Desciption: 
   •	The landlord is granted an account to manage the motels.
+  
   •	The landlord can add, delete, and modify the number of rooms, the number of people in each room, and the maximum number of people that can stay in each room
+  
   •	The landlord creates a contract with the tenant. When the contract expires, the contract is still stored in the database.
+  
   •	The landlord can view and modify the information of the tenant. The information of the tenant is still stored in the database after the tenant has checked out.
+  
   •	The landlord can add electricity and water rates. Customize the electricity and water prices according to the state policy.
+  
   •	The landlord can create payment invoices for the tenant, easily manage income and expenses.
+  
   •	When the tenant checks out, the landlord can check whether the tenant has paid the entire bill.
