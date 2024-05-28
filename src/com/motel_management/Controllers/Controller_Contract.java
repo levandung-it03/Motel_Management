@@ -19,6 +19,12 @@ public class Controller_Contract {
     public static HashMap<String, String> addNewContract(HashMap<String, String> data) {
         HashMap<String, String> result = new HashMap<>();
 
+        if (!PersonDAO.getInstance().selectByCondition("WHERE phone=" + data.get("phone")).isEmpty()) {
+            result.put("result", "0");
+            result.put("message", "Phone number is already existing");
+            return result;
+        }
+
         // Check If This Room Already Had 'StartingDate' < 'CheckOutDate'.
         try {
             String lastCheckedOutDateStrOfRoom =
@@ -110,12 +116,6 @@ public class Controller_Contract {
             // Person existed but there is no Contract has this Person which hasn't checked out yet.
             addPersonRes = PersonTempHistoryDAO.getInstance().insert(foundPerson);
             addPersonRes *= PersonDAO.getInstance().update(personData);
-        }
-
-        if (!PersonDAO.getInstance().selectByCondition("WHERE phone=" + data.get("phone")).isEmpty()) {
-            result.put("result", "0");
-            result.put("message", "Phone number is already existing");
-            return result;
         }
 
         int addContractRes = ContractDAO.getInstance().insert(contractData);
