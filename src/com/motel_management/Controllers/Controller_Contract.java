@@ -112,6 +112,12 @@ public class Controller_Contract {
             addPersonRes *= PersonDAO.getInstance().update(personData);
         }
 
+        if (!PersonDAO.getInstance().selectByCondition("WHERE phone=" + data.get("phone")).isEmpty()) {
+            result.put("result", "0");
+            result.put("message", "Phone number is already existing");
+            return result;
+        }
+
         int addContractRes = ContractDAO.getInstance().insert(contractData);
         if (addContractRes == -1) {
             result.put("result", "0");
