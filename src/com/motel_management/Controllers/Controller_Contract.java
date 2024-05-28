@@ -58,7 +58,6 @@ public class Controller_Contract {
 
         // Check If There's A Contract Added In The Last 24h.
         try {
-            selectLastContractByField
             ContractModel foundLastContract = ContractDAO.getInstance()
                 .selectLastContractByField("identifier", data.get("identifier"));
             if (Period.between(foundLastContract.getCreatingTime().toLocalDateTime().toLocalDate(),
