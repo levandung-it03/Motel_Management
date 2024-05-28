@@ -38,34 +38,37 @@ public class Controller_Room {
             }
         }
         //Search
-        ArrayList<RoomModel> temp = result;
-        result = RoomDAO.getInstance().selectByCondition("WHERE 0");
-        for (int i = 0; i < temp.size(); i++) {
-            switch (condition[1]) {
-                case "0" -> {
-                    if (temp.get(i).getRoomId().contains(condition[2].toUpperCase())) result.add(temp.get(i));
-                }
-                case "1" -> {
-                    ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition("WHERE (lastName LIKE \"%" +
-                            condition[2] + "%\" OR firstName LIKE \"%" + condition[2] + "%\") AND checkedOut = 0");
-                    for (PersonModel personModel : personResult) {
-                        if (temp.get(i).getRoomId().equalsIgnoreCase(personModel.getRoomId())) {
-                            result.add(temp.get(i));
+        ArrayList<RoomModel> temp = new ArrayList<>();
+        if (!condition[2].isEmpty()) {
+            for (int i = 0; i < result.size(); i++) {
+                switch (condition[1]) {
+                    case "0" -> {
+                        if (result.get(i).getRoomId().contains(condition[2].toUpperCase())) temp.add(result.get(i));
+                    }
+                    case "1" -> {
+                        ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition("WHERE (lastName LIKE \"%" +
+                                condition[2] + "%\" OR firstName LIKE \"%" + condition[2] + "%\") AND checkedOut = 0");
+                        for (PersonModel personModel : personResult) {
+                            if (result.get(i).getRoomId().equalsIgnoreCase(personModel.getRoomId())) {
+                                temp.add(result.get(i));
+                            }
                         }
                     }
+                    case "2" -> {
+                        if (String.valueOf(result.get(i).getQuantity()).equals(condition[2])) temp.add(result.get(i));
+                    }
+                    case "3" -> {
+                        if (String.valueOf(result.get(i).getMaxQuantity()).equals(condition[2]))
+                            temp.add(result.get(i));
+                    }
+                    case "4" -> {
+                        int roomPriceHistoryModel = RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(result.get(i).getRoomId());
+                        if (String.valueOf(roomPriceHistoryModel).equals(condition[2])) temp.add(result.get(i));
+                    }
+                    default -> temp = result;
                 }
-                case "2" -> {
-                    if (String.valueOf(temp.get(i).getQuantity()).equals(condition[2])) result.add(temp.get(i));
-                }
-                case "3" -> {
-                    if (String.valueOf(temp.get(i).getMaxQuantity()).equals(condition[2])) result.add(temp.get(i));
-                }
-                case "4" -> {
-                    int roomPriceHistoryModel = RoomPriceHistoryDAO.getInstance().selectCurrentRoomPriceWithRoomId(temp.get(i).getRoomId());
-                    if (String.valueOf(roomPriceHistoryModel).equals(condition[2])) result.add(temp.get(i));
-                }
-                default -> result = temp;
             }
+            result = temp;
         }
 
         String[][] rooms = new String[result.size()][5];
