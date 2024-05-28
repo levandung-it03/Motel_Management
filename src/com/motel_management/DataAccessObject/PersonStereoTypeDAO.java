@@ -15,7 +15,7 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
     public int insert(PersonModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO " + personTableNameType + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO " + personTableNameType + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getIdentifier());
             ps.setString(2, obj.getLastName());
@@ -28,7 +28,6 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
             ps.setString(9, obj.getEmail());
             ps.setString(10, obj.getBankAccountNumber());
             ps.setString(11, obj.getBank());
-            ps.setBoolean(12, obj.getIsOccupied());
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
@@ -41,7 +40,7 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
     public int insert(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            String query = "INSERT INTO " + personTableNameType + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO " + personTableNameType + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[0]);
             ps.setString(2, values[1]);
@@ -54,7 +53,6 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
             ps.setString(9, values[8]);
             ps.setString(10, values[9]);
             ps.setString(11, values[10]);
-            ps.setBoolean(12, values[11].equals("1"));
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
@@ -70,7 +68,7 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
         try {
             String query = "UPDATE " + personTableNameType + " "
                     + "SET lastName=?, firstName=?, birthday=?, phone=?, gender=?, jobTitle=?,"
-                    + "permanentAddress=?, email=?, bankAccountNumber=?, bank=?, isOccupied=? WHERE (identifier=?);";
+                    + "permanentAddress=?, email=?, bankAccountNumber=?, bank=? WHERE (identifier=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getLastName());
             ps.setString(2, obj.getFirstName());
@@ -82,8 +80,7 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
             ps.setString(8, obj.getEmail());
             ps.setString(9, obj.getBankAccountNumber());
             ps.setString(10, obj.getBank());
-            ps.setBoolean(11, obj.getIsOccupied());
-            ps.setString(12, obj.getIdentifier());
+            ps.setString(11, obj.getIdentifier());
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
@@ -99,7 +96,7 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
         try {
             String query = "UPDATE " + personTableNameType + " "
                     + "SET lastName=?, firstName=?, birthday=?, phone=?, gender=?, jobTitle=?,"
-                    + "permanentAddress=?, email=?, bankAccountNumber=?, bank=?, isOccupied=? WHERE (identifier=?);";
+                    + "permanentAddress=?, email=?, bankAccountNumber=?, bank=? WHERE (identifier=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[1]);
             ps.setString(2, values[2]);
@@ -111,8 +108,7 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
             ps.setString(8, values[8]);
             ps.setString(9, values[9]);
             ps.setString(10, values[10]);
-            ps.setBoolean(11, values[11].equals("1"));
-            ps.setString(12, values[0]);
+            ps.setString(11, values[0]);
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
@@ -156,8 +152,7 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
                         rs.getDate("birthday"),rs.getString("phone"),
                         rs.getString("gender"), rs.getString("jobTitle"),
                         rs.getString("permanentAddress"), rs.getString("email"),
-                        rs.getString("bankAccountNumber"), rs.getString("bank"),
-                        rs.getBoolean("isOccupied"));
+                        rs.getString("bankAccountNumber"), rs.getString("bank"));
             } else {
                 return null;
             }
@@ -186,8 +181,7 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
                         rs.getDate("birthday"),rs.getString("phone"),
                         rs.getString("gender"), rs.getString("jobTitle"),
                         rs.getString("permanentAddress"), rs.getString("email"),
-                        rs.getString("bankAccountNumber"), rs.getString("bank"),
-                        rs.getBoolean("isOccupied")));
+                        rs.getString("bankAccountNumber"), rs.getString("bank")));
             }
             return result;
         } catch (SQLException e) {
@@ -204,7 +198,7 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
         try {
             PreparedStatement ps = myConnection.prepareStatement(String.format("""
                     SELECT %s.*, roomId FROM %s
-                    INNER JOIN (SELECT Contract.identifier, roomId FROM Contract) AS SimpleContract
+                    INNER JOIN (SELECT Contract.identifier, roomId, checkedOut FROM Contract) AS SimpleContract
                     ON %s.identifier = SimpleContract.identifier\s""",
                     personTableNameType, personTableNameType, personTableNameType) + condition);
             ArrayList<PersonModel> result = new ArrayList<>();
@@ -215,8 +209,7 @@ public class PersonStereoTypeDAO implements DAOInterface<PersonModel> {
                         rs.getDate("birthday"),rs.getString("phone"),
                         rs.getString("gender"), rs.getString("jobTitle"),
                         rs.getString("permanentAddress"), rs.getString("email"),
-                        rs.getString("bankAccountNumber"), rs.getString("bank"),
-                        rs.getBoolean("isOccupied")));
+                        rs.getString("bankAccountNumber"), rs.getString("bank")));
             }
             return result;
         } catch (SQLException e) {

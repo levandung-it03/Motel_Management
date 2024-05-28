@@ -15,12 +15,11 @@ public class PersonModel {
     private String email;
     private String bankAccountNumber;
     private String bank;
-    private boolean isOccupied;
 
     public PersonModel() {}
     public PersonModel(String identifier, String roomId, String lastName, String firstName, Date birthday,
                        String phone, String gender,String jobTitle, String permanentAddress, String email,
-                       String bankAccountNumber, String bank, boolean isOccupied) {
+                       String bankAccountNumber, String bank) {
         this.identifier = identifier;
         this.roomId = roomId;
         this.lastName = lastName;
@@ -33,7 +32,6 @@ public class PersonModel {
         this.email = email;
         this.bankAccountNumber = bankAccountNumber;
         this.bank = bank;
-        this.isOccupied = isOccupied;
     }
 
     // Getters
@@ -49,7 +47,6 @@ public class PersonModel {
     public String getEmail() { return email; }
     public String getBankAccountNumber() { return bankAccountNumber; }
     public String getBank() { return bank; }
-    public boolean getIsOccupied() { return isOccupied; }
 
     // Setters
     public void setIdentifier(String identifier) { this.identifier = identifier; }
@@ -64,7 +61,6 @@ public class PersonModel {
     public void setEmail(String email) { this.email = email; }
     public void setBankAccountNumber(String bankAccountNumber) { this.bankAccountNumber = bankAccountNumber; }
     public void setBank(String bank) { this.bank = bank; }
-    public void setIsOccupied(boolean isOccupied) { this.isOccupied = isOccupied; }
 
     @Override
     public String toString() {
@@ -81,7 +77,6 @@ public class PersonModel {
                 ", email='" + email + '\'' +
                 ", bankAccountNumber='" + bankAccountNumber + '\'' +
                 ", bank='" + bank + '\'' +
-                ", isOccupied=" + isOccupied +
                 '}';
     }
 }

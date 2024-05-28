@@ -36,22 +36,6 @@ public class PersonDAO extends PersonStereoTypeDAO {
         return 0;
     }
 
-    public int updatePersonStatus(String[] values) {
-        Connection myConnection = DB_connection.getMMDBConnection();
-        try {
-            String query = "UPDATE Person SET isOccupied=? WHERE (identifier=?);";
-            PreparedStatement ps = myConnection.prepareStatement(query);
-            ps.setBoolean(1, values[0].equals("1"));
-            ps.setString(2, values[1]);
-            return ps.executeUpdate();
-        } catch (SQLException e) {
-            e.fillInStackTrace();
-        } finally {
-            DB_connection.closeMMDBConnection(myConnection);
-        }
-        return 0;
-    }
-
     public ArrayList<String[]> selectByInnerJoinContract(String condition) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {

@@ -47,7 +47,7 @@ public class Controller_Contract {
             }
         } catch(NullPointerException | ParseException ignored) {}
 
-        // Check If This Person Is In Another Room (Have A Contract With isOccupied == 0)
+        // Check If This Person Is In Another Room (Have A Contract With checkedOut == 0)
         if (!ContractDAO.getInstance()
                 .selectByCondition("WHERE checkedOut=\"0\" AND identifier=\"" + data.get("identifier") + "\"")
                 .isEmpty()) {
@@ -98,9 +98,7 @@ public class Controller_Contract {
                 data.get("permanentAddress"),
                 data.get("email"),
                 data.get("bankAccountNumber"),
-                data.get("bank"),
-                // IsOccupied
-                "1"
+                data.get("bank")
         };
 
         int addPersonRes = 0;

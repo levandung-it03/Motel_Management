@@ -45,8 +45,7 @@ CREATE TABLE Person (
     permanentAddress VARCHAR(255) NOT NULL,
     email VARCHAR(255),
     bankAccountNumber VARCHAR(255),
-    bank VARCHAR(255),
-    isOccupied BOOLEAN DEFAULT FALSE,
+    bank VARCHAR(255)
 
     CONSTRAINT PK_Person PRIMARY KEY (identifier)
 );
@@ -62,8 +61,7 @@ CREATE TABLE PersonTempHistory (
     permanentAddress VARCHAR(255) NOT NULL,
     email VARCHAR(255),
     bankAccountNumber VARCHAR(255),
-    bank VARCHAR(255),
-    isOccupied BOOLEAN DEFAULT FALSE,
+    bank VARCHAR(255)
 
     CONSTRAINT PK_Person PRIMARY KEY (identifier)
 );

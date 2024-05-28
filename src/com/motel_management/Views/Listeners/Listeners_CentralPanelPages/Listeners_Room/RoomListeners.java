@@ -153,7 +153,6 @@ public class RoomListeners {
                     String nextIdWhenSuccessfully = Controller_Checkout.addCheckOutHistory(data);
                     if (nextIdWhenSuccessfully != null) {
                         if (Controller_Contract.updateContractStatus(new String[]{"1", contractId.getContractId()}) == 0
-                                || Controller_Representatives.updatePersonStatus(new String[]{"0", contractId.getIdentifier()}) == 0
                                 || Controller_Room.resetRoomStatus(new String[]{"0", roomId}) == 0) {
                             JOptionPane.showConfirmDialog(new Panel(), "Checkout failed",
                                     "Notice", JOptionPane.DEFAULT_OPTION);

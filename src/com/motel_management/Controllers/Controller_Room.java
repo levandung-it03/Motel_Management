@@ -47,7 +47,7 @@ public class Controller_Room {
                 }
                 case "1" -> {
                     ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition("WHERE (lastName LIKE \"%" +
-                            condition[2] + "%\" OR firstName LIKE \"%" + condition[2] + "%\") AND isOccupied = 1");
+                            condition[2] + "%\" OR firstName LIKE \"%" + condition[2] + "%\") AND checkedOut = 0");
                     for (PersonModel personModel : personResult) {
                         if (temp.get(i).getRoomId().equalsIgnoreCase(personModel.getRoomId())) {
                             result.add(temp.get(i));
@@ -72,7 +72,7 @@ public class Controller_Room {
         for (int i = 0; i < result.size(); i++) {
             rooms[i][0] = result.get(i).getRoomId();
             ArrayList<PersonModel> personResult = PersonDAO.getInstance().selectByCondition("WHERE roomId=\"" +
-                    result.get(i).getRoomId() + "\" AND isOccupied = 1");
+                    result.get(i).getRoomId() + "\" AND checkedOut = 0");
             if (personResult == null || personResult.isEmpty()) {
                 rooms[i][1] = "Unknown";
             } else {
