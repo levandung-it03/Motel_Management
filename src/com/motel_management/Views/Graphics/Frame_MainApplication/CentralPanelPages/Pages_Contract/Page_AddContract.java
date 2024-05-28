@@ -107,15 +107,15 @@ public class Page_AddContract extends JPanel {
         comboTags.put("isFamily", isFamily);
         comboTags.put("isRegisteredPerAddress", isRegisteredPerAddress);
 
-//        inpTags.get("identifier").setText("123123123132");
-//        inpTags.get("lastName").setText("Le Van");
-//        inpTags.get("firstname").setText("Dung");
-//        inpTags.get("phone").setText("0377863928");
-//        inpTags.get("jobTitle").setText("It");
-//        inpTags.get("permanentAddress").setText("Bien Hoa, Dong Nai");
-//        inpTags.get("email").setText("lvd@gmail.com");
-//        inpTags.get("quantity").setText("5");
-//        inpTags.get("roomDeposit").setText("300000");
+        inpTags.get("identifier").setText("123123123132");
+        inpTags.get("lastName").setText("Le Van");
+        inpTags.get("firstname").setText("Dung");
+        inpTags.get("phone").setText("0377863928");
+        inpTags.get("jobTitle").setText("It");
+        inpTags.get("permanentAddress").setText("Bien Hoa, Dong Nai");
+        inpTags.get("email").setText("lvd@gmail.com");
+        inpTags.get("quantity").setText("5");
+        inpTags.get("roomDeposit").setText("300000");
 
         this.submitBtn.addActionListener(AddContractListeners.addNewContractListener(inpTags, dateTags, comboTags, this.mainTabbedPane));
     }
