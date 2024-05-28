@@ -73,7 +73,7 @@ public class Controller_Invoices {
                 .selectById(data.get("roomId"))
                 .getQuantity();
 
-        ContractModel contract = ContractDAO.getInstance().selectLastContractByRoomId(data.get("roomId"));
+        ContractModel contract = ContractDAO.getInstance().selectLastContractByField("roomId", data.get("roomId"));
 
         // Creating Invoice before Contract's startingDate.
         if (STI(data.get("paymentYear")) < contract.getStartingDate().toLocalDate().getYear()

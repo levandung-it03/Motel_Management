@@ -58,11 +58,13 @@ public class Controller_Contract {
 
         // Check If There's A Contract Added In The Last 24h.
         try {
-            ContractModel foundLastContract = ContractDAO.getInstance().selectLastContractByRoomId(data.get("roomId"));
+            selectLastContractByField
+            ContractModel foundLastContract = ContractDAO.getInstance()
+                .selectLastContractByField("identifier", data.get("identifier"));
             if (Period.between(foundLastContract.getCreatingTime().toLocalDateTime().toLocalDate(),
             LocalDate.now()).getDays() < 1) {
                 result.put("result", "0");
-                result.put("message", "There was a Contract added in the last 24h. Please wait to add new Contract!");
+                result.put("message", "There was a  Contract added in the last 24h. Please wait to add new Contract!");
                 return result;
             } else {
                 // Clear the last updated Person history to save new (if there are the old Persons with new info).

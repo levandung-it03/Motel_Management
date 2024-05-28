@@ -1,4 +1,5 @@
 package com.motel_management.DataAccessObject;
+
 import com.motel_management.DB_interaction.DB_connection;
 import com.motel_management.Models.ContractModel;
 import com.motel_management.Configs;
@@ -7,18 +8,22 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ContractDAO implements DAOInterface<ContractModel>{
-    public ContractDAO() {}
-    public static ContractDAO getInstance() {return new ContractDAO();}
+public class ContractDAO implements DAOInterface<ContractModel> {
+    public ContractDAO() {
+    }
+
+    public static ContractDAO getInstance() {
+        return new ContractDAO();
+    }
 
     @Override
-    public int insert (ContractModel obj) {
+    public int insert(ContractModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = "INSERT INTO Contract VALUES (?, ?, ? ,? ,? ,?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, obj.getContractId());
-            ps.setString(2,obj.getIdentifier());
+            ps.setString(2, obj.getIdentifier());
             ps.setString(3, obj.getRoomId());
             ps.setInt(4, obj.getQuantity());
             ps.setInt(5, obj.getRoomDeposit());
@@ -37,14 +42,14 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         return -1;
     }
 
-    public int insert (String[] values) {
+    public int insert(String[] values) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = "INSERT INTO Contract VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = myConnection.prepareStatement(query);
             ps.setString(1, values[0]);
-            ps.setString(2,values[1]);
-            ps.setString(3,values[2]);
+            ps.setString(2, values[1]);
+            ps.setString(3, values[2]);
             ps.setInt(4, Integer.parseInt(values[3]));
             ps.setInt(5, Integer.parseInt(values[4]));
             ps.setBoolean(6, values[5].equals("1"));
@@ -63,16 +68,16 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     }
 
     @Override
-    public int update (ContractModel obj) {
+    public int update(ContractModel obj) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = """
-                    UPDATE Contract SET identifier=?, quantity=?, roomId=? ,roomDeposit=?, isFamily=?,
-                    startingDate=?, endingDate=?, isRegisteredPerAddress=?, checkedOut=?, creatingTime=?
-                    WHERE (contractId=?);""";
+                UPDATE Contract SET identifier=?, quantity=?, roomId=? ,roomDeposit=?, isFamily=?,
+                startingDate=?, endingDate=?, isRegisteredPerAddress=?, checkedOut=?, creatingTime=?
+                WHERE (contractId=?);""";
             PreparedStatement ps = myConnection.prepareStatement(query);
 
-            ps.setString(1,obj.getIdentifier());
+            ps.setString(1, obj.getIdentifier());
             ps.setInt(2, obj.getQuantity());
             ps.setString(3, obj.getRoomId());
             ps.setInt(4, obj.getRoomDeposit());
@@ -97,9 +102,9 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = """
-                    UPDATE Contract SET identifier=?, quantity=?, roomId=? ,roomDeposit=?, isFamily=?,
-                    startingDate=?, endingDate=?, isRegisteredPerAddress=?, checkedOut=?, creatingTime=?
-                    WHERE (contractId=?);""";
+                UPDATE Contract SET identifier=?, quantity=?, roomId=? ,roomDeposit=?, isFamily=?,
+                startingDate=?, endingDate=?, isRegisteredPerAddress=?, checkedOut=?, creatingTime=?
+                WHERE (contractId=?);""";
             PreparedStatement ps = myConnection.prepareStatement(query);
 
             ps.setString(1, values[1]);
@@ -128,7 +133,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             String query = "UPDATE Contract SET checkedOut=? WHERE (contractId=?);";
             PreparedStatement ps = myConnection.prepareStatement(query);
 
-            ps.setBoolean(1,values[0].equals("1"));
+            ps.setBoolean(1, values[0].equals("1"));
             ps.setString(2, values[1]);
             return ps.executeUpdate();
         } catch (SQLException e) {
@@ -140,7 +145,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     }
 
     @Override
-    public int delete (String id) {
+    public int delete(String id) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = "DELETE FROM Contract WHERE contractId=?";
@@ -156,7 +161,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     }
 
     @Override
-    public ContractModel selectById (String id) {
+    public ContractModel selectById(String id) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             String query = "SELECT * FROM Contract WHERE contractId=?";
@@ -165,10 +170,10 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ResultSet rs = ps.executeQuery();
             if (rs.next())
                 return new ContractModel(rs.getString("contractId"), rs.getString("identifier"),
-                        rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
-                        rs.getBoolean("isFamily"), rs.getDate("startingDate"),
-                        rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
-                        rs.getBoolean("isRegisteredPerAddress"), rs.getTimestamp("creatingTime"));
+                    rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
+                    rs.getBoolean("isFamily"), rs.getDate("startingDate"),
+                    rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
+                    rs.getBoolean("isRegisteredPerAddress"), rs.getTimestamp("creatingTime"));
             else
                 return null;
         } catch (SQLException e) {
@@ -180,7 +185,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
     }
 
     @Override
-    public ArrayList<ContractModel> selectAll () {
+    public ArrayList<ContractModel> selectAll() {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             PreparedStatement ps = myConnection.prepareStatement("SELECT * FROM Contract");
@@ -188,10 +193,10 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new ContractModel(rs.getString("contractId"), rs.getString("identifier"),
-                        rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
-                        rs.getBoolean("isFamily"), rs.getDate("startingDate"),
-                        rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
-                        rs.getBoolean("isRegisteredPerAddress"), rs.getTimestamp("creatingTime")));
+                    rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
+                    rs.getBoolean("isFamily"), rs.getDate("startingDate"),
+                    rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
+                    rs.getBoolean("isRegisteredPerAddress"), rs.getTimestamp("creatingTime")));
             }
             return result;
         } catch (SQLException e) {
@@ -211,10 +216,10 @@ public class ContractDAO implements DAOInterface<ContractModel>{
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new ContractModel(rs.getString("contractId"), rs.getString("identifier"),
-                        rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
-                        rs.getBoolean("isFamily"), rs.getDate("startingDate"),
-                        rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
-                        rs.getBoolean("isRegisteredPerAddress"), rs.getTimestamp("creatingTime")));
+                    rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
+                    rs.getBoolean("isFamily"), rs.getDate("startingDate"),
+                    rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
+                    rs.getBoolean("isRegisteredPerAddress"), rs.getTimestamp("creatingTime")));
             }
             return result;
         } catch (SQLException e) {
@@ -229,7 +234,7 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
             ResultSet rs = myConnection.prepareStatement(
-                    """
+                """
                     SELECT Contract.*, SimplePerson.lastName, SimplePerson.firstName FROM Contract
                     INNER JOIN (SELECT Person.identifier, lastName, firstName FROM Person) AS SimplePerson
                     ON SimplePerson.identifier = Contract.identifier\s""" + contractConditionQuery
@@ -260,21 +265,22 @@ public class ContractDAO implements DAOInterface<ContractModel>{
         return null;
     }
 
-    public ContractModel selectLastContractByRoomId(String roomId) {
+    public ContractModel selectLastContractByField(String field, String value) {
         Connection myConnection = DB_connection.getMMDBConnection();
         try {
-            PreparedStatement ps = myConnection.prepareStatement("""
-                            SELECT * FROM Contract
-                            WHERE (roomId=? AND startingDate=(SELECT MAX(startingDate) FROM Contract WHERE roomId=?))""");
-            ps.setString(1, roomId);
-            ps.setString(2, roomId);
+            PreparedStatement ps = myConnection.prepareStatement(String.format("""
+                SELECT * FROM Contract
+                WHERE (%s=? AND startingDate=(SELECT MAX(startingDate) FROM Contract WHERE %s=?))
+            """, field, field));
+            ps.setString(1, value);
+            ps.setString(2, value);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new ContractModel(rs.getString("contractId"), rs.getString("identifier"),
-                        rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
-                        rs.getBoolean("isFamily"), rs.getDate("startingDate"),
-                        rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
-                        rs.getBoolean("isRegisteredPerAddress"), rs.getTimestamp("creatingTime"));
+                    rs.getString("roomId"), rs.getInt("quantity"), rs.getInt("roomDeposit"),
+                    rs.getBoolean("isFamily"), rs.getDate("startingDate"),
+                    rs.getDate("endingDate"), rs.getBoolean("checkedOut"),
+                    rs.getBoolean("isRegisteredPerAddress"), rs.getTimestamp("creatingTime"));
             }
 
         } catch (SQLException e) {
