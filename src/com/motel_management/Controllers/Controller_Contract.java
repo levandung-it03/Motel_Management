@@ -19,7 +19,9 @@ public class Controller_Contract {
     public static HashMap<String, String> addNewContract(HashMap<String, String> data) {
         HashMap<String, String> result = new HashMap<>();
 
-        if (!PersonDAO.getInstance().selectByCondition("WHERE phone=" + data.get("phone")).isEmpty()) {
+        if (!PersonDAO.getInstance().selectByCondition(
+            "WHERE phone=" + data.get("phone") + " AND SimpleContract.identifier!=" + data.get("identifier")
+        ).isEmpty()) {
             result.put("result", "0");
             result.put("message", "Phone number is already existing");
             return result;
@@ -166,8 +168,8 @@ public class Controller_Contract {
             + The old one: throw exception ==> Stop delete Person, rollback Person Info, but still delete Contract.
             + The new one under 24h: keep deleting.
         */
-        int rollbackPersonRes = 0;
-        if (PersonDAO.getInstance().delete(identifier) == 0)
+        int rollbackPersonRes = PersonDAO.getInstance().delete(identifier);
+        if (rollbackPersonRes == 0)
             rollbackPersonRes = PersonDAO.getInstance().update(PersonTempHistoryDAO.getInstance().selectById(identifier));
 
         RoomModel roomData = RoomDAO.getInstance().selectById(roomId);
