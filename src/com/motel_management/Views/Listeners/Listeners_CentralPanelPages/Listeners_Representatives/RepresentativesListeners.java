@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class RepresentativesListeners {
-    public static MouseAdapter getInformationByClick(JFrame mainAppFrame, JTable table) {
+    public static MouseAdapter getInformationByClick(JFrame mainAppFrame, JTable table,Page_RepresentativesMain mainPage) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -25,7 +25,7 @@ public class RepresentativesListeners {
                 if (clickedColumn == table.getColumnCount() - 1) {
                     PersonModel res =
                             Controller_Representatives.getPersonById(String.valueOf(table.getValueAt(clickedRow,1)));
-                    new Dialog_DetailRepresentatives(mainAppFrame, res);
+                    new Dialog_DetailRepresentatives(mainAppFrame, res, mainPage);
                 }
             }
         };
@@ -80,21 +80,27 @@ public class RepresentativesListeners {
             }
         };
     }
-    public static ActionListener updateByClick(HashMap<String, JTextField> inpTags,JTextArea address, JDialog dialog) {
+    public static ActionListener updateByClick(HashMap<String, JTextField> inpTags,
+                                               JTextArea address, JDialog dialog,
+                                               JFrame mainAppFrame,
+                                               Page_RepresentativesMain mainPage) {
         return new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 String[] data = {inpTags.get("Identifier").getText(), inpTags.get("Email").getText(),
                         inpTags.get("Phone").getText(),
                         inpTags.get("Job-Title").getText(), inpTags.get("Bank").getText(),
                         inpTags.get("BankAccount").getText(),address.getText()};
-                String checkConditions = checkUpdatePerson(inpTags,address);
-                System.out.println(checkConditions);
+                String checkConditions = checkUpdatePerson(inpTags ,address ,data);
                 if (checkConditions.equals("true")) {
-                    if (Controller_Representatives.updatePersonDetails(data) != 0) {
                         JOptionPane.showMessageDialog(new JPanel() , "Update Successfully!" , "Notice" ,
                                 JOptionPane.PLAIN_MESSAGE);
                         dialog.dispose();
-                        }
+                    mainPage.removeAll();
+                    mainPage.createRepresentativesListPage();
+                    mainPage.saveCurrentTableData();
+                    mainPage.createListener();
+                    mainPage.revalidate();
+                    mainPage.repaint();
                     } else
                         JOptionPane.showMessageDialog(new JPanel(), "Update Failed! "+ checkConditions, "Notice",
                                 JOptionPane.PLAIN_MESSAGE);
@@ -102,7 +108,7 @@ public class RepresentativesListeners {
         };
     }
 
-    public static String checkUpdatePerson(HashMap<String,JTextField> inpTags,JTextArea address){
+    public static String checkUpdatePerson(HashMap<String,JTextField> inpTags,JTextArea address, String[] data){
         if (inpTags.get("Phone").getText().isBlank()
             || !Pattern.compile("\\d{10}").matcher(inpTags.get("Phone").getText()).matches())
             return "Phone Number Error.";
@@ -135,6 +141,9 @@ public class RepresentativesListeners {
                 return "empty Bank Account Number.";
         }
 
+        if (Controller_Representatives.updatePersonDetails(data) == 0){
+            return "Phone number already exist.";
+        }
         return "true";
     }
 }

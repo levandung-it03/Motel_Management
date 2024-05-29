@@ -29,15 +29,17 @@ public class Dialog_DetailRepresentatives extends JDialog{
     private JTextArea permanentAddress;
     private JButton button = new JButton("UPDATE");
     private final JComboBox<String> bank = new JComboBox<>();
+    private Page_RepresentativesMain mainPage;
     String[] values ={"", "ABB", "ACB", "AGRIBANK", "BACABANK", "BID", "CTG", "EIB", "HDBANK", "KLB", "LIENVIET", "MBB",
             "MSB", "NAMA", "NCB", "OCB", "PGBANK", "PVCOMBANK", "SCB", "SEABANK", "SGB", "SHB", "STB", "TCB", "TPB",
             "VCB", "VIB", "VIETABANK", "VIETCAPITALBANK", "VPB", "VIETBANK"};
 
 
-    public Dialog_DetailRepresentatives(JFrame mainAppFrame, PersonModel person){
+    public Dialog_DetailRepresentatives(JFrame mainAppFrame, PersonModel person, Page_RepresentativesMain mainPage){
         super(mainAppFrame);
+        this.mainPage = mainPage;
         this.setTitle("Details Information");
-        showInformationById(person);
+        showInformationById(person, mainAppFrame);
     }
 
     public void addBankListCombobox(){
@@ -45,7 +47,7 @@ public class Dialog_DetailRepresentatives extends JDialog{
             bank.addItem(value);
         }
     }
-    public void showInformationById(PersonModel person){
+    public void showInformationById(PersonModel person, JFrame mainAppFrame){
         //Generate
         JPanel marginPanel = new JPanel(new GridLayout(1,3));
 
@@ -129,7 +131,7 @@ public class Dialog_DetailRepresentatives extends JDialog{
 
         this.add(marginPanel);
 
-        createPersonUpdateListener();
+        createPersonUpdateListener(mainAppFrame);
 
 
         this.setModal(true);
@@ -209,7 +211,7 @@ public class Dialog_DetailRepresentatives extends JDialog{
         return panel;
     }
 
-    public void createPersonUpdateListener(){
+    public void createPersonUpdateListener(JFrame mainAppFrame){
         HashMap<String, JTextField> inpTags = new HashMap<>();
         inpTags.put("Identifier", identifier);
         inpTags.put("Email", email);
@@ -218,6 +220,7 @@ public class Dialog_DetailRepresentatives extends JDialog{
         inpTags.put("Bank", bankTextField);
         inpTags.put("BankAccount", bankAccountNumber);
 
-        this.button.addActionListener(RepresentativesListeners.updateByClick(inpTags,permanentAddress,this));
+        this.button.addActionListener(RepresentativesListeners
+                .updateByClick(inpTags,permanentAddress,this, mainAppFrame, mainPage));
     }
 }

@@ -4,6 +4,7 @@ import com.motel_management.DataAccessObject.PersonDAO;
 import com.motel_management.Models.PersonModel;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Controller_Representatives {
     public Controller_Representatives() {
@@ -15,6 +16,13 @@ public class Controller_Representatives {
     }
 
     public static int updatePersonDetails (String[] data) {
+        ArrayList<PersonModel> person = PersonDAO.getInstance().selectByCondition("WHERE phone=" + data[2]);
+        if (!person.isEmpty()) {
+            if (Objects.equals(person.getFirst().getIdentifier(), data[0]))
+                return 1;
+            else
+                return 0;
+        }
         return PersonDAO.getInstance().updateDetails(data);
     }
 

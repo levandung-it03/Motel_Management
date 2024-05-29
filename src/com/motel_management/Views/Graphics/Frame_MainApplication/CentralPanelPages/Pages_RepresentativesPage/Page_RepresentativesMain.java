@@ -114,7 +114,7 @@ public class Page_RepresentativesMain extends JPanel {
 
     public void createListener(){
         // View Detail Action
-        table.addMouseListener(RepresentativesListeners.getInformationByClick(mainAppFrame, table));
+        table.addMouseListener(RepresentativesListeners.getInformationByClick(mainAppFrame, table, this));
 
         // Searching Action
         this.searchingTextField.addKeyListener(RepresentativesListeners.searchTableToGetObjects(this));
