@@ -128,3 +128,79 @@ CREATE TABLE Invoice(
 
 -- MK: root#123
 INSERT INTO Account VALUES ("admin000", "Root", "root", "$2a$10$j2WJzi7wT1BazuUsnKa8vOmbanLacmKc042wJLWWUxMK5eM3zPXjS");
+
+INSERT INTO Room (roomId, quantity, maxQuantity) VALUES
+('P001', 1, 3),
+('P002', 2, 4),
+('P003', 1, 2),
+('P004', 3, 5),
+('P005', 1, 2);
+
+-- Insert sample data into ElectricRange table
+INSERT INTO ElectricRange (rangeId, rangeName, minRangeValue, maxRangeValue, price) VALUES
+('ER001', 'RangeA', 0, 100, 1000),
+('ER002', 'RangeB', 0, 200, 2000),
+('ER003', 'RangeC', 100, 300, 3000),
+('ER004', 'RangeD', 200, 400, 4000),
+('ER005', 'RangeE', 300, 500, 5000);
+
+-- Insert sample data into WaterRange table
+INSERT INTO WaterRange (rangeId, rangeName, minRangeValue, maxRangeValue, price) VALUES
+('WR001', 'RangeA', 0, 50, 500),
+('WR002', 'RangeB', 50, 100, 1000),
+('WR003', 'RangeC', 100, 150, 1500),
+('WR004', 'RangeD', 150, 200, 2000),
+('WR005', 'RangeE', 200, 250, 2500);
+
+-- Insert sample data into Person table
+INSERT INTO Person (identifier, lastName, firstName, birthday, phone, gender, jobTitle, permanentAddress, email, bankAccountNumber, bank) VALUES
+('345678345612', 'Nguyen', 'An', '1990-01-01', '0901234567', 'M', 'Engineer', '123 Street A', 'an.nguyen@example.com', '1234567890', 'Bank A'),
+('789438345612', 'Le', 'Binh', '1985-02-02', '0902234567', 'M', 'Teacher', '234 Street B', 'binh.le@example.com', '2234567890', 'Bank B'),
+('385473543601', 'Tran', 'Chau', '1992-03-03', '0903234567', 'F', 'Doctor', '345 Street C', 'chau.tran@example.com', '3234567890', 'Bank C'),
+('512128518257', 'Pham', 'Dung', '1988-04-04', '0904234567', 'F', 'Nurse', '456 Street D', 'dung.pham@example.com', '4234567890', 'Bank D'),
+('385473234412', 'Ho', 'E', '1995-05-05', '0905234567', 'M', 'Scientist', '567 Street E', 'e.ho@example.com', '5234567890', 'Bank E');
+
+-- Insert sample data into PersonTempHistory table
+INSERT INTO PersonTempHistory (identifier, lastName, firstName, birthday, phone, gender, jobTitle, permanentAddress, email, bankAccountNumber, bank) VALUES
+('345678345612', 'Nguyen', 'An', '1990-01-01', '0901234567', 'M', 'Engineer', '123 Street A', 'an.nguyen@example.com', '1234567890', 'Bank A'),
+('789438345612', 'Le', 'Binh', '1985-02-02', '0902234567', 'M', 'Teacher', '234 Street B', 'binh.le@example.com', '2234567890', 'Bank B'),
+('385473543601', 'Tran', 'Chau', '1992-03-03', '0903234567', 'F', 'Doctor', '345 Street C', 'chau.tran@example.com', '3234567890', 'Bank C'),
+('512128518257', 'Pham', 'Dung', '1988-04-04', '0904234567', 'F', 'Nurse', '456 Street D', 'dung.pham@example.com', '4234567890', 'Bank D'),
+('385473234412', 'Ho', 'E', '1995-05-05', '0905234567', 'M', 'Scientist', '567 Street E', 'e.ho@example.com', '5234567890', 'Bank E');
+
+-- Insert sample data into Contract table
+INSERT INTO Contract (contractId, identifier, roomId, quantity, roomDeposit, isFamily, startingDate, endingDate, isRegisteredPerAddress, checkedOut, creatingTime) VALUES
+('CON001', '345678345612', 'P001', 1, 1000, FALSE, '2023-01-01', '2023-12-31', TRUE, FALSE, CURRENT_TIMESTAMP),
+('CON002', '789438345612', 'P002', 2, 2000, TRUE, '2023-02-01', '2023-12-31', TRUE, FALSE, CURRENT_TIMESTAMP),
+('CON003', '385473543601', 'P003', 1, 1500, FALSE, '2023-03-01', '2023-12-31', FALSE, FALSE, CURRENT_TIMESTAMP),
+('CON004', '512128518257', 'P004', 3, 3000, TRUE, '2023-04-01', '2023-12-31', TRUE, FALSE, CURRENT_TIMESTAMP),
+('CON005', '385473234412', 'P005', 1, 1200, FALSE, '2023-05-01', '2023-12-31', FALSE, FALSE, CURRENT_TIMESTAMP);
+
+-- Insert sample data into CheckOut table
+INSERT INTO CheckOut (checkOutId, contractId, checkOutDate, reason) VALUES
+('CO001', 'CON001', '2023-06-01', 'Moving out'),
+('CO002', 'CON002', '2023-07-01', 'Job relocation'),
+('CO003', 'CON003', '2023-08-01', 'Family reasons'),
+('CO004', 'CON004', '2023-09-01', 'Health issues'),
+('CO005', 'CON005', '2023-10-01', 'Other reasons');
+
+-- Insert sample data into RoomPriceHistory table
+INSERT INTO RoomPriceHistory (roomId, priceRaisedDate, roomPrice) VALUES
+('P001', '2023-01-01', 10000),
+('P002', '2023-02-01', 20000),
+('P003', '2023-03-01', 15000),
+('P004', '2023-04-01', 25000),
+('P005', '2023-05-01', 18000);
+
+-- Insert sample data into Invoice table
+INSERT INTO Invoice (invoiceId, roomId, priceRaisedDate, dateCreated, paymentYear, paymentMonth, formerElectricNumber, newElectricNumber, formerWaterNumber, newWaterNumber, electricPrice, waterPrice, garbage, wifi, vehicle, wasPaid) VALUES
+('INV001', 'P001', '2023-01-01', CURRENT_DATE, 2023, 1, 100, 200, 50, 100, 5000, 2000, 300, 200, 100, FALSE),
+('INV002', 'P002', '2023-02-01', CURRENT_DATE, 2023, 2, 200, 300, 100, 150, 6000, 2500, 400, 300, 200, TRUE),
+('INV003', 'P003', '2023-03-01', CURRENT_DATE, 2023, 3, 300, 400, 150, 200, 7000, 3000, 500, 400, 300, FALSE),
+('INV004', 'P004', '2023-04-01', CURRENT_DATE, 2023, 4, 400, 500, 200, 250, 8000, 3500, 600, 500, 400, TRUE),
+('INV005', 'P005', '2023-05-01', CURRENT_DATE, 2023, 5, 500, 600, 250, 300, 9000, 4000, 700, 600, 500, FALSE),
+('INV006', 'P001', '2023-01-01', 2023, 6, 200, 300, 100, 150, 6000, 2500, 400, 300, 200, TRUE),
+('INV007', 'P002', '2023-02-01', 2023, 7, 300, 400, 150, 200, 7000, 3000, 500, 400, 300, FALSE),
+('INV008', 'P003', '2023-03-01', 2023, 8, 400, 500, 200, 250, 8000, 3500, 600, 500, 400, TRUE),
+('INV009', 'P004', '2023-04-01', 2023, 9, 500, 600, 250, 300, 9000, 4000, 700, 600, 500, FALSE),
+('INV010', 'P005', '2023-05-01', 2023, 10, 600, 700, 300, 350, 10000, 4500, 800, 700, 600, TRUE);

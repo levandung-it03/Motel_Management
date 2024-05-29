@@ -19,7 +19,7 @@ public class Controller_Representatives {
         ArrayList<PersonModel> person = PersonDAO.getInstance().selectByCondition("WHERE phone=" + data[2]);
         if (!person.isEmpty()) {
             if (Objects.equals(person.getFirst().getIdentifier(), data[0]))
-                return 1;
+                return PersonDAO.getInstance().updateDetails(data);
             else
                 return 0;
         }
