@@ -108,7 +108,7 @@ public class AddInvoiceListeners {
         } catch (NumberFormatException e) { return "Invalid Number at Default Room Price"; }
 
         if (!Pattern.compile("\\d{4}").matcher(inpTags.get("paymentYear").getText()).matches()
-        || Integer.parseInt(inpTags.get("paymentYear").getText()) > (LocalDateTime.now().getYear() + 1))
+        || Integer.parseInt(inpTags.get("paymentYear").getText()) > (currentYear + 1))
             return "Need a number \"yyyy\" at Year Payment";
 
         if (!Pattern.compile("\\d{1,2}").matcher(inpTags.get("paymentMonth").getText()).matches()
