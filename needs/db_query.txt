@@ -126,6 +126,9 @@ CREATE TABLE Invoice(
     CONSTRAINT UK_Invoice UNIQUE (roomId, paymentMonth, paymentYear)
 );
 
+
+
+-------------------------------------- INSERT DATA ----------------------------------------------------------------------------
 -- MK: root#123
 INSERT INTO Account VALUES ("admin000", "Root", "root", "$2a$10$j2WJzi7wT1BazuUsnKa8vOmbanLacmKc042wJLWWUxMK5eM3zPXjS");
 
@@ -138,19 +141,20 @@ INSERT INTO Room (roomId, quantity, maxQuantity) VALUES
 
 -- Insert sample data into ElectricRange table
 INSERT INTO ElectricRange (rangeId, rangeName, minRangeValue, maxRangeValue, price) VALUES
-('ER001', 'RangeA', 0, 100, 1000),
-('ER002', 'RangeB', 0, 200, 2000),
-('ER003', 'RangeC', 100, 300, 3000),
-('ER004', 'RangeD', 200, 400, 4000),
-('ER005', 'RangeE', 300, 500, 5000);
+('E12485028391', 'RangeA', 0, 100, 1000),
+('E59290352903', 'RangeB', 100, 200, 2000),
+('E12412904244', 'RangeC', 200, 300, 3000),
+('E63434634638', 'RangeD', 300, 400, 4000);
+
 
 -- Insert sample data into WaterRange table
 INSERT INTO WaterRange (rangeId, rangeName, minRangeValue, maxRangeValue, price) VALUES
-('WR001', 'RangeA', 0, 50, 500),
-('WR002', 'RangeB', 50, 100, 1000),
-('WR003', 'RangeC', 100, 150, 1500),
-('WR004', 'RangeD', 150, 200, 2000),
-('WR005', 'RangeE', 200, 250, 2500);
+('W34906234492', 'RangeA', 0, 50, 500),
+('W29342903493', 'RangeB', 50, 100, 1000),
+('W84395423858', 'RangeC', 100, 150, 1500),
+('W28935825324', 'RangeD', 150, 200, 2000),
+('W23095290359', 'RangeE', 200, 250, 3000);
+
 
 -- Insert sample data into Person table
 INSERT INTO Person (identifier, lastName, firstName, birthday, phone, gender, jobTitle, permanentAddress, email, bankAccountNumber, bank) VALUES
@@ -176,31 +180,38 @@ INSERT INTO Contract (contractId, identifier, roomId, quantity, roomDeposit, isF
 ('CON004', '512128518257', 'P004', 3, 3000, TRUE, '2023-04-01', '2023-12-31', TRUE, FALSE, CURRENT_TIMESTAMP),
 ('CON005', '385473234412', 'P005', 1, 1200, FALSE, '2023-05-01', '2023-12-31', FALSE, FALSE, CURRENT_TIMESTAMP);
 
--- Insert sample data into CheckOut table
-INSERT INTO CheckOut (checkOutId, contractId, checkOutDate, reason) VALUES
-('CO001', 'CON001', '2023-06-01', 'Moving out'),
-('CO002', 'CON002', '2023-07-01', 'Job relocation'),
-('CO003', 'CON003', '2023-08-01', 'Family reasons'),
-('CO004', 'CON004', '2023-09-01', 'Health issues'),
-('CO005', 'CON005', '2023-10-01', 'Other reasons');
 
 -- Insert sample data into RoomPriceHistory table
 INSERT INTO RoomPriceHistory (roomId, priceRaisedDate, roomPrice) VALUES
 ('P001', '2023-01-01', 10000),
-('P002', '2023-02-01', 20000),
-('P003', '2023-03-01', 15000),
-('P004', '2023-04-01', 25000),
-('P005', '2023-05-01', 18000);
+('P001', '2023-06-01', 15000),
+('P001', '2023-12-01', 16000),
+('P001', '2024-01-01', 17000),
+('P002', '2023-01-01', 20000),
+('P003', '2023-01-01', 15000),
+('P004', '2023-01-01', 25000),
+('P005', '2023-01-01', 18000);
 
 -- Insert sample data into Invoice table
 INSERT INTO Invoice (invoiceId, roomId, priceRaisedDate, dateCreated, paymentYear, paymentMonth, formerElectricNumber, newElectricNumber, formerWaterNumber, newWaterNumber, electricPrice, waterPrice, garbage, wifi, vehicle, wasPaid) VALUES
-('INV001', 'P001', '2023-01-01', CURRENT_DATE, 2023, 1, 100, 200, 50, 100, 5000, 2000, 300, 200, 100, FALSE),
-('INV002', 'P002', '2023-02-01', CURRENT_DATE, 2023, 2, 200, 300, 100, 150, 6000, 2500, 400, 300, 200, TRUE),
-('INV003', 'P003', '2023-03-01', CURRENT_DATE, 2023, 3, 300, 400, 150, 200, 7000, 3000, 500, 400, 300, FALSE),
-('INV004', 'P004', '2023-04-01', CURRENT_DATE, 2023, 4, 400, 500, 200, 250, 8000, 3500, 600, 500, 400, TRUE),
-('INV005', 'P005', '2023-05-01', CURRENT_DATE, 2023, 5, 500, 600, 250, 300, 9000, 4000, 700, 600, 500, FALSE),
-('INV006', 'P001', '2023-01-01', 2023, 6, 200, 300, 100, 150, 6000, 2500, 400, 300, 200, TRUE),
-('INV007', 'P002', '2023-02-01', 2023, 7, 300, 400, 150, 200, 7000, 3000, 500, 400, 300, FALSE),
-('INV008', 'P003', '2023-03-01', 2023, 8, 400, 500, 200, 250, 8000, 3500, 600, 500, 400, TRUE),
-('INV009', 'P004', '2023-04-01', 2023, 9, 500, 600, 250, 300, 9000, 4000, 700, 600, 500, FALSE),
-('INV010', 'P005', '2023-05-01', 2023, 10, 600, 700, 300, 350, 10000, 4500, 800, 700, 600, TRUE);
+('INV001', 'P001', '2023-01-01', '2023-01-20', 2023, 1, 100, 150, 50, 100, 100000, 50000, 300, 200, 100, FALSE),
+('INV002', 'P002', '2023-01-01', '2023-02-20', 2023, 2, 200, 300, 100, 110, 300000, 15000, 400, 300, 200, TRUE),
+('INV003', 'P003', '2023-01-01', '2023-03-20', 2023, 3, 300, 310, 150, 160, 40000, 20000, 500, 400, 300, FALSE),
+('INV004', 'P004', '2023-01-01', '2023-04-20', 2023, 4, 200, 210, 100, 110, 30000, 15000, 600, 500, 400, TRUE),
+('INV005', 'P005', '2023-01-01', '2023-05-20', 2023, 5, 200, 210, 100, 110, 30000, 15000, 700, 600, 500, FALSE),
+
+
+('INV011', 'P001','2023-01-01', '2023-02-01', 2023, 2, 150, 160, 50, 60, 20000, 10000, 300, 200, 100, FALSE),
+('INV012', 'P001','2023-01-01', '2023-03-01', 2023, 3, 160, 170, 60, 70, 20000, 10000, 300, 200, 100, TRUE),
+('INV013', 'P001','2023-01-01', '2023-04-01', 2023, 4, 170, 180, 70, 80, 20000, 10000, 300, 200, 100, TRUE),
+('INV014', 'P001','2023-01-01', '2023-05-01', 2023, 5, 180, 190, 80, 90, 20000, 10000, 300, 200, 100, TRUE),
+('INV015', 'P001','2023-06-01', '2023-06-01', 2023, 6, 190, 200, 90, 100, 20000, 10000, 300, 200, 100, FALSE),
+('INV016', 'P001','2023-06-01', '2023-07-01', 2023, 7, 200, 210, 100, 110, 30000, 15000, 300, 200, 100, FALSE),
+('INV017', 'P001','2023-06-01', '2023-08-01', 2023, 8, 210, 220, 110, 120, 30000, 15000, 300, 200, 100, TRUE),
+('INV018', 'P001','2023-06-01', '2023-09-01', 2023, 9, 220, 230, 120, 130, 30000, 15000, 300, 200, 100, FALSE),
+('INV019', 'P001','2023-06-01', '2023-10-01', 2023, 10, 230, 240, 130, 140, 30000, 15000, 300, 200, 100, TRUE),
+('INV020', 'P001','2023-06-01', '2023-11-01', 2023, 11, 240, 250, 140, 150, 30000, 15000, 300, 200, 100, FALSE),
+('INV021', 'P001','2023-12-01', '2023-12-01', 2023, 12, 250, 270, 150, 170, 60000, 30000, 300, 200, 100, TRUE),
+('INV022', 'P001','2023-12-01', '2024-01-01', 2024, 1, 270, 290, 170, 190, 60000, 30000, 300, 200, 100, FALSE),
+('INV023', 'P001','2023-12-01', '2024-02-01', 2024, 2, 290, 300, 190, 200, 30000, 15000, 300, 200, 100, FALSE),
+('INV024', 'P001','2023-12-01', '2024-03-01', 2024, 3, 300, 310, 200, 210, 40000, 30000, 300, 200, 100, TRUE);
